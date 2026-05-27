@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Maktaba Yangu — STORIES ZONE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #e8e8e8;
+            line-height: 1.5;
+            padding-bottom: 70px;
+        }
+
+        /* ===== Container ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== Header ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e8e8e8 0%, #9c2518 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #888888;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #9c2518;
+        }
+
+        /* ===== Page Header ===== */
+        .page-header {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            padding: 48px 0 32px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .page-description {
+            color: #888888;
+            font-size: 16px;
+        }
+
+        /* ===== Stories Section ===== */
+        .stories-section {
+            padding: 40px 0;
+        }
+
+        /* ===== Filter Tabs ===== */
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            background: #1a1a1a;
+            padding: 6px;
+            border-radius: 60px;
+            width: fit-content;
+            margin-bottom: 32px;
+        }
+
+        .filter-tab {
+            padding: 10px 24px;
+            background: transparent;
+            border: none;
+            color: #888888;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-tab:hover {
+            color: #e8e8e8;
+        }
+
+        .filter-tab.active {
+            background: #9c2518;
+            color: white;
+        }
+
+        /* ===== Section Header ===== */
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* ===== Stories Grid ===== */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        /* ===== Story Card ===== */
+        .story-card {
+            background: #141414;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #2a2a2a;
+        }
+
+        .story-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-color: #9c2518;
+        }
+
+        .story-cover {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 2/3;
+            overflow: hidden;
+            background: #0a0a0a;
+        }
+
+        .story-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .story-card:hover .story-cover img {
+            transform: scale(1.05);
+        }
+
+        .progress-badge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+            padding: 10px 8px;
+        }
+
+        .progress-bar-container {
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #42a781, #9c2518);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 10px;
+            color: #e8e8e8;
+            display: block;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .chapter-info {
+            font-size: 9px;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .story-info {
+            padding: 12px;
+        }
+
+        .story-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .story-author {
+            font-size: 12px;
+            color: #888888;
+            margin-bottom: 8px;
+        }
+
+        .story-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 11px;
+            color: #666666;
+        }
+
+        .story-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .remove-btn {
+            margin-top: 8px;
+            width: 100%;
+            padding: 8px;
+            background: #2a2a2a;
+            border: none;
+            border-radius: 8px;
+            color: #888888;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .remove-btn:hover {
+            background: #3a3a3a;
+            color: #e74c3c;
+        }
+
+        /* ===== Empty State ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666666;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #888888;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        .browse-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 24px;
+            background: #9c2518;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .browse-link:hover {
+            background: #b52d1e;
+        }
+
+        /* ===== Loading ===== */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #888888;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #2a2a2a;
+            border-top-color: #9c2518;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== Toast ===== */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #e8e8e8;
+            z-index: 1000;
+            transition: transform 0.3s;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            border-color: #42a781;
+            color: #42a781;
+        }
+
+        .toast.error {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: #0f0f0f;
+            border-top: 1px solid #2a2a2a;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .footer-logo-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .footer-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer-logo-text {
+            background: linear-gradient(135deg, #e8e8e8 0%, #9c2518 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .footer-copyright {
+            font-size: 12px;
+            color: #666666;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #888888;
+            font-size: 12px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #9c2518;
+        }
+
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: #25D366;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .whatsapp-button:hover {
+            background: #1fbb5a;
+            transform: scale(1.02);
+        }
+
+        /* ===== Bottom Navigation ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #2a2a2a;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #666666;
+            font-size: 11px;
+            font-weight: 500;
+            transition: color 0.2s;
+            border-radius: 8px;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .nav-item:hover {
+            color: #e8e8e8;
+        }
+
+        .nav-item.active {
+            color: #9c2518;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .stories-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
+
+            .filter-tabs {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filter-tab {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">
+                        <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/36x36/9c2518/white?text=SZ'">
+                    </div>
+                    <span class="logo-text">STORIES ZONE</span>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Nyumbani</a>
+                    <a href="browse.html">Vinjari</a>
+                    <a href="library.html" class="active">Maktaba</a>
+                    <a href="login.html" id="authLink">Ingia</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Maktaba Yangu</h1>
+            <p class="page-description">Hadithi ulizohifadhi na maendeleo yako ya kusoma</p>
+        </div>
+    </section>
+
+    <!-- Library Content -->
+    <section class="stories-section">
+        <div class="container">
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-tab="reading">Zinazosomwa</button>
+                <button class="filter-tab" data-tab="saved">Zilizohifadhiwa</button>
+                <button class="filter-tab" data-tab="completed">Zilizokamilika</button>
+            </div>
+
+            <!-- Currently Reading -->
+            <div class="tab-content active" id="reading-tab">
+                <div class="stories-grid" id="readingStories">
+                    <div class="loading"><div class="spinner"></div>Inapakia...</div>
+                </div>
+            </div>
+
+            <!-- Saved Stories -->
+            <div class="tab-content" id="saved-tab" style="display: none;">
+                <div class="stories-grid" id="savedStories">
+                    <div class="loading"><div class="spinner"></div>Inapakia...</div>
+                </div>
+            </div>
+
+            <!-- Completed -->
+            <div class="tab-content" id="completed-tab" style="display: none;">
+                <div class="stories-grid" id="completedStories">
+                    <div class="loading"><div class="spinner"></div>Inapakia...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Container -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/30x30/9c2518/white?text=SZ'">
+                    </div>
+                    <span class="footer-logo-text">STORIES ZONE</span>
+                </div>
+                <p class="footer-copyright">© 2026 Stories Zone App. Haki zote zimehifadhiwa.</p>
+                <div class="footer-links">
+                    <a href="about.html">Kuhusu</a>
+                    <a href="terms.html">Masharti</a>
+                    <a href="privacy.html">Faragha</a>
+                    <a href="help.html">Msaada</a>
+                </div>
+                <button class="whatsapp-button" id="whatsappBtn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 0C4.477 0 0 4.477 0 10C0 11.89 0.525 13.66 1.438 15.168L0.546 18.2C0.495 18.382 0.543 18.578 0.672 18.715C0.801 18.852 0.993 18.911 1.179 18.871L4.359 18.078C5.805 18.927 7.442 19.4 9.182 19.491C14.523 19.491 18.864 15.15 18.864 9.809C18.864 4.468 14.523 0.127 9.182 0.127L10 0Z" fill="#25D366"/>
+                        <path d="M14.5 11.5C14.5 11.5 13.8 11.2 13.3 11C12.8 10.8 12.5 11 12.3 11.3C12.1 11.6 11.7 12 11.5 12.2C11.3 12.4 11 12.3 10.8 12.2C9.7 11.7 8.5 10.5 8 9.4C7.9 9.2 8 8.9 8.2 8.7C8.4 8.5 8.6 8.3 8.7 8.1C8.8 7.9 8.7 7.6 8.6 7.4C8.4 6.9 8 6 8 6C7.8 5.5 7.5 5.5 7.2 5.5C6 5.5 5 6.5 5 7.7C5 9.1 6.1 10.5 7.5 12C9 13.5 11 14.5 13 14.5C14.2 14.5 14.5 13.5 14.7 13C14.9 12.5 14.9 12 14.5 11.5Z" fill="white"/>
+                    </svg>
+                    Wasiliana Nasi
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" fill="currentColor"/>
+            </svg>
+            <span>Nyumbani</span>
+        </a>
+        <a href="browse.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Tafuta</span>
+        </a>
+        <a href="library.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 3H7C5.9 3 5 3.9 5 5V21L12 18L19 21V5C19 3.9 18.1 3 17 3Z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Maktaba</span>
+        </a>
+        <a href="login.html" class="nav-item" id="bottomAuthLink">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+            </svg>
+            <span>Akaunti</span>
+        </a>
+    </nav>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // State
+        let currentUser = null;
+        let currentTab = 'reading';
+        let readingStories = [];
+        let savedStories = [];
+        let completedStories = [];
+
+        // DOM Elements
+        const readingContainer = document.getElementById('readingStories');
+        const savedContainer = document.getElementById('savedStories');
+        const completedContainer = document.getElementById('completedStories');
+        const toast = document.getElementById('toast');
+
+        // Helper: Show toast
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.className = 'toast';
+            if (type === 'success') toast.classList.add('success');
+            if (type === 'error') toast.classList.add('error');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Helper: Format number
+        function formatNumber(num) {
+            if (!num) return '0';
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+            return num.toString();
+        }
+
+        // Helper: Escape HTML
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Check authentication
+        async function checkAuth() {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                // Not logged in - show message
+                readingContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z"/>
+                            <path d="M12 12L2 7L12 2L22 7L12 12Z"/>
+                        </svg>
+                        <h3>Una hitaji kuingia</h3>
+                        <p>Tafadhali ingia ili uone maktaba yako</p>
+                        <a href="login.html" class="browse-link">Ingia Sasa</a>
+                    </div>
+                `;
+                savedContainer.innerHTML = readingContainer.innerHTML;
+                completedContainer.innerHTML = readingContainer.innerHTML;
+                
+                // Update auth links
+                document.getElementById('authLink').textContent = 'Ingia';
+                document.getElementById('authLink').href = 'login.html';
+                document.getElementById('bottomAuthLink').innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                    </svg>
+                    <span>Ingia</span>
+                `;
+                document.getElementById('bottomAuthLink').href = 'login.html';
+                return false;
+            }
+            
+            // Get user from public.users table
+            const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('id, name, email')
+                .eq('auth_user_id', user.id)
+                .single();
+            
+            if (userError || !userData) {
+                showToast('Akaunti yako haikupatikana', 'error');
+                return false;
+            }
+            
+            currentUser = userData;
+            
+            // Update auth links
+            document.getElementById('authLink').textContent = currentUser.name || 'Akaunti';
+            document.getElementById('authLink').href = 'profile.html';
+            document.getElementById('bottomAuthLink').innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+                </svg>
+                <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>
+            `;
+            document.getElementById('bottomAuthLink').href = 'profile.html';
+            
+            return true;
+        }
+
+        // Load reading progress with accurate percentage calculation
+        async function loadReadingProgress() {
+            if (!currentUser) return [];
+            
+            // First get all reading progress records
+            const { data: progressData, error: progressError } = await supabase
+                .from('reading_progress')
+                .select(`
+                    id,
+                    story_id,
+                    chapter_number,
+                    last_read_at
+                `)
+                .eq('user_id', currentUser.id)
+                .order('last_read_at', { ascending: false });
+            
+            if (progressError) {
+                console.error('Error loading reading progress:', progressError);
+                return [];
+            }
+            
+            if (!progressData.length) return [];
+            
+            // Get unique story IDs
+            const storyIds = [...new Set(progressData.map(p => p.story_id))];
+            
+            // Get story details including chapters count
+            const { data: storiesData, error: storiesError } = await supabase
+                .from('stories')
+                .select('id, title, author, cover_image_url, total_reads, total_rating, chapters_count')
+                .in('id', storyIds);
+            
+            if (storiesError) {
+                console.error('Error loading stories:', storiesError);
+                return [];
+            }
+            
+            // Get chapters for each story to calculate exact progress
+            const { data: chaptersData, error: chaptersError } = await supabase
+                .from('story_chapters')
+                .select('story_id, chapter_number')
+                .in('story_id', storyIds);
+            
+            if (chaptersError) {
+                console.error('Error loading chapters:', chaptersError);
+            }
+            
+            // Calculate progress per story
+            const storyProgress = {};
+            
+            // Initialize with story data
+            storiesData.forEach(story => {
+                const totalChapters = story.chapters_count || 0;
+                const chaptersInStory = chaptersData?.filter(c => c.story_id === story.id) || [];
+                const actualTotalChapters = chaptersInStory.length || totalChapters;
+                
+                storyProgress[story.id] = {
+                    ...story,
+                    progress: 0,
+                    lastChapter: 0,
+                    totalChapters: actualTotalChapters,
+                    lastReadAt: null
+                };
+            });
+            
+            // Update with progress data
+            progressData.forEach(progress => {
+                if (storyProgress[progress.story_id]) {
+                    const totalChapters = storyProgress[progress.story_id].totalChapters;
+                    const percentCompleted = totalChapters > 0 
+                        ? (progress.chapter_number / totalChapters) * 100 
+                        : 0;
+                    
+                    if (progress.chapter_number > storyProgress[progress.story_id].lastChapter) {
+                        storyProgress[progress.story_id].lastChapter = progress.chapter_number;
+                        storyProgress[progress.story_id].progress = percentCompleted;
+                        storyProgress[progress.story_id].lastReadAt = progress.last_read_at;
+                    }
+                }
+            });
+            
+            // Convert to array and filter stories with at least 1% progress (started reading)
+            const result = Object.values(storyProgress)
+                .filter(story => story.progress > 0)
+                .sort((a, b) => new Date(b.lastReadAt) - new Date(a.lastReadAt));
+            
+            return result;
+        }
+
+        // Load saved stories
+        async function loadSavedStories() {
+            if (!currentUser) return [];
+            
+            const { data, error } = await supabase
+                .from('saved_stories')
+                .select(`
+                    saved_at,
+                    stories:story_id (
+                        id,
+                        title,
+                        author,
+                        cover_image_url,
+                        total_reads,
+                        total_rating,
+                        chapters_count,
+                        status
+                    )
+                `)
+                .eq('user_id', currentUser.id)
+                .order('saved_at', { ascending: false });
+            
+            if (error) {
+                console.error('Error loading saved stories:', error);
+                return [];
+            }
+            
+            return data.map(item => item.stories);
+        }
+
+        // Load completed stories (100% progress or all chapters read)
+        async function loadCompletedStories() {
+            if (!currentUser) return [];
+            
+            // First get all reading progress
+            const { data: progressData, error: progressError } = await supabase
+                .from('reading_progress')
+                .select('story_id, chapter_number')
+                .eq('user_id', currentUser.id);
+            
+            if (progressError) {
+                console.error('Error loading completed progress:', progressError);
+                return [];
+            }
+            
+            if (!progressData.length) return [];
+            
+            // Get story IDs
+            const storyIds = [...new Set(progressData.map(p => p.story_id))];
+            
+            // Get stories with chapter counts
+            const { data: storiesData, error: storiesError } = await supabase
+                .from('stories')
+                .select('id, title, author, cover_image_url, total_reads, total_rating, chapters_count, status')
+                .in('id', storyIds);
+            
+            if (storiesError) {
+                console.error('Error loading completed stories:', storiesError);
+                return [];
+            }
+            
+            // Get actual chapters from story_chapters table
+            const { data: chaptersData, error: chaptersError } = await supabase
+                .from('story_chapters')
+                .select('story_id, chapter_number')
+                .in('story_id', storyIds);
+            
+            if (chaptersError) {
+                console.error('Error loading chapters for completed:', chaptersError);
+            }
+            
+            // Calculate max chapter per story from progress
+            const storyMaxChapter = {};
+            progressData.forEach(p => {
+                if (!storyMaxChapter[p.story_id] || p.chapter_number > storyMaxChapter[p.story_id]) {
+                    storyMaxChapter[p.story_id] = p.chapter_number;
+                }
+            });
+            
+            // Check if story is completed (max chapter >= total chapters)
+            const completed = storiesData.filter(story => {
+                const totalChapters = chaptersData?.filter(c => c.story_id === story.id).length || story.chapters_count || 0;
+                const maxChapter = storyMaxChapter[story.id] || 0;
+                return totalChapters > 0 && maxChapter >= totalChapters;
+            });
+            
+            return completed;
+        }
+
+        // Remove from library
+        async function removeFromLibrary(storyId, type) {
+            if (!currentUser) return;
+            
+            try {
+                if (type === 'saved') {
+                    const { error } = await supabase
+                        .from('saved_stories')
+                        .delete()
+                        .eq('user_id', currentUser.id)
+                        .eq('story_id', storyId);
+                    
+                    if (error) throw error;
+                    showToast('Hadithi imetolewa kwenye maktaba', 'success');
+                    await loadAllData();
+                } else if (type === 'reading') {
+                    const { error } = await supabase
+                        .from('reading_progress')
+                        .delete()
+                        .eq('user_id', currentUser.id)
+                        .eq('story_id', storyId);
+                    
+                    if (error) throw error;
+                    showToast('Maendeleo ya kusoma yamefutwa', 'success');
+                    await loadAllData();
+                }
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Render story card with accurate progress percentage
+        function renderStoryCard(story, type, progressData = null) {
+            const coverImage = story.cover_image_url || 'https://placehold.co/400x600/1a1a1a/888888?text=No+Cover';
+            const rating = story.total_rating ? parseFloat(story.total_rating).toFixed(1) : '—';
+            
+            let progressHTML = '';
+            if (type === 'reading' && progressData && story.progress !== undefined) {
+                const percentComplete = Math.min(Math.round(story.progress), 100);
+                const chapterDisplay = `${story.lastChapter || 0}/${story.totalChapters || story.chapters_count || 0}`;
+                
+                progressHTML = `
+                    <div class="progress-badge">
+                        <div class="progress-bar-container">
+                            <div class="progress-fill" style="width: ${percentComplete}%"></div>
+                        </div>
+                        <span class="progress-text">${percentComplete}% imesomwa</span>
+                        <span class="chapter-info">Sura ${chapterDisplay}</span>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="story-card" onclick="window.location.href='story.html?id=${story.id}'">
+                    <div class="story-cover">
+                        <img src="${coverImage}" alt="${escapeHtml(story.title)}" loading="lazy" onerror="this.src='https://placehold.co/400x600/1a1a1a/888888?text=No+Cover'">
+                        ${progressHTML}
+                    </div>
+                    <div class="story-info">
+                        <h3 class="story-title">${escapeHtml(story.title)}</h3>
+                        <div class="story-author">${escapeHtml(story.author || 'Mwandishi asiyejulikana')}</div>
+                        <div class="story-meta">
+                            <span>⭐ ${rating}</span>
+                            <span>👁 ${formatNumber(story.total_reads)}</span>
+                            <span>📖 ${story.chapters_count || 0} sura</span>
+                        </div>
+                        <button class="remove-btn" onclick="event.stopPropagation(); removeFromLibrary('${story.id}', '${type}')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;margin-right:4px">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                            Ondoa
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load all data
+        async function loadAllData() {
+            if (!currentUser) return;
+            
+            // Show loading
+            readingContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Inapakia...</div>';
+            savedContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Inapakia...</div>';
+            completedContainer.innerHTML = '<div class="loading"><div class="spinner"></div>Inapakia...</div>';
+            
+            // Load data
+            const [reading, saved, completed] = await Promise.all([
+                loadReadingProgress(),
+                loadSavedStories(),
+                loadCompletedStories()
+            ]);
+            
+            readingStories = reading;
+            savedStories = saved;
+            completedStories = completed;
+            
+            // Render reading stories
+            if (readingStories.length === 0) {
+                readingContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z"/>
+                            <path d="M12 12L2 7L12 2L22 7L12 12Z"/>
+                        </svg>
+                        <h3>Hakuna hadithi unazosoma</h3>
+                        <p>Anza kusoma hadithi ili zionekane hapa</p>
+                        <a href="browse.html" class="browse-link">Tafuta Hadithi</a>
+                    </div>
+                `;
+            } else {
+                readingContainer.innerHTML = readingStories.map(story => 
+                    renderStoryCard(story, 'reading', story.progress)
+                ).join('');
+            }
+            
+            // Render saved stories
+            if (savedStories.length === 0) {
+                savedContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 3H7C5.9 3 5 3.9 5 5V21L12 18L19 21V5C19 3.9 18.1 3 17 3Z"/>
+                        </svg>
+                        <h3>Hakuna hadithi zilizohifadhiwa</h3>
+                        <p>Hifadhi hadithi unazozipenda ili zionekane hapa</p>
+                        <a href="browse.html" class="browse-link">Vinjari Hadithi</a>
+                    </div>
+                `;
+            } else {
+                savedContainer.innerHTML = savedStories.map(story => 
+                    renderStoryCard(story, 'saved')
+                ).join('');
+            }
+            
+            // Render completed stories
+            if (completedStories.length === 0) {
+                completedContainer.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 12L11 15L16 9"/>
+                        </svg>
+                        <h3>Hakuna hadithi zilizokamilika</h3>
+                        <p>Maliza kusoma hadithi ili zionekane hapa</p>
+                        <a href="browse.html" class="browse-link">Endelea Kusoma</a>
+                    </div>
+                `;
+            } else {
+                completedContainer.innerHTML = completedStories.map(story => 
+                    renderStoryCard(story, 'completed')
+                ).join('');
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabId) {
+            currentTab = tabId;
+            
+            // Update tab buttons
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Update content visibility
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(`${tabId}-tab`).style.display = 'block';
+        }
+
+        // Initialize
+        async function init() {
+            // Tab click handlers
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    switchTab(tab.dataset.tab);
+                });
+            });
+            
+            // WhatsApp button
+            document.getElementById('whatsappBtn').addEventListener('click', () => {
+                window.open('https://wa.me/255618282371', '_blank');
+            });
+            
+            // Check authentication and load data
+            const isAuth = await checkAuth();
+            if (isAuth) {
+                await loadAllData();
+            }
+        }
+        
+        // Make removeFromLibrary available globally
+        window.removeFromLibrary = removeFromLibrary;
+        
+        init();
+    </script>
+</body>
+</html>

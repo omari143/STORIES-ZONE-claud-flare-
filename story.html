@@ -1,0 +1,1913 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Maelezo ya Hadithi — STORIES ZONE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ===== CSS Variables ===== */
+:root {
+  --bg: #0f0f0e;
+  --bg-card: #141414;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-muted: #666666;
+  --primary: #9c2518;
+  --primary-hover: #b02d1f;
+  --accent: #42a781;
+  --accent-hover: #4dbd94;
+  --border: #2a2a2a;
+  --green: #25d366;
+  --yellow: #fbbf24;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-full: 9999px;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 80px;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+img { max-width: 100%; display: block; }
+
+/* Disable text selection */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg-secondary); border-radius: 3px; }
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 15, 14, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: all 0.2s ease;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-secondary {
+  background: var(--bg-secondary);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.btn-secondary:hover { background: var(--bg-card); }
+
+/* ===== Like Button ===== */
+.like-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.like-btn.liked {
+  background: rgba(156, 37, 24, 0.15);
+  color: var(--primary);
+}
+
+.like-btn:hover {
+  background: var(--bg-card);
+}
+
+.like-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== Comment Section ===== */
+.comment-section {
+  margin-top: 24px;
+  padding: 0 16px;
+}
+
+.comment-section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.comment-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.comment-form input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.comment-form input:focus {
+  border-color: var(--primary);
+}
+
+.comment-submit {
+  padding: 12px 20px;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.comment-user {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.comment-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.comment-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-left: 42px;
+}
+
+.empty-comments {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+/* ===== Reading Progress ===== */
+.reading-progress-section {
+  padding: 0 16px 20px;
+}
+
+.progress-container {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ===== Back Button ===== */
+.back-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background 0.2s ease;
+}
+.back-btn:hover { background: var(--bg-card); }
+.back-btn svg { width: 20px; height: 20px; }
+
+/* ===== Story Hero ===== */
+.story-hero {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+
+.story-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.story-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(20px);
+  transform: scale(1.1);
+}
+
+.story-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15, 15, 14, 0.6), var(--bg));
+}
+
+.story-hero-content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 16px;
+  gap: 16px;
+}
+
+.story-cover {
+  width: 110px;
+  height: 165px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.story-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-meta { flex: 1; }
+
+.story-meta .genre {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.story-meta h1 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.story-meta .stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.story-meta .stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star-icon { color: var(--yellow); }
+
+/* ===== Hero Badges ===== */
+.hero-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-genre { background: var(--accent); color: white; }
+.badge-chapters { background: var(--primary); color: white; }
+.badge-updated { background: var(--primary); color: white; }
+.badge-completed { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); }
+
+/* ===== Action Buttons ===== */
+.story-actions {
+  display: flex;
+  gap: 10px;
+  padding: 16px;
+  flex-wrap: wrap;
+}
+
+.story-actions .btn { flex: 1; }
+
+/* ===== Info Grid ===== */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 0 16px 16px;
+}
+
+@media (min-width: 480px) {
+  .info-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.info-cell {
+  background: var(--bg-card);
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.info-cell .label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.info-cell .value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.info-cell .value.accent { color: var(--accent); }
+.info-cell .value.primary { color: var(--primary); }
+
+/* ===== Synopsis ===== */
+.synopsis-block {
+  padding: 0 16px 20px;
+}
+
+.synopsis-block h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.synopsis-block p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+.read-more-btn {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+/* ===== Section ===== */
+.section {
+  padding: 16px 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.section-count {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ===== Chapter Items ===== */
+.chapters-list { padding: 0 16px; }
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  gap: 12px;
+}
+
+.chapter-item:hover { background: var(--bg-secondary); }
+
+.chapter-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.chapter-number {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.chapter-number.free { background: rgba(66, 167, 129, 0.15); color: var(--accent); }
+.chapter-number.locked { background: rgba(156, 37, 24, 0.15); color: var(--primary); }
+
+.chapter-info { flex: 1; min-width: 0; }
+
+.chapter-title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.chapter-date {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.chapter-status {
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.chapter-status.free {
+  background: rgba(66, 167, 129, 0.15);
+  color: var(--accent);
+}
+
+.chapter-status.locked {
+  background: rgba(156, 37, 24, 0.15);
+  color: var(--primary);
+}
+
+/* ===== Purchase buttons for multiple chapters (Glowing) ===== */
+.purchase-bulk {
+  margin: 8px 16px 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.purchase-bulk .btn {
+  flex: 1;
+  font-weight: 700;
+  color: #fff;
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: transform .2s ease, filter .2s ease;
+}
+
+.purchase-bulk .btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+}
+
+.purchase-bulk .btn:active { transform: translateY(0); }
+
+/* Button 1: Nunua Sura 4 - kijani inayowaka */
+#buyChunkChaptersBtn {
+  background: linear-gradient(135deg, #42a781, #4dbd94);
+  border-color: #4dbd94;
+  animation: glowGreen 1.6s ease-in-out infinite;
+}
+
+@keyframes glowGreen {
+  0%, 100% { box-shadow: 0 0 6px #42a781, 0 0 12px rgba(66,167,129,.6); }
+  50%      { box-shadow: 0 0 16px #4dbd94, 0 0 32px rgba(77,189,148,.9), 0 0 48px rgba(77,189,148,.4); }
+}
+
+/* Button 2: Nunua Hadithi Yote - nyekundu/dhahabu inayowaka */
+#buyFullStoryBtn {
+  background: linear-gradient(135deg, #9c2518, #fbbf24);
+  border-color: #fbbf24;
+  animation: glowGold 1.6s ease-in-out infinite;
+  animation-delay: .8s;
+}
+
+@keyframes glowGold {
+  0%, 100% { box-shadow: 0 0 6px #9c2518, 0 0 12px rgba(251,191,36,.5); }
+  50%      { box-shadow: 0 0 16px #fbbf24, 0 0 32px rgba(251,191,36,.9), 0 0 48px rgba(156,37,24,.5); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #buyChunkChaptersBtn, #buyFullStoryBtn { animation: none; }
+}
+
+/* ===== Loading ===== */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toast.error {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 40px 16px 100px;
+  border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.footer-brand span {
+  color: var(--primary);
+}
+
+.footer-copy {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.footer-links a:hover { color: var(--text-primary); }
+.footer-links span { color: var(--border); }
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--green);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  transition: background 0.2s ease;
+  text-decoration: none;
+}
+.btn-contact:hover { background: #20bd5a; }
+.btn-contact svg { width: 18px; height: 18px; }
+
+/* ===== Bottom Navigation ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 15, 14, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 16px;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.nav-item svg { width: 20px; height: 20px; }
+.nav-item:hover { color: var(--text-primary); }
+.nav-item.active { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-top">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="index.html" class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/32x32/9c2518/white?text=SZ'">
+          </div>
+          <span class="logo-text">STORIES ZONE</span>
+        </a>
+      </div>
+      <button style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg-secondary);border-radius:var(--radius-sm);color:var(--text-primary);cursor:pointer;" id="shareTopBtn" title="Shiriki">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Loading Indicator ===== -->
+  <div id="loadingIndicator" class="loading" style="display: none;">
+    <div class="spinner"></div>
+    <p>Inapakia hadithi...</p>
+  </div>
+
+  <!-- ===== Story Hero ===== -->
+  <section class="story-hero" id="storyHero" style="display: none;">
+    <div class="story-hero-bg">
+      <img id="heroBgImage" src="" alt="" />
+    </div>
+    <div class="story-hero-overlay"></div>
+    <div class="story-hero-content">
+      <div class="story-cover">
+        <img id="storyCoverImage" src="" alt="Jalada la Hadithi" />
+      </div>
+      <div class="story-meta">
+        <div class="hero-badges" id="storyBadges">
+          <span class="badge badge-genre" id="badgeGenre">-</span>
+          <span class="badge badge-chapters" id="badgeChapters">-</span>
+          <span class="badge badge-updated" id="badgeStatus">-</span>
+        </div>
+        <div class="genre" id="storyGenre">-</div>
+        <h1 id="storyTitle">-</h1>
+        <div class="stats">
+          <span><span class="star-icon">★</span> <span id="storyRatingStat">-</span></span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span id="storyViewsStat">-</span>
+          </span>
+          <span id="likesStat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span id="storyLikesStat">-</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Reading Progress ===== -->
+  <div class="reading-progress-section" id="progressSection" style="display: none;">
+    <div class="progress-container">
+      <div class="progress-bar" id="readingProgressBar" style="width: 0%"></div>
+    </div>
+    <div class="progress-stats">
+      <span id="chaptersReadCount">0</span>
+      <span id="totalChaptersCount">0</span>
+    </div>
+  </div>
+
+  <!-- ===== Action Buttons ===== -->
+  <div class="story-actions" id="storyActions" style="display: none;">
+    <button class="btn btn-primary" id="readNowBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M8 5v14l11-7z"/></svg>
+      Soma Sasa
+    </button>
+    <button class="btn btn-secondary" id="addToLibraryBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      Hifadhi
+    </button>
+    <button class="like-btn" id="likeBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <span id="likeCount">0</span>
+      <span>Penda</span>
+    </button>
+    <button class="btn btn-secondary" id="downloadBtn" style="padding:10px 14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </button>
+  </div>
+
+  <!-- Bulk purchase options -->
+  <div class="purchase-bulk" id="purchaseBulk" style="display: none;">
+    <button class="btn btn-secondary" id="buyChunkChaptersBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      Nunua Sura 4
+    </button>
+    <button class="btn btn-secondary" id="buyFullStoryBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Nunua Hadithi Yote
+    </button>
+  </div>
+
+  <!-- ===== Info Grid ===== -->
+  <div class="info-grid" id="infoGrid" style="display: none;">
+    <div class="info-cell">
+      <div class="label">Aina</div>
+      <div class="value accent" id="infoCat">-</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Wasomaji</div>
+      <div class="value" id="infoViews">-</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Hali</div>
+      <div class="value primary" id="infoStatus">-</div>
+    </div>
+    <div class="info-cell">
+      <div class="label">Ukadiriaji</div>
+      <div class="value" id="infoRating">-</div>
+    </div>
+  </div>
+
+  <!-- ===== Synopsis ===== -->
+  <div class="synopsis-block" id="synopsisBlock" style="display: none;">
+    <h2>Muhtasari</h2>
+    <p id="storySynopsis"></p>
+    <button class="read-more-btn" id="readMoreSynopsis">Soma Zaidi ›</button>
+  </div>
+
+  <div class="divider" id="chaptersDivider" style="display: none; height: 1px; background: var(--border); margin: 4px 16px;"></div>
+
+  <!-- ===== Chapters ===== -->
+  <section class="section" id="chaptersSection" style="display: none;">
+    <div class="section-header">
+      <h2 class="section-title">Sura</h2>
+      <span class="section-count" id="chaptersCount">-</span>
+    </div>
+    <div class="chapters-list" id="chaptersList">
+      <div class="loading"><div class="spinner"></div>Inapakia sura...</div>
+    </div>
+  </section>
+
+  <!-- ===== Comments Section ===== -->
+  <div class="comment-section" id="commentSection" style="display: none;">
+    <h3>💬 Maoni (<span id="commentsCount">0</span>)</h3>
+    <div class="comment-form">
+      <input type="text" id="commentInput" placeholder="Andika maoni yako hapa..." maxlength="500">
+      <button class="comment-submit" id="submitCommentBtn">Tuma</button>
+    </div>
+    <div class="comments-list" id="commentsList">
+      <div class="empty-comments">Hakuna maoni bado. Kuwa wa kwanza!</div>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <div class="logo-icon" style="width:24px;height:24px;">
+        <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/24x24/9c2518/white?text=SZ'">
+      </div>
+      <span class="footer-brand">STORIES <span>ZONE</span></span>
+    </div>
+    <p class="footer-copy">© 2026 STORIES ZONE. Haki zote zimehifadhiwa.</p>
+    <div class="footer-links">
+      <a href="about.html">Kuhusu</a>
+      <span>·</span>
+      <a href="terms.html">Masharti</a>
+      <span>·</span>
+      <a href="privacy.html">Faragha</a>
+      <span>·</span>
+      <a href="help.html">Msaada</a>
+    </div>
+    <a href="https://wa.me/255618282371" class="btn-contact">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Wasiliana Nasi
+    </a>
+  </footer>
+
+  <!-- ===== Bottom Navigation ===== -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Nyumbani
+    </a>
+    <a href="browse.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Tafuta
+    </a>
+    <a href="library.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Maktaba
+    </a>
+    <a href="login.html" class="nav-item" id="authNavLink">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Akaunti
+    </a>
+  </nav>
+
+  <!-- ===== Toast Container ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // ============================================
+    // PROTECTION: Disable Copy, Screenshot, F12
+    // ============================================
+    
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+    
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
+          (e.ctrlKey && e.key === 'u') || (e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'p')) {
+        e.preventDefault();
+        return false;
+      }
+      if (e.ctrlKey && e.key === 'c') {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList || !activeEl.classList.contains('read-content')) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+    
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'PrintScreen') {
+        navigator.clipboard.writeText('');
+        showToast('Uchukuaji wa skrini hauruhusiwi!', 'error');
+        e.preventDefault();
+      }
+    });
+    
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); return false; });
+    
+    const noop = () => {};
+    if (typeof window !== 'undefined') {
+      window.console.log = noop;
+      window.console.info = noop;
+      window.console.warn = noop;
+      window.console.debug = noop;
+    }
+
+    // ============================================
+    // Supabase Configuration
+    // ============================================
+    const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ============================================
+    // AUTH CHECK - MTU AWE AMEINGIA KABLA YA KUSOMA
+    // ============================================
+    let currentUser = null;
+    let isAuthChecked = false;
+
+    async function checkAuthAndRedirect() {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error || !user) {
+        // Hana akaunti, mpeleke kwenye login
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `login.html?redirect=${currentUrl}`;
+        return false;
+      }
+      
+      // Akaunti ipo, endelea
+      currentUser = user;
+      return true;
+    }
+
+    // State zaidi
+    let storyData = null;
+    let chapters = [];
+    let isSaved = false;
+    let userLiked = false;
+    let currentLikeCount = 0;
+    let currentComments = [];
+    let userReadingProgress = 0;
+    let purchasedChapterIds = new Set();
+    let hasPremium = false;
+
+    // DOM Elements
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const storyHero = document.getElementById('storyHero');
+    const storyActions = document.getElementById('storyActions');
+    const infoGrid = document.getElementById('infoGrid');
+    const synopsisBlock = document.getElementById('synopsisBlock');
+    const chaptersSection = document.getElementById('chaptersSection');
+    const chaptersDivider = document.getElementById('chaptersDivider');
+    const commentSection = document.getElementById('commentSection');
+    const progressSection = document.getElementById('progressSection');
+    const purchaseBulkDiv = document.getElementById('purchaseBulk');
+    const toast = document.getElementById('toast');
+
+    // Helper: Get URL parameters
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      return { id: params.get('id') };
+    }
+
+    // Helper: Format number
+    function formatNumber(num) {
+      if (!num) return '0';
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+      return num.toString();
+    }
+
+    // Helper: Show toast
+    function showToast(message, type = 'info') {
+      toast.textContent = message;
+      toast.className = 'toast';
+      if (type === 'success') toast.classList.add('success');
+      if (type === 'error') toast.classList.add('error');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Helper: Format date
+    function formatDate(dateString) {
+      if (!dateString) return 'hivi karibuni';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diff = Math.floor((now - date) / 1000 / 60);
+      if (diff < 1) return 'sasa hivi';
+      if (diff < 60) return `${diff} dakika iliyopita`;
+      if (diff < 1440) return `${Math.floor(diff / 60)} saa iliyopita`;
+      return date.toLocaleDateString('sw', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Helper: Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+
+    // Get chapter price - PRIORITY: chapter.price > story.price_per_chapter > default 500
+    function getChapterPrice(chapter, storyPricePerChapter = 500) {
+      if (chapter.price && chapter.price > 0) return chapter.price;
+      if (chapter.access_type === 'premium') return 'premium';
+      if (storyPricePerChapter && storyPricePerChapter > 0) return storyPricePerChapter;
+      return 500;
+    }
+
+    // Load user data after auth
+    async function loadCurrentUser() {
+      if (!currentUser) return;
+      
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id, name')
+        .eq('auth_user_id', currentUser.id)
+        .single();
+      
+      if (userData) {
+        currentUser = userData;
+        document.getElementById('authNavLink').innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>
+        `;
+        document.getElementById('authNavLink').href = 'profile.html';
+      }
+    }
+
+    // Load story from database
+    async function loadStory() {
+      const params = getUrlParams();
+      if (!params.id) {
+        showToast('Hadithi haikupatikana', 'error');
+        setTimeout(() => window.location.href = 'index.html', 1500);
+        return false;
+      }
+      
+      loadingIndicator.style.display = 'block';
+      
+      const { data, error } = await supabase
+        .from('stories')
+        .select(`
+          *,
+          genres:genre_id (id, name, emoji, color)
+        `)
+        .eq('id', params.id)
+        .eq('is_published', true)
+        .single();
+      
+      if (error || !data) {
+        loadingIndicator.style.display = 'none';
+        showToast('Hadithi haikupatikana', 'error');
+        setTimeout(() => window.location.href = 'index.html', 1500);
+        return false;
+      }
+      
+      storyData = data;
+      loadingIndicator.style.display = 'none';
+      return true;
+    }
+
+    // Load chapters with price column
+    async function loadChapters() {
+      if (!storyData) return;
+      
+      const { data, error } = await supabase
+        .from('story_chapters')
+        .select('*')
+        .eq('story_id', storyData.id)
+        .eq('is_published', true)
+        .order('chapter_number', { ascending: true });
+      
+      if (error) {
+        console.error('Error loading chapters:', error);
+        return;
+      }
+      
+      chapters = data || [];
+      
+      // Load purchased chapters if user is logged in
+      if (currentUser && chapters.length > 0) {
+        await loadUserPurchases();
+        await checkPremiumStatus();
+      }
+    }
+
+    // Load user's purchased chapters
+    async function loadUserPurchases() {
+      if (!currentUser) return;
+      const { data } = await supabase
+        .from('purchases')
+        .select('item_id')
+        .eq('user_id', currentUser.id)
+        .eq('item_type', 'chapter')
+        .eq('status', 'Imefanikishwa');
+      
+      purchasedChapterIds.clear();
+      if (data) {
+        data.forEach(p => purchasedChapterIds.add(p.item_id));
+      }
+    }
+
+    // Check if user has active premium subscription
+    async function checkPremiumStatus() {
+      if (!currentUser) return false;
+      const today = new Date().toISOString().split('T')[0];
+      const { data } = await supabase
+        .from('subscriptions')
+        .select('id')
+        .eq('user_id', currentUser.id)
+        .eq('status', 'Hai')
+        .gte('end_date', today)
+        .maybeSingle();
+      
+      hasPremium = !!data;
+      return hasPremium;
+    }
+
+    // Load likes count
+    async function loadLikesCount() {
+      const { count, error } = await supabase
+        .from('story_likes')
+        .select('id', { count: 'exact', head: true })
+        .eq('story_id', storyData?.id);
+      
+      if (error) {
+        console.error('Error loading likes:', error);
+        return 0;
+      }
+      return count || 0;
+    }
+
+    // Check if user liked
+    async function checkUserLiked() {
+      if (!currentUser) return false;
+      
+      const { data, error } = await supabase
+        .from('story_likes')
+        .select('id')
+        .eq('story_id', storyData?.id)
+        .eq('user_id', currentUser.id)
+        .maybeSingle();
+      
+      return !!data;
+    }
+
+    // Toggle like
+    async function toggleLike() {
+      if (!currentUser) {
+        showToast('Tafadhali ingia kwanza ili kupenda', 'error');
+        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        return;
+      }
+      
+      if (userLiked) {
+        const { error } = await supabase
+          .from('story_likes')
+          .delete()
+          .eq('story_id', storyData.id)
+          .eq('user_id', currentUser.id);
+        
+        if (error) {
+          showToast('Imeshindwa kuondoa like', 'error');
+          return;
+        }
+        
+        userLiked = false;
+        currentLikeCount--;
+        updateLikeUI();
+      } else {
+        const { error } = await supabase
+          .from('story_likes')
+          .insert({ story_id: storyData.id, user_id: currentUser.id });
+        
+        if (error) {
+          showToast('Imeshindwa kupenda', 'error');
+          return;
+        }
+        
+        userLiked = true;
+        currentLikeCount++;
+        updateLikeUI();
+      }
+    }
+
+    // Update like UI
+    function updateLikeUI() {
+      const likeBtn = document.getElementById('likeBtn');
+      const likeCountSpan = document.getElementById('likeCount');
+      
+      if (likeCountSpan) likeCountSpan.textContent = currentLikeCount;
+      
+      if (userLiked) {
+        likeBtn.classList.add('liked');
+        likeBtn.querySelector('span:last-child').textContent = 'Umeipenda';
+      } else {
+        likeBtn.classList.remove('liked');
+        likeBtn.querySelector('span:last-child').textContent = 'Penda';
+      }
+      
+      document.getElementById('storyLikesStat').textContent = formatNumber(currentLikeCount);
+    }
+
+    // Load comments
+    async function loadComments() {
+      const { data, error } = await supabase
+        .from('story_comments')
+        .select(`
+          *,
+          users:user_id (name)
+        `)
+        .eq('story_id', storyData?.id)
+        .eq('status', 'approved')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error loading comments:', error);
+        return [];
+      }
+      return data || [];
+    }
+
+    // Render comments
+    function renderComments(comments) {
+      const commentsList = document.getElementById('commentsList');
+      const commentsCountSpan = document.getElementById('commentsCount');
+      
+      commentsCountSpan.textContent = comments.length;
+      
+      if (!comments || comments.length === 0) {
+        commentsList.innerHTML = '<div class="empty-comments">Hakuna maoni bado. Kuwa wa kwanza!</div>';
+        return;
+      }
+      
+      commentsList.innerHTML = comments.map(comment => `
+        <div class="comment-item">
+          <div class="comment-header">
+            <div class="comment-avatar">${(comment.users?.name || 'U')[0].toUpperCase()}</div>
+            <div class="comment-user">${escapeHtml(comment.users?.name || 'Mtumiaji')}</div>
+            <div class="comment-time">${formatDate(comment.created_at)}</div>
+          </div>
+          <div class="comment-text">${escapeHtml(comment.content)}</div>
+        </div>
+      `).join('');
+    }
+
+    // Add comment
+    async function addComment(content) {
+      if (!currentUser) {
+        showToast('Tafadhali ingia kwanza ili kutoa maoni', 'error');
+        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        return false;
+      }
+      
+      if (!content.trim()) {
+        showToast('Tafadhali andika maoni yako', 'error');
+        return false;
+      }
+      
+      const { data, error } = await supabase
+        .from('story_comments')
+        .insert({
+          story_id: storyData.id,
+          user_id: currentUser.id,
+          content: content.trim(),
+          status: 'approved'
+        })
+        .select();
+      
+      if (error) {
+        showToast('Imeshindwa kutuma maoni', 'error');
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Load reading progress
+    async function loadReadingProgress() {
+      if (!currentUser) return 0;
+      
+      const { data, error } = await supabase
+        .from('reading_progress')
+        .select('chapter_number')
+        .eq('user_id', currentUser.id)
+        .eq('story_id', storyData.id)
+        .order('chapter_number', { ascending: false })
+        .limit(1);
+      
+      if (error || !data || data.length === 0) return 0;
+      
+      const lastChapter = data[0].chapter_number;
+      const totalChapters = chapters.length;
+      const progress = totalChapters > 0 ? (lastChapter / totalChapters) * 100 : 0;
+      
+      document.getElementById('chaptersReadCount').textContent = `${lastChapter}/${totalChapters}`;
+      document.getElementById('totalChaptersCount').textContent = totalChapters;
+      document.getElementById('readingProgressBar').style.width = `${Math.min(progress, 100)}%`;
+      
+      return progress;
+    }
+
+    // Update reading progress when opening chapter
+    async function updateReadingProgress(chapterNumber) {
+      if (!currentUser) return;
+      
+      const { error } = await supabase
+        .from('reading_progress')
+        .upsert({
+          user_id: currentUser.id,
+          story_id: storyData.id,
+          chapter_number: chapterNumber,
+          last_read_at: new Date().toISOString()
+        });
+      
+      if (error) {
+        console.error('Error updating progress:', error);
+      }
+      
+      await loadReadingProgress();
+    }
+
+    // Update view count
+    async function updateViewCount() {
+      if (!storyData) return;
+      
+      const sessionKey = `story_view_${storyData.id}`;
+      const hasViewed = sessionStorage.getItem(sessionKey);
+      
+      if (!hasViewed) {
+        await supabase
+          .from('stories')
+          .update({ total_reads: (storyData.total_reads || 0) + 1 })
+          .eq('id', storyData.id);
+        
+        sessionStorage.setItem(sessionKey, 'true');
+        storyData.total_reads = (storyData.total_reads || 0) + 1;
+      }
+    }
+
+    // Check if story is saved
+    async function checkSavedStatus() {
+      if (!currentUser || !storyData) return false;
+      
+      const { data, error } = await supabase
+        .from('saved_stories')
+        .select('story_id')
+        .eq('user_id', currentUser.id)
+        .eq('story_id', storyData.id)
+        .maybeSingle();
+      
+      return !!data;
+    }
+
+    // Render story details
+    function renderStory() {
+      if (!storyData) return;
+      
+      const coverImage = storyData.cover_image_url || 'https://placehold.co/400x600/1a1a1a/888888?text=No+Cover';
+      const genreName = storyData.genres?.name || 'Aina';
+      const genreEmoji = storyData.genres?.emoji || '📖';
+      const rating = storyData.total_rating ? parseFloat(storyData.total_rating).toFixed(1) : '—';
+      const views = formatNumber(storyData.total_reads);
+      
+      document.getElementById('heroBgImage').src = coverImage;
+      document.getElementById('storyCoverImage').src = coverImage;
+      document.getElementById('badgeGenre').textContent = `${genreEmoji} ${genreName}`;
+      document.getElementById('badgeChapters').textContent = `Sura ${storyData.chapters_count || 0}`;
+      
+      const statusText = storyData.status === 'Inaendelea' ? 'Inaendelea' : (storyData.status === 'Imekamilika' ? 'Imekamilika' : 'Rasimu');
+      document.getElementById('badgeStatus').textContent = statusText;
+      document.getElementById('badgeStatus').className = storyData.status === 'Inaendelea' ? 'badge badge-updated' : 'badge badge-completed';
+      
+      document.getElementById('storyGenre').textContent = genreName;
+      document.getElementById('storyTitle').textContent = storyData.title;
+      document.getElementById('storyRatingStat').textContent = rating;
+      document.getElementById('storyViewsStat').textContent = views;
+      document.getElementById('infoCat').textContent = genreName;
+      document.getElementById('infoViews').textContent = views;
+      document.getElementById('infoStatus').textContent = statusText;
+      document.getElementById('infoRating').textContent = `★ ${rating}`;
+      document.getElementById('storySynopsis').textContent = storyData.description || 'Hakuna muhtasari uliopatikana kwa hadithi hii.';
+      
+      storyHero.style.display = 'block';
+      storyActions.style.display = 'flex';
+      infoGrid.style.display = 'grid';
+      synopsisBlock.style.display = 'block';
+      progressSection.style.display = 'block';
+      commentSection.style.display = 'block';
+    }
+
+    // Check if chapter is accessible
+    function isChapterAccessible(chapter, index, freeChaptersCount) {
+      const isFree = chapter.is_free === true;
+      const isPurchased = purchasedChapterIds.has(chapter.id);
+      return isFree || isPurchased || hasPremium;
+    }
+
+    // Open chapter for reading
+    async function openChapter(chapter, index, freeChaptersCount) {
+      const accessible = isChapterAccessible(chapter, index, freeChaptersCount);
+      
+      if (accessible) {
+        await updateReadingProgress(chapter.chapter_number);
+        window.location.href = `read.html?chapter_id=${chapter.id}&story_id=${storyData.id}`;
+      } else {
+        const price = getChapterPrice(chapter, storyData.price_per_chapter);
+        const priceParam = (price === 'premium') ? 'premium' : price;
+        window.location.href = `payment.html?type=chapter&id=${chapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+      }
+    }
+
+    // Render chapters with correct pricing from database
+    async function renderChapters() {
+      if (!chapters.length) {
+        document.getElementById('chaptersList').innerHTML = `
+          <div style="text-align:center; padding:20px; color:var(--text-muted);">
+            Hakuna sura zilizopatikana
+          </div>
+        `;
+        return;
+      }
+      
+      const freeChaptersCount = storyData.free_chapters_count || 3;
+      
+      await loadUserPurchases();
+      await checkPremiumStatus();
+      
+      let firstLockedIndex = -1;
+      let totalPriceForRemaining = 0;
+      
+      const chaptersHTML = chapters.map((chapter, index) => {
+        const isFree = chapter.is_free === true;
+        const isPurchased = purchasedChapterIds.has(chapter.id);
+        const isAccessible = isFree || isPurchased || hasPremium;
+        
+        const price = getChapterPrice(chapter, storyData.price_per_chapter);
+        
+        let priceDisplay = 'Bure';
+        let statusClass = 'free';
+        
+        if (!isAccessible) {
+          statusClass = 'locked';
+          if (price === 'premium') {
+            priceDisplay = '🔒 Premium';
+          } else if (typeof price === 'number' && price > 0) {
+            priceDisplay = `🔒 TSh ${price.toLocaleString()}`;
+          } else {
+            priceDisplay = '🔒 Inayolipwa';
+          }
+        } else {
+          priceDisplay = 'Bure';
+          statusClass = 'free';
+        }
+        
+        if (firstLockedIndex === -1 && !isAccessible) {
+          firstLockedIndex = index;
+        }
+        if (!isAccessible && price !== 'premium' && typeof price === 'number') {
+          totalPriceForRemaining += price;
+        }
+        
+        return `
+          <div class="chapter-item" data-chapter-id="${chapter.id}" data-chapter-number="${chapter.chapter_number}" data-index="${index}" data-is-accessible="${isAccessible}">
+            <div class="chapter-left">
+              <div class="chapter-number ${statusClass}">${chapter.chapter_number}</div>
+              <div class="chapter-info">
+                <div class="chapter-title">${escapeHtml(chapter.title || `Sura ya ${chapter.chapter_number}`)}</div>
+                <div class="chapter-date">${formatDate(chapter.created_at)}</div>
+              </div>
+            </div>
+            <span class="chapter-status ${statusClass}">
+              ${priceDisplay}
+            </span>
+          </div>
+        `;
+      }).join('');
+      
+      document.getElementById('chaptersList').innerHTML = chaptersHTML;
+      document.getElementById('chaptersCount').textContent = `Sura ${chapters.length}`;
+      
+      if (firstLockedIndex !== -1 && currentUser && !hasPremium) {
+        purchaseBulkDiv.style.display = 'flex';
+        
+        let priceFor5 = 0;
+        let count5 = 0;
+        for (let i = firstLockedIndex; i < chapters.length && count5 < 4; i++) {
+          const ch = chapters[i];
+          const isFree = ch.is_free === true;
+          const isPurchased = purchasedChapterIds.has(ch.id);
+          if (!isFree && !isPurchased && !hasPremium) {
+            const p = getChapterPrice(ch, storyData.price_per_chapter);
+            if (p !== 'premium' && typeof p === 'number') {
+              priceFor5 += p;
+              count5++;
+            }
+          }
+        }
+        
+        const buy5Btn = document.getElementById('buyChunkChaptersBtn');
+        const buyFullBtn = document.getElementById('buyFullStoryBtn');
+        
+        if (count5 > 0) {
+          buy5Btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Nunua Sura ${count5} (TSh ${priceFor5.toLocaleString()})`;
+          buy5Btn.dataset.chapters = JSON.stringify(chapters.slice(firstLockedIndex, firstLockedIndex + count5).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
+          buy5Btn.dataset.totalPrice = priceFor5;
+          buy5Btn.style.display = 'flex';
+        } else {
+          buy5Btn.style.display = 'none';
+        }
+        
+        if (totalPriceForRemaining > 0) {
+          buyFullBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Nunua Hadithi Yote (TSh ${totalPriceForRemaining.toLocaleString()})`;
+          buyFullBtn.dataset.totalPrice = totalPriceForRemaining;
+          buyFullBtn.dataset.chapters = JSON.stringify(chapters.filter((c, i) => {
+            const isFree = c.is_free === true;
+            const isPurchased = purchasedChapterIds.has(c.id);
+            return !isFree && !isPurchased && !hasPremium;
+          }).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
+          buyFullBtn.style.display = 'flex';
+        } else {
+          buyFullBtn.style.display = 'none';
+        }
+      } else {
+        purchaseBulkDiv.style.display = 'none';
+      }
+      
+      document.querySelectorAll('.chapter-item').forEach((item, idx) => {
+        const chapter = chapters[idx];
+        if (chapter) {
+          item.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            await openChapter(chapter, idx, freeChaptersCount);
+          });
+        }
+      });
+      
+      chaptersSection.style.display = 'block';
+      chaptersDivider.style.display = 'block';
+    }
+
+    // Bulk purchase handlers
+    function goToBulkPayment(type, chaptersData, totalPrice) {
+      if (!currentUser) {
+        showToast('Tafadhali ingia kwanza ili kununua', 'error');
+        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        return;
+      }
+      if (!chaptersData || chaptersData.length === 0) {
+        showToast('Hakuna sura za kununua', 'error');
+        return;
+      }
+      const params = new URLSearchParams({
+        type: type,
+        story_id: storyData.id,
+        total: totalPrice,
+        items: JSON.stringify(chaptersData)
+      });
+      window.location.href = `payment.html?${params.toString()}`;
+    }
+
+    document.getElementById('buyChunkChaptersBtn')?.addEventListener('click', () => {
+      const btn = document.getElementById('buyChunkChaptersBtn');
+      goToBulkPayment('bulk_chunk', JSON.parse(btn.dataset.chapters || '[]'), btn.dataset.totalPrice);
+    });
+
+    document.getElementById('buyFullStoryBtn')?.addEventListener('click', () => {
+      const btn = document.getElementById('buyFullStoryBtn');
+      goToBulkPayment('bulk_full', JSON.parse(btn.dataset.chapters || '[]'), btn.dataset.totalPrice);
+    });
+
+    // Update save button state
+    async function updateSaveButton() {
+      if (!currentUser || !storyData) return;
+      
+      isSaved = await checkSavedStatus();
+      const saveBtn = document.getElementById('addToLibraryBtn');
+      
+      if (isSaved) {
+        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Imehifadhiwa`;
+        saveBtn.style.background = 'rgba(66,167,129,0.2)';
+        saveBtn.style.borderColor = 'var(--accent)';
+        saveBtn.style.color = 'var(--accent)';
+      } else {
+        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Hifadhi`;
+        saveBtn.style.background = '';
+        saveBtn.style.borderColor = '';
+        saveBtn.style.color = '';
+      }
+    }
+
+    // Save to library
+    async function saveToLibrary() {
+      if (!currentUser) {
+        showToast('Tafadhali ingia kwanza ili kuhifadhi hadithi', 'error');
+        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        return;
+      }
+      
+      if (isSaved) {
+        const { error } = await supabase
+          .from('saved_stories')
+          .delete()
+          .eq('user_id', currentUser.id)
+          .eq('story_id', storyData.id);
+        
+        if (error) {
+          showToast('Imeshindwa kuondoa kwenye maktaba', 'error');
+          return;
+        }
+        
+        showToast('Hadithi imetolewa kwenye maktaba', 'success');
+        isSaved = false;
+      } else {
+        const { error } = await supabase
+          .from('saved_stories')
+          .insert({ user_id: currentUser.id, story_id: storyData.id });
+        
+        if (error) {
+          showToast('Imeshindwa kuhifadhi hadithi', 'error');
+          return;
+        }
+        
+        showToast('Hadithi imehifadhiwa kwenye maktaba!', 'success');
+        isSaved = true;
+      }
+      
+      await updateSaveButton();
+    }
+
+    // Read now - open first accessible chapter
+    async function readNow() {
+      if (!chapters.length) {
+        showToast('Hadithi haina sura bado', 'error');
+        return;
+      }
+      
+      const freeChaptersCount = storyData.free_chapters_count || 3;
+      
+      let accessibleChapter = null;
+      
+      for (let i = 0; i < chapters.length; i++) {
+        const chapter = chapters[i];
+        if (isChapterAccessible(chapter, i, freeChaptersCount)) {
+          accessibleChapter = chapter;
+          break;
+        }
+      }
+      
+      if (accessibleChapter) {
+        await updateReadingProgress(accessibleChapter.chapter_number);
+        window.location.href = `read.html?chapter_id=${accessibleChapter.id}&story_id=${storyData.id}`;
+      } else {
+        const firstChapter = chapters[0];
+        const price = getChapterPrice(firstChapter, storyData.price_per_chapter);
+        const priceParam = (price === 'premium') ? 'premium' : price;
+        window.location.href = `payment.html?type=chapter&id=${firstChapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+      }
+    }
+
+    // Share story
+    function shareStory() {
+      const url = window.location.href;
+      const title = storyData?.title || 'STORIES ZONE';
+      
+      if (navigator.share) {
+        navigator.share({ title: title, url: url });
+      } else {
+        navigator.clipboard.writeText(url);
+        showToast('Kiungo kimekopwa kwenye clipboard!', 'success');
+      }
+    }
+
+    // Initialize
+    async function init() {
+      // Kwanza kabisa, angalia kama ameingia
+      const isAuthenticated = await checkAuthAndRedirect();
+      if (!isAuthenticated) return;
+      
+      // Load user data
+      await loadCurrentUser();
+      
+      const storyLoaded = await loadStory();
+      if (!storyLoaded) return;
+      
+      await loadChapters();
+      renderStory();
+      
+      currentLikeCount = await loadLikesCount();
+      userLiked = await checkUserLiked();
+      updateLikeUI();
+      
+      currentComments = await loadComments();
+      renderComments(currentComments);
+      
+      await loadReadingProgress();
+      await updateViewCount();
+      await renderChapters();
+      await updateSaveButton();
+      
+      document.getElementById('addToLibraryBtn').addEventListener('click', saveToLibrary);
+      document.getElementById('readNowBtn').addEventListener('click', readNow);
+      document.getElementById('likeBtn').addEventListener('click', toggleLike);
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        showToast('Kipengele cha kupakua kitapatikana hivi karibuni!', 'info');
+      });
+      document.getElementById('shareTopBtn').addEventListener('click', shareStory);
+      
+      document.getElementById('submitCommentBtn').addEventListener('click', async () => {
+        const input = document.getElementById('commentInput');
+        const content = input.value.trim();
+        
+        if (!content) {
+          showToast('Andika maoni yako kwanza', 'error');
+          return;
+        }
+        
+        const success = await addComment(content);
+        if (success) {
+          input.value = '';
+          currentComments = await loadComments();
+          renderComments(currentComments);
+          showToast('Maoni yametumwa!', 'success');
+        }
+      });
+      
+      const synopsisEl = document.getElementById('storySynopsis');
+      const readMoreBtn = document.getElementById('readMoreSynopsis');
+      
+      if (synopsisEl && synopsisEl.scrollHeight > 150) {
+        readMoreBtn.style.display = 'inline-block';
+        let expanded = false;
+        readMoreBtn.addEventListener('click', () => {
+          expanded = !expanded;
+          if (expanded) {
+            synopsisEl.style.webkitLineClamp = 'unset';
+            synopsisEl.style.overflow = 'visible';
+            readMoreBtn.textContent = 'Soma Kidogo ‹';
+          } else {
+            synopsisEl.style.webkitLineClamp = '3';
+            synopsisEl.style.overflow = 'hidden';
+            readMoreBtn.textContent = 'Soma Zaidi ›';
+          }
+        });
+      } else {
+        readMoreBtn.style.display = 'none';
+      }
+    }
+    
+    init();
+  </script>
+
+</body>
+</html>

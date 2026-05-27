@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Stories — Stories Zone</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" fill="#9C2518"/>
+                        <path d="M12 12L2 7L12 2L22 7L12 12Z" fill="#C53929"/>
+                    </svg>
+                    <span>STORIES ZONE</span>
+                </a>
+                <nav class="nav-menu">
+                    <a href="index.html">Home</a>
+                    <a href="browse.html">Browse</a>
+                    <a href="library.html">Library</a>
+                    <a href="auth.html">Login</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-title">Browse Stories</h1>
+            <p class="page-description">Discover amazing stories across all genres</p>
+        </div>
+    </section>
+
+    <!-- Search and Filter Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9" cy="9" r="7" stroke="#666" stroke-width="2"/>
+                    <path d="M14 14L18 18" stroke="#666" stroke-width="2"/>
+                </svg>
+                <input type="text" placeholder="Search for stories, authors..." id="browseSearchInput">
+            </div>
+
+            <div class="category-filters" style="margin-top: 24px;">
+                <button class="category-chip active" data-genre="all">All Stories</button>
+                <button class="category-chip" data-genre="romance">Romance</button>
+                <button class="category-chip" data-genre="drama">Drama</button>
+                <button class="category-chip" data-genre="crime">Crime / Thriller</button>
+                <button class="category-chip" data-genre="horror">Horror / Mystery</button>
+                <button class="category-chip" data-genre="political">Political Fiction</button>
+                <button class="category-chip" data-genre="fantasy">African Fantasy</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Browse Results -->
+    <section class="stories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" id="browseTitle">All Stories</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-sort="popular">Popular</button>
+                    <button class="filter-tab" data-sort="newest">Newest</button>
+                    <button class="filter-tab" data-sort="rating">Top Rated</button>
+                </div>
+            </div>
+            <div class="stories-grid" id="browseResults">
+                <!-- Stories will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">STORIES ZONE</div>
+                <p class="footer-copyright">© 2026 Stories Zone App</p>
+                <div class="footer-links">
+                    <a href="about.html">About</a>
+                    <a href="terms.html">Terms</a>
+                    <a href="privacy.html">Privacy</a>
+                </div>
+                <button class="whatsapp-button" id="whatsappBtn">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 0C4.477 0 0 4.477 0 10C0 11.89 0.525 13.66 1.438 15.168L0.546 18.2C0.495 18.382 0.543 18.578 0.672 18.715C0.801 18.852 0.993 18.911 1.179 18.871L4.359 18.078C5.805 18.927 7.442 19.4 9.182 19.491C14.523 19.491 18.864 15.15 18.864 9.809C18.864 4.468 14.523 0.127 9.182 0.127L10 0Z" fill="#25D366"/>
+                        <path d="M14.5 11.5C14.5 11.5 13.8 11.2 13.3 11C12.8 10.8 12.5 11 12.3 11.3C12.1 11.6 11.7 12 11.5 12.2C11.3 12.4 11 12.3 10.8 12.2C9.7 11.7 8.5 10.5 8 9.4C7.9 9.2 8 8.9 8.2 8.7C8.4 8.5 8.6 8.3 8.7 8.1C8.8 7.9 8.7 7.6 8.6 7.4C8.4 6.9 8 6 8 6C7.8 5.5 7.5 5.5 7.2 5.5C6 5.5 5 6.5 5 7.7C5 9.1 6.1 10.5 7.5 12C9 13.5 11 14.5 13 14.5C14.2 14.5 14.5 13.5 14.7 13C14.9 12.5 14.9 12 14.5 11.5Z" fill="white"/>
+                    </svg>
+                    Contact Us
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" fill="currentColor"/>
+            </svg>
+            <span>Home</span>
+        </a>
+        <a href="browse.html" class="nav-item active">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Search</span>
+        </a>
+        <a href="library.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 3H7C5.9 3 5 3.9 5 5V21L12 18L19 21V5C19 3.9 18.1 3 17 3Z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>Library</span>
+        </a>
+        <a href="auth.html" class="nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z" fill="currentColor"/>
+            </svg>
+            <span>Login</span>
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+    <script src="browse.js"></script>
+</body>
+</html>

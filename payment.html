@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>STORIES ZONE - Malipo Salama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    :root {
+      --bg: #0a0a09;
+      --surface: #121210;
+      --surface2: #181816;
+      --border: #252420;
+      --border2: #3a3832;
+      --text: #ede8df;
+      --muted: #9a9488;
+      --dim: #5e5a54;
+      --green: #42a781;
+      --green-dim: rgba(66,167,129,.1);
+      --red: #e74c3c;
+      --yellow: #fbbf24;
+      --brand: #9c2518;
+      --brand-dim: rgba(156,37,24,.15);
+      --purple: #8e44ad;
+      --purple-dim: rgba(142,68,173,.1);
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px 16px 60px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-btn {
+      width: 40px; height: 40px;
+      background: var(--surface2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: .2s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--border); color: var(--text); }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: linear-gradient(135deg, #9c2518, #7a1d14);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 18px; height: 18px; color: white; }
+    .logo-text { font-size: 18px; font-weight: 700; }
+    .logo-text span { color: var(--brand); }
+    .secure-badge {
+      margin-left: auto;
+      display: flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      background: var(--green-dim);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    /* Payment Card */
+    .payment-card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    /* Item Details */
+    .item-details {
+      padding: 24px 20px 20px;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .item-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: var(--brand-dim);
+      border-radius: 30px;
+      font-size: 11px; font-weight: 600;
+      color: var(--brand);
+      margin-bottom: 12px;
+    }
+    .item-badge.audio { background: var(--green-dim); color: var(--green); }
+    .item-badge.video { background: var(--purple-dim); color: var(--purple); }
+    .item-badge.bulk { background: rgba(66,167,129,.15); color: var(--green); }
+    .item-title {
+      font-size: 21px; font-weight: 700;
+      margin-bottom: 6px; line-height: 1.3;
+    }
+    .item-story {
+      font-size: 13px; color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .price-tag {
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .price-amount { font-size: 34px; font-weight: 700; color: var(--green); }
+    .price-label { font-size: 13px; color: var(--muted); }
+
+    /* Steps */
+    .steps {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step {
+      display: flex; align-items: center; gap: 8px;
+      flex: 1;
+    }
+    .step-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      background: var(--border); color: var(--muted);
+      flex-shrink: 0;
+    }
+    .step.active .step-num { background: var(--green); color: white; }
+    .step.done .step-num { background: var(--green-dim); color: var(--green); }
+    .step-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+    .step.active .step-label { color: var(--text); }
+    .step-line { width: 24px; height: 1px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
+
+    /* Body */
+    .payment-body { padding: 20px; }
+
+    .section-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--muted); margin-bottom: 12px;
+    }
+
+    /* Method Grid */
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .method-item {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 10px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: .2s;
+      text-align: center;
+    }
+    .method-item:hover { border-color: var(--border2); }
+    .method-item.selected {
+      border-color: var(--green);
+      background: var(--green-dim);
+    }
+    .method-logo {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .method-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .method-name { font-size: 13px; font-weight: 600; }
+    .method-check {
+      position: absolute; top: -6px; right: -6px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--green); color: white;
+      font-size: 10px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: .2s;
+    }
+    .method-wrapper { position: relative; }
+    .method-wrapper.selected .method-check { opacity: 1; }
+
+    /* Phone Input */
+    .phone-group { margin-bottom: 20px; }
+    .input-label {
+      display: block;
+      font-size: 13px; font-weight: 500;
+      margin-bottom: 8px; color: var(--muted);
+    }
+    .phone-row {
+      display: flex;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: .2s;
+    }
+    .phone-row:focus-within {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(66,167,129,.1);
+    }
+    .phone-row.error { border-color: var(--red); }
+    .country-code {
+      padding: 14px 14px;
+      background: var(--border);
+      font-weight: 700; font-size: 14px;
+      color: var(--text); white-space: nowrap;
+    }
+    .phone-row input {
+      flex: 1;
+      padding: 14px 12px;
+      background: transparent; border: none;
+      color: var(--text); font-size: 15px;
+      font-family: inherit; outline: none;
+      -webkit-user-select: text; user-select: text;
+    }
+    .phone-row input::placeholder { color: var(--dim); }
+
+    .network-pill {
+      display: none;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: var(--green-dim);
+      border-radius: 20px;
+      font-size: 12px; font-weight: 500;
+      color: var(--green);
+      align-items: center; gap: 8px;
+    }
+    .network-pill.show { display: inline-flex; }
+    .network-pill img { width: 18px; height: 18px; border-radius: 4px; }
+
+    .hint {
+      font-size: 11px; color: var(--dim);
+      margin-top: 6px;
+    }
+
+    /* Summary */
+    .summary-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 16px;
+      margin-bottom: 20px;
+    }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      padding: 7px 0; font-size: 14px;
+    }
+    .summary-row:last-child {
+      border-top: 1px solid var(--border);
+      margin-top: 6px; padding-top: 12px;
+      font-weight: 700; font-size: 16px;
+    }
+    .s-label { color: var(--muted); }
+    .s-value { color: var(--text); }
+    .summary-row:last-child .s-value { color: var(--green); font-size: 18px; }
+
+    /* Pay Button */
+    .pay-btn {
+      width: 100%; padding: 16px;
+      background: var(--green); border: none;
+      border-radius: 14px; color: white;
+      font-size: 16px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      cursor: pointer; transition: .2s;
+      font-family: inherit;
+    }
+    .pay-btn:hover:not(:disabled) {
+      background: #4dbd94;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(66,167,129,.25);
+    }
+    .pay-btn:disabled { background: var(--dim); cursor: not-allowed; transform: none; }
+
+    /* Footer */
+    .payment-footer {
+      text-align: center; padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      font-size: 12px; color: var(--dim);
+    }
+    .payment-footer span { color: var(--green); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      background: #1e1e1b;
+      border: 1px solid var(--green);
+      padding: 11px 20px; border-radius: 50px;
+      font-size: 14px; font-weight: 500;
+      color: var(--text); z-index: 1000;
+      transition: transform .3s ease;
+      white-space: nowrap; max-width: 90vw;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { border-color: var(--red); }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 999;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .modal.show { display: flex; }
+    .modal-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      max-width: 380px; width: 100%;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    .modal-icon {
+      width: 68px; height: 68px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 34px;
+      background: var(--green-dim);
+    }
+    .modal-icon.error { background: rgba(231,76,60,.12); }
+    .modal-icon.warning { background: rgba(251,191,36,.12); }
+    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .modal-msg {
+      font-size: 14px; color: var(--muted);
+      line-height: 1.65; margin-bottom: 8px;
+    }
+    .modal-highlight {
+      background: var(--green-dim);
+      border: 1px solid rgba(66,167,129,.2);
+      border-radius: 10px; padding: 12px;
+      font-size: 13px; color: var(--text);
+      margin: 12px 0;
+    }
+    .modal-counter {
+      font-size: 12px; color: var(--muted);
+      margin-top: 10px;
+    }
+    .modal-counter b { color: var(--green); }
+    .modal-btn {
+      width: 100%; padding: 14px;
+      background: var(--green); border: none;
+      border-radius: 12px; color: white;
+      font-weight: 600; cursor: pointer;
+      margin-top: 16px; font-family: inherit;
+      font-size: 15px; transition: .2s;
+    }
+    .modal-btn:hover { background: #4dbd94; }
+    .modal-btn.outline {
+      background: transparent;
+      border: 1px solid var(--green); color: var(--green);
+    }
+    .modal-btn.danger {
+      background: transparent;
+      border: 1px solid var(--red); color: var(--red);
+    }
+    .modal-btn.danger:hover { background: rgba(231,76,60,.1); }
+    .modal-btn-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .modal-btn-group .modal-btn { margin-top: 0; }
+
+    /* Spinner */
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    .spinner-lg {
+      width: 44px; height: 44px;
+      border: 3px solid rgba(66,167,129,.2);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Alternative Methods Suggestion */
+    .alternative-suggestion {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(66,167,129,.08);
+      border-radius: 12px;
+      border-left: 3px solid var(--yellow);
+    }
+    .alternative-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--yellow);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .alternative-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .alt-method-badge {
+      padding: 5px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: .2s;
+    }
+    .alt-method-badge:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    @media (max-width: 400px) {
+      body { padding: 10px 10px 60px; }
+      .method-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .item-title { font-size: 17px; }
+      .price-amount { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <div class="logo-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  </div>
+  <div class="logo-text">STORIES<span> ZONE</span></div>
+  <div class="secure-badge">🔒 Salama</div>
+</div>
+
+<!-- Payment Card -->
+<div class="payment-card">
+
+  <!-- Item Info -->
+  <div class="item-details">
+    <div class="item-badge" id="itemBadge">
+      <span id="itemTypeIcon">📖</span>
+      <span id="itemTypeLabel">Inapakia...</span>
+    </div>
+    <h1 class="item-title" id="itemTitle">—</h1>
+    <div class="item-story" id="itemStory">STORIES ZONE</div>
+    <div class="price-tag">
+      <span class="price-amount" id="itemPrice">TSh —</span>
+      <span class="price-label">malipo ya mara moja</span>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step active" id="step1">
+      <div class="step-num">1</div>
+      <div class="step-label">Njia ya Malipo</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step2">
+      <div class="step-num">2</div>
+      <div class="step-label">Namba ya Simu</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step3">
+      <div class="step-num">3</div>
+      <div class="step-label">Thibitisha</div>
+    </div>
+  </div>
+
+  <!-- Payment Body -->
+  <div class="payment-body">
+
+    <!-- Method Selection -->
+    <div class="section-label">Chagua Njia ya Malipo</div>
+    <div class="method-grid">
+      <div class="method-wrapper selected" id="wrap-mpesa">
+        <div class="method-item selected" data-method="mpesa" onclick="selectMethod('mpesa')">
+          <div class="method-logo">
+            <img src="/79e29e9355668572786efac0e0b98cbf.jpg" alt="M-Pesa"
+              onerror="this.src='https://placehold.co/48x48/252420/42a781?text=M'">
+          </div>
+          <div class="method-name">M-Pesa</div>
+        </div>
+        <div class="method-check">✓</div>
+      </div>
+
+      <div class="method-wrapper" id="wrap-airtel">
+        <div class="method-item" data-method="airtel" onclick="selectMethod('airtel')">
+          <div class="method-logo">
+            <img src="/67356e4160cbfbe604d71050bbf3526e.jpg" alt="Airtel Money"
+              onerror="this.src='https://placehold.co/48x48/252420/e74c3c?text=A'">
+          </div>
+          <div class="method-name">Airtel Money</div>
+        </div>
+        <div class="method-check">✓</div>
+      </div>
+
+      <div class="method-wrapper" id="wrap-tigo">
+        <div class="method-item" data-method="tigo" onclick="selectMethod('tigo')">
+          <div class="method-logo">
+            <img src="/09aa68fcab80b6266c8ebb5cf92885d7.jpg" alt="Tigo Pesa"
+              onerror="this.src='https://placehold.co/48x48/252420/f39c12?text=T'">
+          </div>
+          <div class="method-name">Tigo Pesa</div>
+        </div>
+        <div class="method-check">✓</div>
+      </div>
+
+      <div class="method-wrapper" id="wrap-halotel">
+        <div class="method-item" data-method="halotel" onclick="selectMethod('halotel')">
+          <div class="method-logo">
+            <img src="/be65e1470bea8715dadcb78e506d4659.jpg" alt="Halotel Pesa"
+              onerror="this.src='https://placehold.co/48x48/252420/3498db?text=H'">
+          </div>
+          <div class="method-name">Halotel Pesa</div>
+        </div>
+        <div class="method-check">✓</div>
+      </div>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="phone-group">
+      <label class="input-label" for="phoneNumber">Namba ya Simu yako</label>
+      <div class="phone-row" id="phoneRow">
+        <div class="country-code">+255</div>
+        <input
+          type="tel" id="phoneNumber"
+          placeholder="712 345 678"
+          maxlength="13"
+          autocomplete="tel"
+        />
+      </div>
+      <div class="network-pill" id="networkPill"></div>
+      <div class="hint">Ingiza namba kama: 0712345678 au 712345678</div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="section-label">Muhtasari wa Malipo</div>
+    <div class="summary-box">
+      <div class="summary-row">
+        <span class="s-label">Bidhaa</span>
+        <span class="s-value" id="summaryItem">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-label">Njia ya Malipo</span>
+        <span class="s-value" id="summaryMethod">M-Pesa</span>
+      </div>
+      <div class="summary-row">
+        <span class="s-label">Jumla ya Kulipa</span>
+        <span class="s-value" id="totalAmount">TSh —</span>
+      </div>
+    </div>
+
+    <!-- Pay Button -->
+    <button class="pay-btn" id="payBtn" onclick="processPayment()">
+      <span>💳</span>
+      <span id="payBtnText">Lipa Sasa</span>
+    </button>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="payment-footer">
+    🔒 Malipo yanashughulikiwa salama na <span>Mongike</span> · Tanzania
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+// ========== SUPABASE ==========
+const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ========== TYPE CONFIGURATION ==========
+const typeConfig = {
+  chapter: { icon: '📖', label: 'Sura ya Hadithi', badgeClass: '' },
+  audio_track: { icon: '🎵', label: 'Kipande cha Sauti', badgeClass: 'audio' },
+  audio_podcast: { icon: '🎙️', label: 'Podcast Nzima', badgeClass: 'audio' },
+  audio_episode: { icon: '🎧', label: 'Kipande cha Podcast', badgeClass: 'audio' },
+  audio_bundle: { icon: '📚', label: 'Vipande Vilivyochaguliwa', badgeClass: 'bulk' },
+  video: { icon: '🎬', label: 'Video', badgeClass: 'video' },
+  subscription: { icon: '⭐', label: 'Premium', badgeClass: '' },
+  bulk_chunk: { icon: '📚', label: 'Sura Nyingi', badgeClass: 'bulk' },
+  bulk_full: { icon: '📖', label: 'Hadithi Nzima', badgeClass: 'bulk' }
+};
+
+// ========== GLOBAL STATE ==========
+let currentUser = null;
+let currentUserDB = null;
+let itemData = null;
+let selectedMethod = 'mpesa';
+let isProcessing = false;
+let pollingTimer = null;
+let pollingSeconds = 0;
+
+// Method display names
+const methodNames = {
+  mpesa: 'M-Pesa',
+  airtel: 'Airtel Money',
+  tigo: 'Tigo Pesa',
+  halotel: 'Halotel Pesa'
+};
+
+// ========== HELPERS ==========
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'error' ? ' error' : '');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+function formatNumber(num) {
+  if (!num) return '0';
+  return num.toLocaleString('sw-TZ');
+}
+
+function redirectHome(msg) {
+  showToast(msg, 'error');
+  setTimeout(() => window.location.href = 'index.html', 2000);
+}
+
+// ========== PHONE UTILS ==========
+function normalizePhone(raw) {
+  let p = raw.replace(/\D/g, '');
+  if (p.startsWith('0')) p = '255' + p.slice(1);
+  if (!p.startsWith('255')) p = '255' + p;
+  return p;
+}
+
+function isValidPhone(raw) {
+  const p = raw.replace(/\D/g, '');
+  return p.length >= 9 && p.length <= 12;
+}
+
+function detectNetwork(raw) {
+  const p = raw.replace(/\D/g, '');
+  const local = p.startsWith('255') ? '0' + p.slice(3) : p.startsWith('0') ? p : '0' + p;
+  if (/^(06[1-9])/.test(local)) return { name: 'Halotel Pesa', code: 'halotel' };
+  if (/^(07[34][0-9]|075|076)/.test(local)) return { name: 'M-Pesa', code: 'mpesa' };
+  if (/^(07[89]|068)/.test(local)) return { name: 'Airtel Money', code: 'airtel' };
+  if (/^(07[12]|065|067|077)/.test(local)) return { name: 'Tigo Pesa', code: 'tigo' };
+  return { name: 'Mobile Money', code: 'unknown' };
+}
+
+// ========== AUTH ==========
+async function checkAuth() {
+  const { data: { user }, error } = await supabase.auth.getUser();
+  if (error || !user) {
+    showToast('Tafadhali ingia kwanza', 'error');
+    setTimeout(() => {
+      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+    }, 1500);
+    return false;
+  }
+  const { data: userData } = await supabase
+    .from('users').select('*').eq('auth_user_id', user.id).single();
+  if (!userData) { showToast('Akaunti haikupatikana', 'error'); return false; }
+  currentUser = user;
+  currentUserDB = userData;
+  return true;
+}
+
+// ========== LOAD ITEM (supports all types) ==========
+async function loadItem() {
+  const params = new URLSearchParams(window.location.search);
+  const type = params.get('type');
+  const id = params.get('id');
+  const story_id = params.get('story_id');
+  const total = params.get('total');
+  const items = params.get('items');
+  const podcast_id = params.get('podcast_id');
+  const episode_ids = params.get('episode_ids');
+  const price = params.get('price');
+  
+  // ========== AUDIO PODCAST (nzima) ==========
+  if (type === 'audio_podcast' && id) {
+    const { data: podcast, error } = await supabase
+      .from('audio_items')
+      .select('*, narrators:narrator_id (name), genres:genre_id (name)')
+      .eq('id', id)
+      .single();
+    
+    if (error || !podcast) {
+      redirectHome('Podcast haikupatikana');
+      return false;
+    }
+    
+    const amount = parseInt(price) || parseInt(podcast.podcast_full_price) || 0;
+    if (!amount) {
+      redirectHome('Bei ya podcast haijabainishwa');
+      return false;
+    }
+    
+    itemData = {
+      type: 'audio_podcast',
+      is_bulk: false,
+      id: podcast.id,
+      title: podcast.title,
+      story_title: podcast.title,
+      amount: amount,
+      podcast_data: podcast
+    };
+    return true;
+  }
+  
+  // ========== AUDIO EPISODE (kipande kimoja) ==========
+  if (type === 'audio_episode' && id && podcast_id) {
+    const { data: episode, error } = await supabase
+      .from('audio_episodes')
+      .select('*, audio_items!inner(title, cover_image_url)')
+      .eq('id', id)
+      .single();
+    
+    if (error || !episode) {
+      redirectHome('Kipande cha podcast hakikupatikana');
+      return false;
+    }
+    
+    const amount = parseInt(price) || parseInt(episode.price) || 300;
+    
+    itemData = {
+      type: 'audio_episode',
+      is_bulk: false,
+      id: episode.id,
+      podcast_id: podcast_id,
+      title: episode.title,
+      story_title: episode.audio_items?.title || 'Podcast',
+      amount: amount,
+      episode_data: episode
+    };
+    return true;
+  }
+  
+  // ========== AUDIO BUNDLE (vipande kadhaa) ==========
+  if (type === 'audio_bundle' && podcast_id && episode_ids && total) {
+    const episodeIdList = episode_ids.split(',');
+    if (episodeIdList.length < 2) {
+      redirectHome('Chagua angalau vipande 2 kwa bundle');
+      return false;
+    }
+    
+    const { data: podcast } = await supabase
+      .from('audio_items')
+      .select('title')
+      .eq('id', podcast_id)
+      .single();
+    
+    const { data: episodes } = await supabase
+      .from('audio_episodes')
+      .select('id, title, episode_number')
+      .in('id', episodeIdList);
+    
+    const podcastTitle = podcast?.title || 'Podcast';
+    const episodeTitles = episodes?.map(e => `#${e.episode_number}: ${e.title}`).join(', ') || 'Vipande vilivyochaguliwa';
+    const amount = parseInt(total);
+    
+    itemData = {
+      type: 'audio_bundle',
+      is_bulk: true,
+      bundle_type: 'audio_bundle',
+      podcast_id: podcast_id,
+      episode_ids: episodeIdList,
+      title: `Bundle - ${podcastTitle}`,
+      story_title: `Vipande ${episodeIdList.length} vya ${podcastTitle}`,
+      amount: amount,
+      item_count: episodeIdList.length,
+      episodes: episodes || []
+    };
+    return true;
+  }
+  
+  // ========== BULK PURCHASE (story chapters) ==========
+  if (type === 'bulk_chunk' || type === 'bulk_full') {
+    if (!items || !story_id || !total) {
+      redirectHome('Taarifa za malipo za bidhaa nyingi zimekosekana');
+      return false;
+    }
+    
+    let bulkItems = [];
+    try {
+      bulkItems = JSON.parse(items);
+    } catch(e) {
+      redirectHome('Taarifa za bidhaa si sahihi');
+      return false;
+    }
+    
+    const { data: story } = await supabase
+      .from('stories')
+      .select('title')
+      .eq('id', story_id)
+      .single();
+    
+    const storyTitle = story?.title || 'Hadithi';
+    const itemCount = bulkItems.length;
+    const itemLabel = type === 'bulk_full' ? 'Hadithi Nzima' : `Sura ${itemCount}`;
+    
+    itemData = {
+      type: type,
+      is_bulk: true,
+      bulk_items: bulkItems,
+      story_id: story_id,
+      title: `${itemLabel} - ${storyTitle}`,
+      story_title: storyTitle,
+      amount: parseInt(total),
+      item_count: itemCount
+    };
+    return true;
+  }
+  
+  // ========== SINGLE ITEM (chapter, audio_track, video, subscription) ==========
+  const tableMap = {
+    chapter: 'story_chapters',
+    audio_track: 'audio_items',
+    video: 'video_items',
+    subscription: 'subscriptions',
+  };
+  const table = tableMap[type];
+  if (!table) {
+    redirectHome(`Aina ya bidhaa "${type}" si sahihi`);
+    return false;
+  }
+
+  const { data: item, error } = await supabase.from(table).select('*').eq('id', id).single();
+  if (error || !item) {
+    redirectHome('Bidhaa haikupatikana');
+    return false;
+  }
+
+  let storyTitle = '';
+  let finalPrice = 0;
+  let storyPricePerChapter = null;
+  
+  if (item.story_id) {
+    const { data: story } = await supabase
+      .from('stories')
+      .select('title, price_per_chapter')
+      .eq('id', item.story_id)
+      .single();
+    if (story) {
+      storyTitle = story.title;
+      storyPricePerChapter = story.price_per_chapter;
+    }
+  }
+  
+  // Calculate price based on item type
+  if (type === 'chapter') {
+    if (item.price && item.price > 0) {
+      finalPrice = item.price;
+    } else if (storyPricePerChapter && storyPricePerChapter > 0) {
+      finalPrice = storyPricePerChapter;
+    } else {
+      finalPrice = 500;
+    }
+  } else if (type === 'audio_track') {
+    finalPrice = item.price || 300;
+  } else if (type === 'video') {
+    finalPrice = item.price || 1000;
+  } else if (type === 'subscription') {
+    finalPrice = item.price || item.amount || 5000;
+  } else {
+    finalPrice = item.price || item.amount || 500;
+  }
+
+  itemData = { 
+    ...item, 
+    type, 
+    is_bulk: false,
+    story_title: storyTitle, 
+    amount: finalPrice,
+    story_price_per_chapter: storyPricePerChapter
+  };
+  return true;
+}
+
+// ========== CHECK IF ALREADY PURCHASED ==========
+async function alreadyPurchased() {
+  if (!currentUserDB) return false;
+  
+  if (itemData.is_bulk) return false;
+  
+  let itemTypeForDb = itemData.type;
+  
+  // Handle audio_podcast, audio_episode, audio_bundle
+  if (itemData.type === 'audio_podcast') itemTypeForDb = 'audio_podcast';
+  if (itemData.type === 'audio_episode') itemTypeForDb = 'audio_episode';
+  if (itemData.type === 'audio_bundle') return false; // bundle check happens in callback
+  
+  const { data } = await supabase
+    .from('purchases')
+    .select('id')
+    .eq('user_id', currentUserDB.id)
+    .eq('item_type', itemTypeForDb)
+    .eq('item_id', itemData.id)
+    .eq('status', 'Imefanikishwa')
+    .maybeSingle();
+    
+  if (data) {
+    let redirectUrl = 'library.html';
+    if (itemData.type === 'audio_podcast' || itemData.type === 'audio_episode') {
+      redirectUrl = 'simulizi_audio.html';
+    } else if (itemData.type === 'chapter') {
+      redirectUrl = `story.html?id=${itemData.story_id}`;
+    } else if (itemData.type === 'video') {
+      redirectUrl = 'video.html';
+    }
+    showResultModal('⚠️', 'Umeshalipia!', 'Umeshainunua bidhaa hii. Tafadhali nenda kwenye maktaba yako.', 
+      false, null, redirectUrl);
+    return true;
+  }
+  return false;
+}
+
+// ========== INSERT PURCHASE RECORD ==========
+async function insertPurchaseRecord(orderId) {
+  try {
+    // Audio Bundle (vipande kadhaa)
+    if (itemData.type === 'audio_bundle' && itemData.episode_ids) {
+      const bundleInserts = itemData.episode_ids.map(epId => ({
+        user_id: currentUserDB.id,
+        item_type: 'audio_episode',
+        item_id: epId,
+        story_id: null,
+        podcast_id: itemData.podcast_id,
+        amount: Math.floor(itemData.amount / itemData.episode_ids.length),
+        payment_method: selectedMethod.toUpperCase(),
+        transaction_ref: orderId,
+        purchase_type: 'audio_bundle',
+        status: 'Imefanikishwa',
+        purchased_at: new Date().toISOString()
+      }));
+      
+      const { error } = await supabase.from('purchases').insert(bundleInserts);
+      if (error) throw error;
+      return true;
+    }
+    
+    // Audio Podcast nzima
+    if (itemData.type === 'audio_podcast') {
+      const { error } = await supabase.from('purchases').insert({
+        user_id: currentUserDB.id,
+        item_type: 'audio_podcast',
+        item_id: itemData.id,
+        story_id: null,
+        podcast_id: itemData.id,
+        amount: itemData.amount,
+        payment_method: selectedMethod.toUpperCase(),
+        transaction_ref: orderId,
+        purchase_type: 'single',
+        status: 'Imefanikishwa',
+        purchased_at: new Date().toISOString()
+      });
+      if (error) throw error;
+      return true;
+    }
+    
+    // Audio Episode (kipande kimoja)
+    if (itemData.type === 'audio_episode') {
+      const { error } = await supabase.from('purchases').insert({
+        user_id: currentUserDB.id,
+        item_type: 'audio_episode',
+        item_id: itemData.id,
+        story_id: null,
+        podcast_id: itemData.podcast_id,
+        amount: itemData.amount,
+        payment_method: selectedMethod.toUpperCase(),
+        transaction_ref: orderId,
+        purchase_type: 'single',
+        status: 'Imefanikishwa',
+        purchased_at: new Date().toISOString()
+      });
+      if (error) throw error;
+      return true;
+    }
+    
+    // Bulk purchase (story chapters)
+    if (itemData.is_bulk && itemData.bulk_items) {
+      const bulkInserts = itemData.bulk_items.map(ch => ({
+        user_id: currentUserDB.id,
+        item_type: 'chapter',
+        item_id: ch.id,
+        story_id: itemData.story_id,
+        amount: ch.price || (itemData.amount / itemData.bulk_items.length),
+        payment_method: selectedMethod.toUpperCase(),
+        transaction_ref: orderId,
+        purchase_type: itemData.type,
+        status: 'Imefanikishwa',
+        purchased_at: new Date().toISOString()
+      }));
+      
+      const { error } = await supabase.from('purchases').insert(bulkInserts);
+      if (error) throw error;
+      
+      if (itemData.type === 'bulk_full') {
+        await supabase.from('purchases').insert({
+          user_id: currentUserDB.id,
+          item_type: 'story',
+          item_id: itemData.story_id,
+          story_id: itemData.story_id,
+          amount: itemData.amount,
+          payment_method: selectedMethod.toUpperCase(),
+          transaction_ref: orderId,
+          purchase_type: 'bulk_full',
+          status: 'Imefanikishwa',
+          purchased_at: new Date().toISOString()
+        });
+      }
+      return true;
+    }
+    
+    // Single regular item
+    const { error } = await supabase.from('purchases').insert({
+      user_id: currentUserDB.id,
+      item_type: itemData.type,
+      item_id: itemData.id,
+      story_id: itemData.story_id || null,
+      amount: itemData.amount,
+      payment_method: selectedMethod.toUpperCase(),
+      transaction_ref: orderId,
+      purchase_type: 'single',
+      status: 'Imefanikishwa',
+      purchased_at: new Date().toISOString()
+    });
+    if (error) throw error;
+    return true;
+    
+  } catch (err) {
+    console.error('Purchase insert failed:', err);
+    return false;
+  }
+}
+
+// ========== RENDER ITEM DETAILS ==========
+function renderItem() {
+  if (!itemData) return;
+  
+  // Audio Podcast nzima
+  if (itemData.type === 'audio_podcast') {
+    document.getElementById('itemTypeIcon').textContent = '🎙️';
+    document.getElementById('itemTypeLabel').textContent = 'Podcast Nzima';
+    document.getElementById('itemBadge').className = 'item-badge audio';
+    document.getElementById('itemTitle').textContent = itemData.title || 'Podcast';
+    document.getElementById('itemStory').textContent = itemData.story_title || 'Podcast nzima kwa bei ya mfuko';
+    const formattedPrice = `TSh ${itemData.amount.toLocaleString()}`;
+    document.getElementById('itemPrice').textContent = formattedPrice;
+    document.getElementById('summaryItem').textContent = itemData.title;
+    document.getElementById('totalAmount').textContent = formattedPrice;
+    return;
+  }
+  
+  // Audio Episode (kipande kimoja)
+  if (itemData.type === 'audio_episode') {
+    document.getElementById('itemTypeIcon').textContent = '🎧';
+    document.getElementById('itemTypeLabel').textContent = 'Kipande cha Podcast';
+    document.getElementById('itemBadge').className = 'item-badge audio';
+    document.getElementById('itemTitle').textContent = itemData.title || 'Kipande cha Podcast';
+    document.getElementById('itemStory').textContent = `Kutoka: ${itemData.story_title}`;
+    const formattedPrice = `TSh ${itemData.amount.toLocaleString()}`;
+    document.getElementById('itemPrice').textContent = formattedPrice;
+    document.getElementById('summaryItem').textContent = itemData.title;
+    document.getElementById('totalAmount').textContent = formattedPrice;
+    return;
+  }
+  
+  // Audio Bundle
+  if (itemData.type === 'audio_bundle') {
+    document.getElementById('itemTypeIcon').textContent = '📚';
+    document.getElementById('itemTypeLabel').textContent = 'Vipande Vilivyochaguliwa';
+    document.getElementById('itemBadge').className = 'item-badge bulk';
+    document.getElementById('itemTitle').textContent = itemData.title;
+    document.getElementById('itemStory').textContent = itemData.story_title;
+    const formattedPrice = `TSh ${itemData.amount.toLocaleString()}`;
+    document.getElementById('itemPrice').textContent = formattedPrice;
+    document.getElementById('summaryItem').textContent = `${itemData.item_count} vipande vilivyochaguliwa`;
+    document.getElementById('totalAmount').textContent = formattedPrice;
+    return;
+  }
+  
+  // Bulk purchase (story chapters)
+  if (itemData.is_bulk) {
+    document.getElementById('itemTypeIcon').textContent = '📚';
+    document.getElementById('itemTypeLabel').textContent = 'Ununuzi wa Sura Nyingi';
+    document.getElementById('itemBadge').className = 'item-badge bulk';
+    document.getElementById('itemTitle').textContent = itemData.title;
+    document.getElementById('itemStory').textContent = itemData.story_title;
+    const formattedPrice = `TSh ${itemData.amount.toLocaleString()}`;
+    document.getElementById('itemPrice').textContent = formattedPrice;
+    document.getElementById('summaryItem').textContent = `${itemData.item_count} Sura`;
+    document.getElementById('totalAmount').textContent = formattedPrice;
+    return;
+  }
+  
+  // Regular single item (chapter, audio_track, video, subscription)
+  const config = typeConfig[itemData.type] || { icon: '📦', label: 'Bidhaa', badgeClass: '' };
+  
+  document.getElementById('itemTypeIcon').textContent = config.icon;
+  document.getElementById('itemTypeLabel').textContent = config.label;
+  
+  const badgeEl = document.getElementById('itemBadge');
+  badgeEl.className = 'item-badge';
+  if (config.badgeClass) badgeEl.classList.add(config.badgeClass);
+  
+  const itemTitle = itemData.title || itemData.name || 'Bidhaa';
+  document.getElementById('itemTitle').textContent = itemTitle;
+  document.getElementById('itemStory').textContent = itemData.story_title || 'STORIES ZONE';
+  
+  const formattedPrice = `TSh ${itemData.amount.toLocaleString()}`;
+  document.getElementById('itemPrice').textContent = formattedPrice;
+  document.getElementById('summaryItem').textContent = itemTitle;
+  document.getElementById('totalAmount').textContent = formattedPrice;
+}
+
+// ========== STEPS ==========
+function setStep(n) {
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById(`step${i}`);
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+  }
+}
+
+// ========== METHOD SELECT ==========
+window.selectMethod = function(method) {
+  selectedMethod = method;
+  document.querySelectorAll('.method-item').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.method-wrapper').forEach(el => el.classList.remove('selected'));
+  document.querySelector(`.method-item[data-method="${method}"]`).classList.add('selected');
+  document.getElementById(`wrap-${method}`).classList.add('selected');
+  document.getElementById('summaryMethod').textContent = methodNames[method];
+};
+
+// ========== SHOW ALTERNATIVE METHODS ==========
+function showAlternativeMethodsModal(errorType, errorMessage) {
+  const currentMethodName = methodNames[selectedMethod];
+  const otherMethods = Object.entries(methodNames).filter(([code]) => code !== selectedMethod);
+  
+  let advice = '';
+  if (errorType === 'network') {
+    advice = 'Mtandao wa ' + currentMethodName + ' unaweza kuwa na changamoto kwa sasa. Jaribu kutumia moja ya njia hizi mbadala:';
+  } else if (errorType === 'insufficient_balance') {
+    advice = 'Hakikisha una salio la kutosha kwenye akaunti yako ya ' + currentMethodName + '. Vinginevyo, jaribu njia nyingine ya malipo:';
+  } else if (errorType === 'invalid_pin') {
+    advice = 'PIN yako ya ' + currentMethodName + ' si sahihi. Hakikisha unaiingiza kwa usahihi, au jaribu njia nyingine:';
+  } else {
+    advice = 'Malipo kwa kutumia ' + currentMethodName + ' hayakufanikiwa. Jaribu kutumia njia hizi mbadala:';
+  }
+  
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-icon warning">⚠️</div>
+    <div class="modal-title">Malipo Hayakufanikiwa</div>
+    <div class="modal-msg" style="color: var(--red); margin-bottom: 12px;">${errorMessage}</div>
+    <div class="alternative-suggestion">
+      <div class="alternative-title">
+        <span>💡</span> Pendekezo
+      </div>
+      <div class="modal-msg">${advice}</div>
+      <div class="alternative-methods" id="altMethodsList">
+        ${otherMethods.map(([code, name]) => `
+          <div class="alt-method-badge" onclick="switchToMethod('${code}')">
+            🔄 Badilisha hadi ${name}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="modal-btn-group">
+      <button class="modal-btn outline" onclick="closeModalAndRetry()">Jaribu Tena</button>
+      <button class="modal-btn danger" onclick="goBackToStory()">Rudi kwenye Ukurasa</button>
+    </div>
+  `;
+}
+
+window.closeModalAndRetry = function() {
+  document.getElementById('modal').classList.remove('show');
+  resetBtn();
+};
+
+window.switchToMethod = function(methodCode) {
+  document.getElementById('modal').classList.remove('show');
+  selectMethod(methodCode);
+  resetBtn();
+  showToast(`Umebadilisha hadi ${methodNames[methodCode]}. Lipa tena.`, 'info');
+};
+
+window.goBackToStory = function() {
+  document.getElementById('modal').classList.remove('show');
+  const storyId = itemData?.story_id || new URLSearchParams(window.location.search).get('story_id');
+  if (storyId) {
+    window.location.href = `story.html?id=${storyId}`;
+  } else if (itemData?.type === 'audio_podcast' || itemData?.type === 'audio_episode') {
+    window.location.href = 'simulizi_audio.html';
+  } else if (itemData?.type === 'video') {
+    window.location.href = 'video.html';
+  } else {
+    window.location.href = 'index.html';
+  }
+};
+
+// ========== MODALS ==========
+function showProcessingModal(title, msg) {
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalContent').innerHTML = `
+    <div class="spinner-lg"></div>
+    <div class="modal-title">${title}</div>
+    <div class="modal-msg">${msg}</div>
+  `;
+}
+
+function showWaitingModal(phone, orderId) {
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-icon">📱</div>
+    <div class="modal-title">Angalia Simu Yako</div>
+    <div class="modal-msg">Ombi la malipo limetumwa kwenye:</div>
+    <div class="modal-highlight">
+      📞 <strong>${phone}</strong>
+    </div>
+    <div class="modal-msg">Ingiza PIN yako ya ${methodNames[selectedMethod]} kukamilisha malipo.</div>
+    <div class="modal-counter" id="pollingCounter">Inasubiri uthibitisho... <b>5:00</b> imebaki</div>
+  `;
+}
+
+function showResultModal(icon, title, msg, isError = false, orderId = null, redirect = null) {
+  document.getElementById('modal').classList.add('show');
+  let buttonHtml = '';
+  
+  if (redirect) {
+    buttonHtml = `<button class="modal-btn" id="modalOk">Endelea →</button>`;
+  } else if (isError) {
+    buttonHtml = `<button class="modal-btn" onclick="location.reload()">Jaribu Tena</button>`;
+  } else {
+    buttonHtml = `<button class="modal-btn" id="modalOk">Sawa</button>`;
+  }
+  
+  document.getElementById('modalContent').innerHTML = `
+    <div class="modal-icon ${isError ? 'error' : ''}">${icon}</div>
+    <div class="modal-title">${title}</div>
+    <div class="modal-msg">${msg.replace(/\n/g, '<br>')}</div>
+    ${orderId ? `<div class="modal-highlight" style="font-size: 11px;">Ref: ${orderId}</div>` : ''}
+    ${buttonHtml}
+  `;
+  
+  if (redirect && document.getElementById('modalOk')) {
+    document.getElementById('modalOk').onclick = () => {
+      document.getElementById('modal').classList.remove('show');
+      window.location.href = redirect;
+    };
+  } else if (!isError && !redirect && document.getElementById('modalOk')) {
+    document.getElementById('modalOk').onclick = () => {
+      document.getElementById('modal').classList.remove('show');
+    };
+  }
+}
+
+function resetBtn() {
+  isProcessing = false;
+  if (pollingTimer) clearInterval(pollingTimer);
+  const btn = document.getElementById('payBtn');
+  btn.innerHTML = '<span>💳</span><span id="payBtnText">Lipa Sasa</span>';
+  btn.disabled = false;
+}
+
+// ========== POLLING ==========
+function updatePollingCounter(remaining) {
+  const el = document.getElementById('pollingCounter');
+  if (el) {
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    el.innerHTML = `Inasubiri uthibitisho... <b>${mins}:${String(secs).padStart(2,'0')}</b> imebaki`;
+  }
+}
+
+function startPolling(orderId, maxSeconds = 300) {
+  pollingSeconds = 0;
+  if (pollingTimer) clearInterval(pollingTimer);
+  
+  pollingTimer = setInterval(async () => {
+    pollingSeconds += 5;
+    updatePollingCounter(maxSeconds - pollingSeconds);
+
+    if (pollingSeconds >= maxSeconds) {
+      clearInterval(pollingTimer);
+      showAlternativeMethodsModal('network', 'Malipo hayakuthibitishwa ndani ya dakika 5. Hakikisha umeingiza PIN yako kwa usahihi.');
+      resetBtn();
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase.functions.invoke('check-payment-status', {
+        body: { order_id: orderId }
+      });
+
+      if (error) return;
+
+      if (data?.status === 'completed') {
+        clearInterval(pollingTimer);
+        
+        const insertSuccess = await insertPurchaseRecord(orderId);
+        
+        if (insertSuccess) {
+          let redirectUrl = 'library.html';
+          if (itemData.type === 'audio_podcast' || itemData.type === 'audio_episode' || itemData.type === 'audio_bundle') {
+            redirectUrl = 'simulizi_audio.html';
+          } else if (itemData.type === 'chapter' || itemData.is_bulk) {
+            redirectUrl = `story.html?id=${itemData.story_id}`;
+          } else if (itemData.type === 'video') {
+            redirectUrl = 'video.html';
+          }
+          
+          showResultModal('✅', 'Malipo Yamefanikiwa!',
+            `Hongera ${currentUserDB.name || ''}! Malipo yako ya TSh ${itemData.amount.toLocaleString()} yamekubaliwa.\n\nSasa unaweza kufurahia bidhaa yako.`,
+            false, orderId, redirectUrl);
+        } else {
+          showResultModal('⚠️', 'Malipo Yamefanikiwa Lakini...',
+            `Malipo yako yamekubaliwa lakini kufungua bidhaa kumeshindikana. Tafadhali wasiliana nasi.`,
+            false, orderId, 'contact.html');
+        }
+      } else if (data?.status === 'failed') {
+        clearInterval(pollingTimer);
+        const failReason = data?.failure_reason || 'Malipo hayakukamilika. Hakikisha una salio la kutosha na PIN sahihi.';
+        showAlternativeMethodsModal('general', failReason);
+        resetBtn();
+      }
+    } catch (err) {
+      console.error('Polling error:', err);
+    }
+  }, 5000);
+}
+
+// ========== PROCESS PAYMENT ==========
+window.processPayment = async function() {
+  if (isProcessing) { showToast('Subiri, malipo yanashughulikiwa...'); return; }
+
+  const phone = document.getElementById('phoneNumber').value.trim();
+  if (!phone) { showToast('Ingiza namba ya simu', 'error'); document.getElementById('phoneNumber').focus(); return; }
+  if (!isValidPhone(phone)) { showToast('Namba si sahihi. Mfano: 0712345678', 'error'); return; }
+
+  if (!itemData.is_bulk && await alreadyPurchased()) return;
+
+  isProcessing = true;
+  setStep(3);
+  const btn = document.getElementById('payBtn');
+  btn.innerHTML = '<div class="spinner"></div><span>Inaanza...</span>';
+  btn.disabled = true;
+
+  showProcessingModal('Inaanzisha Malipo', 'Tafadhali subiri kidogo...');
+
+  const normalizedPhone = normalizePhone(phone);
+  const network = detectNetwork(phone);
+  
+  // Prepare order description
+  let orderDesc = '';
+  if (itemData.type === 'audio_podcast') {
+    orderDesc = `Podcast nzima - ${itemData.title}`;
+  } else if (itemData.type === 'audio_episode') {
+    orderDesc = `Kipande - ${itemData.title}`;
+  } else if (itemData.type === 'audio_bundle') {
+    orderDesc = `Bundle ya vipande ${itemData.item_count} - ${itemData.title}`;
+  } else if (itemData.is_bulk) {
+    orderDesc = itemData.type === 'bulk_full' ? `Hadithi nzima - ${itemData.story_title}` : `Sura ${itemData.item_count} - ${itemData.story_title}`;
+  } else {
+    orderDesc = itemData.title || 'Bidhaa';
+  }
+
+  try {
+    const { data, error } = await supabase.functions.invoke('initiate-payment', {
+      body: {
+        user_id: currentUserDB.id,
+        item_type: itemData.type,
+        item_id: itemData.is_bulk ? (itemData.story_id || itemData.podcast_id) : itemData.id,
+        item_title: orderDesc,
+        amount: itemData.amount,
+        payment_method: selectedMethod.toUpperCase(),
+        phone_number: normalizedPhone,
+        network: network.code,
+      }
+    });
+
+    if (error) throw new Error(error.message || 'Hitilafu ya seva');
+    if (!data?.success) throw new Error(data?.error || 'Malipo hayakuanzishwa');
+
+    showWaitingModal(phone, data.order_id);
+    startPolling(data.order_id);
+
+  } catch (err) {
+    console.error('Payment error:', err);
+    const errorMsg = err.message || 'Tafadhali jaribu tena';
+    let errorType = 'general';
+    if (errorMsg.toLowerCase().includes('network') || errorMsg.toLowerCase().includes('mtandao')) errorType = 'network';
+    if (errorMsg.toLowerCase().includes('balance') || errorMsg.toLowerCase().includes('salio')) errorType = 'insufficient_balance';
+    if (errorMsg.toLowerCase().includes('pin')) errorType = 'invalid_pin';
+    
+    showAlternativeMethodsModal(errorType, errorMsg);
+    resetBtn();
+  }
+};
+
+// ========== GO BACK ==========
+window.goBack = function() {
+  const params = new URLSearchParams(window.location.search);
+  const storyId = params.get('story_id') || itemData?.story_id;
+  const podcastId = params.get('podcast_id') || itemData?.podcast_id;
+  
+  if (storyId) {
+    window.location.href = `story.html?id=${storyId}`;
+  } else if (podcastId || itemData?.type === 'audio_podcast' || itemData?.type === 'audio_episode') {
+    window.location.href = 'simulizi_audio.html';
+  } else if (itemData?.type === 'video') {
+    window.location.href = 'video.html';
+  } else {
+    window.location.href = document.referrer || 'index.html';
+  }
+};
+
+// ========== PHONE INPUT HANDLERS ==========
+document.getElementById('phoneNumber').addEventListener('input', function() {
+  const val = this.value.trim();
+  const pill = document.getElementById('networkPill');
+  const row = document.getElementById('phoneRow');
+
+  if (val.length >= 9 && isValidPhone(val)) {
+    const net = detectNetwork(val);
+    pill.innerHTML = `${net.name} imegunduliwa`;
+    pill.classList.add('show');
+    row.classList.remove('error');
+    if (net.code !== 'unknown') selectMethod(net.code);
+    setStep(2);
+  } else {
+    pill.classList.remove('show');
+    if (val.length > 0 && val.length < 9) row.classList.remove('error');
+  }
+});
+
+document.getElementById('phoneNumber').addEventListener('blur', function() {
+  const row = document.getElementById('phoneRow');
+  if (this.value && !isValidPhone(this.value)) {
+    row.classList.add('error');
+    showToast('Namba si sahihi. Mfano: 0712345678', 'error');
+  } else if (this.value) {
+    row.classList.remove('error');
+    setStep(3);
+  }
+});
+
+// ========== SECURITY (prevent copy/devtools) ==========
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12') { e.preventDefault(); return false; }
+  if (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(e.key)) { e.preventDefault(); return false; }
+  if (e.ctrlKey && ['u','s','p'].includes(e.key)) { e.preventDefault(); return false; }
+  if (e.ctrlKey && e.key === 'c') {
+    if (!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) {
+      e.preventDefault();
+    }
+  }
+});
+
+// ========== INITIALIZATION ==========
+(async () => {
+  const ok = await checkAuth();
+  if (!ok) return;
+  const loaded = await loadItem();
+  if (!loaded) return;
+  renderItem();
+})();
+</script>
+</body>
+</html>

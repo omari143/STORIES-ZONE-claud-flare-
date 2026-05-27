@@ -1,0 +1,2785 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Simulizi za Sauti — STORIES ZONE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ===== CSS Variables ===== */
+
+.player-mini-time {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+.audio-list-item.playing .ali-duration {
+  color: var(--accent);
+  font-weight: 600;
+}
+.audio-duration-badge.live {
+  background: var(--primary);
+  color: #fff;
+  animation: pulseLive 1.4s ease-in-out infinite;
+}
+@keyframes pulseLive {
+  0%,100% { box-shadow: 0 0 0 0 rgba(156,37,24,0.6); }
+  50%     { box-shadow: 0 0 0 6px rgba(156,37,24,0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .audio-duration-badge.live { animation: none; }
+}
+
+:root {
+  --bg: #0f0f0e;
+  --bg-card: #141414;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-muted: #666666;
+  --primary: #9c2518;
+  --primary-hover: #b02d1f;
+  --accent: #42a781;
+  --accent-hover: #4dbd94;
+  --border: #2a2a2a;
+  --green: #25d366;
+  --yellow: #fbbf24;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-full: 9999px;
+  --player-bg: #111110;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 280px;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+img { max-width: 100%; display: block; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15,15,14,0.97);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.logo { display: flex; align-items: center; gap: 8px; }
+
+.logo-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+.logo-icon.small { width: 24px; height: 24px; }
+
+.logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+
+/* ===== Page Hero Banner ===== */
+.page-hero {
+  position: relative;
+  padding: 32px 16px 24px;
+  overflow: hidden;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 0%, rgba(156,37,24,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse at 10% 100%, rgba(66,167,129,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(156,37,24,0.2);
+  border: 1px solid rgba(156,37,24,0.4);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.page-hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.page-hero p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  max-width: 340px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.hero-stats-row {
+  display: flex;
+  gap: 20px;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat .num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.hero-stat .lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ===== Category Tabs ===== */
+.cats-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 16px 16px;
+  scroll-snap-type: x mandatory;
+}
+.cats-scroll::-webkit-scrollbar { display: none; }
+
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  scroll-snap-align: start;
+}
+
+.cat-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+/* ===== Featured Audio ===== */
+.featured-block {
+  padding: 0 16px 20px;
+}
+
+.featured-card {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  height: 200px;
+}
+
+.featured-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.featured-card:hover img { transform: scale(1.04); }
+
+.featured-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.85) 50%, transparent 100%);
+}
+
+.featured-content {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 65%;
+}
+
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+.featured-content h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.featured-content .narrator {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+}
+
+.featured-play-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  border: none;
+  cursor: pointer;
+}
+
+.featured-play-btn:hover { transform: scale(1.08); }
+.featured-play-btn svg { width: 18px; height: 18px; color: #111; margin-left: 2px; }
+
+/* ===== Section ===== */
+.section { padding: 16px 0; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-bottom: 14px;
+}
+
+.section-title { font-size: 17px; font-weight: 700; }
+.view-all { font-size: 14px; color: var(--primary); font-weight: 500; cursor: pointer; }
+
+/* ===== Audio Card (Scroll) ===== */
+.audio-scroll {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 16px 8px;
+}
+.audio-scroll::-webkit-scrollbar { display: none; }
+
+.audio-card {
+  flex-shrink: 0;
+  width: 150px;
+  cursor: pointer;
+}
+
+.audio-card-cover {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.audio-card-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.audio-card:hover .audio-card-cover img { transform: scale(1.06); }
+
+.audio-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.audio-card:hover .audio-card-overlay { opacity: 1; }
+
+.play-circle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.play-circle svg { width: 16px; height: 16px; color: #111; margin-left: 2px; }
+
+.audio-duration-badge {
+  position: absolute;
+  bottom: 7px; right: 7px;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.audio-type-badge {
+  position: absolute;
+  top: 7px; left: 7px;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.audio-type-badge.free { background: var(--accent); color: white; }
+.audio-type-badge.premium { background: var(--primary); color: white; }
+
+.audio-card h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.audio-card .genre-lbl {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.audio-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.audio-card-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.audio-card-stats span {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* ===== Audio List (Vertical) ===== */
+.audio-list { padding: 0 16px; }
+
+.audio-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.audio-list-item:hover { background: var(--bg-secondary); }
+.audio-list-item.playing { border-color: rgba(156,37,24,0.4); background: rgba(156,37,24,0.07); }
+
+.ali-cover {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.ali-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.ali-play-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.audio-list-item:hover .ali-play-overlay { opacity: 1; }
+.audio-list-item.playing .ali-play-overlay { opacity: 1; background: rgba(156,37,24,0.6); }
+
+.ali-play-overlay svg { width: 18px; height: 18px; color: white; }
+
+/* ===== Share button (list + detail) ===== */
+.ali-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: all .2s;
+  margin-top: 6px;
+}
+.ali-share-btn:hover { background: var(--accent); color:#fff; border-color: var(--accent); transform: translateY(-1px); }
+.ali-share-btn svg { width: 16px; height: 16px; }
+
+.detail-actions-row {
+  display: flex; gap: 10px; align-items: stretch;
+  margin-top: 14px;
+}
+.detail-actions-row .like-section { flex: 1; margin: 0; }
+.share-btn-detail {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  transition: all .2s;
+}
+.share-btn-detail:hover { background: var(--accent); color:#fff; border-color: var(--accent); }
+.share-btn-detail svg { width: 18px; height: 18px; }
+
+/* Share modal */
+.share-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none; align-items: center; justify-content: center;
+  z-index: 9999; padding: 20px;
+}
+.share-modal.show { display: flex; }
+.share-modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%; max-width: 420px;
+  padding: 22px;
+}
+.share-modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.share-modal-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+.share-link-row {
+  display: flex; gap: 8px; margin-bottom: 14px;
+}
+.share-link-input {
+  flex: 1; min-width: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.share-copy-btn {
+  background: var(--primary);
+  color: #fff;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13px;
+  transition: background .2s;
+}
+.share-copy-btn:hover { background: var(--primary-hover); }
+.share-copy-btn.copied { background: var(--accent); }
+.share-socials { display: flex; gap: 10px; flex-wrap: wrap; }
+.share-soc-btn {
+  flex: 1; min-width: 90px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 12px; font-weight: 600;
+  transition: all .2s;
+}
+.share-soc-btn:hover { transform: translateY(-1px); }
+.share-soc-btn.wa:hover { background: var(--green); color:#fff; border-color: var(--green); }
+.share-soc-btn.tg:hover { background: #229ED9; color:#fff; border-color:#229ED9; }
+.share-soc-btn.fb:hover { background: #1877F2; color:#fff; border-color:#1877F2; }
+.share-soc-btn.tw:hover { background: #000; color:#fff; border-color:#000; }
+.share-soc-btn svg { width: 14px; height: 14px; }
+.share-modal-close {
+  display: block; width: 100%; margin-top: 14px;
+  padding: 10px; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+.share-modal-close:hover { color: var(--text-primary); }
+
+.ali-info { flex: 1; min-width: 0; }
+
+.ali-title {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.ali-narrator {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.ali-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.ali-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.ali-duration {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.ali-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ali-badge.free { background: rgba(66,167,129,0.15); color: var(--accent); }
+.ali-badge.premium { background: rgba(156,37,24,0.15); color: var(--primary); }
+
+/* ===== Persistent Audio Player ===== */
+.audio-player {
+  position: fixed;
+  bottom: 64px;
+  left: 0; right: 0;
+  background: var(--player-bg);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  transition: transform 0.3s ease;
+}
+
+.audio-player.hidden { transform: translateY(100%); }
+
+.player-mini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.player-mini-cover {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.player-mini-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.player-mini-info { flex: 1; min-width: 0; }
+
+.player-mini-title {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-mini-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.player-mini-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.player-mini-controls button {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+.player-mini-controls button:hover { background: var(--bg-secondary); }
+
+.player-mini-controls .play-pause-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.player-mini-controls .play-pause-btn:hover { background: var(--primary-hover); }
+
+.player-mini-controls svg { width: 18px; height: 18px; }
+
+.player-mini-progress {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+
+.player-mini-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s linear;
+}
+
+.player-full {
+  padding: 20px 20px 16px;
+  display: none;
+}
+
+.player-full.visible { display: block; }
+
+.player-full-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.player-full-header-left {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.player-full-cover-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.player-full-cover {
+  width: 80px; height: 80px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.player-full-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+.player-full-info { flex: 1; }
+
+.player-full-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.player-full-narrator {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.player-full-genre {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  background: rgba(66,167,129,0.15);
+  color: var(--accent);
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.progress-block { margin-bottom: 16px; }
+
+.progress-slider {
+  position: relative;
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--primary), #e05a4a);
+  border-radius: 2px;
+  transition: width 0.3s linear;
+  pointer-events: none;
+}
+
+.progress-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  cursor: pointer;
+  transition: left 0.3s linear;
+}
+
+.progress-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ctrl-btn {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.ctrl-btn:hover { color: var(--text-primary); background: var(--bg-secondary); }
+
+.play-pause-large {
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.play-pause-large:hover {
+  background: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.play-pause-large svg { width: 26px; height: 26px; }
+
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volume-row svg { width: 16px; height: 16px; color: var(--text-muted); flex-shrink: 0; }
+
+.volume-slider {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.volume-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 75%;
+}
+
+/* ===== LIKE & COMMENT SECTION ===== */
+.interaction-section {
+  padding: 20px 16px;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+.like-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.like-btn.liked {
+  background: rgba(156,37,24,0.15);
+  color: var(--primary);
+}
+
+.like-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.like-count {
+  font-weight: 700;
+}
+
+.comment-form {
+  margin-bottom: 20px;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.comment-input-wrapper input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.comment-input-wrapper input:focus {
+  border-color: var(--primary);
+}
+
+.comment-submit {
+  padding: 12px 24px;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.comment-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.comment-user {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.comment-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.comment-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-left: 42px;
+  margin-bottom: 8px;
+}
+
+.comment-actions {
+  margin-left: 42px;
+  display: flex;
+  gap: 12px;
+}
+
+.comment-like-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.comment-like-btn:hover { color: var(--primary); }
+.comment-like-btn.liked { color: var(--primary); }
+
+.comment-reply-btn {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text-muted);
+  cursor: pointer; background: none; border: none; padding: 0;
+  transition: color .15s;
+}
+.comment-reply-btn:hover { color: var(--accent); }
+
+.reply-form {
+  margin: 8px 0 8px 42px;
+  display: flex; gap: 8px; align-items: center;
+}
+.reply-form input {
+  flex: 1; background: var(--bg-secondary);
+  border: 1px solid var(--border); color: var(--text-primary);
+  padding: 8px 12px; border-radius: var(--radius-sm);
+  font-size: 13px; outline: none;
+}
+.reply-form input:focus { border-color: var(--accent); }
+.reply-form button {
+  background: var(--accent); color: #fff;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600;
+}
+.reply-form button.cancel { background: transparent; color: var(--text-muted); }
+
+.replies-list {
+  margin-left: 42px; margin-top: 8px;
+  border-left: 2px solid var(--border); padding-left: 12px;
+}
+.reply-item { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.reply-item:last-child { border-bottom: none; }
+.reply-to {
+  font-size: 11px; color: var(--accent); margin-bottom: 2px;
+}
+
+.empty-comments {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+/* ===== Loading ===== */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toast.error {
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 32px 16px 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+.footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
+.footer-brand { font-size: 18px; font-weight: 700; }
+.footer-brand span { color: var(--primary); }
+.footer-copy { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; }
+
+.footer-links {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; font-size: 14px; color: var(--text-muted); margin-bottom: 20px;
+}
+.footer-links a:hover { color: var(--text-primary); }
+
+/* ===== Bottom Navigation ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(15,15,14,0.97);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 16px;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 14px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+
+.nav-item svg { width: 20px; height: 20px; }
+.nav-item:hover { color: var(--text-primary); }
+.nav-item.active { color: var(--primary); }
+
+.star-icon { color: var(--yellow); }
+.section-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 0 16px;
+  margin-bottom: 12px;
+  margin-top: -8px;
+}
+
+/* ===== Audio Detail Modal ===== */
+.audio-detail-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 60px 16px 100px;
+}
+
+.audio-detail-modal.show {
+  display: block;
+}
+
+.modal-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.detail-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.detail-cover {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin: 0 auto 20px;
+}
+
+.detail-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-title {
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.detail-narrator {
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.detail-genre {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.detail-description {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.detail-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+}
+
+.detail-stat {
+  text-align: center;
+}
+
+.detail-stat .value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.detail-stat .label {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ===== Podcast / Episodes (new — uses existing color tokens, no branding change) ===== */
+.podcast-actions {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 18px;
+}
+.podcast-actions .pa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  width: 100%;
+  text-align: left;
+}
+.podcast-actions .pa-btn .pa-price {
+  color: var(--accent);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.podcast-actions .pa-btn.primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.podcast-actions .pa-btn.primary .pa-price { color: #fff; }
+.podcast-actions .pa-btn.primary:hover { background: var(--primary-hover); }
+.podcast-actions .pa-btn.bundle {
+  background: var(--bg-card);
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+.podcast-actions .pa-btn.bundle:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.podcast-actions .pa-btn.owned {
+  background: var(--bg-card);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.episodes-section { margin-top: 18px; }
+.episodes-section .es-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.episodes-section .es-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.episodes-section .es-count {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.episodes-list { display: flex; flex-direction: column; gap: 8px; }
+.episode-row {
+  display: grid;
+  grid-template-columns: 24px 28px 52px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.episode-row.playing { border-color: var(--accent); }
+.episode-row .ep-check {
+  width: 16px; height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.episode-row .ep-check[disabled] { opacity: .4; cursor: not-allowed; }
+.episode-row .ep-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  width: 24px; text-align: center;
+}
+.episode-row .ep-thumb {
+  width: 52px; height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+.episode-row .ep-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.episode-row .ep-main { min-width: 0; }
+.episode-row .ep-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.episode-row .ep-meta {
+  font-size: 11px;
+  color: var(--text-secondary);
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.episode-row .ep-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.episode-row .ep-badge.free { background: rgba(66,167,129,0.15); color: var(--accent); }
+.episode-row .ep-badge.premium { background: rgba(156,37,24,0.15); color: var(--primary); }
+.episode-row .ep-badge.owned { background: var(--accent); color: #fff; }
+.episode-row .ep-actions { display: flex; gap: 6px; }
+.episode-row .ep-btn {
+  width: 34px; height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+.episode-row .ep-btn.play { background: var(--primary); color: #fff; }
+.episode-row .ep-btn.play:hover { background: var(--primary-hover); }
+.episode-row .ep-btn.buy { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; width: auto; padding: 0 10px; }
+.episode-row .ep-btn.buy:hover { background: var(--accent-hover); }
+.episode-row .ep-btn.cmt { background: var(--bg-secondary); color: var(--text-primary); font-size: 11px; width: auto; padding: 0 10px; gap: 4px; }
+.episode-row .ep-btn.cmt.active { background: var(--accent); color: #fff; }
+.episode-row .ep-btn svg { width: 14px; height: 14px; }
+
+/* Per-episode comments panel */
+.episode-wrap { display: flex; flex-direction: column; gap: 0; }
+.episode-comments {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 12px;
+  margin-top: -8px;
+  display: none;
+}
+.episode-comments.open { display: block; }
+.episode-comments .ec-form {
+  display: flex; gap: 6px; margin-bottom: 10px;
+}
+.episode-comments .ec-form input {
+  flex: 1;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+.episode-comments .ec-form button {
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 0 12px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.episode-comments .ec-list { display: flex; flex-direction: column; gap: 8px; }
+.episode-comments .ec-item {
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.episode-comments .ec-item .ec-user { font-weight: 700; color: var(--text-primary); margin-right: 6px; }
+.episode-comments .ec-item .ec-time { color: var(--text-muted); font-size: 10px; }
+.episode-comments .ec-item .ec-text { color: var(--text-secondary); margin-top: 4px; }
+.episode-comments .ec-empty { color: var(--text-muted); font-size: 12px; text-align: center; padding: 8px; }
+
+.bundle-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  font-size: 13px;
+  color: var(--text-primary);
+}
+.bundle-summary strong { color: var(--accent); font-variant-numeric: tabular-nums; }
+
+.podcast-episode-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="header-top">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <a href="index.html" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg-secondary);border-radius:var(--radius-sm);color:var(--text-primary);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </a>
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/36x36/9c2518/white?text=SZ'">
+          </div>
+          <span class="logo-text">STORIES ZONE</span>
+        </a>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg-secondary);border-radius:var(--radius-sm);color:var(--text-primary);" id="searchBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Page Hero ===== -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-label">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        Sauti
+      </div>
+      <h1>Simulizi za Sauti</h1>
+      <p>Sikiliza hadithi za kuvutia zilizosomwa na wasomaji wazuri. Kila wakati, kila mahali.</p>
+      <div class="hero-stats-row" id="heroStats">
+        <div class="hero-stat">
+          <span class="num">0</span>
+          <span class="lbl">Hadithi</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">0</span>
+          <span class="lbl">Wasomaji</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">0h</span>
+          <span class="lbl">Sauti</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Category Tabs ===== -->
+  <div class="cats-scroll" id="categoryTabs">
+    <button class="cat-tab active" data-cat="all">🎙️ Zote</button>
+  </div>
+
+  <!-- ===== Loading ===== -->
+  <div id="loadingIndicator" class="loading">
+    <div class="spinner"></div>
+    <p>Inapakia simulizi za sauti...</p>
+  </div>
+
+  <!-- ===== Main Content ===== -->
+  <div id="mainContent" style="display: none;">
+
+    <!-- ===== Featured ===== -->
+    <div class="featured-block" id="featuredBlock">
+      <div class="featured-card" id="featuredCard">
+        <img id="featuredImg" src="" alt="" />
+        <div class="featured-overlay"></div>
+        <div class="featured-content">
+          <div class="featured-badge">⭐ Inayopendwa Zaidi</div>
+          <h2 id="featuredTitle">-</h2>
+          <div class="narrator" id="featuredNarrator">-</div>
+          <button class="featured-play-btn" id="featuredPlayBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+        <div style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);color:white;font-size:11px;font-weight:600;padding:3px 9px;border-radius:4px;" id="featuredDuration"></div>
+      </div>
+    </div>
+
+    <!-- ===== Mpya Kabisa ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">🆕 Mpya Kabisa</h2>
+        <span class="view-all" onclick="filterCategory('all')">Ona Zote</span>
+      </div>
+      <div class="audio-scroll hide-scrollbar" id="newReleases">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ===== Orodha Kamili ===== -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">🎧 Orodha Kamili</h2>
+      </div>
+      <p class="section-subtitle">Bonyeza hadithi yoyote kuisikiliza mara moja</p>
+      <div class="audio-list" id="audioList">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <div class="logo-icon small">
+        <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/24x24/9c2518/white?text=SZ'">
+      </div>
+      <span class="footer-brand">STORIES ZONE</span>
+    </div>
+    <p class="footer-copy">© 2026 STORIES ZONE. Haki zote zimehifadhiwa.</p>
+    <div class="footer-links">
+      <a href="about.html">Kuhusu</a><span>·</span>
+      <a href="terms.html">Masharti</a><span>·</span>
+      <a href="privacy.html">Faragha</a><span>·</span>
+      <a href="help.html">Msaada</a>
+    </div>
+  </footer>
+
+  <!-- ===== HTML5 Audio Player ===== -->
+  <audio id="html5AudioPlayer" style="display: none;"></audio>
+
+  <div class="audio-player hidden" id="audioPlayer">
+    <div class="player-mini-progress">
+      <div class="player-mini-progress-fill" id="miniProgressFill" style="width:0%"></div>
+    </div>
+    <div class="player-mini" id="playerMiniRow" onclick="toggleFullPlayer()">
+      <div class="player-mini-cover">
+        <img id="playerMiniCover" src="" alt="" />
+      </div>
+      <div class="player-mini-info">
+        <div class="player-mini-title" id="playerMiniTitle">—</div>
+        <div class="player-mini-sub" id="playerMiniSub">-</div>
+        <div class="player-mini-time" id="playerMiniTime">0:00 / 0:00</div>
+      </div>
+      <div class="player-mini-controls" onclick="event.stopPropagation()">
+        <button class="ctrl-btn" onclick="skipBackward()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+        </button>
+        <button class="play-pause-btn" id="miniPlayPauseBtn" onclick="togglePlayPause()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="ctrl-btn" onclick="skipForward()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 13c0 3.31-2.69 6-6 6s-6-2.69-6-6 2.69-6 6-6v4l5-5-5-5v4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8h-2z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="player-full" id="playerFull">
+      <div class="player-full-header">
+        <div class="player-full-header-left">Inacheza Sasa</div>
+        <button onclick="toggleFullPlayer()" style="color:var(--text-muted);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+      </div>
+      <div class="player-full-cover-row">
+        <div class="player-full-cover">
+          <img id="playerFullCover" src="" alt="" />
+        </div>
+        <div class="player-full-info">
+          <div class="player-full-title" id="playerFullTitle">—</div>
+          <div class="player-full-narrator" id="playerFullNarrator">-</div>
+          <div class="player-full-genre" id="playerFullGenre">-</div>
+        </div>
+      </div>
+      <div class="progress-block">
+        <div class="progress-slider" id="progressSlider" onclick="seekTo(event)">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+          <div class="progress-thumb" id="progressThumb" style="left:0%"></div>
+        </div>
+        <div class="progress-times">
+          <span id="currentTime">0:00</span>
+          <span id="totalTime">0:00</span>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+        </button>
+        <button class="ctrl-btn" onclick="skipBackward()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/></svg>
+        </button>
+        <button class="play-pause-large" id="fullPlayPauseBtn" onclick="togglePlayPause()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="ctrl-btn" onclick="skipForward()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3"/></svg>
+        </button>
+        <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </button>
+      </div>
+      <div class="volume-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
+        <div class="volume-slider" id="volumeSlider" onclick="setVolume(event)">
+          <div class="volume-fill" id="volumeFill" style="width:75%"></div>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Audio Detail Modal with Like & Comment ===== -->
+  <div class="audio-detail-modal" id="audioDetailModal">
+    <div class="modal-close" onclick="closeAudioDetail()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+    <div class="detail-content" id="detailContent">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+
+  <!-- ===== Share Modal ===== -->
+  <div class="share-modal" id="shareModal" role="dialog" aria-modal="true" aria-label="Shiriki simulizi">
+    <div class="share-modal-content">
+      <div class="share-modal-title" id="shareModalTitle">Shiriki simulizi</div>
+      <div class="share-modal-sub" id="shareModalSub">Nakili kiungo na utume kwa marafiki</div>
+      <div class="share-link-row">
+        <input type="text" class="share-link-input" id="shareLinkInput" readonly>
+        <button class="share-copy-btn" id="shareCopyBtn" type="button">Nakili</button>
+      </div>
+      <div class="share-socials">
+        <a class="share-soc-btn wa" id="shareWA" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.554-5.338 11.89-11.893 11.89a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/></svg>
+          WhatsApp
+        </a>
+        <a class="share-soc-btn tg" id="shareTG" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          Telegram
+        </a>
+        <a class="share-soc-btn fb" id="shareFB" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01z"/></svg>
+          Facebook
+        </a>
+        <a class="share-soc-btn tw" id="shareTW" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X / Twitter
+        </a>
+      </div>
+      <button class="share-modal-close" type="button" onclick="closeShareModal()">Funga</button>
+    </div>
+  </div>
+
+
+  <!-- ===== Bottom Navigation ===== -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Nyumbani
+    </a>
+    <a href="browse.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Tafuta
+    </a>
+    <a href="simulizi_audio.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+      Sauti
+    </a>
+    <a href="library.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Maktaba
+    </a>
+    <a href="login.html" class="nav-item" id="authNavLink">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Akaunti
+    </a>
+  </nav>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // ===== Supabase =====
+    const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ===== Audio element =====
+    const audioElement = new Audio();
+
+    // ===== Global state =====
+    let audioItems = [];          // podcasts list (audio_items rows)
+    let genres = [];
+    let currentUser = null;
+
+    // Per-podcast episodes cache: Map<podcastId, episode[]>
+    const episodesCache = new Map();
+
+    // Active playback (now operates on episodes, not podcasts)
+    let currentPodcast = null;          // podcast row currently open / playing
+    let currentEpisodes = [];           // episodes of currentPodcast
+    let currentEpisodeIndex = -1;       // index inside currentEpisodes
+    let currentEpisode = null;
+
+    let isPlaying = false;
+    let isShuffle = false;
+    let isRepeat = false;
+    let fullPlayerOpen = false;
+    let currentCategory = 'all';
+    let currentVolume = 0.75;
+
+    // Detail-modal state
+    let currentAudioId = null;
+    let currentLiked = false;
+    let currentLikeCount = 0;
+    let currentComments = [];
+    let ownedEpisodeIds = new Set();    // ids owned for the open podcast
+    let podcastFullOwned = false;       // whether user owns full podcast bundle
+
+    // Caches
+    const likesCache = new Map();
+    const commentsCountCache = new Map();
+    const realDurations = new Map();    // for podcast cover thumbnails (uses first episode)
+    const totalDurationCache = new Map(); // audioId -> total seconds (sum of episode durations)
+    const episodeCommentsCache = new Map(); // episodeId -> comments array
+
+    // DOM
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const mainContent = document.getElementById('mainContent');
+    const toast = document.getElementById('toast');
+    const categoryTabs = document.getElementById('categoryTabs');
+    const newReleasesContainer = document.getElementById('newReleases');
+    const audioListContainer = document.getElementById('audioList');
+
+    audioElement.volume = currentVolume;
+
+    // ===== Player wiring =====
+    audioElement.addEventListener('timeupdate', () => {
+      if (audioElement.duration) {
+        const pct = (audioElement.currentTime / audioElement.duration) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+        document.getElementById('progressThumb').style.left = pct + '%';
+        document.getElementById('miniProgressFill').style.width = pct + '%';
+        const cur = formatTime(audioElement.currentTime);
+        const tot = formatTime(audioElement.duration);
+        document.getElementById('currentTime').textContent = cur;
+        document.getElementById('totalTime').textContent = tot;
+        const mt = document.getElementById('playerMiniTime');
+        if (mt) mt.textContent = `${cur} / ${tot}`;
+      }
+    });
+
+    audioElement.addEventListener('ended', () => {
+      if (isRepeat) {
+        audioElement.currentTime = 0;
+        audioElement.play();
+      } else if (currentEpisodeIndex < currentEpisodes.length - 1) {
+        playEpisodeAt(currentEpisodeIndex + 1);
+      } else {
+        isPlaying = false;
+        updatePlayIcons(false);
+      }
+    });
+
+    // ===== Helpers =====
+    function showToast(message, type = 'info') {
+      toast.textContent = message;
+      toast.className = 'toast';
+      if (type === 'success') toast.classList.add('success');
+      if (type === 'error') toast.classList.add('error');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    function formatDuration(seconds) {
+      if (!seconds) return '0:00';
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = Math.floor(seconds % 60);
+      if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      return `${m}:${String(s).padStart(2,'0')}`;
+    }
+    function formatTime(sec) {
+      if (isNaN(sec) || sec < 0) return '0:00';
+      return formatDuration(sec);
+    }
+    function formatNumber(num) {
+      if (!num) return '0';
+      if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+      if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+      return String(num);
+    }
+    function formatPrice(p) {
+      const n = Number(p || 0);
+      return n.toLocaleString('sw-TZ') + ' TZS';
+    }
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[m]));
+    }
+
+    // ===== Auth =====
+    async function checkAuthAndRedirect() {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error || !user) {
+        const currentUrl = encodeURIComponent(window.location.href);
+        window.location.href = `login.html?redirect=${currentUrl}`;
+        return false;
+      }
+      currentUser = user;
+      return true;
+    }
+    async function loadCurrentUser() {
+      if (!currentUser) return;
+      const { data: userData } = await supabase
+        .from('users').select('id, name')
+        .eq('auth_user_id', currentUser.id).single();
+      if (userData) {
+        currentUser = userData;
+        document.getElementById('authNavLink').innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>`;
+        document.getElementById('authNavLink').href = 'profile.html';
+      }
+    }
+
+    // ===== Access checks (purchases / subscription) =====
+    async function hasActiveSubscription() {
+      if (!currentUser) return false;
+      const today = new Date().toISOString().split('T')[0];
+      const { data } = await supabase
+        .from('subscriptions').select('id')
+        .eq('user_id', currentUser.id).eq('status', 'Hai')
+        .gte('end_date', today).maybeSingle();
+      return !!data;
+    }
+    async function hasPurchasedPodcastFull(audioId) {
+      if (!currentUser) return false;
+      const { data } = await supabase
+        .from('purchases').select('id')
+        .eq('user_id', currentUser.id)
+        .eq('item_type', 'audio_podcast')
+        .eq('item_id', audioId)
+        .eq('status', 'Imefanikishwa')
+        .maybeSingle();
+      return !!data;
+    }
+    async function getOwnedEpisodeIds(episodeIds) {
+      if (!currentUser || !episodeIds.length) return new Set();
+      const { data } = await supabase
+        .from('purchases').select('item_id')
+        .eq('user_id', currentUser.id)
+        .eq('item_type', 'audio_episode')
+        .eq('status', 'Imefanikishwa')
+        .in('item_id', episodeIds);
+      return new Set((data || []).map(r => r.item_id));
+    }
+
+    // ===== Likes / Comments (unchanged business logic) =====
+    async function loadLikes(audioId, forceRefresh = false) {
+      if (!forceRefresh && likesCache.has(audioId)) return likesCache.get(audioId);
+      const { count } = await supabase
+        .from('audio_likes').select('id', { count: 'exact', head: true })
+        .eq('audio_id', audioId);
+      const total = count || 0;
+      likesCache.set(audioId, total);
+      return total;
+    }
+    async function loadCommentsCount(audioId) {
+      if (commentsCountCache.has(audioId)) return commentsCountCache.get(audioId);
+      const { count } = await supabase
+        .from('audio_comments').select('id', { count: 'exact', head: true })
+        .eq('audio_id', audioId).eq('status', 'approved');
+      const total = count || 0;
+      commentsCountCache.set(audioId, total);
+      return total;
+    }
+    async function loadAllStats() {
+      await Promise.all(audioItems.flatMap(a => [loadLikes(a.id), loadCommentsCount(a.id)]));
+      await loadAllDurations();
+    }
+    // Fetch all episodes once and aggregate total duration per podcast
+    async function loadAllDurations() {
+      const ids = audioItems.map(a => a.id);
+      if (!ids.length) return;
+      const { data } = await supabase
+        .from('audio_episodes')
+        .select('audio_id,duration_seconds')
+        .in('audio_id', ids);
+      const totals = new Map();
+      (data || []).forEach(r => {
+        totals.set(r.audio_id, (totals.get(r.audio_id) || 0) + (r.duration_seconds || 0));
+      });
+      ids.forEach(id => totalDurationCache.set(id, totals.get(id) || 0));
+    }
+    async function checkUserLiked(audioId) {
+      if (!currentUser) return false;
+      const { data } = await supabase
+        .from('audio_likes').select('id')
+        .eq('audio_id', audioId).eq('user_id', currentUser.id).maybeSingle();
+      return !!data;
+    }
+    async function toggleLike(audioId) {
+      if (!currentUser) { showToast('Tafadhali ingia kwanza', 'error'); return false; }
+      const liked = await checkUserLiked(audioId);
+      if (liked) {
+        await supabase.from('audio_likes').delete()
+          .eq('audio_id', audioId).eq('user_id', currentUser.id);
+        likesCache.set(audioId, Math.max(0, (likesCache.get(audioId) || 1) - 1));
+        return false;
+      } else {
+        await supabase.from('audio_likes')
+          .insert({ audio_id: audioId, user_id: currentUser.id });
+        likesCache.set(audioId, (likesCache.get(audioId) || 0) + 1);
+        return true;
+      }
+    }
+    async function loadComments(audioId) {
+      // Podcast-level: episode_id IS NULL
+      const { data } = await supabase
+        .from('audio_comments')
+        .select(`*, users:user_id (name)`)
+        .eq('audio_id', audioId).eq('status', 'approved')
+        .is('episode_id', null)
+        .order('created_at', { ascending: true });
+      const all = data || [];
+      const map = new Map(); const roots = [];
+      all.forEach(c => { c.replies = []; map.set(c.id, c); });
+      all.forEach(c => {
+        if (c.parent_id && map.has(c.parent_id)) map.get(c.parent_id).replies.push(c);
+        else roots.push(c);
+      });
+      roots.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+      return roots;
+    }
+    async function loadEpisodeComments(episodeId) {
+      const { data } = await supabase
+        .from('audio_comments')
+        .select(`*, users:user_id (name)`)
+        .eq('episode_id', episodeId).eq('status', 'approved')
+        .order('created_at', { ascending: false });
+      const list = data || [];
+      episodeCommentsCache.set(episodeId, list);
+      return list;
+    }
+    async function addComment(audioId, content, parentId = null, episodeId = null) {
+      if (!currentUser) { showToast('Tafadhali ingia kwanza', 'error'); return false; }
+      if (!content.trim()) return false;
+      const payload = { audio_id: audioId, user_id: currentUser.id, content: content.trim(), status: 'approved' };
+      if (parentId) payload.parent_id = parentId;
+      if (episodeId) payload.episode_id = episodeId;
+      const { error } = await supabase.from('audio_comments').insert(payload).select();
+      if (error) { showToast('Imeshindwa kutuma maoni', 'error'); return false; }
+      commentsCountCache.set(audioId, (commentsCountCache.get(audioId) || 0) + 1);
+      return true;
+    }
+
+    // ===== Data loading: podcasts + episodes =====
+    async function loadAudioItems() {
+      const { data, error } = await supabase
+        .from('audio_items')
+        .select(`*, genres:genre_id (id, name, emoji), narrators:narrator_id (id, name)`)
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+      if (error) { showToast('Imeshindwa kupakia podcasts', 'error'); return []; }
+      return data || [];
+    }
+    async function loadGenres() {
+      const { data } = await supabase.from('genres').select('*').order('name');
+      return data || [];
+    }
+    async function loadEpisodesFor(audioId) {
+      if (episodesCache.has(audioId)) return episodesCache.get(audioId);
+      const { data, error } = await supabase
+        .from('audio_episodes').select('*')
+        .eq('audio_id', audioId).eq('is_published', true)
+        .order('episode_number', { ascending: true });
+      if (error) { console.error(error); return []; }
+      const eps = data || [];
+      episodesCache.set(audioId, eps);
+      return eps;
+    }
+
+    // ===== Rendering: hero / category / featured / cards / list =====
+    function updateHeroStats() {
+      const totalPodcasts = audioItems.length;
+      const uniqueNarrators = new Set(audioItems.map(a => a.narrator_id)).size;
+      const totalEpisodes = audioItems.reduce((s,a) => s + (a.total_episodes || 0), 0);
+      document.getElementById('heroStats').innerHTML = `
+        <div class="hero-stat"><span class="num">${totalPodcasts}</span><span class="lbl">Podcasts</span></div>
+        <div class="hero-stat"><span class="num">${uniqueNarrators}</span><span class="lbl">Wasomaji</span></div>
+        <div class="hero-stat"><span class="num">${totalEpisodes}</span><span class="lbl">Vipande</span></div>`;
+    }
+    function renderCategoryTabs() {
+      const uniqueGenres = ['all', ...new Set(audioItems.map(a => a.genres?.name).filter(Boolean))];
+      categoryTabs.innerHTML = uniqueGenres.map(g => `
+        <button class="cat-tab ${g === currentCategory ? 'active' : ''}" data-cat="${g}">
+          ${g === 'all' ? '🎙️ Zote' : `📖 ${g}`}
+        </button>`).join('');
+      document.querySelectorAll('.cat-tab').forEach(tab =>
+        tab.addEventListener('click', () => filterCategory(tab.dataset.cat)));
+    }
+    function filterCategory(category) {
+      currentCategory = category;
+      renderCategoryTabs();
+      const filtered = category === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === category);
+      renderAudioList(filtered);
+    }
+
+    function renderNewReleases() {
+      const latest = [...audioItems].slice(0, 5);
+      if (!latest.length) { newReleasesContainer.innerHTML = '<div class="empty-state">Hakuna podcast mpya</div>'; return; }
+      newReleasesContainer.innerHTML = latest.map(audio => {
+        const cover = audio.cover_image_url || 'https://placehold.co/300x300/1a1a1a/888888?text=No+Cover';
+        const epCount = audio.total_episodes || 0;
+        const totalSec = totalDurationCache.get(audio.id) || 0;
+        const genreName = audio.genres?.name || 'Aina';
+        const plays = formatNumber(audio.total_plays);
+        const likes = likesCache.get(audio.id) || 0;
+        const comments = commentsCountCache.get(audio.id) || 0;
+        const rating = audio.total_plays ? Math.min(5, (audio.total_plays/10000)+3.5).toFixed(1) : '4.5';
+        const idx = audioItems.findIndex(a => a.id === audio.id);
+        return `
+          <div class="audio-card" data-audio-id="${audio.id}" data-index="${idx}">
+            <div class="audio-card-cover">
+              <img src="${cover}" alt="${escapeHtml(audio.title)}" onerror="this.src='https://placehold.co/300x300/1a1a1a/888888?text=No+Cover'">
+              <div class="audio-card-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
+              <span class="audio-type-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
+              <span class="podcast-episode-badge">🎧 ${epCount} · ⏱ ${formatDuration(totalSec)}</span>
+            </div>
+            <h3>${escapeHtml(audio.title)}</h3>
+            <div class="genre-lbl">${genreName}</div>
+            <div class="audio-card-meta">
+              <div class="audio-card-stats">
+                <span>❤️ ${likes}</span><span>👁 ${plays}</span><span>💬 ${comments}</span>
+              </div>
+              <span class="star-icon">★ ${rating}</span>
+            </div>
+          </div>`;
+      }).join('');
+      document.querySelectorAll('.audio-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const i = parseInt(card.dataset.index);
+          if (!isNaN(i)) showAudioDetail(i);
+        });
+      });
+    }
+
+    function renderFeatured() {
+      if (!audioItems.length) return;
+      const featured = [...audioItems].sort((a,b)=>(b.total_plays||0)-(a.total_plays||0))[0];
+      const cover = featured.cover_image_url || 'https://placehold.co/800x400/1a1a1a/888888?text=No+Cover';
+      const narratorName = featured.narrators?.name || 'Msomaji';
+      const idx = audioItems.findIndex(a => a.id === featured.id);
+      document.getElementById('featuredImg').src = cover;
+      document.getElementById('featuredTitle').textContent = featured.title;
+      document.getElementById('featuredNarrator').textContent = `Msomaji: ${narratorName}`;
+      document.getElementById('featuredDuration').textContent = `🎧 ${featured.total_episodes || 0} · ⏱ ${formatDuration(totalDurationCache.get(featured.id) || 0)}`;
+      document.getElementById('featuredCard').onclick = () => showAudioDetail(idx);
+      document.getElementById('featuredPlayBtn').onclick = (e) => { e.stopPropagation(); showAudioDetail(idx); };
+    }
+
+    function renderAudioList(items) {
+      if (!items.length) {
+        audioListContainer.innerHTML = '<div class="empty-state" style="text-align:center;padding:40px;">Hakuna podcast katika aina hii</div>';
+        return;
+      }
+      audioListContainer.innerHTML = items.map(audio => {
+        const originalIndex = audioItems.findIndex(a => a.id === audio.id);
+        const cover = audio.cover_image_url || 'https://placehold.co/100x100/1a1a1a/888888?text=No+Cover';
+        const genreName = audio.genres?.name || 'Aina';
+        const narratorName = audio.narrators?.name || 'Msomaji';
+        const plays = formatNumber(audio.total_plays);
+        const likes = likesCache.get(audio.id) || 0;
+        const comments = commentsCountCache.get(audio.id) || 0;
+        const epCount = audio.total_episodes || 0;
+        return `
+          <div class="audio-list-item" data-audio-id="${audio.id}" data-index="${originalIndex}">
+            <div class="ali-cover">
+              <img src="${cover}" alt="${escapeHtml(audio.title)}" onerror="this.src='https://placehold.co/100x100/1a1a1a/888888?text=No+Cover'">
+              <div class="ali-play-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="ali-info">
+              <div class="ali-title">${escapeHtml(audio.title)}</div>
+              <div class="ali-narrator">${escapeHtml(narratorName)} · ${genreName}</div>
+              <div class="ali-meta">
+                <span>❤️ ${likes}</span><span>👁 ${plays}</span><span>💬 ${comments}</span>
+              </div>
+            </div>
+            <div class="ali-right">
+              <span class="ali-duration">🎧 ${epCount} · ⏱ ${formatDuration(totalDurationCache.get(audio.id) || 0)}</span>
+              <span class="ali-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
+              <button class="ali-share-btn" data-share-id="${audio.id}" title="Shiriki" aria-label="Shiriki podcast">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+      document.querySelectorAll('.audio-list-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (e.target.closest('.ali-share-btn')) return;
+          const i = parseInt(item.dataset.index);
+          if (!isNaN(i)) showAudioDetail(i);
+        });
+      });
+      document.querySelectorAll('.ali-share-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.shareId;
+          const audio = audioItems.find(a => String(a.id) === String(id));
+          if (audio) openShareModal(audio);
+        });
+      });
+    }
+
+    // ===== Detail modal (Podcast view with episodes) =====
+    async function showAudioDetail(index) {
+      const audio = audioItems[index];
+      if (!audio) return;
+      currentAudioId = audio.id;
+
+      // Load episodes + likes/comments + ownership in parallel
+      const [episodes, likeCount, userLiked, comments, fullOwned, premiumActive] = await Promise.all([
+        loadEpisodesFor(audio.id),
+        loadLikes(audio.id),
+        checkUserLiked(audio.id),
+        loadComments(audio.id),
+        hasPurchasedPodcastFull(audio.id),
+        hasActiveSubscription(),
+      ]);
+
+      const episodeIds = episodes.map(e => e.id);
+      const owned = (fullOwned || premiumActive)
+        ? new Set(episodeIds)
+        : await getOwnedEpisodeIds(episodeIds);
+
+      currentPodcast = audio;
+      currentEpisodes = episodes;
+      currentLikeCount = likeCount;
+      currentLiked = userLiked;
+      currentComments = comments;
+      ownedEpisodeIds = owned;
+      podcastFullOwned = fullOwned || premiumActive;
+
+      const cover = audio.cover_image_url || 'https://placehold.co/300x300/1a1a1a/888888?text=No+Cover';
+      const narratorName = audio.narrators?.name || 'Msomaji';
+      const genreName = audio.genres?.name || 'Aina';
+      const totalSeconds = episodes.reduce((s,e)=>s+(e.duration_seconds||0),0);
+      const plays = formatNumber(audio.total_plays);
+      const podcastFullPrice = Number(audio.podcast_full_price || 0);
+
+      const detailHTML = `
+        <div class="detail-cover">
+          <img src="${cover}" alt="${escapeHtml(audio.title)}" onerror="this.src='https://placehold.co/300x300/1a1a1a/888888?text=No+Cover'">
+        </div>
+        <div class="detail-title">${escapeHtml(audio.title)}</div>
+        <div class="detail-narrator">🎙️ ${escapeHtml(narratorName)}</div>
+        <div class="detail-genre">📖 ${genreName} · 🎧 ${episodes.length} vipande</div>
+        <div class="detail-description">${escapeHtml(audio.description || 'Hakuna maelezo ya podcast hii.')}</div>
+        <div class="detail-stats">
+          <div class="detail-stat"><div class="value">${formatDuration(totalSeconds)}</div><div class="label">Muda</div></div>
+          <div class="detail-stat"><div class="value">${episodes.length}</div><div class="label">Vipande</div></div>
+          <div class="detail-stat"><div class="value">${likeCount}</div><div class="label">Likes</div></div>
+          <div class="detail-stat"><div class="value">${plays}</div><div class="label">Marudio</div></div>
+        </div>
+
+        <!-- Podcast purchase actions -->
+        <div class="podcast-actions">
+          ${podcastFullOwned
+            ? `<button class="pa-btn owned" disabled>
+                 <span>✅ Una ufikiaji wa podcast nzima</span>
+                 <span class="pa-price">${premiumActive ? 'Premium' : 'Imenunuliwa'}</span>
+               </button>`
+            : (podcastFullPrice > 0
+                ? `<button class="pa-btn primary" id="buyFullBtn">
+                     <span>🎁 Nunua Podcast Nzima</span>
+                     <span class="pa-price">${formatPrice(podcastFullPrice)}</span>
+                   </button>`
+                : '')}
+          <button class="pa-btn bundle" id="buyBundleBtn" disabled>
+            <span>🛒 Nunua Vipande Vilivyochaguliwa (<span id="bundleCount">0</span>)</span>
+            <span class="pa-price" id="bundlePrice">0 TZS</span>
+          </button>
+        </div>
+
+        <!-- Episodes list -->
+        <div class="episodes-section">
+          <div class="es-header">
+            <div class="es-title">Vipande vya Podcast</div>
+            <div class="es-count">${episodes.length} vipande</div>
+          </div>
+          <div class="episodes-list" id="episodesList">
+            ${renderEpisodesList(episodes)}
+          </div>
+        </div>
+
+        <!-- Like + Share -->
+        <div class="detail-actions-row" style="margin-top:18px;">
+          <div class="like-section">
+            <button class="like-btn ${currentLiked ? 'liked' : ''}" id="likeBtn">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              <span class="like-count" id="likeCount">${likeCount}</span>
+              <span>${currentLiked ? 'Umeweka Like' : 'Weka Like'}</span>
+            </button>
+          </div>
+          <button class="share-btn-detail" id="shareBtnDetail" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            Shiriki
+          </button>
+        </div>
+
+        <!-- Comments -->
+        <div class="comment-form">
+          <div class="comment-input-wrapper">
+            <input type="text" id="commentInput" placeholder="Andika maoni yako hapa..." maxlength="500">
+            <button class="comment-submit" id="submitCommentBtn">Tuma</button>
+          </div>
+        </div>
+        <div class="comments-list" id="commentsList">
+          ${renderCommentsList(comments)}
+        </div>
+      `;
+      document.getElementById('detailContent').innerHTML = detailHTML;
+      document.getElementById('audioDetailModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      bindDetailEvents(audio);
+    }
+
+    function renderEpisodesList(episodes) {
+      if (!episodes.length) {
+        return '<div class="empty-state" style="padding:18px;text-align:center;">Hakuna vipande bado.</div>';
+      }
+      const fallback = currentPodcast?.cover_image_url || 'https://placehold.co/100x100/1a1a1a/888888?text=No+Cover';
+      return episodes.map(ep => {
+        const owned = ownedEpisodeIds.has(ep.id) || podcastFullOwned;
+        const canPlay = ep.is_free || owned;
+        const badge = owned
+          ? '<span class="ep-badge owned">Umemiliki</span>'
+          : (ep.is_free ? '<span class="ep-badge free">Bure</span>'
+                       : '<span class="ep-badge premium">Premium</span>');
+        const checkDisabled = (ep.is_free || owned) ? 'disabled' : '';
+        const price = Number(ep.price || 0);
+        const playing = currentEpisode && currentEpisode.id === ep.id ? 'playing' : '';
+        const thumb = ep.image_url || ep.cover_image_url || fallback;
+        return `
+          <div class="episode-wrap">
+            <div class="episode-row ${playing}" data-ep-id="${ep.id}">
+              <input type="checkbox" class="ep-check" data-ep-id="${ep.id}" data-price="${price}" ${checkDisabled}>
+              <div class="ep-num">#${ep.episode_number}</div>
+              <div class="ep-thumb"><img src="${thumb}" alt="${escapeHtml(ep.title)}" onerror="this.src='${fallback}'"></div>
+              <div class="ep-main">
+                <div class="ep-title">${escapeHtml(ep.title)}</div>
+                <div class="ep-meta">
+                  <span>⏱ ${formatDuration(ep.duration_seconds)}</span>
+                  ${badge}
+                  ${!owned && !ep.is_free ? `<span>· ${formatPrice(price)}</span>` : ''}
+                </div>
+              </div>
+              <div class="ep-actions">
+                ${canPlay
+                  ? `<button class="ep-btn play" data-play-ep="${ep.id}" title="Sikiliza">
+                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                     </button>`
+                  : `<button class="ep-btn buy" data-buy-ep="${ep.id}" data-price="${price}">Nunua</button>`}
+                <button class="ep-btn cmt" data-toggle-cmt="${ep.id}" title="Maoni">💬</button>
+              </div>
+            </div>
+            <div class="episode-comments" id="epc-${ep.id}" data-ep-id="${ep.id}"></div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderEpisodeCommentsPanel(epId, list) {
+      const items = (list || []).map(c => {
+        const name = escapeHtml(c.users?.name || 'Mtumiaji');
+        return `
+          <div class="ec-item">
+            <span class="ec-user">${name}</span>
+            <span class="ec-time">${formatDate(c.created_at)}</span>
+            <div class="ec-text">${escapeHtml(c.content)}</div>
+          </div>`;
+      }).join('');
+      const listHtml = (list && list.length)
+        ? `<div class="ec-list">${items}</div>`
+        : '<div class="ec-empty">Hakuna maoni kwenye kipande hiki bado.</div>';
+      return `
+        <form class="ec-form" data-ep-form="${epId}">
+          <input type="text" placeholder="Andika maoni kwenye kipande hiki..." maxlength="500" required>
+          <button type="submit">Tuma</button>
+        </form>
+        ${listHtml}`;
+    }
+
+
+    function recomputeBundleSummary() {
+      const checks = document.querySelectorAll('#episodesList .ep-check:checked');
+      let total = 0;
+      checks.forEach(c => total += Number(c.dataset.price || 0));
+      const btn = document.getElementById('buyBundleBtn');
+      const cnt = document.getElementById('bundleCount');
+      const prc = document.getElementById('bundlePrice');
+      if (cnt) cnt.textContent = String(checks.length);
+      if (prc) prc.textContent = formatPrice(total);
+      if (btn) btn.disabled = checks.length < 2;
+    }
+
+    function bindDetailEvents(audio) {
+      // Episode play / buy / checkbox
+      const listEl = document.getElementById('episodesList');
+      listEl?.addEventListener('change', (e) => {
+        if (e.target.classList.contains('ep-check')) recomputeBundleSummary();
+      });
+      listEl?.addEventListener('click', async (e) => {
+        const playBtn = e.target.closest('[data-play-ep]');
+        if (playBtn) {
+          const epId = playBtn.dataset.playEp;
+          const idx = currentEpisodes.findIndex(x => x.id === epId);
+          if (idx >= 0) { closeAudioDetail(); playEpisodeAt(idx); }
+          return;
+        }
+        const buyBtn = e.target.closest('[data-buy-ep]');
+        if (buyBtn) {
+          const epId = buyBtn.dataset.buyEp;
+          const price = buyBtn.dataset.price;
+          window.location.href = `payment.html?type=audio_episode&id=${epId}&podcast_id=${audio.id}&price=${price}`;
+          return;
+        }
+        const cmtBtn = e.target.closest('[data-toggle-cmt]');
+        if (cmtBtn) {
+          const epId = cmtBtn.dataset.toggleCmt;
+          const panel = document.getElementById(`epc-${epId}`);
+          if (!panel) return;
+          const isOpen = panel.classList.contains('open');
+          if (isOpen) {
+            panel.classList.remove('open');
+            cmtBtn.classList.remove('active');
+          } else {
+            panel.classList.add('open');
+            cmtBtn.classList.add('active');
+            panel.innerHTML = '<div class="ec-empty">Inapakia maoni...</div>';
+            const list = await loadEpisodeComments(epId);
+            panel.innerHTML = renderEpisodeCommentsPanel(epId, list);
+          }
+          return;
+        }
+      });
+
+      // Per-episode comment submit
+      listEl?.addEventListener('submit', async (e) => {
+        const form = e.target.closest('[data-ep-form]');
+        if (!form) return;
+        e.preventDefault();
+        const epId = form.dataset.epForm;
+        const input = form.querySelector('input');
+        const content = input.value.trim();
+        if (!content) return;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true; submitBtn.textContent = '...';
+        const ok = await addComment(audio.id, content, null, epId);
+        if (ok) {
+          input.value = '';
+          const list = await loadEpisodeComments(epId);
+          const panel = document.getElementById(`epc-${epId}`);
+          if (panel) panel.innerHTML = renderEpisodeCommentsPanel(epId, list);
+          commentsCountCache.set(audio.id, await loadCommentsCount(audio.id));
+          renderNewReleases();
+          renderAudioList(currentCategory === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === currentCategory));
+          showToast('Maoni yametumwa!', 'success');
+        } else {
+          submitBtn.disabled = false; submitBtn.textContent = 'Tuma';
+        }
+      });
+
+      // Buy full podcast
+      document.getElementById('buyFullBtn')?.addEventListener('click', () => {
+        const price = Number(audio.podcast_full_price || 0);
+        window.location.href = `payment.html?type=audio_podcast&id=${audio.id}&price=${price}`;
+      });
+
+      // Buy selected bundle
+      document.getElementById('buyBundleBtn')?.addEventListener('click', () => {
+        const checks = document.querySelectorAll('#episodesList .ep-check:checked');
+        if (checks.length < 2) { showToast('Chagua angalau vipande 2 kwa bundle', 'error'); return; }
+        const ids = [...checks].map(c => c.dataset.epId).join(',');
+        let total = 0; checks.forEach(c => total += Number(c.dataset.price || 0));
+        window.location.href = `payment.html?type=audio_bundle&podcast_id=${audio.id}&episode_ids=${ids}&price=${total}`;
+      });
+
+      // Like
+      document.getElementById('likeBtn')?.addEventListener('click', async () => {
+        const newLiked = await toggleLike(audio.id);
+        currentLiked = newLiked;
+        const newCount = await loadLikes(audio.id, true);
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCountSpan = document.getElementById('likeCount');
+        if (likeBtn) {
+          likeBtn.classList.toggle('liked', newLiked);
+          likeBtn.querySelector('span:last-child').textContent = newLiked ? 'Umeweka Like' : 'Weka Like';
+        }
+        if (likeCountSpan) likeCountSpan.textContent = newCount;
+        likesCache.set(audio.id, newCount);
+        renderNewReleases();
+        renderAudioList(currentCategory === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === currentCategory));
+      });
+
+      // Comment submit
+      document.getElementById('submitCommentBtn')?.addEventListener('click', async () => {
+        const input = document.getElementById('commentInput');
+        const content = input.value.trim();
+        if (!content) { showToast('Andika maoni yako kwanza', 'error'); return; }
+        const ok = await addComment(audio.id, content);
+        if (ok) {
+          input.value = '';
+          const newComments = await loadComments(audio.id);
+          currentComments = newComments;
+          document.getElementById('commentsList').innerHTML = renderCommentsList(newComments);
+          commentsCountCache.set(audio.id, await loadCommentsCount(audio.id));
+          renderNewReleases();
+          renderAudioList(currentCategory === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === currentCategory));
+          showToast('Maoni yametumwa!', 'success');
+        }
+      });
+
+      // Replies
+      const commentsListEl = document.getElementById('commentsList');
+      commentsListEl?.addEventListener('click', (e) => {
+        const replyBtn = e.target.closest('.comment-reply-btn');
+        if (replyBtn) {
+          const parentId = replyBtn.dataset.replyTo;
+          const replyName = replyBtn.dataset.replyName || 'Mtumiaji';
+          const slot = commentsListEl.querySelector(`.reply-form-slot[data-slot-for="${parentId}"]`);
+          if (!slot) return;
+          if (slot.querySelector('.reply-form')) { slot.innerHTML = ''; return; }
+          commentsListEl.querySelectorAll('.reply-form-slot').forEach(s => s.innerHTML = '');
+          slot.innerHTML = `
+            <form class="reply-form" data-parent-id="${parentId}">
+              <input type="text" placeholder="Jibu kwa ${escapeHtml(replyName)}..." maxlength="500" required />
+              <button type="submit">Tuma</button>
+              <button type="button" class="cancel">Ghairi</button>
+            </form>`;
+          slot.querySelector('input').focus();
+          return;
+        }
+        const cancelBtn = e.target.closest('.reply-form .cancel');
+        if (cancelBtn) cancelBtn.closest('.reply-form-slot').innerHTML = '';
+      });
+      commentsListEl?.addEventListener('submit', async (e) => {
+        const form = e.target.closest('.reply-form');
+        if (!form) return;
+        e.preventDefault();
+        const parentId = form.dataset.parentId;
+        const input = form.querySelector('input');
+        const content = input.value.trim();
+        if (!content) return;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true; submitBtn.textContent = '...';
+        const ok = await addComment(audio.id, content, parentId);
+        if (ok) {
+          const newComments = await loadComments(audio.id);
+          commentsListEl.innerHTML = renderCommentsList(newComments);
+          commentsCountCache.set(audio.id, await loadCommentsCount(audio.id));
+          showToast('Jibu lako limetumwa!', 'success');
+        } else {
+          submitBtn.disabled = false; submitBtn.textContent = 'Tuma';
+        }
+      });
+
+      document.getElementById('shareBtnDetail')?.addEventListener('click', () => openShareModal(audio));
+    }
+
+    // ===== Comments rendering =====
+    function renderCommentItem(comment, isReply = false) {
+      const name = escapeHtml(comment.users?.name || 'Mtumiaji');
+      const initial = (comment.users?.name || 'U')[0].toUpperCase();
+      const replies = comment.replies || [];
+      return `
+        <div class="${isReply ? 'reply-item' : 'comment-item'}" data-comment-id="${comment.id}">
+          <div class="comment-header">
+            <div class="comment-avatar">${initial}</div>
+            <div class="comment-user">${name}</div>
+            <div class="comment-time">${formatDate(comment.created_at)}</div>
+          </div>
+          <div class="comment-text">${escapeHtml(comment.content)}</div>
+          <div class="comment-actions">
+            <button class="comment-reply-btn" data-reply-to="${comment.id}" data-reply-name="${name}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+              Jibu
+            </button>
+          </div>
+          <div class="reply-form-slot" data-slot-for="${comment.id}"></div>
+          ${replies.length ? `<div class="replies-list">${replies.map(r => renderCommentItem(r, true)).join('')}</div>` : ''}
+        </div>`;
+    }
+    function renderCommentsList(comments) {
+      if (!comments || !comments.length) return '<div class="empty-comments">Hakuna maoni bado. Kuwa wa kwanza kutoa maoni!</div>';
+      return comments.map(c => renderCommentItem(c, false)).join('');
+    }
+    function formatDate(dateString) {
+      if (!dateString) return 'hivi karibuni';
+      const date = new Date(dateString); const now = new Date();
+      const diff = Math.floor((now - date) / 1000 / 60);
+      if (diff < 1) return 'sasa hivi';
+      if (diff < 60) return `${diff} dakika iliyopita`;
+      if (diff < 1440) return `${Math.floor(diff / 60)} saa iliyopita`;
+      return date.toLocaleDateString('sw');
+    }
+
+    function closeAudioDetail() {
+      document.getElementById('audioDetailModal').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    // ===== Share =====
+    const SHARE_BASE_URL = 'https://storieszone.site';
+    function buildShareUrl(audioId) {
+      const path = (window.location.pathname && window.location.pathname !== '/') ? window.location.pathname : '/simulizi_audio.html';
+      const url = new URL(path, SHARE_BASE_URL);
+      url.searchParams.set('story', audioId);
+      return url.toString();
+    }
+    function openShareModal(audio) {
+      const link = buildShareUrl(audio.id);
+      const title = audio.title || 'Podcast';
+      const text = `Sikiliza podcast "${title}" kwenye STORIES ZONE`;
+      const modal = document.getElementById('shareModal');
+      const input = document.getElementById('shareLinkInput');
+      const titleEl = document.getElementById('shareModalTitle');
+      const copyBtn = document.getElementById('shareCopyBtn');
+      titleEl.textContent = `Shiriki: ${title}`;
+      input.value = link;
+      document.getElementById('shareWA').href = `https://wa.me/?text=${encodeURIComponent(text + ' ' + link)}`;
+      document.getElementById('shareTG').href = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+      document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+      document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+      copyBtn.textContent = 'Nakili'; copyBtn.classList.remove('copied');
+      copyBtn.onclick = async () => {
+        try {
+          if (navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(link);
+          else { input.removeAttribute('readonly'); input.select(); document.execCommand('copy'); input.setAttribute('readonly',''); input.blur(); }
+          copyBtn.textContent = 'Imenakiliwa ✓'; copyBtn.classList.add('copied');
+          showToast('Kiungo kimenakiliwa!', 'success');
+          setTimeout(() => { copyBtn.textContent = 'Nakili'; copyBtn.classList.remove('copied'); }, 2000);
+        } catch { showToast('Imeshindwa kunakili.', 'error'); }
+      };
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => { try { input.select(); } catch(e){} }, 50);
+    }
+    function closeShareModal() {
+      const modal = document.getElementById('shareModal');
+      if (modal) modal.classList.remove('show');
+      if (!document.getElementById('audioDetailModal')?.classList.contains('show')) document.body.style.overflow = '';
+    }
+    document.getElementById('shareModal')?.addEventListener('click', (e) => { if (e.target.id === 'shareModal') closeShareModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeShareModal(); });
+
+    // ===== Playback =====
+    async function playEpisodeAt(index) {
+      if (index < 0 || index >= currentEpisodes.length) return;
+      const ep = currentEpisodes[index];
+      if (!currentPodcast) return;
+
+      // Access check
+      if (!ep.is_free) {
+        const owned = ownedEpisodeIds.has(ep.id) || podcastFullOwned;
+        if (!owned) {
+          // Re-check live (in case user just paid)
+          const [fullOwned, premiumActive] = await Promise.all([
+            hasPurchasedPodcastFull(currentPodcast.id),
+            hasActiveSubscription(),
+          ]);
+          if (fullOwned || premiumActive) {
+            podcastFullOwned = true;
+          } else {
+            const owns = await getOwnedEpisodeIds([ep.id]);
+            if (!owns.has(ep.id)) {
+              showToast('Unahitaji kununua kipande hiki', 'error');
+              setTimeout(() => {
+                window.location.href = `payment.html?type=audio_episode&id=${ep.id}&podcast_id=${currentPodcast.id}&price=${ep.price || 0}`;
+              }, 1200);
+              return;
+            }
+            ownedEpisodeIds.add(ep.id);
+          }
+        }
+      }
+
+      currentEpisode = ep;
+      currentEpisodeIndex = index;
+
+      const cover = currentPodcast.cover_image_url || 'https://placehold.co/300x300/1a1a1a/888888?text=No+Cover';
+      const narratorName = currentPodcast.narrators?.name || 'Msomaji';
+      const genreName = currentPodcast.genres?.name || 'Aina';
+      const subtitle = `${currentPodcast.title} · Kipande #${ep.episode_number}`;
+
+      document.getElementById('playerMiniCover').src = cover;
+      document.getElementById('playerMiniTitle').textContent = ep.title;
+      document.getElementById('playerMiniSub').textContent = subtitle;
+      document.getElementById('playerFullCover').src = cover;
+      document.getElementById('playerFullTitle').textContent = ep.title;
+      document.getElementById('playerFullNarrator').textContent = `Msomaji: ${narratorName}`;
+      document.getElementById('playerFullGenre').textContent = `${genreName} · ${currentPodcast.title}`;
+
+      if (ep.audio_file_url) {
+        audioElement.src = ep.audio_file_url;
+        audioElement.load();
+        audioElement.play().then(() => {
+          isPlaying = true;
+          updatePlayIcons(true);
+          document.getElementById('audioPlayer').classList.remove('hidden');
+        }).catch(err => {
+          console.error('Playback error:', err);
+          showToast('Imeshindwa kucheza sauti', 'error');
+        });
+      }
+
+      await supabase.from('audio_items')
+        .update({ total_plays: (currentPodcast.total_plays || 0) + 1 })
+        .eq('id', currentPodcast.id);
+    }
+
+    function togglePlayPause() {
+      if (!currentEpisode) return;
+      if (isPlaying) { audioElement.pause(); isPlaying = false; updatePlayIcons(false); }
+      else { audioElement.play(); isPlaying = true; updatePlayIcons(true); }
+    }
+    function updatePlayIcons(playing) {
+      const pauseIcon = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+      const playIcon = `<path d="M8 5v14l11-7z"/>`;
+      document.getElementById('miniPlayPauseBtn').innerHTML = playing ? `<svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">${pauseIcon}</svg>` : `<svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;">${playIcon}</svg>`;
+      document.getElementById('fullPlayPauseBtn').innerHTML = playing ? `<svg viewBox="0 0 24 24" fill="currentColor">${pauseIcon}</svg>` : `<svg viewBox="0 0 24 24" fill="currentColor">${playIcon}</svg>`;
+    }
+    function seekTo(e) {
+      if (!currentEpisode || !audioElement.duration) return;
+      const rect = document.getElementById('progressSlider').getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audioElement.currentTime = pct * audioElement.duration;
+    }
+    function skipForward() { if (currentEpisode) audioElement.currentTime = Math.min(audioElement.duration || 0, audioElement.currentTime + 15); }
+    function skipBackward() { if (currentEpisode) audioElement.currentTime = Math.max(0, audioElement.currentTime - 15); }
+    function setVolume(e) {
+      const rect = document.getElementById('volumeSlider').getBoundingClientRect();
+      currentVolume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audioElement.volume = currentVolume;
+      document.getElementById('volumeFill').style.width = (currentVolume * 100) + '%';
+    }
+    function toggleShuffle() { isShuffle = !isShuffle; document.getElementById('shuffleBtn').style.color = isShuffle ? 'var(--accent)' : ''; }
+    function toggleRepeat() { isRepeat = !isRepeat; document.getElementById('repeatBtn').style.color = isRepeat ? 'var(--primary)' : ''; }
+    function toggleFullPlayer() { fullPlayerOpen = !fullPlayerOpen; document.getElementById('playerFull').classList.toggle('visible', fullPlayerOpen); }
+
+    // ===== Globals (used by inline onclick) =====
+    window.togglePlayPause = togglePlayPause;
+    window.skipForward = skipForward;
+    window.skipBackward = skipBackward;
+    window.seekTo = seekTo;
+    window.setVolume = setVolume;
+    window.toggleShuffle = toggleShuffle;
+    window.toggleRepeat = toggleRepeat;
+    window.toggleFullPlayer = toggleFullPlayer;
+    window.filterCategory = filterCategory;
+    window.closeAudioDetail = closeAudioDetail;
+    window.closeShareModal = closeShareModal;
+
+    // ===== Init =====
+    async function init() {
+      const ok = await checkAuthAndRedirect();
+      if (!ok) return;
+      await loadCurrentUser();
+
+      loadingIndicator.style.display = 'block';
+      const [audios, genreList] = await Promise.all([loadAudioItems(), loadGenres()]);
+      audioItems = audios; genres = genreList;
+
+      if (!audioItems.length) {
+        loadingIndicator.innerHTML = '<div class="empty-state">Hakuna podcast bado. Hakikisha umeongeza kwenye admin panel.</div>';
+        return;
+      }
+      await loadAllStats();
+      updateHeroStats();
+      renderCategoryTabs();
+      renderFeatured();
+      renderNewReleases();
+      renderAudioList(audioItems);
+      loadingIndicator.style.display = 'none';
+      mainContent.style.display = 'block';
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const storyId = params.get('story');
+        if (storyId) {
+          const idx = audioItems.findIndex(a => String(a.id) === String(storyId));
+          if (idx >= 0) setTimeout(() => showAudioDetail(idx), 200);
+        }
+      } catch (e) { /* noop */ }
+    }
+
+    document.getElementById('searchBtn')?.addEventListener('click', () => window.location.href = 'browse.html?type=audio');
+    init();
+  </script>
+</body>
+</html>

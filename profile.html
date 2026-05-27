@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>STORIES ZONE | Akaunti Yangu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #0f0f0e;
+      color: #e8e8e8;
+      line-height: 1.5;
+      padding-bottom: 80px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* CSS variables */
+    :root {
+      --bg: #0f0f0e;
+      --bg-card: #141414;
+      --bg-secondary: #1a1a1a;
+      --text-primary: #e8e8e8;
+      --text-secondary: #888888;
+      --text-muted: #666666;
+      --primary: #9c2518;
+      --primary-hover: #b02d1f;
+      --accent: #42a781;
+      --accent-hover: #4dbd94;
+      --border: #2a2a2a;
+      --green: #25d366;
+      --yellow: #fbbf24;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-full: 9999px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* layout */
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 0 20px 0;
+    }
+
+    /* header */
+    .profile-header {
+      background: rgba(15, 15, 14, 0.96);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: var(--bg-card);
+    }
+
+    .profile-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    /* logo in header */
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-right: 8px;
+    }
+
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* user info card */
+    .user-card {
+      background: var(--bg-card);
+      margin: 16px;
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .avatar {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(145deg, var(--primary), #6e1a10);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .user-info h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .user-info p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* stat grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 16px;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      padding: 14px 8px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .record-sub {
+      font-size: 11px;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    /* progress section */
+    .goal-card {
+      background: var(--bg-card);
+      margin: 16px;
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .goal-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar-bg {
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      height: 8px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-fill {
+      background: var(--accent);
+      width: 0%;
+      height: 100%;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+
+    /* referral card */
+    .referral-card {
+      background: var(--bg-card);
+      margin: 16px;
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid var(--border);
+    }
+
+    .badge-tier {
+      display: inline-block;
+      background: #cd7f32;
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e1e1e;
+      margin-bottom: 12px;
+    }
+
+    .badge-tier.silver { background: #c0c0c0; color: #1e1e1e; }
+    .badge-tier.gold { background: #ffd700; color: #1e1e1e; }
+    .badge-tier.platinum { background: #e5e4e2; color: #1e1e1e; }
+
+    .points-info {
+      font-size: 14px;
+      color: var(--yellow);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .ref-progress {
+      margin: 16px 0;
+    }
+
+    .ref-link-box {
+      background: var(--bg-secondary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: monospace;
+      word-break: break-all;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .copy-btn {
+      background: var(--primary);
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .share-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .share-btn-wa {
+      background: var(--green);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* badges menu */
+    .badges-menu {
+      background: var(--bg-card);
+      margin: 16px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .menu-item:hover {
+      background: var(--bg-secondary);
+    }
+
+    .menu-item span:first-child {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chevron {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    /* free chapter banner */
+    .free-chapter-banner {
+      background: rgba(66, 167, 129, 0.12);
+      margin: 16px;
+      padding: 12px 18px;
+      border-radius: var(--radius);
+      border-left: 4px solid var(--accent);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logout-btn {
+      background: var(--bg-secondary);
+      margin: 16px;
+      text-align: center;
+      padding: 14px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      color: #e8e8e8;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: calc(100% - 32px);
+    }
+
+    .logout-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* language selector modal */
+    .lang-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lang-modal.show {
+      display: flex;
+    }
+
+    .lang-modal-content {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .lang-option {
+      padding: 12px;
+      margin: 8px 0;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lang-option:hover {
+      background: var(--primary);
+    }
+
+    /* bottom nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(15, 15, 14, 0.96);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 16px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2c2c2c;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 13px;
+      z-index: 200;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .footer-version {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 16px 16px 30px;
+    }
+
+    button, .copy-btn, .share-btn-wa {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover, .copy-btn:hover, .share-btn-wa:hover {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="app">
+  <!-- header -->
+  <div class="profile-header">
+    <a href="index.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <div class="logo-icon">
+        <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/32x32/9c2518/white?text=SZ'">
+      </div>
+      <h1>STORIES ZONE</h1>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div id="loadingIndicator" class="loading" style="display: none;">
+    <div class="spinner"></div>
+    <p>Inapakia akaunti yako...</p>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent" style="display: none;">
+    <!-- user info -->
+    <div class="user-card">
+      <div class="avatar" id="userAvatar">CR</div>
+      <div class="user-info">
+        <h2 id="userName">Mgeni</h2>
+        <p id="userEmail">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span id="userEmailText">-</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Takwimu Zangu -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="pointsCount">0</div>
+        <div class="stat-label">Alama</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="streakCount">0</div>
+        <div class="stat-label">Siku mfululizo</div>
+        <div class="record-sub" id="bestStreak">Rekodi: 0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="completedCount">0</div>
+        <div class="stat-label">Hadithi zimekamilika</div>
+      </div>
+    </div>
+
+    <!-- Maendeleo ya Lengo -->
+    <div class="goal-card">
+      <div class="goal-title">
+        <span>📖 Maendeleo ya Kusoma</span>
+        <span style="color: var(--accent);" id="goalProgress">0/0 sura</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-fill" id="goalFill" style="width: 0%;"></div>
+      </div>
+      <div style="font-size:13px; color:var(--text-muted); margin-top: 8px;" id="goalMessage">Anza kusoma hadithi!</div>
+    </div>
+
+    <!-- Referral Card -->
+    <div class="referral-card">
+      <div class="badge-tier" id="tierBadge">🥉 Bronze</div>
+      <div class="points-info" id="referralPointsInfo">✨ +100 Alama / kila referral</div>
+      <div style="display: flex; justify-content: space-between; font-size:14px;">
+        <span>Umepata referrals: <strong id="referralCount">0</strong></span>
+        <span style="color: var(--accent);" id="nextTierInfo">ongeza 4 zaidi kupata Silver 🥈</span>
+      </div>
+      <div class="ref-progress">
+        <div class="progress-bar-bg">
+          <div class="progress-fill" id="referralFill" style="width: 0%; background: var(--primary);"></div>
+        </div>
+      </div>
+      <div class="ref-link-box">
+        <span style="font-size:12px; overflow-x: auto;" id="referralLink">https://storieszone.site/?ref=</span>
+        <button class="copy-btn" id="copyReferralBtn">Nakili link</button>
+      </div>
+      <div class="share-actions">
+        <button id="whatsappShareBtn" class="share-btn-wa" style="background: var(--green);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Shiriki WhatsApp
+        </button>
+        <button id="shareGenericBtn" class="share-btn-wa" style="background: var(--bg-secondary); border:1px solid var(--border);">
+          🔗 Shiriki link
+        </button>
+      </div>
+    </div>
+
+    <!-- Badges & Mafanikio -->
+    <div class="badges-menu">
+      <div class="menu-item" id="mafanikioBtn">
+        <span>🏅 Mafanikio yako</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="nafasiBtn">
+        <span>🏆 Nafasi yako</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="hadithiRafuBtn">
+        <span>📚 Hadithi, rafu na malipo</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="lughaBtn">
+        <span>🌐 Lugha: <span id="currentLang">Kiswahili</span></span>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <!-- additional menus -->
+    <div class="badges-menu">
+      <div class="menu-item" id="leaderboardBtn">
+        <span>📊 Leaderboard</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="maktabaBtn">
+        <span>📖 Maktaba Yangu</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="msaadaBtn">
+        <span>🆘 Msaada</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="menu-item" id="kuhusuBtn">
+        <span>ℹ️ Kuhusu STORIES ZONE</span>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+
+    <!-- sura za bure zimebaki leo -->
+    <div class="free-chapter-banner" id="freeChapterBanner">
+      <span>📖</span> <span id="freeChaptersText">Sura 3 za bure zimebaki leo — soma kabla usiku wa leo!</span>
+    </div>
+
+    <!-- Ondoka (logout) -->
+    <button id="logoutBtn" class="logout-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Ondoka
+    </button>
+
+    <div class="footer-version">STORIES ZONE — Soma hadithi za kusisimua | v1.0.0</div>
+  </div>
+</div>
+
+<!-- Language Modal -->
+<div class="lang-modal" id="langModal">
+  <div class="lang-modal-content">
+    <h3 style="margin-bottom: 16px;">🌐 Chagua Lugha</h3>
+    <div class="lang-option" data-lang="sw">🇹🇿 Kiswahili</div>
+    <div class="lang-option" data-lang="en">🇬🇧 English</div>
+  </div>
+</div>
+
+<!-- Bottom navigation -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span id="navHome">Nyumbani</span>
+  </a>
+  <a href="browse.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span id="navBrowse">Tafuta</span>
+  </a>
+  <a href="library.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <span id="navLibrary">Maktaba</span>
+  </a>
+  <a href="profile.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span id="navAccount">Akaunti</span>
+  </a>
+</nav>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  // Supabase Configuration
+  const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Website URL
+  const WEBSITE_URL = 'https://storieszone.site';
+  const WHATSAPP_NUMBER = '+255618282371';
+
+  // State
+  let currentUser = null;
+  let userProfile = null;
+  let userStats = {
+    points: 0,
+    streak: 0,
+    bestStreak: 0,
+    completedStories: 0,
+    referrals: 0,
+    chaptersRead: 0,
+    totalChapters: 0
+  };
+  let currentLanguage = 'sw';
+  
+  // Translations
+  const translations = {
+    sw: {
+      navHome: 'Nyumbani',
+      navBrowse: 'Tafuta',
+      navLibrary: 'Maktaba',
+      navAccount: 'Akaunti',
+      points: 'Alama',
+      daysStreak: 'Siku mfululizo',
+      record: 'Rekodi',
+      completed: 'Hadithi zimekamilika',
+      readingProgress: 'Maendeleo ya Kusoma',
+      startReading: 'Anza kusoma hadithi!',
+      referralPoints: '✨ +100 Alama / kila referral',
+      nextTierSilver: 'ongeza 4 zaidi kupata Silver 🥈',
+      nextTierGold: 'ongeza 9 zaidi kupata Gold 🥇',
+      nextTierPlatinum: 'ongeza 24 zaidi kupata Platinum 💎',
+      maxTier: 'Umefikia kiwango cha juu! 🏆',
+      bronze: '🥉 Bronze',
+      silver: '🥈 Silver',
+      gold: '🥇 Gold',
+      platinum: '💎 Platinum',
+      shareWhatsApp: 'Shiriki WhatsApp',
+      shareLink: 'Shiriki link',
+      freeChapters: 'Sura 3 za bure zimebaki leo — soma kabla usiku wa leo!',
+      logout: 'Ondoka',
+      achievements: 'Mafanikio yako',
+      rank: 'Nafasi yako',
+      libraryPurchases: 'Hadithi, rafu na malipo',
+      language: 'Lugha',
+      leaderboard: 'Leaderboard',
+      myLibrary: 'Maktaba Yangu',
+      help: 'Msaada',
+      about: 'Kuhusu STORIES ZONE',
+      copied: '✅ Link imenakiliwa!',
+      copyError: '⚠️ Tafadhali nakili link mwenyewe',
+      noAchievements: 'Bado hakuna mafanikio. Endelea kusoma!',
+      rankNotAvailable: 'Nafasi yako haijapatikana bado. Endelea kusoma!',
+      comingSoon: 'Kipengele hiki kitapatikana hivi karibuni!',
+      helpMessage: 'Msaada: Wasiliana nasi WhatsApp au barua pepe: support@storieszone.site',
+      aboutMessage: 'STORIES ZONE ni jukwaa la kusoma hadithi za kusisimua kwa Kiswahili na Kiingereza. Toleo 1.0'
+    },
+    en: {
+      navHome: 'Home',
+      navBrowse: 'Browse',
+      navLibrary: 'Library',
+      navAccount: 'Account',
+      points: 'Points',
+      daysStreak: 'Day streak',
+      record: 'Record',
+      completed: 'Completed stories',
+      readingProgress: 'Reading Progress',
+      startReading: 'Start reading stories!',
+      referralPoints: '✨ +100 Points per referral',
+      nextTierSilver: 'get 4 more to reach Silver 🥈',
+      nextTierGold: 'get 9 more to reach Gold 🥇',
+      nextTierPlatinum: 'get 24 more to reach Platinum 💎',
+      maxTier: 'You\'ve reached the highest tier! 🏆',
+      bronze: '🥉 Bronze',
+      silver: '🥈 Silver',
+      gold: '🥇 Gold',
+      platinum: '💎 Platinum',
+      shareWhatsApp: 'Share WhatsApp',
+      shareLink: 'Share link',
+      freeChapters: '3 free chapters left today — read before midnight!',
+      logout: 'Logout',
+      achievements: 'Your achievements',
+      rank: 'Your rank',
+      libraryPurchases: 'Stories, shelf & purchases',
+      language: 'Language',
+      leaderboard: 'Leaderboard',
+      myLibrary: 'My Library',
+      help: 'Help',
+      about: 'About STORIES ZONE',
+      copied: '✅ Link copied!',
+      copyError: '⚠️ Please copy the link manually',
+      noAchievements: 'No achievements yet. Keep reading!',
+      rankNotAvailable: 'Your rank is not available yet. Keep reading!',
+      comingSoon: 'This feature is coming soon!',
+      helpMessage: 'Help: Contact us on WhatsApp or email: support@storieszone.site',
+      aboutMessage: 'STORIES ZONE is a platform for reading exciting stories in Swahili and English. Version 1.0'
+    }
+  };
+
+  // Helper: Show toast
+  function showToast(message) {
+    const toast = document.getElementById('toastMsg');
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 2000);
+  }
+
+  // Helper: Update UI language
+  function updateLanguage() {
+    const t = translations[currentLanguage];
+    document.getElementById('navHome').textContent = t.navHome;
+    document.getElementById('navBrowse').textContent = t.navBrowse;
+    document.getElementById('navLibrary').textContent = t.navLibrary;
+    document.getElementById('navAccount').textContent = t.navAccount;
+    document.getElementById('currentLang').textContent = currentLanguage === 'sw' ? 'Kiswahili' : 'English';
+    
+    // Update dynamic texts
+    document.querySelector('.stat-card:nth-child(1) .stat-label').textContent = t.points;
+    document.querySelector('.stat-card:nth-child(2) .stat-label').textContent = t.daysStreak;
+    document.querySelector('.stat-card:nth-child(2) .record-sub').innerHTML = `${t.record}: ${userStats.bestStreak}`;
+    document.querySelector('.stat-card:nth-child(3) .stat-label').textContent = t.completed;
+    
+    document.querySelector('.goal-card .goal-title span:first-child').innerHTML = `📖 ${t.readingProgress}`;
+    document.getElementById('goalMessage').textContent = t.startReading;
+    
+    document.getElementById('referralPointsInfo').textContent = t.referralPoints;
+    updateNextTierText();
+    
+    document.getElementById('freeChaptersText').textContent = t.freeChapters;
+    document.getElementById('logoutBtn').innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ${t.logout}`;
+    
+    const menuItems = [
+      { id: 'mafanikioBtn', span: '🏅 ' + t.achievements },
+      { id: 'nafasiBtn', span: '🏆 ' + t.rank },
+      { id: 'hadithiRafuBtn', span: '📚 ' + t.libraryPurchases },
+      { id: 'leaderboardBtn', span: '📊 ' + t.leaderboard },
+      { id: 'maktabaBtn', span: '📖 ' + t.myLibrary },
+      { id: 'msaadaBtn', span: '🆘 ' + t.help },
+      { id: 'kuhusuBtn', span: 'ℹ️ ' + t.about }
+    ];
+    
+    menuItems.forEach(item => {
+      const el = document.getElementById(item.id);
+      if (el) {
+        const firstSpan = el.querySelector('span:first-child');
+        if (firstSpan) firstSpan.innerHTML = item.span;
+      }
+    });
+    
+    document.querySelectorAll('.share-btn-wa').forEach(btn => {
+      if (btn.id === 'whatsappShareBtn') btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> ${t.shareWhatsApp}`;
+      if (btn.id === 'shareGenericBtn') btn.innerHTML = `🔗 ${t.shareLink}`;
+    });
+  }
+
+  // Update next tier text based on referrals
+  function updateNextTierText() {
+    const t = translations[currentLanguage];
+    const referrals = userStats.referrals;
+    let nextText = '';
+    
+    if (referrals < 5) {
+      nextText = t.nextTierSilver;
+    } else if (referrals < 10) {
+      nextText = t.nextTierGold;
+    } else if (referrals < 25) {
+      nextText = t.nextTierPlatinum;
+    } else {
+      nextText = t.maxTier;
+    }
+    
+    const nextTierEl = document.getElementById('nextTierInfo');
+    if (nextTierEl) nextTierEl.textContent = nextText;
+  }
+
+  // Get tier based on referrals
+  function getTier(referrals) {
+    if (referrals >= 25) return { name: 'platinum', emoji: '💎', label: 'Platinum' };
+    if (referrals >= 10) return { name: 'gold', emoji: '🥇', label: 'Gold' };
+    if (referrals >= 5) return { name: 'silver', emoji: '🥈', label: 'Silver' };
+    return { name: 'bronze', emoji: '🥉', label: 'Bronze' };
+  }
+
+  // Update tier badge
+  function updateTierBadge() {
+    const tier = getTier(userStats.referrals);
+    const badgeEl = document.getElementById('tierBadge');
+    badgeEl.textContent = `${tier.emoji} ${tier.label}`;
+    badgeEl.className = `badge-tier ${tier.name}`;
+  }
+
+  // Load user data from Supabase
+  async function loadUserData() {
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !user) {
+      showToast('Tafadhali ingia kwanza');
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }, 1500);
+      return false;
+    }
+    
+    // Get user profile from public.users
+    const { data: profile, error: profileError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('auth_user_id', user.id)
+      .single();
+    
+    if (profileError && profileError.code !== 'PGRST116') {
+      console.error('Error loading profile:', profileError);
+    }
+    
+    userProfile = profile;
+    currentUser = user;
+    
+    // Update UI with user info
+    const displayName = userProfile?.name || user.email?.split('@')[0] || 'Mgeni';
+    const avatarLetter = displayName.charAt(0).toUpperCase();
+    
+    document.getElementById('userAvatar').textContent = avatarLetter;
+    document.getElementById('userName').textContent = displayName;
+    document.getElementById('userEmailText').textContent = user.email || '-';
+    
+    // Load reading stats
+    await loadReadingStats();
+    await loadReferralStats();
+    
+    return true;
+  }
+
+  // Load reading statistics
+  async function loadReadingStats() {
+    if (!currentUser) return;
+    
+    // Get user from public.users
+    const { data: userData } = await supabase
+      .from('users')
+      .select('id')
+      .eq('auth_user_id', currentUser.id)
+      .single();
+    
+    if (!userData) return;
+    
+    // Get reading progress
+    const { data: progress } = await supabase
+      .from('reading_progress')
+      .select('story_id, chapter_number')
+      .eq('user_id', userData.id);
+    
+    // Get completed stories (where user has read all chapters)
+    const { data: stories } = await supabase
+      .from('stories')
+      .select('id, chapters_count');
+    
+    let completedCount = 0;
+    let chaptersRead = progress?.length || 0;
+    let totalChapters = 0;
+    
+    stories?.forEach(story => {
+      totalChapters += story.chapters_count || 0;
+    });
+    
+    // Simple completion logic
+    if (progress && stories) {
+      const storyMaxChapter = {};
+      progress.forEach(p => {
+        if (!storyMaxChapter[p.story_id] || p.chapter_number > storyMaxChapter[p.story_id]) {
+          storyMaxChapter[p.story_id] = p.chapter_number;
+        }
+      });
+      
+      stories.forEach(story => {
+        if (storyMaxChapter[story.id] >= (story.chapters_count || 0)) {
+          completedCount++;
+        }
+      });
+    }
+    
+    userStats.completedStories = completedCount;
+    userStats.chaptersRead = chaptersRead;
+    userStats.totalChapters = totalChapters;
+    
+    // Get or create user stats record
+    const { data: stats, error: statsError } = await supabase
+      .from('user_stats')
+      .select('*')
+      .eq('user_id', userData.id)
+      .maybeSingle();
+    
+    if (statsError && statsError.code !== 'PGRST116') {
+      console.error('Error loading stats:', statsError);
+    }
+    
+    if (stats) {
+      userStats.points = stats.points || 0;
+      userStats.streak = stats.streak || 0;
+      userStats.bestStreak = stats.best_streak || 0;
+      userStats.referrals = stats.referrals || 0;
+    } else {
+      // Create default stats
+      await supabase.from('user_stats').insert({
+        user_id: userData.id,
+        points: 0,
+        streak: 0,
+        best_streak: 0,
+        referrals: 0
+      });
+    }
+    
+    updateUIStats();
+  }
+
+  // Load referral stats
+  async function loadReferralStats() {
+    // Get user ID
+    const { data: userData } = await supabase
+      .from('users')
+      .select('id')
+      .eq('auth_user_id', currentUser?.id)
+      .single();
+    
+    if (userData) {
+      const { data: referrals } = await supabase
+        .from('referrals')
+        .select('id')
+        .eq('referred_by', userData.id);
+      
+      userStats.referrals = referrals?.length || 0;
+      
+      // Update stats in user_stats
+      await supabase
+        .from('user_stats')
+        .update({ referrals: userStats.referrals })
+        .eq('user_id', userData.id);
+      
+      updateUIStats();
+    }
+  }
+
+  // Update UI with stats
+  function updateUIStats() {
+    document.getElementById('pointsCount').textContent = userStats.points;
+    document.getElementById('streakCount').textContent = userStats.streak;
+    document.getElementById('bestStreak').innerHTML = `${translations[currentLanguage].record}: ${userStats.bestStreak}`;
+    document.getElementById('completedCount').textContent = userStats.completedStories;
+    document.getElementById('referralCount').textContent = userStats.referrals;
+    
+    // Update goal progress
+    const goalPercent = userStats.totalChapters > 0 ? (userStats.chaptersRead / userStats.totalChapters) * 100 : 0;
+    document.getElementById('goalFill').style.width = `${goalPercent}%`;
+    document.getElementById('goalProgress').textContent = `${userStats.chaptersRead}/${userStats.totalChapters} sura`;
+    
+    // Update referral progress (target 25 for platinum)
+    const referralPercent = Math.min((userStats.referrals / 25) * 100, 100);
+    document.getElementById('referralFill').style.width = `${referralPercent}%`;
+    
+    updateTierBadge();
+    updateNextTierText();
+    
+    // Generate referral link
+    const userId = currentUser?.id?.substring(0, 8) || 'USER';
+    const referralLink = `${WEBSITE_URL}/register.html?ref=${userId}`;
+    document.getElementById('referralLink').textContent = referralLink;
+  }
+
+  // Copy referral link
+  function copyReferral() {
+    const link = document.getElementById('referralLink').textContent;
+    navigator.clipboard.writeText(link).then(() => {
+      showToast(translations[currentLanguage].copied);
+    }).catch(() => {
+      showToast(translations[currentLanguage].copyError);
+    });
+  }
+
+  // Share WhatsApp
+  function shareWhatsApp() {
+    const link = document.getElementById('referralLink').textContent;
+    const text = `Soma hadithi za kusisimua kwenye STORIES ZONE! Jiunge kupitia link hii: ${link}`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=${encodeURIComponent(text)}`, '_blank');
+  }
+
+  // Share generic
+  function shareGeneric() {
+    const link = document.getElementById('referralLink').textContent;
+    if (navigator.share) {
+      navigator.share({ title: 'STORIES ZONE', text: 'Jiunge na mimi kusoma hadithi za kusisimua!', url: link });
+    } else {
+      copyReferral();
+    }
+  }
+
+  // Logout
+  async function logout() {
+    await supabase.auth.signOut();
+    showToast(translations[currentLanguage].logout);
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1000);
+  }
+
+  // Show language modal
+  function showLanguageModal() {
+    document.getElementById('langModal').classList.add('show');
+  }
+
+  // Initialize
+  async function init() {
+    // Load saved language preference
+    const savedLang = localStorage.getItem('storieszone_language');
+    if (savedLang === 'sw' || savedLang === 'en') {
+      currentLanguage = savedLang;
+    }
+    
+    updateLanguage();
+    
+    // Show loading
+    document.getElementById('loadingIndicator').style.display = 'block';
+    
+    const loggedIn = await loadUserData();
+    
+    document.getElementById('loadingIndicator').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+    
+    if (!loggedIn) return;
+    
+    // Event listeners
+    document.getElementById('copyReferralBtn')?.addEventListener('click', copyReferral);
+    document.getElementById('whatsappShareBtn')?.addEventListener('click', shareWhatsApp);
+    document.getElementById('shareGenericBtn')?.addEventListener('click', shareGeneric);
+    document.getElementById('logoutBtn')?.addEventListener('click', logout);
+    document.getElementById('lughaBtn')?.addEventListener('click', showLanguageModal);
+    
+    // Menu item handlers
+    const t = translations[currentLanguage];
+    document.getElementById('mafanikioBtn')?.addEventListener('click', () => showToast(t.noAchievements));
+    document.getElementById('nafasiBtn')?.addEventListener('click', () => showToast(t.rankNotAvailable));
+    document.getElementById('hadithiRafuBtn')?.addEventListener('click', () => showToast(t.comingSoon));
+    document.getElementById('leaderboardBtn')?.addEventListener('click', () => showToast(t.comingSoon));
+    document.getElementById('maktabaBtn')?.addEventListener('click', () => window.location.href = 'library.html');
+    document.getElementById('msaadaBtn')?.addEventListener('click', () => {
+      window.open(`https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=Msaada%20kwenye%20STORIES%20ZONE`, '_blank');
+      showToast(t.helpMessage);
+    });
+    document.getElementById('kuhusuBtn')?.addEventListener('click', () => showToast(t.aboutMessage));
+    
+    // Language modal handlers
+    document.querySelectorAll('.lang-option').forEach(option => {
+      option.addEventListener('click', () => {
+        currentLanguage = option.dataset.lang;
+        localStorage.setItem('storieszone_language', currentLanguage);
+        updateLanguage();
+        document.getElementById('langModal').classList.remove('show');
+        updateUIStats(); // Refresh UI with new language
+      });
+    });
+    
+    document.getElementById('langModal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('langModal')) {
+        document.getElementById('langModal').classList.remove('show');
+      }
+    });
+  }
+  
+  init();
+</script>
+
+</body>
+</html>

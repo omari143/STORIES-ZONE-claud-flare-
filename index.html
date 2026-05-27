@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f0e" />
+  <title>Stories Zone — Soma Hadithi za Kusisimua</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ===== CSS Variables ===== */
+:root {
+  --bg: #0f0f0e;
+  --bg-card: #141414;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #e8e8e8;
+  --text-secondary: #a8a8a8;
+  --text-muted: #6e6e6e;
+  --primary: #9c2518;
+  --primary-hover: #b02d1f;
+  --accent: #42a781;
+  --accent-hover: #4dbd94;
+  --border: #2a2a2a;
+  --green: #25d366;
+  --yellow: #fbbf24;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-full: 9999px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 6px rgba(0,0,0,.25);
+  --shadow-md: 0 8px 20px rgba(0,0,0,.35);
+  --shadow-lg: 0 14px 36px rgba(0,0,0,.45);
+
+  /* Motion */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --dur-fast: .18s;
+  --dur: .25s;
+
+  /* Safe areas (iOS notch / home indicator) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  padding-bottom: calc(88px + var(--safe-bottom));
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Accessible focus */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-card);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ===== Header ===== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 15, 14, 0.85);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+  padding-top: var(--safe-top);
+}
+
+.header.scrolled {
+  background: rgba(15, 15, 14, 0.95);
+  border-bottom-color: var(--border);
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--space-4);
+  gap: var(--space-3);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.logo-img {
+  height: 38px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-icon svg {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+.logo-icon.small {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-icon.small svg {
+  width: 16px;
+  height: 16px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.promo-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px var(--space-4);
+  background: rgba(156, 37, 24, 0.15);
+  border-top: 1px solid rgba(156, 37, 24, 0.3);
+  border-bottom: 1px solid rgba(156, 37, 24, 0.3);
+  font-size: 13px;
+  color: var(--yellow);
+  text-align: center;
+  letter-spacing: .1px;
+}
+
+.gift-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  position: relative;
+  height: clamp(380px, 60vh, 460px);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    height: clamp(440px, 65vh, 540px);
+  }
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 8s var(--ease);
+}
+
+.hero:hover .hero-bg img {
+  transform: scale(1.06);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(15, 15, 14, 0.92), rgba(15, 15, 14, 0.55), rgba(15, 15, 14, 0.1));
+}
+
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 55%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  animation: heroFade .6s var(--ease) both;
+}
+
+@keyframes heroFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .hero-content {
+    padding: var(--space-8);
+  }
+}
+
+.hero-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.badge {
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.badge-genre {
+  background: var(--accent);
+  color: white;
+}
+
+.badge-chapters {
+  background: var(--primary);
+  color: white;
+}
+
+.hero-title {
+  font-size: clamp(26px, 6vw, 32px);
+  font-weight: 700;
+  color: white;
+  margin-bottom: var(--space-3);
+  max-width: 560px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.hero-title:hover {
+  color: #fff;
+  opacity: .9;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: clamp(36px, 5vw, 48px);
+    letter-spacing: -1px;
+  }
+}
+
+.hero-description {
+  font-size: 14px;
+  color: #c4c4c4;
+  max-width: 480px;
+  margin-bottom: var(--space-5);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero-description {
+    font-size: 16px;
+    -webkit-line-clamp: 3;
+  }
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* ===== Hero Slider ===== */
+.hero-slides { position: absolute; inset: 0; }
+.hero-slide {
+  position: absolute; inset: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity .8s var(--ease);
+}
+.hero-slide.active { opacity: 1; visibility: visible; z-index: 2; }
+.hero-slide .hero-bg,
+.hero-slide .hero-overlay,
+.hero-slide .hero-gradient,
+.hero-slide .hero-content { position: absolute; inset: 0; }
+.hero-slide .hero-overlay {
+  background: linear-gradient(to right, rgba(15,15,14,.92), rgba(15,15,14,.55), rgba(15,15,14,.1));
+}
+.hero-slide .hero-gradient {
+  background: linear-gradient(to top, var(--bg) 0%, transparent 55%);
+}
+.hero-slide .hero-content {
+  z-index: 3;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: var(--space-5) var(--space-4) calc(var(--space-10) + 40px);
+}
+@media (min-width: 768px) {
+  .hero-slide .hero-content { padding: var(--space-8) var(--space-8) calc(var(--space-10) + 56px); }
+}
+
+/* Dots */
+.hero-dots {
+  position: absolute; left: 0; right: 0; bottom: 90px;
+  display: flex; justify-content: center; gap: 6px;
+  z-index: 5;
+}
+.hero-dots button {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,.35);
+  transition: width var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.hero-dots button.active { width: 22px; border-radius: 999px; background: var(--primary); }
+
+/* Thumbnails strip */
+.hero-thumbs {
+  position: absolute; left: 0; right: 0; bottom: 10px;
+  display: flex; gap: 8px; padding: 0 var(--space-4);
+  overflow-x: auto; z-index: 5;
+  scroll-snap-type: x mandatory;
+}
+.hero-thumb {
+  flex: 0 0 auto; width: 56px; height: 72px;
+  border-radius: 8px; overflow: hidden;
+  border: 2px solid transparent;
+  opacity: .6; cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  scroll-snap-align: start;
+  background: var(--bg-card);
+}
+.hero-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.hero-thumb.active { opacity: 1; border-color: var(--primary); transform: translateY(-2px); }
+.hero-thumb:hover { opacity: 1; }
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: background var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease);
+  will-change: transform;
+  letter-spacing: .2px;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 14px rgba(156, 37, 24, .35);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  box-shadow: 0 6px 18px rgba(156, 37, 24, .45);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,.08);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(8px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,.14);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 14px rgba(66, 167, 129, .3);
+}
+
+.btn-accent:hover {
+  background: var(--accent-hover);
+}
+
+/* ===== Search Section ===== */
+.search-section {
+  padding: var(--space-5) var(--space-4) var(--space-3);
+}
+
+.search-bar {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 13px 16px 13px 46px;
+  background: var(--bg-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-size: 15px;
+  outline: none;
+  transition: background var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease);
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-bar input:focus {
+  background: var(--bg-card);
+  border-color: rgba(156, 37, 24, .4);
+  box-shadow: 0 0 0 4px rgba(156, 37, 24, 0.12);
+}
+
+.search-bar:focus-within .search-icon {
+  color: var(--text-primary);
+}
+
+.filter-tabs {
+  display: flex;
+  gap: var(--space-2);
+  padding-bottom: 4px;
+}
+
+.filter-tab {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  white-space: nowrap;
+}
+
+.filter-tab:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.filter-tab:active {
+  transform: scale(.96);
+}
+
+.filter-tab.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(66, 167, 129, .3);
+}
+
+/* ===== Sections ===== */
+.section {
+  padding: var(--space-5) 0 var(--space-3);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 20px;
+  }
+}
+
+.fire-icon, .trend-icon {
+  font-size: 20px;
+}
+
+.view-all {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  white-space: nowrap;
+}
+
+.view-all:hover {
+  color: var(--primary-hover);
+  transform: translateX(2px);
+}
+
+/* ===== Stories Scroll ===== */
+.stories-scroll {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px var(--space-4) var(--space-4);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.stories-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== Story Card ===== */
+.story-card {
+  flex-shrink: 0;
+  width: 142px;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform var(--dur) var(--ease);
+  animation: cardIn .35s var(--ease) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .story-card {
+    width: 168px;
+  }
+}
+
+.story-card:hover {
+  transform: translateY(-4px);
+}
+
+.story-card:active {
+  transform: translateY(-2px) scale(.98);
+}
+
+.story-card-cover {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--dur) var(--ease);
+}
+
+.story-card:hover .story-card-cover {
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 768px) {
+  .story-card-cover {
+    height: 232px;
+  }
+}
+
+.story-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s var(--ease);
+}
+
+.story-card:hover .story-card-cover img {
+  transform: scale(1.06);
+}
+
+.story-card-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 2;
+}
+
+.story-badge {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 4px;
+  letter-spacing: .3px;
+}
+
+.story-badge.updated {
+  background: var(--primary);
+  color: white;
+}
+
+.story-badge.new {
+  background: var(--accent);
+  color: white;
+}
+
+.story-badge.free {
+  background: rgba(100, 100, 100, 0.9);
+  color: white;
+}
+
+.story-card-status {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  z-index: 2;
+}
+
+.status-badge {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.status-badge.ongoing {
+  background: rgba(66, 167, 129, 0.85);
+}
+
+/* ===== Share button overlay (on cards) ===== */
+.share-fab {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.share-fab:hover { background: var(--primary); }
+.share-fab:active { transform: scale(0.92); }
+.share-fab svg { width: 16px; height: 16px; }
+
+.trending-card { position: relative; }
+.trending-card .share-fab {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+.trending-card .share-fab:active { transform: translateY(-50%) scale(0.92); }
+
+/* Toast */
+.share-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(110px + var(--safe-bottom));
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 1000;
+}
+.share-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.story-card-info h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
+  letter-spacing: -.1px;
+}
+
+.story-card-genre {
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.story-card-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.story-card-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star-icon {
+  color: var(--yellow);
+}
+
+/* ===== Trending Section ===== */
+.trending-scroll {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: 4px var(--space-4) var(--space-4);
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.trending-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.trending-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+  min-width: 290px;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: background var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+
+.trending-card:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+  transform: translateY(-2px);
+}
+
+.trending-card:active {
+  transform: translateY(0) scale(.99);
+}
+
+.trending-rank {
+  font-size: 34px;
+  font-weight: 700;
+  color: rgba(156, 37, 24, 0.75);
+  width: 30px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -1px;
+}
+
+.trending-cover {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-secondary);
+}
+
+.trending-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.trending-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.trending-info h3 {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+  letter-spacing: -.1px;
+}
+
+.trending-info .genre {
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: 3px;
+  font-weight: 500;
+}
+
+.trending-info .views {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== Genre Pills ===== */
+.genre-section {
+  padding: var(--space-2) 0 var(--space-3);
+}
+
+.genre-pills {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: 4px var(--space-4) var(--space-2);
+  -webkit-overflow-scrolling: touch;
+}
+
+.genre-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.genre-pill {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  white-space: nowrap;
+}
+
+.genre-pill:hover {
+  background: var(--bg-card);
+}
+
+.genre-pill:active {
+  transform: scale(.96);
+}
+
+.genre-pill.active,
+.genre-pill[data-active="true"] {
+  background: var(--primary);
+  color: white;
+}
+
+/* ===== Skeleton Loading ===== */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--bg-card) 50%, var(--bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--radius);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+  flex-shrink: 0;
+  width: 142px;
+}
+
+.skeleton-cover {
+  width: 100%;
+  height: 200px;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.skeleton-title {
+  height: 14px;
+  width: 90%;
+  margin-bottom: 6px;
+  border-radius: 4px;
+}
+
+.skeleton-sub {
+  height: 12px;
+  width: 60%;
+  border-radius: 4px;
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: var(--space-10) var(--space-4) calc(100px + var(--safe-bottom));
+  border-top: 1px solid var(--border);
+  margin-top: var(--space-4);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -.3px;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-6);
+}
+
+.footer-links a {
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer-links a:hover {
+  color: var(--text-primary);
+}
+
+.footer-links span {
+  color: var(--border);
+}
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 11px 22px;
+  background: var(--green);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  box-shadow: 0 4px 14px rgba(37, 211, 102, .3);
+}
+
+.btn-contact:hover {
+  background: #20bd5a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, .4);
+}
+
+.btn-contact:active {
+  transform: translateY(0) scale(.97);
+}
+
+.btn-contact svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== Floating CTA ===== */
+.floating-cta {
+  position: fixed;
+  bottom: calc(78px + var(--safe-bottom));
+  left: var(--space-4);
+  right: var(--space-4);
+  max-width: 420px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  z-index: 90;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp .35s var(--ease);
+}
+
+.floating-cta.hidden {
+  display: none;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cta-close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  font-size: 22px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.cta-close:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.cta-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cta-icon {
+  width: 42px;
+  height: 42px;
+  background: rgba(156, 37, 24, 0.2);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cta-content p {
+  flex: 1;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+/* ===== Share Button ===== */
+.share-btn {
+  position: fixed;
+  bottom: calc(88px + var(--safe-bottom));
+  right: var(--space-4);
+  width: 50px;
+  height: 50px;
+  background: var(--green);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 90;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  transition: transform var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+.share-btn:hover {
+  transform: scale(1.08);
+  background: #20bd5a;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.5);
+}
+
+.share-btn:active {
+  transform: scale(.95);
+}
+
+.share-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ===== Bottom Navigation ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 15, 14, 0.92);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  padding: 6px 4px calc(8px + var(--safe-bottom));
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 4px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  border-radius: var(--radius-sm);
+  flex: 1;
+  max-width: 80px;
+  text-align: center;
+  line-height: 1.2;
+  position: relative;
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+}
+
+.nav-item:active {
+  transform: scale(.92);
+}
+
+.nav-item:active svg {
+  transform: scale(.9);
+}
+
+.nav-item.active {
+  color: var(--primary);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 0 0 3px 3px;
+}
+
+/* ===== Page Layouts ===== */
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.back-btn:hover {
+  background: var(--bg-card);
+}
+
+.back-btn:active {
+  transform: scale(.94);
+}
+
+.back-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+}
+
+/* ===== Browse Page ===== */
+.browse-content {
+  padding: var(--space-4);
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(142px, 1fr));
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .stories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+    gap: var(--space-5);
+  }
+}
+
+/* ===== Story Page ===== */
+.story-hero {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.story-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.story-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(20px);
+  transform: scale(1.1);
+}
+
+.story-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15, 15, 14, 0.7), var(--bg));
+}
+
+.story-hero-content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-5);
+  gap: var(--space-4);
+}
+
+.story-cover {
+  width: 120px;
+  height: 180px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-lg);
+}
+
+.story-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story-meta { flex: 1; }
+
+.story-meta h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  letter-spacing: -.4px;
+  line-height: 1.2;
+}
+
+.story-meta .genre {
+  color: var(--accent);
+  font-size: 14px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.story-meta .stats {
+  display: flex;
+  gap: var(--space-4);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.story-actions {
+  padding: var(--space-4);
+  display: flex;
+  gap: var(--space-3);
+}
+
+.story-actions .btn { flex: 1; }
+
+.story-description { padding: var(--space-4); }
+
+.story-description h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.story-description p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.chapters-list { padding: var(--space-4); }
+
+.chapters-list h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.chapter-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px var(--space-4);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-2);
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+
+.chapter-item:hover {
+  background: var(--bg-secondary);
+  transform: translateX(2px);
+}
+
+.chapter-item .chapter-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.chapter-item .chapter-status {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.chapter-item .chapter-status.free { color: var(--accent); }
+.chapter-item .chapter-status.locked { color: var(--primary); }
+
+/* ===== Library Page ===== */
+.library-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+}
+
+.library-tab {
+  flex: 1;
+  padding: var(--space-4);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  border-bottom: 2px solid transparent;
+}
+
+.library-tab:hover { color: var(--text-primary); }
+
+.library-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.library-empty {
+  text-align: center;
+  padding: 60px var(--space-5);
+}
+
+.library-empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-4);
+}
+
+.library-empty h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.library-empty p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+/* ===== Auth Page ===== */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+}
+
+.auth-header {
+  text-align: center;
+  padding: var(--space-10) 0;
+}
+
+.auth-header .logo {
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.auth-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.auth-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.auth-form {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-group { margin-bottom: var(--space-4); }
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: var(--space-2);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px var(--space-4);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(156, 37, 24, .12);
+}
+
+.form-group input::placeholder { color: var(--text-muted); }
+
+.auth-form .btn {
+  width: 100%;
+  margin-top: var(--space-2);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background var(--dur-fast) var(--ease);
+}
+
+.btn-social:hover { background: var(--bg-card); }
+
+.btn-social svg { width: 20px; height: 20px; }
+
+.auth-footer {
+  text-align: center;
+  margin-top: var(--space-6);
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.auth-footer a {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.auth-footer a:hover { text-decoration: underline; }
+
+/* ===== About/Terms/Privacy Pages ===== */
+.static-content {
+  padding: var(--space-5) var(--space-4) 100px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.static-content h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+  letter-spacing: -.5px;
+}
+
+.static-content h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: var(--space-8) 0 var(--space-4);
+  letter-spacing: -.3px;
+}
+
+.static-content p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--space-4);
+}
+
+.static-content ul {
+  margin: var(--space-4) 0;
+  padding-left: var(--space-6);
+}
+
+.static-content li {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--space-2);
+}
+
+/* ===== Utilities ===== */
+.text-center { text-align: center; }
+.mt-4 { margin-top: var(--space-4); }
+.mb-4 { margin-bottom: var(--space-4); }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="siteHeader">
+    <div class="header-top">
+      <a href="index.html" class="logo">
+        <img
+          src="/file_00000000d1cc6230872747a8605addb8.png"
+          alt="Stories Zone"
+          class="logo-img"
+          onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
+        />
+        <span id="logoFallback" style="display:none; align-items:center; gap:8px;">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <span class="logo-text">Stories Zone</span>
+        </span>
+      </a>
+      <a href="login.html" class="btn btn-primary" style="padding: 8px 18px; font-size: 13px;">Ingia</a>
+    </div>
+    <div class="promo-banner">
+      <span class="gift-icon">🎁</span>
+      <span>Soma sura 5 za kwanza bure leo — Jiunge sasa bila malipo!</span>
+    </div>
+  </header>
+
+  <!-- ===== Hero (Slider) ===== -->
+  <section class="hero" id="heroSection">
+    <div class="hero-slides" id="heroSlides">
+      <!-- slides injected by JS -->
+    </div>
+    <div class="hero-dots" id="heroDots"></div>
+    <div class="hero-thumbs hide-scrollbar" id="heroThumbs"></div>
+  </section>
+
+  <!-- ===== Search Section ===== -->
+  <section class="search-section">
+    <div class="search-bar">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Tafuta hadithi, mwandishi..." />
+    </div>
+    <div class="filter-tabs hide-scrollbar" style="overflow-x:auto;">
+      <button class="filter-tab active" data-genre="">Zote</button>
+      <button class="filter-tab" data-genre="Mapenzi">Mapenzi</button>
+      <button class="filter-tab" data-genre="Vitisho">Vitisho</button>
+      <button class="filter-tab" data-genre="Familia">Familia</button>
+      <button class="filter-tab" data-genre="Utafiti">Utafiti</button>
+      <button class="filter-tab" data-genre="Kihistoria">Kihistoria</button>
+    </div>
+  </section>
+
+  <!-- ===== Genre Pills ===== -->
+  <section class="genre-section">
+    <div class="genre-pills">
+      <button class="genre-pill">🔥 Maarufu</button>
+      <button class="genre-pill">💕 Mapenzi</button>
+      <button class="genre-pill">👻 Vitisho</button>
+      <button class="genre-pill">🏡 Familia</button>
+      <button class="genre-pill">🔍 Mauaji</button>
+      <button class="genre-pill">🧙 Fantasy</button>
+      <button class="genre-pill">🚀 Sayansi</button>
+      <button class="genre-pill">📜 Historia</button>
+      <button class="genre-pill">😂 Vichekesho</button>
+    </div>
+  </section>
+
+  <!-- ===== Popular Stories ===== -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="fire-icon">🔥</span>
+        Hadithi Maarufu
+      </h2>
+      <a href="#" class="view-all">Ona Zote</a>
+    </div>
+    <div class="stories-scroll" id="popularStoriesContainer">
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Trending ===== -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">
+        <span class="trend-icon">📈</span>
+        Zinazopanda
+      </h2>
+      <a href="#" class="view-all">Ona Zote</a>
+    </div>
+    <div class="trending-scroll" id="trendingContainer">
+      <div class="trending-card" style="min-width:290px;">
+        <div class="skeleton" style="width:32px;height:40px;border-radius:4px;"></div>
+        <div class="skeleton" style="width:58px;height:58px;border-radius:10px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div class="skeleton" style="height:14px;width:80%;margin-bottom:6px;"></div>
+          <div class="skeleton" style="height:12px;width:50%;"></div>
+        </div>
+      </div>
+      <div class="trending-card" style="min-width:290px;">
+        <div class="skeleton" style="width:32px;height:40px;border-radius:4px;"></div>
+        <div class="skeleton" style="width:58px;height:58px;border-radius:10px;flex-shrink:0;"></div>
+        <div style="flex:1;">
+          <div class="skeleton" style="height:14px;width:80%;margin-bottom:6px;"></div>
+          <div class="skeleton" style="height:12px;width:50%;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== New Releases ===== -->
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">
+        ✨ Mpya Kabisa
+      </h2>
+      <a href="#" class="view-all">Ona Zote</a>
+    </div>
+    <div class="stories-scroll" id="newStoriesContainer">
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-cover"></div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-sub"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <div class="logo-icon small">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      </div>
+      <span class="footer-brand">Stories Zone</span>
+    </div>
+    <p class="footer-copy">© 2025 Stories Zone. Haki zote zimehifadhiwa.</p>
+    <div class="footer-links">
+      <a href="#">Kuhusu</a>
+      <span>·</span>
+      <a href="#">Masharti</a>
+      <span>·</span>
+      <a href="#">Faragha</a>
+      <span>·</span>
+      <a href="#">Msaada</a>
+    </div>
+    <a href="https://wa.me/255618282371" class="btn-contact">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+      </svg>
+      Wasiliana Nasi
+    </a>
+  </footer>
+
+  <!-- ===== Floating CTA ===== -->
+  <div class="floating-cta" id="floatingCta">
+    <button class="cta-close" onclick="document.getElementById('floatingCta').classList.add('hidden')">×</button>
+    <div class="cta-content">
+      <div class="cta-icon">📚</div>
+      <p>Jiunge leo na upate <strong>sura 10 bure</strong> kwenye hadithi yoyote!</p>
+      <a href="#" class="btn btn-accent" style="padding: 8px 16px; font-size: 13px; white-space: nowrap;">Jiunge</a>
+    </div>
+  </div>
+
+  <!-- ===== Share Button ===== -->
+  <a href="https://wa.me/?text=Soma%20hadithi%20nzuri%20kwenye%20Stories%20Zone!" class="share-btn" title="Shiriki">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ===== Bottom Navigation (6 items) ===== -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Nyumbani
+    </a>
+
+    <a href="#" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      Tafuta
+    </a>
+
+    <a href="library.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </svg>
+      Maktaba
+    </a>
+
+    <a href="simulizi_audio.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+      Sauti
+    </a>
+
+    <a href="video.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="23 7 16 12 23 17 23 7"/>
+        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+      </svg>
+      Video
+    </a>
+
+    <a href="profile.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Akaunti
+    </a>
+  </nav>
+
+  <!-- ===== Supabase + Scripts ===== -->
+  <script>
+    // ===== Supabase Config =====
+    const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+    const headers = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json'
+    };
+
+    let heroStory = null;
+
+    function goToStory(storyId) {
+      window.location.href = `story.html?id=${storyId}`;
+    }
+
+    function getStoryUrl(storyId) {
+      return `https://storieszone.site/story.html?id=${storyId}`;
+    }
+
+    function showShareToast(msg) {
+      let t = document.getElementById('shareToast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = 'shareToast';
+        t.className = 'share-toast';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._hideTimer);
+      t._hideTimer = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    async function shareStory(storyId, title, event) {
+      if (event) { event.stopPropagation(); event.preventDefault(); }
+      const url = getStoryUrl(storyId);
+      const shareText = `Soma hadithi "${title}" kwenye Stories Zone`;
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: title || 'Stories Zone', text: shareText, url });
+          return;
+        }
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        showShareToast('Link imenakiliwa!');
+      } catch {
+        window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + url)}`, '_blank');
+      }
+    }
+
+
+    function openHeroStory() {
+      if (heroStory) goToStory(heroStory.id);
+    }
+
+    async function fetchStories(params = '') {
+      const url = `${SUPABASE_URL}/rest/v1/stories?is_published=eq.true&${params}`;
+      const res = await fetch(url, { headers });
+      if (!res.ok) throw new Error('Fetch failed');
+      return res.json();
+    }
+
+    async function fetchGenres() {
+      const url = `${SUPABASE_URL}/rest/v1/genres?select=id,name,emoji`;
+      const res = await fetch(url, { headers });
+      if (!res.ok) return [];
+      return res.json();
+    }
+
+    function buildStoryCard(story, genreMap) {
+      const genreName = genreMap[story.genre_id] || '';
+      const isNew = isRecentStory(story.published_at);
+      const badgeHtml = isNew
+        ? `<span class="story-badge new">Mpya</span>`
+        : `<span class="story-badge updated">Imesasishwa</span>`;
+      const statusClass = story.status === 'Inaendelea' ? 'ongoing' : '';
+      const statusLabel = story.status || 'Inaendelea';
+      const rating = story.total_rating ? Number(story.total_rating).toFixed(1) : '—';
+      const reads = formatReads(story.total_reads || 0);
+      const cover = story.cover_image_url || 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=300&q=80';
+
+      const safeTitle = escapeHtml(story.title || '');
+      const titleAttr = (story.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+      return `
+        <div class="story-card" onclick="goToStory('${story.id}')">
+          <div class="story-card-cover">
+            <img src="${cover}" alt="${safeTitle}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=300&q=80'" />
+            <div class="story-card-badges">${badgeHtml}</div>
+            <button class="share-fab" title="Shiriki hadithi" aria-label="Shiriki hadithi" onclick="shareStory('${story.id}', '${titleAttr}', event)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </button>
+            <div class="story-card-status">
+              <span class="status-badge ${statusClass}">${escapeHtml(statusLabel)}</span>
+            </div>
+          </div>
+          <div class="story-card-info">
+            <h3>${safeTitle}</h3>
+            <div class="story-card-genre">${escapeHtml(genreName)}</div>
+            <div class="story-card-stats">
+              <span><span class="star-icon">★</span> ${rating}</span>
+              <span>👁 ${reads}</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function buildTrendingCard(story, rank, genreMap) {
+      const genreName = genreMap[story.genre_id] || '';
+      const cover = story.cover_image_url || 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=100&q=80';
+      const reads = formatReads(story.total_reads || 0);
+      const safeTitle = escapeHtml(story.title || '');
+      const titleAttr = (story.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+      return `
+        <div class="trending-card" onclick="goToStory('${story.id}')">
+          <div class="trending-rank">${rank}</div>
+          <div class="trending-cover">
+            <img src="${cover}" alt="${safeTitle}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=100&q=80'" />
+          </div>
+          <div class="trending-info">
+            <h3>${safeTitle}</h3>
+            <div class="genre">${escapeHtml(genreName)}</div>
+            <div class="views">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              ${reads} wasomaji
+            </div>
+          </div>
+          <button class="share-fab" title="Shiriki hadithi" aria-label="Shiriki hadithi" onclick="shareStory('${story.id}', '${titleAttr}', event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>`;
+    }
+
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function formatReads(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+      return String(n);
+    }
+
+    function isRecentStory(publishedAt) {
+      if (!publishedAt) return false;
+      const days = (Date.now() - new Date(publishedAt).getTime()) / (1000 * 60 * 60 * 24);
+      return days <= 30;
+    }
+
+    let heroSlideStories = [];
+    let heroSlideIndex = 0;
+    let heroSlideTimer = null;
+
+    function loadHero(stories, genreMap) {
+      if (!stories || stories.length === 0) return;
+      heroSlideStories = stories.slice(0, 5);
+      heroStory = heroSlideStories[0];
+
+      const slidesEl = document.getElementById('heroSlides');
+      const dotsEl   = document.getElementById('heroDots');
+      const thumbsEl = document.getElementById('heroThumbs');
+      const fallback = 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1200&q=80';
+
+      slidesEl.innerHTML = heroSlideStories.map((s, i) => {
+        const genreName = genreMap[s.genre_id] || 'Hadithi';
+        const cover = s.cover_image_url || fallback;
+        return `
+          <div class="hero-slide ${i === 0 ? 'active' : ''}" data-idx="${i}">
+            <div class="hero-bg"><img src="${cover}" alt="${escapeHtml(s.title)}" onerror="this.src='${fallback}'"/></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-gradient"></div>
+            <div class="hero-content">
+              <div class="hero-badges">
+                <span class="badge badge-genre">${escapeHtml(genreName)}</span>
+                <span class="badge badge-chapters">Sura ${s.chapters_count || 0}</span>
+              </div>
+              <h1 class="hero-title" onclick="goToStory('${s.id}')">${escapeHtml(s.title || '')}</h1>
+              <p class="hero-description">${escapeHtml(s.description || '')}</p>
+              <div class="hero-buttons">
+                <a href="#" class="btn btn-primary" onclick="goToStory('${s.id}'); return false;">
+                  <svg style="width:16px;height:16px;margin-right:4px;" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  Soma Sasa
+                </a>
+                <a href="#" class="btn btn-secondary" onclick="return false;">Ongeza Kwenye Maktaba</a>
+                <button class="btn btn-secondary" onclick="shareStory('${s.id}', ${JSON.stringify(s.title || '')}, event)" title="Shiriki">
+                  <svg style="width:16px;height:16px;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  Shiriki
+                </button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      dotsEl.innerHTML = heroSlideStories.map((_, i) =>
+        `<button class="${i === 0 ? 'active' : ''}" data-idx="${i}" aria-label="Slide ${i+1}"></button>`
+      ).join('');
+
+      thumbsEl.innerHTML = heroSlideStories.map((s, i) => {
+        const cover = s.cover_image_url || fallback;
+        return `<div class="hero-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}">
+          <img src="${cover}" alt="${escapeHtml(s.title)}" onerror="this.src='${fallback}'"/>
+        </div>`;
+      }).join('');
+
+      dotsEl.querySelectorAll('button').forEach(b =>
+        b.addEventListener('click', () => showHeroSlide(+b.dataset.idx, true))
+      );
+      thumbsEl.querySelectorAll('.hero-thumb').forEach(t =>
+        t.addEventListener('click', () => showHeroSlide(+t.dataset.idx, true))
+      );
+
+      startHeroAutoplay();
+    }
+
+    function showHeroSlide(idx, manual) {
+      if (!heroSlideStories.length) return;
+      heroSlideIndex = (idx + heroSlideStories.length) % heroSlideStories.length;
+      heroStory = heroSlideStories[heroSlideIndex];
+      document.querySelectorAll('#heroSlides .hero-slide').forEach((el, i) =>
+        el.classList.toggle('active', i === heroSlideIndex));
+      document.querySelectorAll('#heroDots button').forEach((el, i) =>
+        el.classList.toggle('active', i === heroSlideIndex));
+      document.querySelectorAll('#heroThumbs .hero-thumb').forEach((el, i) =>
+        el.classList.toggle('active', i === heroSlideIndex));
+      if (manual) startHeroAutoplay();
+    }
+
+    function startHeroAutoplay() {
+      if (heroSlideTimer) clearInterval(heroSlideTimer);
+      if (heroSlideStories.length < 2) return;
+      heroSlideTimer = setInterval(() => showHeroSlide(heroSlideIndex + 1), 5000);
+    }
+
+    async function loadAllData() {
+      try {
+        const [genres, popularRaw, newRaw] = await Promise.all([
+          fetchGenres(),
+          fetchStories('order=total_reads.desc&limit=10'),
+          fetchStories('order=published_at.desc&limit=8')
+        ]);
+
+        const genreMap = {};
+        genres.forEach(g => { genreMap[g.id] = (g.emoji ? g.emoji + ' ' : '') + g.name; });
+
+        loadHero(popularRaw, genreMap);
+
+        const popularContainer = document.getElementById('popularStoriesContainer');
+        if (popularRaw.length > 0) {
+          popularContainer.innerHTML = popularRaw.map(s => buildStoryCard(s, genreMap)).join('');
+        } else {
+          popularContainer.innerHTML = '<p style="color:var(--text-muted);padding:16px;">Hakuna hadithi kwa sasa.</p>';
+        }
+
+        const trendingContainer = document.getElementById('trendingContainer');
+        const top5 = popularRaw.slice(0, 5);
+        if (top5.length > 0) {
+          trendingContainer.innerHTML = top5.map((s, i) => buildTrendingCard(s, i + 1, genreMap)).join('');
+        } else {
+          trendingContainer.innerHTML = '<p style="color:var(--text-muted);padding:16px;">Hakuna data.</p>';
+        }
+
+        const newContainer = document.getElementById('newStoriesContainer');
+        if (newRaw.length > 0) {
+          newContainer.innerHTML = newRaw.map(s => buildStoryCard(s, genreMap)).join('');
+        } else {
+          newContainer.innerHTML = '<p style="color:var(--text-muted);padding:16px;">Hakuna hadithi mpya.</p>';
+        }
+
+      } catch (err) {
+        console.error('Hitilafu ya Supabase:', err);
+        document.getElementById('popularStoriesContainer').innerHTML = '<p style="color:var(--text-muted);padding:16px;">Hitilafu ya kupakia. Jaribu tena.</p>';
+        document.getElementById('trendingContainer').innerHTML = '';
+        document.getElementById('newStoriesContainer').innerHTML = '';
+      }
+    }
+
+    // ===== Search =====
+    let searchTimeout = null;
+    document.getElementById('searchInput').addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+      searchTimeout = setTimeout(() => doSearch(query), 400);
+    });
+
+    async function doSearch(query) {
+      if (!query) { loadAllData(); return; }
+      try {
+        const encoded = encodeURIComponent(query);
+        const url = `${SUPABASE_URL}/rest/v1/stories?is_published=eq.true&or=(title.ilike.*${encoded}*,author.ilike.*${encoded}*)&order=total_reads.desc&limit=20`;
+        const res = await fetch(url, { headers });
+        const results = await res.json();
+
+        const genres = await fetchGenres();
+        const genreMap = {};
+        genres.forEach(g => { genreMap[g.id] = (g.emoji ? g.emoji + ' ' : '') + g.name; });
+
+        const container = document.getElementById('popularStoriesContainer');
+        if (results.length > 0) {
+          container.innerHTML = results.map(s => buildStoryCard(s, genreMap)).join('');
+        } else {
+          container.innerHTML = `<p style="color:var(--text-muted);padding:16px;">Hakuna matokeo kwa "${escapeHtml(query)}".</p>`;
+        }
+
+        document.getElementById('trendingContainer').innerHTML = '';
+        document.getElementById('newStoriesContainer').innerHTML = '';
+      } catch(e) { console.error(e); }
+    }
+
+    // ===== Filter tabs =====
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', async () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const genre = tab.dataset.genre;
+        if (!genre) { loadAllData(); return; }
+
+        try {
+          const genres = await fetchGenres();
+          const genreMap = {};
+          genres.forEach(g => { genreMap[g.id] = (g.emoji ? g.emoji + ' ' : '') + g.name; });
+          const found = genres.find(g => g.name === genre);
+          if (!found) return;
+
+          const stories = await fetchStories(`genre_id=eq.${found.id}&order=total_reads.desc&limit=20`);
+          const container = document.getElementById('popularStoriesContainer');
+          if (stories.length > 0) {
+            container.innerHTML = stories.map(s => buildStoryCard(s, genreMap)).join('');
+          } else {
+            container.innerHTML = `<p style="color:var(--text-muted);padding:16px;">Hakuna hadithi za ${escapeHtml(genre)} kwa sasa.</p>`;
+          }
+        } catch(e) { console.error(e); }
+      });
+    });
+
+    // ===== Genre pills (active state via class instead of inline styles) =====
+    document.querySelectorAll('.genre-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.genre-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+
+    // ===== Bottom nav active state =====
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        item.classList.add('active');
+      });
+    });
+
+    // ===== Header shadow on scroll =====
+    const header = document.getElementById('siteHeader');
+    const onScroll = () => {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ===== Auto-hide floating CTA =====
+    setTimeout(() => {
+      const cta = document.getElementById('floatingCta');
+      if (cta) cta.classList.add('hidden');
+    }, 8000);
+
+    // ===== Init =====
+    loadAllData();
+  </script>
+
+<!-- ===== Signup Popup ===== -->
+<div id="signupPopup" class="signup-popup" role="dialog" aria-modal="true" aria-labelledby="signupPopupTitle">
+  <div class="signup-popup__backdrop" data-close></div>
+  <div class="signup-popup__card">
+    <button class="signup-popup__close" data-close aria-label="Funga">&times;</button>
+    <div class="signup-popup__icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+    </div>
+    <h3 id="signupPopupTitle" class="signup-popup__title">Karibu Stories Zone! 📚</h3>
+    <p class="signup-popup__text">Jisajili leo bila malipo ili kusoma hadithi zote za kusisimua kwenye jukwaa letu.</p>
+    <div class="signup-popup__actions">
+      <a href="signup.html" class="signup-popup__btn signup-popup__btn--primary">Jisajili Sasa</a>
+      <a href="login.html" class="signup-popup__btn signup-popup__btn--ghost">Nina akaunti — Ingia</a>
+    </div>
+    <div class="signup-popup__timer"><div class="signup-popup__timer-bar"></div></div>
+  </div>
+</div>
+
+<style>
+.signup-popup{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s var(--ease)}
+.signup-popup.is-open{display:flex;opacity:1}
+.signup-popup__backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.signup-popup__card{position:relative;width:100%;max-width:380px;background:linear-gradient(160deg,var(--bg-card),var(--bg-secondary));border:1px solid var(--border);border-radius:20px;padding:28px 24px 20px;box-shadow:var(--shadow-lg);text-align:center;transform:translateY(20px) scale(.96);transition:transform .35s var(--ease);overflow:hidden}
+.signup-popup.is-open .signup-popup__card{transform:translateY(0) scale(1)}
+.signup-popup__close{position:absolute;top:10px;right:12px;width:32px;height:32px;border-radius:50%;color:var(--text-secondary);font-size:24px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background var(--dur-fast)}
+.signup-popup__close:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.signup-popup__icon{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-hover));color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 8px 20px rgba(156,37,24,.4)}
+.signup-popup__title{font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:8px}
+.signup-popup__text{font-size:14px;color:var(--text-secondary);margin-bottom:20px;line-height:1.5}
+.signup-popup__actions{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.signup-popup__btn{display:block;width:100%;padding:12px 18px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;transition:all var(--dur-fast) var(--ease)}
+.signup-popup__btn--primary{background:var(--primary);color:#fff}
+.signup-popup__btn--primary:hover{background:var(--primary-hover);transform:translateY(-1px)}
+.signup-popup__btn--ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
+.signup-popup__btn--ghost:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.signup-popup__timer{height:3px;background:var(--border);border-radius:99px;overflow:hidden}
+.signup-popup__timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transform-origin:left;animation:popupTimer 15s linear forwards}
+@keyframes popupTimer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+</style>
+
+<script>
+(function(){
+  // Onyesha popup kila mara mtumiaji anaporudi kwenye ukurasa huu.
+  // Kama umeunganisha Supabase auth na unataka kuruka popup kwa wale walioingia,
+  // weka logic hapa kuangalia session kabla ya kuonyesha.
+  var popup = document.getElementById('signupPopup');
+  if(!popup) return;
+  var hideTimer;
+  function openPopup(){
+    popup.classList.add('is-open');
+    // restart progress bar animation
+    var bar = popup.querySelector('.signup-popup__timer-bar');
+    if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; }
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(closePopup, 15000);
+  }
+  function closePopup(){
+    popup.classList.remove('is-open');
+    clearTimeout(hideTimer);
+  }
+  popup.querySelectorAll('[data-close]').forEach(function(el){
+    el.addEventListener('click', closePopup);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closePopup();
+  });
+  // Onyesha baada ya sekunde 1 ili ukurasa ujipange kwanza
+  window.addEventListener('load', function(){ setTimeout(openPopup, 1000); });
+})();
+</script>
+</body>
+</html>
