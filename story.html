@@ -615,7 +615,7 @@ img { max-width: 100%; display: block; }
 
 .purchase-bulk .btn:active { transform: translateY(0); }
 
-/* Button 1: Nunua Sura 4 - kijani inayowaka */
+/* Button 1: Nunua Sura - kijani inayowaka */
 #buyChunkChaptersBtn {
   background: linear-gradient(135deg, #42a781, #4dbd94);
   border-color: #4dbd94;
@@ -892,7 +892,7 @@ img { max-width: 100%; display: block; }
   <div class="purchase-bulk" id="purchaseBulk" style="display: none;">
     <button class="btn btn-secondary" id="buyChunkChaptersBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-      Nunua Sura 4
+      Nunua Sura
     </button>
     <button class="btn btn-secondary" id="buyFullStoryBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -1092,6 +1092,7 @@ img { max-width: 100%; display: block; }
     let currentComments = [];
     let userReadingProgress = 0;
     let purchasedChapterIds = new Set();
+    let hasFullStoryAccess = false;  // ← ADDED: kama amenunua bulk_full
     let hasPremium = false;
 
     // DOM Elements
@@ -1243,10 +1244,14 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Load user's purchased chapters
+    // ============================================
+    // LOAD USER PURCHASES - WITH BULK_FULL SUPPORT
+    // ============================================
     async function loadUserPurchases() {
       if (!currentUser) return;
-      const { data } = await supabase
+      
+      // 1. Angalia chapter purchases za kawaida
+      const { data: chapterPurchases } = await supabase
         .from('purchases')
         .select('item_id')
         .eq('user_id', currentUser.id)
@@ -1254,8 +1259,36 @@ img { max-width: 100%; display: block; }
         .eq('status', 'Imefanikishwa');
       
       purchasedChapterIds.clear();
-      if (data) {
-        data.forEach(p => purchasedChapterIds.add(p.item_id));
+      if (chapterPurchases) {
+        chapterPurchases.forEach(p => purchasedChapterIds.add(p.item_id));
+      }
+      
+      // 2. ★★★★★ ANGALIA BULK_FULL PURCHASES ★★★★★
+      // Hii itamfanya mtumiaji apate access kwa sura zote ikiwa amenunua hadithi nzima
+      const { data: bulkPurchases } = await supabase
+        .from('purchases')
+        .select('story_id')
+        .eq('user_id', currentUser.id)
+        .eq('item_type', 'bulk_full')
+        .eq('status', 'Imefanikishwa');
+      
+      hasFullStoryAccess = false;
+      
+      if (bulkPurchases && bulkPurchases.length > 0) {
+        // Angalia kuna bulk_full purchase ya story hii
+        const hasBulkForThisStory = bulkPurchases.some(b => b.story_id === storyData.id);
+        
+        if (hasBulkForThisStory) {
+          hasFullStoryAccess = true;
+          
+          // Ongeza chapter zote za story hii kwenye purchasedChapterIds
+          // Ili isChapterAccessible() iweze kurudi true kwa kila sura
+          chapters.forEach(chapter => {
+            purchasedChapterIds.add(chapter.id);
+          });
+          
+          console.log('✅ User has FULL STORY access - all chapters unlocked');
+        }
       }
     }
 
@@ -1548,11 +1581,12 @@ img { max-width: 100%; display: block; }
       commentSection.style.display = 'block';
     }
 
-    // Check if chapter is accessible
+    // Check if chapter is accessible (UPDATED to include hasFullStoryAccess)
     function isChapterAccessible(chapter, index, freeChaptersCount) {
       const isFree = chapter.is_free === true;
       const isPurchased = purchasedChapterIds.has(chapter.id);
-      return isFree || isPurchased || hasPremium;
+      // ★ ADDED: hasFullStoryAccess inafanya sura zote ziwe accessible ★
+      return isFree || isPurchased || hasPremium || hasFullStoryAccess;
     }
 
     // Open chapter for reading
@@ -1582,6 +1616,7 @@ img { max-width: 100%; display: block; }
       
       const freeChaptersCount = storyData.free_chapters_count || 3;
       
+      // Reload purchases to ensure we have latest data
       await loadUserPurchases();
       await checkPremiumStatus();
       
@@ -1591,7 +1626,8 @@ img { max-width: 100%; display: block; }
       const chaptersHTML = chapters.map((chapter, index) => {
         const isFree = chapter.is_free === true;
         const isPurchased = purchasedChapterIds.has(chapter.id);
-        const isAccessible = isFree || isPurchased || hasPremium;
+        // Use the updated accessibility check
+        const isAccessible = isFree || isPurchased || hasPremium || hasFullStoryAccess;
         
         const price = getChapterPrice(chapter, storyData.price_per_chapter);
         
@@ -1638,34 +1674,35 @@ img { max-width: 100%; display: block; }
       document.getElementById('chaptersList').innerHTML = chaptersHTML;
       document.getElementById('chaptersCount').textContent = `Sura ${chapters.length}`;
       
-      if (firstLockedIndex !== -1 && currentUser && !hasPremium) {
+      // Only show bulk purchase buttons if user doesn't have full access
+      if (firstLockedIndex !== -1 && currentUser && !hasPremium && !hasFullStoryAccess) {
         purchaseBulkDiv.style.display = 'flex';
         
-        let priceFor5 = 0;
-        let count5 = 0;
-        for (let i = firstLockedIndex; i < chapters.length && count5 < 4; i++) {
+        let priceForChunk = 0;
+        let countChunk = 0;
+        for (let i = firstLockedIndex; i < chapters.length && countChunk < 4; i++) {
           const ch = chapters[i];
           const isFree = ch.is_free === true;
           const isPurchased = purchasedChapterIds.has(ch.id);
-          if (!isFree && !isPurchased && !hasPremium) {
+          if (!isFree && !isPurchased && !hasPremium && !hasFullStoryAccess) {
             const p = getChapterPrice(ch, storyData.price_per_chapter);
             if (p !== 'premium' && typeof p === 'number') {
-              priceFor5 += p;
-              count5++;
+              priceForChunk += p;
+              countChunk++;
             }
           }
         }
         
-        const buy5Btn = document.getElementById('buyChunkChaptersBtn');
+        const buyChunkBtn = document.getElementById('buyChunkChaptersBtn');
         const buyFullBtn = document.getElementById('buyFullStoryBtn');
         
-        if (count5 > 0) {
-          buy5Btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Nunua Sura ${count5} (TSh ${priceFor5.toLocaleString()})`;
-          buy5Btn.dataset.chapters = JSON.stringify(chapters.slice(firstLockedIndex, firstLockedIndex + count5).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
-          buy5Btn.dataset.totalPrice = priceFor5;
-          buy5Btn.style.display = 'flex';
+        if (countChunk > 0) {
+          buyChunkBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Nunua Sura ${countChunk} (TSh ${priceForChunk.toLocaleString()})`;
+          buyChunkBtn.dataset.chapters = JSON.stringify(chapters.slice(firstLockedIndex, firstLockedIndex + countChunk).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
+          buyChunkBtn.dataset.totalPrice = priceForChunk;
+          buyChunkBtn.style.display = 'flex';
         } else {
-          buy5Btn.style.display = 'none';
+          buyChunkBtn.style.display = 'none';
         }
         
         if (totalPriceForRemaining > 0) {
@@ -1674,7 +1711,7 @@ img { max-width: 100%; display: block; }
           buyFullBtn.dataset.chapters = JSON.stringify(chapters.filter((c, i) => {
             const isFree = c.is_free === true;
             const isPurchased = purchasedChapterIds.has(c.id);
-            return !isFree && !isPurchased && !hasPremium;
+            return !isFree && !isPurchased && !hasPremium && !hasFullStoryAccess;
           }).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
           buyFullBtn.style.display = 'flex';
         } else {
