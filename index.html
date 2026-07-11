@@ -1708,7 +1708,7 @@ img {
           <span class="logo-text">Stories Zone</span>
         </span>
       </a>
-      <a href="login.html" class="btn btn-primary" style="padding: 8px 18px; font-size: 13px;">Ingia</a>
+      <a href="https://storieszone.site/login.html" class="btn btn-primary" id="authButton" style="padding: 8px 18px; font-size: 13px;">Ingia</a>
     </div>
     <div class="promo-banner">
       <span class="gift-icon">🎁</span>
@@ -1877,7 +1877,7 @@ img {
     <div class="cta-content">
       <div class="cta-icon">📚</div>
       <p>Jiunge leo na upate <strong>sura 10 bure</strong> kwenye hadithi yoyote!</p>
-      <a href="#" class="btn btn-accent" style="padding: 8px 16px; font-size: 13px; white-space: nowrap;">Jiunge</a>
+      <a href="https://storieszone.site/signup.html" class="btn btn-accent" style="padding: 8px 16px; font-size: 13px; white-space: nowrap;">Jiunge</a>
     </div>
   </div>
 
@@ -1930,12 +1930,12 @@ img {
       Video
     </a>
 
-    <a href="profile.html" class="nav-item">
+    <a href="https://storieszone.site/login.html" class="nav-item" id="authNavLink">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
       </svg>
-      Akaunti
+      <span id="navAuthLabel">Akaunti</span>
     </a>
   </nav>
 
@@ -2332,8 +2332,8 @@ img {
     <h3 id="signupPopupTitle" class="signup-popup__title">Karibu Stories Zone! 📚</h3>
     <p class="signup-popup__text">Jisajili leo bila malipo ili kusoma hadithi zote za kusisimua kwenye jukwaa letu.</p>
     <div class="signup-popup__actions">
-      <a href="signup.html" class="signup-popup__btn signup-popup__btn--primary">Jisajili Sasa</a>
-      <a href="login.html" class="signup-popup__btn signup-popup__btn--ghost">Nina akaunti — Ingia</a>
+      <a href="https://storieszone.site/signup.html" class="signup-popup__btn signup-popup__btn--primary">Jisajili Sasa</a>
+      <a href="https://storieszone.site/login.html" class="signup-popup__btn signup-popup__btn--ghost">Nina akaunti — Ingia</a>
     </div>
     <div class="signup-popup__timer"><div class="signup-popup__timer-bar"></div></div>
   </div>
@@ -2361,35 +2361,86 @@ img {
 @keyframes popupTimer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 </style>
 
-<script>
-(function(){
-  // Onyesha popup kila mara mtumiaji anaporudi kwenye ukurasa huu.
-  // Kama umeunganisha Supabase auth na unataka kuruka popup kwa wale walioingia,
-  // weka logic hapa kuangalia session kabla ya kuonyesha.
-  var popup = document.getElementById('signupPopup');
-  if(!popup) return;
-  var hideTimer;
-  function openPopup(){
-    popup.classList.add('is-open');
-    // restart progress bar animation
-    var bar = popup.querySelector('.signup-popup__timer-bar');
-    if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; }
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(closePopup, 15000);
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  // ===== Supabase Auth Client =====
+  const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+  const supabaseAuth = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ===== Signup popup (only if signed OUT) =====
+  function initSignupPopup(){
+    var popup = document.getElementById('signupPopup');
+    if(!popup) return;
+    var hideTimer;
+    function openPopup(){
+      popup.classList.add('is-open');
+      var bar = popup.querySelector('.signup-popup__timer-bar');
+      if(bar){ bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; }
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(closePopup, 15000);
+    }
+    function closePopup(){
+      popup.classList.remove('is-open');
+      clearTimeout(hideTimer);
+    }
+    popup.querySelectorAll('[data-close]').forEach(function(el){
+      el.addEventListener('click', closePopup);
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') closePopup();
+    });
+    setTimeout(openPopup, 1000);
   }
-  function closePopup(){
-    popup.classList.remove('is-open');
-    clearTimeout(hideTimer);
+
+  // ===== Update UI based on session =====
+  async function checkUserSession(){
+    try {
+      const { data: { user } } = await supabaseAuth.auth.getUser();
+      const authBtn  = document.getElementById('authButton');
+      const navLabel = document.getElementById('navAuthLabel');
+      const navLink  = document.getElementById('authNavLink');
+
+      if (user) {
+        // ✅ Ameingia
+        if (authBtn) {
+          authBtn.textContent = '👤 ' + (user.email || 'Akaunti');
+          authBtn.href = 'https://storieszone.site/profile.html';
+          authBtn.style.background = 'var(--accent)';
+          authBtn.style.color = 'white';
+        }
+        if (navLabel) navLabel.textContent = 'Akaunti';
+        if (navLink)  navLink.href = 'https://storieszone.site/profile.html';
+        // Usionyeshe popup kwa user aliyeingia
+      } else {
+        // ❌ Hajaingia
+        if (authBtn) {
+          authBtn.textContent = 'Ingia';
+          authBtn.href = 'https://storieszone.site/login.html';
+          authBtn.style.background = '';
+          authBtn.style.color = '';
+        }
+        if (navLabel) navLabel.textContent = 'Akaunti';
+        if (navLink)  navLink.href = 'https://storieszone.site/login.html';
+        // Onyesha popup ya kujisajili tu kwa wageni
+        initSignupPopup();
+      }
+    } catch (err) {
+      console.error('Session check error:', err);
+      initSignupPopup();
+    }
   }
-  popup.querySelectorAll('[data-close]').forEach(function(el){
-    el.addEventListener('click', closePopup);
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closePopup();
-  });
-  // Onyesha baada ya sekunde 1 ili ukurasa ujipange kwanza
-  window.addEventListener('load', function(){ setTimeout(openPopup, 1000); });
-})();
+
+  // Endesha mara ukurasa ukiwa tayari
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkUserSession);
+  } else {
+    checkUserSession();
+  }
+
+  // Sikiliza mabadiliko ya auth (baada ya OAuth callback)
+  supabaseAuth.auth.onAuthStateChange(() => { checkUserSession(); });
 </script>
 </body>
 </html>
