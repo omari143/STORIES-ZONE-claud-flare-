@@ -857,7 +857,77 @@ img { max-width: 100%; display: block; }
   100% { box-shadow: 0 0 0 0 rgba(156,37,24,0); }
 }
 .vli.playing .vli-thumb { animation: pulse-ring 1.8s infinite; }
+
+/* ===== QUALITY SELECTOR ===== */
+.mc-quality-row { display: flex; align-items: center; gap: 4px; padding: 4px 0; flex-wrap: wrap; }
+.mc-quality-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; }
+.mc-quality-btn:hover { background: var(--border-light); color: var(--text-primary); }
+.mc-quality-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.mc-quality-btn:active { transform: scale(0.95); }
+.mc-quality-row label { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-secondary); cursor: pointer; padding: 3px 8px; border-radius: 4px; background: var(--bg-secondary); border: 1px solid var(--border); }
+.mc-quality-row label:hover { background: var(--border-light); }
+.mc-quality-row input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+.data-usage-display { display: flex; gap: 16px; padding: 8px 12px; background: var(--bg-card); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 11px; color: var(--text-secondary); margin: 6px 0 12px; }
+.data-usage-display span { display: flex; align-items: center; gap: 4px; }
+.data-usage-display .highlight { color: var(--accent); font-weight: 700; }
+
+/* Quality menu - vertical dropdown in top-right corner (haitaziba play button) */
+.mc-quality-row-fixed {
+  position: absolute;
+  top: 58px;
+  right: 12px;
+  z-index: 25;
+  background: rgba(15,15,14,0.92);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  padding: 8px; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: stretch; gap: 3px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  min-width: 120px;
+  transform-origin: top right;
+  transform: scale(0.9) translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0; pointer-events: none;
+}
+.mc-quality-row-fixed.show { opacity: 1; pointer-events: all; transform: scale(1) translateY(0); }
+.mc-quality-row-fixed > span {
+  font-size: 10px !important; font-weight: 700 !important;
+  color: rgba(255,255,255,0.45) !important;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  padding: 4px 8px 6px !important; margin: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 3px !important;
+}
+.mc-quality-row-fixed .mc-quality-btn {
+  padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  border: 1px solid transparent;
+  background: transparent; color: rgba(255,255,255,0.75);
+  cursor: pointer; transition: all 0.15s ease;
+  text-align: left; width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mc-quality-row-fixed .mc-quality-btn::after {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: transparent; transition: background 0.15s ease;
+}
+.mc-quality-row-fixed .mc-quality-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.mc-quality-row-fixed .mc-quality-btn.active { background: rgba(156,37,24,0.18); color: #fff; }
+.mc-quality-row-fixed .mc-quality-btn.active::after { background: var(--primary); box-shadow: 0 0 6px var(--primary-glow); }
+.mc-quality-row-fixed .mc-quality-btn:active { transform: scale(0.97); }
+.mc-quality-row-fixed label {
+  display: flex; align-items: center; gap: 8px; font-size: 11px;
+  color: rgba(255,255,255,0.7); cursor: pointer;
+  margin: 4px 0 0; padding: 8px 12px; border-radius: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.mc-quality-row-fixed label:hover { background: rgba(255,255,255,0.05); }
+.mc-quality-row-fixed input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
   </style>
+<!-- ===== HLS PLAYER DEPENDENCIES ===== -->
+<link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@videojs/http-streaming@2.12.0/dist/videojs-http-streaming.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
 </head>
 <body>
 
@@ -1045,18 +1115,30 @@ img { max-width: 100%; display: block; }
 <div class="modal-overlay" id="videoModal">
   <div class="modal-video-wrap">
     <div class="modal-video-aspect" id="videoAspect">
-      <video id="videoPlayer" src="" playsinline onclick="event.stopPropagation(); toggleVidPlay()" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; cursor: pointer;"></video>
-      
+      <video id="videoPlayer" playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;cursor:pointer;"></video>
       <div class="video-placeholder" id="videoPlaceholder">
         <img id="modalThumb" src="" alt="" />
         <div class="vp-inner">
-          <div class="vp-big-play" onclick="event.stopPropagation(); startPlayback()">
+          <div class="vp-big-play" onclick="startPlayback()">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
           <p>Gusa kucheza video</p>
         </div>
       </div>
-      
+            <!-- ===== QUALITY ROW - Nje ya controlsLayer, haipotei ===== -->
+      <div class="mc-quality-row-fixed" id="qualityRowFixed">
+        <span>Ubora / Quality</span>
+        <button class="mc-quality-btn active" onclick="setQuality('auto')" data-quality="auto">Auto</button>
+        <button class="mc-quality-btn" onclick="setQuality('4k')" data-quality="4k">4K</button>
+        <button class="mc-quality-btn" onclick="setQuality('1080p')" data-quality="1080p">1080p</button>
+        <button class="mc-quality-btn" onclick="setQuality('720p')" data-quality="720p">720p</button>
+        <button class="mc-quality-btn" onclick="setQuality('480p')" data-quality="480p">480p</button>
+        <button class="mc-quality-btn" onclick="setQuality('360p')" data-quality="360p">360p</button>
+        <label>
+          <input type="checkbox" id="dataSaverToggle" onchange="toggleDataSaver()">
+          <span>💾 Data Saver</span>
+        </label>
+      </div>
       <div class="modal-controls-layer" id="controlsLayer">
         <div class="mc-top">
           <button class="mc-close" onclick="closePlayer()">
@@ -1071,14 +1153,14 @@ img { max-width: 100%; display: block; }
           </button>
         </div>
         <div class="mc-center-controls">
-          <button class="mc-skip-btn" onclick="event.stopPropagation(); vidSkip(-10)">
+          <button class="mc-skip-btn" onclick="vidSkip(-10)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
             <span>10s</span>
           </button>
-          <button class="mc-play-big" onclick="event.stopPropagation(); toggleVidPlay()">
+          <button class="mc-play-big" onclick="toggleVidPlay()">
             <svg viewBox="0 0 24 24" fill="currentColor" id="mcPlayIcon"><path d="M8 5v14l11-7z"/></svg>
           </button>
-          <button class="mc-skip-btn" onclick="event.stopPropagation(); vidSkip(10)">
+          <button class="mc-skip-btn" onclick="vidSkip(10)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.5"/></svg>
             <span>10s</span>
           </button>
@@ -1098,14 +1180,13 @@ img { max-width: 100%; display: block; }
               <div class="mc-vol-slider" onclick="vidVolume(event)">
                 <div class="mc-vol-fill" id="mcVolFill"></div>
               </div>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             </div>
             <div class="mc-options">
-              <button class="mc-speed" id="speedBtn" onclick="event.stopPropagation(); cycleSpeed()">1×</button>
-              <button class="mc-opt-btn" id="subBtn" onclick="event.stopPropagation(); toggleSubs()" title="Manukuu">
+              <button class="mc-speed" id="speedBtn" onclick="cycleSpeed()">1×</button>
+              <button class="mc-opt-btn" onclick="toggleSubs()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M7 12h5M7 16h10"/></svg>
               </button>
-              <button class="mc-opt-btn" onclick="event.stopPropagation(); shareApp()" title="Shiriki">
+              <button class="mc-opt-btn" onclick="shareApp()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
               </button>
             </div>
@@ -1115,7 +1196,7 @@ img { max-width: 100%; display: block; }
     </div>
   </div>
   <div class="modal-info" id="modalInfo">
-    <!-- Dynamic content with like and comments will be injected here -->
+    <!-- Dynamic content -->
   </div>
 </div>
 
@@ -1725,7 +1806,7 @@ img { max-width: 100%; display: block; }
           </button>
         </div>
         <button class="share-btn-detail" id="shareBtnDetail" type="button" title="Shiriki video">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
           Shiriki
         </button>
       </div>
@@ -2009,30 +2090,62 @@ img { max-width: 100%; display: block; }
 
   function toggleFullscreen() {
     const modal = document.getElementById('videoModal');
-    if (!document.fullscreenElement) {
-      modal.requestFullscreen && modal.requestFullscreen();
+    const video = document.getElementById('videoPlayer');
+    const req = modal.requestFullscreen || modal.webkitRequestFullscreen || modal.webkitRequestFullScreen || modal.mozRequestFullScreen || modal.msRequestFullscreen;
+    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    const fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    try {
+      if (!fsEl) {
+        if (req) {
+          const p = req.call(modal);
+          if (p && p.catch) p.catch(() => tryVideoFs(video));
+        } else {
+          tryVideoFs(video);
+        }
+      } else {
+        if (exit) exit.call(document);
+      }
+    } catch (e) {
+      tryVideoFs(video);
+    }
+  }
+  function tryVideoFs(video) {
+    if (!video) { alert('Kifaa chako hakiungi mkono Fullscreen. Tumia kitufe cha fullscreen cha kivinjari.'); return; }
+    // iOS Safari: only the <video> element supports fullscreen
+    const vReq = video.webkitEnterFullscreen || video.webkitRequestFullscreen || video.requestFullscreen;
+    if (vReq) {
+      try { vReq.call(video); } catch (e) { alert('Fullscreen haipatikani kwenye kifaa hiki.'); }
     } else {
-      document.exitFullscreen && document.exitFullscreen();
+      alert('Fullscreen haipatikani kwenye kifaa hiki.');
     }
   }
 
   function toggleControls() {
-    if (!isPlaying) return;
     const controlsLayer = document.getElementById('controlsLayer');
-    controlsLayer.classList.toggle('show');
-    clearTimeout(controlsTimer);
-    if (controlsLayer.classList.contains('show')) {
-      controlsTimer = setTimeout(() => controlsLayer.classList.remove('show'), 3000);
-    }
+    if (!controlsLayer) return;
+    if (controlsLayer.classList.contains('show')) hideControls();
+    else showControls();
   }
 
   function showControls() {
     const controlsLayer = document.getElementById('controlsLayer');
-    controlsLayer.classList.add('show');
+    const qualityRow = document.getElementById('qualityRowFixed');
+    if (controlsLayer) controlsLayer.classList.add('show');
+    if (qualityRow) qualityRow.classList.add('show');
     clearTimeout(controlsTimer);
     if (isPlaying) {
-      controlsTimer = setTimeout(() => controlsLayer.classList.remove('show'), 3000);
+      controlsTimer = setTimeout(() => {
+        if (controlsLayer) controlsLayer.classList.remove('show');
+        if (qualityRow) qualityRow.classList.remove('show');
+      }, 3000);
     }
+  }
+  function hideControls() {
+    const controlsLayer = document.getElementById('controlsLayer');
+    const qualityRow = document.getElementById('qualityRowFixed');
+    if (controlsLayer) controlsLayer.classList.remove('show');
+    if (qualityRow) qualityRow.classList.remove('show');
+    clearTimeout(controlsTimer);
   }
 
   function closePlayer() {
@@ -2198,6 +2311,19 @@ img { max-width: 100%; display: block; }
 
   // Sync UI na native video events (kwa pause/resume nje ya buttons)
   if (videoPlayer) {
+    videoPlayer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const controlsLayer = document.getElementById('controlsLayer');
+      const isShown = controlsLayer && controlsLayer.classList.contains('show');
+      if (!isShown) {
+        // Gusa la kwanza: onyesha controls tu
+        showControls();
+      } else {
+        // Gusa la pili wakati controls zinaonekana: cheza/simamisha
+        toggleVidPlay();
+        showControls();
+      }
+    });
     videoPlayer.addEventListener('play', () => {
       isPlaying = true;
       updatePlayBtn(true);
@@ -2219,6 +2345,405 @@ img { max-width: 100%; display: block; }
   }
   
   init();
+
+
+// ============================================================
+// HLS PLAYER - QUALITY CONTROL
+// ============================================================
+let hlsPlayer = null;
+let currentQuality = 'auto';
+let dataSaverEnabled = false;
+let qualityLevels = [];
+let videoDurationMinutes = 0;
+
+function initHLSPlayer(videoElement, hlsUrl) {
+  if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+    const hls = new Hls({
+      enableWorker: true, lowLatencyMode: true, backBufferLength: 30,
+      maxBufferLength: 30, maxMaxBufferLength: 600,
+      abrEwmaFastLive: 3.0, abrEwmaSlowLive: 9.0,
+      abrEwmaFastVoD: 3.0, abrEwmaSlowVoD: 9.0,
+      abrBandWidthFactor: 0.95, abrBandWidthUpFactor: 0.7,
+    });
+    hls.loadSource(hlsUrl);
+    hls.attachMedia(videoElement);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      qualityLevels = hls.levels;
+      console.log('📊 Available qualities: ' + qualityLevels.length);
+      autoSelectQuality(hls);
+    });
+    hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+      const level = hls.levels[data.level];
+      if (level) {
+        const qualityName = level.name || (level.height + 'p');
+        updateQualityUI(qualityName);
+        updateDataUsage(qualityName);
+        showQualityToast(qualityName);
+      }
+    });
+    hls.on(Hls.Events.ERROR, (event, data) => {
+      if (data.fatal) { console.error('HLS fatal error:', data); try { hls.recoverMediaError(); } catch(e){} }
+    });
+    hlsPlayer = hls;
+    return hls;
+  } else if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+    videoElement.src = hlsUrl;
+    return null;
+  } else {
+    showToast('❌ Kivinjari chako hakitumii video hii', 'error');
+    return null;
+  }
+}
+
+function autoSelectQuality(hls) {
+  if (dataSaverEnabled) { hls.currentLevel = 0; return; }
+  if ('connection' in navigator) {
+    const conn = navigator.connection;
+    const speed = conn.downlink;
+    let suggestedLevel = -1;
+    if (speed < 1) suggestedLevel = 0;
+    else if (speed < 2) suggestedLevel = 1;
+    else if (speed < 4) suggestedLevel = 2;
+    else if (speed < 8) suggestedLevel = 3;
+    else if (speed >= 8) suggestedLevel = 4;
+    if (suggestedLevel >= 0 && suggestedLevel < hls.levels.length) {
+      hls.currentLevel = suggestedLevel;
+    } else { hls.currentLevel = -1; }
+  } else { hls.currentLevel = -1; }
+}
+
+window.setQuality = function(quality) {
+  clearTimeout(window.__qualityHideTimer);
+  window.__qualityHideTimer = setTimeout(() => {
+    const qr = document.getElementById('qualityRowFixed');
+    const cl = document.getElementById('controlsLayer');
+    if (qr) qr.classList.remove('show');
+    if (cl) cl.classList.remove('show');
+  }, 1500);
+
+  if (!hlsPlayer) return;
+  currentQuality = quality;
+  document.querySelectorAll('.mc-quality-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.quality === quality);
+  });
+  if (quality === 'auto') {
+    hlsPlayer.currentLevel = -1;
+    autoSelectQuality(hlsPlayer);
+    showToast('🤖 Ubora wa moja kwa moja umeanzishwa', 'success');
+  } else {
+    const levelIndex = hlsPlayer.levels.findIndex(l => {
+      const name = l.name || (l.height + 'p');
+      return name.toLowerCase() === quality.toLowerCase() || l.height === parseInt(quality);
+    });
+    if (levelIndex !== -1) {
+      hlsPlayer.currentLevel = levelIndex;
+      const level = hlsPlayer.levels[levelIndex];
+      const qualityName = level.name || (level.height + 'p');
+      showToast('📺 Ubora: ' + qualityName, 'success');
+      updateDataUsage(qualityName);
+    } else {
+      showToast('❌ Ubora ' + quality + ' haupatikani', 'error');
+    }
+  }
+};
+
+window.toggleDataSaver = function() {
+  dataSaverEnabled = document.getElementById('dataSaverToggle').checked;
+  if (dataSaverEnabled) {
+    if (hlsPlayer && hlsPlayer.levels && hlsPlayer.levels.length > 0) {
+      hlsPlayer.currentLevel = 0;
+      const level = hlsPlayer.levels[0];
+      const qualityName = level.name || (level.height + 'p');
+      updateQualityUI(qualityName);
+      showToast('💾 Hifadhi Data imewashwa - Ubora wa chini', 'success');
+    }
+  } else {
+    if (hlsPlayer) {
+      hlsPlayer.currentLevel = -1;
+      autoSelectQuality(hlsPlayer);
+      showToast('💾 Hifadhi Data imezimwa', 'info');
+    }
+  }
+};
+
+function updateQualityUI(qualityName) {
+  document.querySelectorAll('.mc-quality-btn').forEach(btn => {
+    const btnQuality = btn.dataset.quality;
+    const isMatch = btnQuality === 'auto' ? qualityName === 'auto' :
+      qualityName.toLowerCase().includes(btnQuality) || btnQuality.includes(qualityName);
+    btn.classList.toggle('active', isMatch);
+  });
+}
+
+function updateDataUsage(qualityName) {
+  const dataRates = {
+    '360p': { perMinute: 0.75, perHour: 45 },
+    '480p': { perMinute: 1.5, perHour: 90 },
+    '720p': { perMinute: 3, perHour: 180 },
+    '1080p': { perMinute: 6, perHour: 360 },
+    '4k': { perMinute: 15, perHour: 900 }
+  };
+  const key = Object.keys(dataRates).find(k =>
+    qualityName.toLowerCase().includes(k.toLowerCase()) ||
+    k.toLowerCase().includes(qualityName.toLowerCase())
+  );
+  if (key && dataRates[key]) {
+    const data = dataRates[key];
+    const totalForDuration = (data.perMinute * videoDurationMinutes);
+    const display = document.getElementById('dataUsageDisplay');
+    if (display) {
+      display.innerHTML =
+        '<span>📊 <span class="highlight">' + data.perMinute.toFixed(1) + ' MB</span>/dakika</span>' +
+        '<span>⏱️ <span class="highlight">' + totalForDuration.toFixed(0) + ' MB</span> kwa video hii</span>' +
+        '<span>📱 <span class="highlight">' + data.perHour.toFixed(0) + ' MB</span>/saa</span>';
+    }
+  }
+}
+
+let qualityToastTimer = null;
+function showQualityToast(qualityName) {
+  let el = document.getElementById('qualityToast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'qualityToast';
+    el.style.cssText = 'position:fixed;bottom:120px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.85);color:#fff;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;z-index:10001;transition:all 0.3s;opacity:0;pointer-events:none;';
+    document.body.appendChild(el);
+  }
+  el.textContent = '📺 ' + qualityName;
+  el.style.opacity = '1';
+  el.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(qualityToastTimer);
+  qualityToastTimer = setTimeout(() => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(-50%) translateY(10px)';
+  }, 1500);
+}
+
+function showDataWarning(videoDurationMinutes) {
+  const quality = currentQuality;
+  const dataRates = {
+    'auto': { perMinute: 3 },
+    '360p': { perMinute: 0.75 },
+    '480p': { perMinute: 1.5 },
+    '720p': { perMinute: 3 },
+    '1080p': { perMinute: 6 },
+    '4k': { perMinute: 15 }
+  };
+  const rate = dataRates[quality] || dataRates['auto'];
+  const totalMB = rate.perMinute * videoDurationMinutes;
+  if (totalMB > 50) {
+    const confirmPlay = confirm(
+      '⚠️ Video hii itatumia takriban ' + totalMB.toFixed(0) + ' MB ya data.\n' +
+      '(' + rate.perMinute.toFixed(1) + ' MB kwa dakika)\n\n' +
+      'Je, unataka kuendelea?'
+    );
+    if (!confirmPlay) {
+      const useLowQuality = confirm(
+        'Ungependa kupunguza ubora ili kuokoa data?\n' +
+        '(360p itatumia ~' + (totalMB * 0.25).toFixed(0) + ' MB)'
+      );
+      if (useLowQuality) { setQuality('360p'); return true; }
+      return false;
+    }
+  }
+  return true;
+}
+
+// ============================================================
+// OVERRIDE openPlayer FUNCTION
+// ============================================================
+const originalOpenPlayer = window.openPlayer;
+window.openPlayer = async function(index) {
+  if (index < 0 || index >= videoItems.length) return;
+  const video = videoItems[index];
+
+  if (!video.is_free) {
+    const [hasPurchased, hasPremium] = await Promise.all([
+      hasPurchasedVideo(video.id),
+      hasActiveSubscription()
+    ]);
+    if (!hasPurchased && !hasPremium) {
+      showToast('Unahitaji kununua video hii kutazama', 'error');
+      setTimeout(() => {
+        window.location.href = 'payment.html?type=video&id=' + video.id + '&price=' + (video.price || 1000);
+      }, 1500);
+      return;
+    }
+  }
+
+  document.querySelectorAll('.vli').forEach(el => el.classList.remove('playing'));
+  const listItem = document.querySelector('.vli[data-index="' + index + '"]');
+  if (listItem) listItem.classList.add('playing');
+
+  currentVideo = video;
+  currentVideoId = video.id;
+  videoDurationMinutes = (video.duration_seconds || 0) / 60;
+
+  const [likeCount, userLiked, comments, commentsCount] = await Promise.all([
+    loadLikes(video.id),
+    checkUserLiked(video.id),
+    loadComments(video.id),
+    loadCommentsCount(video.id)
+  ]);
+
+  currentLikeCount = likeCount;
+  currentLiked = userLiked;
+  currentComments = comments;
+
+  const coverImage = video.thumbnail_url || video.cover_image_url || 'https://placehold.co/800x450/1a1a1a/888888?text=No+Cover';
+  const narratorName = video.narrators?.name || 'Msimulizi';
+  const genreName = video.genres?.name || 'Aina';
+  const duration = formatDuration(video.duration_seconds);
+  const rating = video.total_views ? (Math.min(5, (video.total_views / 10000) + 3.5)).toFixed(1) : '4.5';
+  const views = formatNumber(video.total_views);
+
+  const modalInfoHTML = `
+    <div class="mi-header">
+      <div class="mi-title">${escapeHtml(video.title)}</div>
+      <button class="mi-share" onclick="shareApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+    </div>
+    <div class="mi-genre-row" id="miTags">
+      <span class="mi-tag genre">${escapeHtml(genreName)}</span>
+      <span class="mi-tag ${video.is_free ? 'free' : 'status'}">${video.is_free ? 'Bure' : 'Premium'}</span>
+      <span class="mi-tag status">${video.status || 'Imekamilika'}</span>
+    </div>
+    <div class="data-usage-display" id="dataUsageDisplay">
+      <span>📊 <span class="highlight">3 MB</span>/dakika</span>
+      <span>⏱️ <span class="highlight">${(videoDurationMinutes * 3).toFixed(0)} MB</span> kwa video hii</span>
+      <span>📱 <span class="highlight">180 MB</span>/saa</span>
+    </div>
+    <div class="mi-stats-row">
+      <div class="mi-stat"><span class="v">${views}</span><span class="l">Maono</span></div>
+      <div class="mi-stat"><span class="v" style="color:var(--yellow)">★ ${rating}</span><span class="l">Ukadiriaji</span></div>
+      <div class="mi-stat"><span class="v">${duration}</span><span class="l">Muda</span></div>
+      <div class="mi-stat"><span class="v" id="statLikes">${likeCount}</span><span class="l">Likes</span></div>
+    </div>
+    <p class="mi-synopsis">${escapeHtml(video.description || 'Hakuna maelezo ya video hii.')}</p>
+    <div class="mi-narrator-row">
+      <div class="mi-nar-avatar">${narratorName.charAt(0).toUpperCase()}</div>
+      <div class="mi-nar-info">
+        <div class="name">${escapeHtml(narratorName)}</div>
+        <div class="role">Msimulizi</div>
+      </div>
+    </div>
+    <div class="detail-actions-row">
+      <div class="like-section">
+        <button class="like-btn ${currentLiked ? 'liked' : ''}" id="likeBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span class="like-count" id="likeCount">${likeCount}</span>
+          <span>${currentLiked ? 'Umeipenda' : 'Penda'}</span>
+        </button>
+      </div>
+      <button class="share-btn-detail" id="shareBtnDetail" onclick="shareApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Shiriki
+      </button>
+    </div>
+    <div class="comment-form">
+      <div class="comment-input-wrapper">
+        <input type="text" id="commentInput" placeholder="Andika maoni yako hapa..." maxlength="500">
+        <button class="comment-submit" id="submitCommentBtn">Tuma</button>
+      </div>
+    </div>
+    <div class="comments-list" id="commentsList">
+      ${renderCommentsList(comments)}
+    </div>
+    <div class="mi-related-title">Unaweza Kupenda Pia</div>
+    <div class="mi-related-scroll" id="miRelated"></div>
+  `;
+
+  document.getElementById('modalInfo').innerHTML = modalInfoHTML;
+
+  const relEl = document.getElementById('miRelated');
+  relEl.innerHTML = videoItems.filter(v => v.id !== video.id).slice(0, 5).map(v => {
+    const relCover = v.thumbnail_url || v.cover_image_url || 'https://placehold.co/100x65/1a1a1a/888888?text=No+Cover';
+    const relIndex = videoItems.findIndex(item => item.id === v.id);
+    return `
+      <div class="mrc" onclick="openPlayer(${relIndex}); event.stopPropagation();">
+        <div class="mrc-img"><img src="${relCover}" alt="${escapeHtml(v.title)}" onerror="this.src='https://placehold.co/100x65/1a1a1a/888888?text=No+Cover'"></div>
+        <h4>${escapeHtml(v.title)}</h4>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('likeBtn')?.addEventListener('click', async () => {
+    const newLiked = await toggleLike(video.id);
+    currentLiked = newLiked;
+    const newCount = await loadLikes(video.id, true);
+    currentLikeCount = newCount;
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCountSpan = document.getElementById('likeCount');
+    const statLikesSpan = document.getElementById('statLikes');
+    if (likeBtn) {
+      if (newLiked) { likeBtn.classList.add('liked'); likeBtn.querySelector('span:last-child').textContent = 'Umeipenda'; }
+      else { likeBtn.classList.remove('liked'); likeBtn.querySelector('span:last-child').textContent = 'Penda'; }
+    }
+    if (likeCountSpan) likeCountSpan.textContent = newCount;
+    if (statLikesSpan) statLikesSpan.textContent = newCount;
+    likesCache.set(video.id, newCount);
+    renderNewReleases();
+    renderVideoList(currentCategory === 'all' ? videoItems : videoItems.filter(v => v.genres?.name === currentCategory));
+  });
+
+  document.getElementById('submitCommentBtn')?.addEventListener('click', async () => {
+    const input = document.getElementById('commentInput');
+    const content = input.value.trim();
+    if (!content) { showToast('Andika maoni yako kwanza', 'error'); return; }
+    const success = await addComment(video.id, content);
+    if (success) {
+      input.value = '';
+      const newComments = await loadComments(video.id);
+      currentComments = newComments;
+      const commentsList = document.getElementById('commentsList');
+      if (commentsList) commentsList.innerHTML = renderCommentsList(newComments);
+      const newCount = await loadCommentsCount(video.id);
+      commentsCountCache.set(video.id, newCount);
+      showToast('Maoni yametumwa!', 'success');
+    }
+  });
+
+  document.getElementById('modalThumb').src = coverImage;
+  document.getElementById('mcTitle').textContent = video.title;
+  document.getElementById('mcNarrator').textContent = narratorName;
+
+  resetVideoPlayer();
+  document.getElementById('videoModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  const videoElement = document.getElementById('videoPlayer');
+  if (video.hls_playlist_url) {
+    if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+      if (hlsPlayer) { hlsPlayer.destroy(); hlsPlayer = null; }
+      hlsPlayer = initHLSPlayer(videoElement, video.hls_playlist_url);
+    } else {
+      videoElement.src = video.video_file_url;
+      videoElement.load();
+    }
+  } else {
+    videoElement.src = video.video_file_url;
+    videoElement.load();
+  }
+
+  if (!dataSaverEnabled) {
+    setTimeout(() => { showDataWarning(videoDurationMinutes); }, 500);
+  }
+
+  await supabase
+    .from('video_items')
+    .update({ total_views: (video.total_views || 0) + 1 })
+    .eq('id', video.id);
+};
+
+if ('connection' in navigator && navigator.connection.saveData) {
+  const dst = document.getElementById('dataSaverToggle');
+  if (dst) { dst.checked = true; dataSaverEnabled = true; }
+}
+
+console.log('🎬 HLS Video Player Ready!');
+console.log('📊 Data saver:', dataSaverEnabled ? 'ON' : 'OFF');
+
 </script>
 </body>
 </html>
