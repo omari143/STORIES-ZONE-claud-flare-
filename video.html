@@ -1,1 +1,2397 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Video za Simulizi — STORIES ZONE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+/* ===== CSS Variables ===== */
+:root {
+  --bg: #0f0f0e;
+  --bg-card: #141414;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #e8e8e8;
+  --text-secondary: #888888;
+  --text-muted: #555555;
+  --primary: #9c2518;
+  --primary-hover: #b02d1f;
+  --primary-glow: rgba(156,37,24,0.35);
+  --accent: #42a781;
+  --accent-hover: #4dbd94;
+  --border: #252525;
+  --border-light: #2e2e2e;
+  --yellow: #fbbf24;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+  --radius-full: 9999px;
+  --player-h: 56px;
+}
 
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  padding-bottom: 160px;
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+img { max-width: 100%; display: block; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+.hide-sb::-webkit-scrollbar { display: none; }
+.hide-sb { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ===== Header ===== */
+.header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(15,15,14,0.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+}
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+.logo-icon.sm { width: 24px; height: 24px; }
+.logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+.hdr-right { display: flex; gap: 8px; align-items: center; }
+.icon-btn {
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: background .18s;
+}
+.icon-btn:hover { background: var(--border-light); }
+.icon-btn svg { width: 18px; height: 18px; }
+.back-btn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: var(--radius-sm); color: var(--text-primary); }
+.back-btn svg { width: 20px; height: 20px; }
+
+/* ===== Page Hero ===== */
+.page-hero {
+  position: relative;
+  padding: 28px 16px 22px;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 70% -10%, rgba(156,37,24,0.22) 0%, transparent 65%),
+    radial-gradient(ellipse at 0% 110%, rgba(66,167,129,0.08) 0%, transparent 55%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  background: rgba(156,37,24,0.18);
+  border: 1px solid rgba(156,37,24,0.38);
+  border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.page-hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 27px; font-weight: 700;
+  line-height: 1.18; margin-bottom: 8px;
+}
+.page-hero p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.7; max-width: 330px; margin-bottom: 20px;
+}
+.hero-stats {
+  display: flex; gap: 22px;
+}
+.hs { display: flex; flex-direction: column; }
+.hs .n { font-size: 18px; font-weight: 700; line-height: 1; }
+.hs .l { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* ===== Tabs ===== */
+.tabs-row {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding: 0 16px 14px;
+}
+.tabs-row::-webkit-scrollbar { display: none; }
+.tab {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-size: 13px; font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.tab:not(.active):hover { border-color: var(--text-muted); color: var(--text-primary); }
+
+/* ===== Loading ===== */
+.loading {
+  text-align: center;
+  padding: 60px;
+  color: var(--text-muted);
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Featured Video Card ===== */
+.featured-wrap { padding: 0 16px 20px; }
+.featured-video {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 16/9;
+  background: #111;
+}
+.fv-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+.featured-video:hover .fv-thumb { transform: scale(1.04); }
+.fv-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.15) 50%, transparent 100%);
+}
+.fv-top-badge {
+  position: absolute; top: 12px; left: 12px;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--primary);
+  padding: 3px 10px; border-radius: var(--radius-full);
+  font-size: 10px; font-weight: 700; color: #fff;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.fv-duration {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,.72); backdrop-filter: blur(4px);
+  color: #fff; font-size: 11px; font-weight: 600;
+  padding: 3px 9px; border-radius: 5px;
+}
+.fv-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 16px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.fv-info { flex: 1; }
+.fv-label { font-size: 11px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.fv-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; line-height: 1.2; margin-bottom: 5px; }
+.fv-meta { font-size: 12px; color: rgba(255,255,255,.55); }
+.fv-play-btn {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-left: 12px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.45);
+  transition: transform .2s ease;
+  border: none; cursor: pointer;
+}
+.fv-play-btn:hover { transform: scale(1.1); }
+.fv-play-btn svg { width: 20px; height: 20px; color: #111; margin-left: 3px; }
+
+/* ===== Section ===== */
+.section { padding: 16px 0; }
+.sec-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; margin-bottom: 13px;
+}
+.sec-title { font-size: 17px; font-weight: 700; }
+.sec-sub { font-size: 13px; color: var(--text-muted); padding: 0 16px; margin: -8px 0 12px; }
+.view-all { font-size: 13px; color: var(--primary); font-weight: 500; cursor: pointer; }
+
+/* ===== Horizontal Video Scroll ===== */
+.vid-scroll {
+  display: flex; gap: 13px; overflow-x: auto;
+  padding: 0 16px 8px;
+}
+.vid-scroll::-webkit-scrollbar { display: none; }
+
+.vid-card {
+  flex-shrink: 0; width: 200px; cursor: pointer;
+}
+.vc-thumb {
+  position: relative;
+  width: 100%; height: 113px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: 8px;
+  background: #111;
+}
+.vc-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+.vid-card:hover .vc-thumb img { transform: scale(1.06); }
+.vc-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.32);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .2s;
+}
+.vid-card:hover .vc-overlay { opacity: 1; }
+.vc-play-circle {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  display: flex; align-items: center; justify-content: center;
+}
+.vc-play-circle svg { width: 15px; height: 15px; color: #111; margin-left: 2px; }
+.vc-dur {
+  position: absolute; bottom: 6px; right: 7px;
+  background: rgba(0,0,0,.72); backdrop-filter: blur(3px);
+  color: #fff; font-size: 10px; font-weight: 600;
+  padding: 2px 7px; border-radius: 4px;
+}
+.vc-type {
+  position: absolute; top: 6px; left: 6px;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px;
+  text-transform: uppercase;
+}
+.vc-type.free { background: var(--accent); color: #fff; }
+.vc-type.premium { background: var(--primary); color: #fff; }
+.vc-type.new { background: var(--yellow); color: #111; }
+
+.vid-card h3 {
+  font-size: 13px; font-weight: 600;
+  line-height: 1.3; margin-bottom: 3px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vc-genre { font-size: 11px; color: var(--accent); font-weight: 500; margin-bottom: 3px; }
+.vc-stats { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text-muted); }
+.star { color: var(--yellow); }
+
+/* ===== Video List ===== */
+.vid-list { padding: 0 16px; }
+.vli {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 11px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background .18s;
+  border: 1.5px solid transparent;
+}
+.vli:hover { background: var(--bg-secondary); }
+.vli.playing { border-color: rgba(156,37,24,.45); background: rgba(156,37,24,.07); }
+
+.vli-thumb {
+  position: relative;
+  width: 90px; height: 56px;
+  border-radius: var(--radius-xs);
+  overflow: hidden; flex-shrink: 0;
+  background: #111;
+}
+.vli-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.vli-thumb-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.42);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity .18s;
+}
+.vli:hover .vli-thumb-overlay { opacity: 1; }
+.vli.playing .vli-thumb-overlay { opacity: 1; background: rgba(156,37,24,.55); }
+.vli-thumb-overlay svg { width: 20px; height: 20px; color: #fff; }
+.vli-dur-badge {
+  position: absolute; bottom: 4px; right: 5px;
+  background: rgba(0,0,0,.7); color: #fff;
+  font-size: 9px; font-weight: 600;
+  padding: 1px 5px; border-radius: 3px;
+}
+
+.vli-info { flex: 1; min-width: 0; }
+.vli-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vli-narrator { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+.vli-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+
+.vli-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+.vli-badge {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px;
+}
+.vli-badge.free { background: rgba(66,167,129,.14); color: var(--accent); }
+.vli-badge.premium { background: rgba(156,37,24,.14); color: var(--primary); }
+.vli-views { font-size: 11px; color: var(--text-muted); }
+
+/* ===== Share button (list + detail) ===== */
+.vli-share-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: all .2s;
+  margin-top: 4px;
+}
+.vli-share-btn:hover { background: var(--accent); color:#fff; border-color: var(--accent); transform: translateY(-1px); }
+.vli-share-btn svg { width: 14px; height: 14px; }
+
+.detail-actions-row {
+  display: flex; gap: 10px; align-items: stretch;
+  margin-top: 14px;
+}
+.detail-actions-row .like-section { flex: 1; margin: 0; }
+.share-btn-detail {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  transition: all .2s;
+}
+.share-btn-detail:hover { background: var(--accent); color:#fff; border-color: var(--accent); }
+.share-btn-detail svg { width: 18px; height: 18px; }
+
+/* Share modal */
+.share-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.78);
+  display: none; align-items: center; justify-content: center;
+  z-index: 10000; padding: 20px;
+}
+.share-modal.show { display: flex; }
+.share-modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%; max-width: 420px;
+  padding: 22px;
+}
+.share-modal-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.share-modal-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 16px; }
+.share-link-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.share-link-input {
+  flex: 1; min-width: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.share-copy-btn {
+  background: var(--primary); color: #fff;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 13px;
+  transition: background .2s;
+}
+.share-copy-btn:hover { background: var(--primary-hover); }
+.share-copy-btn.copied { background: var(--accent); }
+.share-socials { display: flex; gap: 10px; flex-wrap: wrap; }
+.share-soc-btn {
+  flex: 1; min-width: 90px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 12px; font-weight: 600;
+  transition: all .2s;
+}
+.share-soc-btn:hover { transform: translateY(-1px); }
+.share-soc-btn.wa:hover { background: #25d366; color:#fff; border-color:#25d366; }
+.share-soc-btn.tg:hover { background: #229ED9; color:#fff; border-color:#229ED9; }
+.share-soc-btn.fb:hover { background: #1877F2; color:#fff; border-color:#1877F2; }
+.share-soc-btn.tw:hover { background: #000; color:#fff; border-color:#000; }
+.share-soc-btn svg { width: 14px; height: 14px; }
+.share-modal-close {
+  display: block; width: 100%; margin-top: 14px;
+  padding: 10px; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+.share-modal-close:hover { color: var(--text-primary); }
+
+/* ===== FULL-SCREEN VIDEO MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #000;
+  display: flex; flex-direction: column;
+  transform: translateY(100%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+}
+.modal-overlay.open { transform: translateY(0); }
+
+.modal-video-wrap {
+  position: relative;
+  width: 100%;
+  background: #000;
+  flex-shrink: 0;
+}
+.modal-video-aspect {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+.modal-video-aspect video {
+  position: absolute;
+  inset: 0; width: 100%; height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+.modal-video-aspect .video-placeholder {
+  position: absolute;
+  inset: 0; width: 100%; height: 100%;
+  object-fit: cover;
+}
+.video-placeholder {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: #0a0a0a;
+  gap: 10px;
+}
+.video-placeholder img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.45); position: absolute; inset: 0; }
+.vp-inner { position: relative; z-index: 1; text-align: center; }
+.vp-inner p { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 6px; }
+.vp-big-play {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  border: 2px solid rgba(255,255,255,.25);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+}
+.vp-big-play svg { width: 28px; height: 28px; color: #fff; margin-left: 4px; }
+
+.modal-controls-layer {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0,0,0,.82) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.modal-controls-layer.show { opacity: 1; pointer-events: all; }
+
+.mc-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px 0;
+  position: absolute; top: 0; left: 0; right: 0;
+}
+.mc-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.mc-title-area { flex: 1; text-align: center; padding: 0 8px; }
+.mc-title-area p { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mc-title-area span { font-size: 11px; color: rgba(255,255,255,.5); }
+.mc-fullscreen {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center; color: #fff;
+}
+
+.mc-center-controls {
+  position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  display: flex; align-items: center; gap: 28px;
+}
+.mc-skip-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: rgba(255,255,255,.75);
+}
+.mc-skip-btn svg { width: 28px; height: 28px; }
+.mc-skip-btn span { font-size: 10px; font-weight: 600; }
+.mc-play-big {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  border: 2px solid rgba(255,255,255,.3);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; transition: transform .18s;
+}
+.mc-play-big:active { transform: scale(.93); }
+.mc-play-big svg { width: 26px; height: 26px; }
+
+.mc-bottom { padding: 0 14px 12px; }
+.mc-progress {
+  position: relative; height: 4px;
+  background: rgba(255,255,255,.2);
+  border-radius: 2px; margin-bottom: 10px;
+  cursor: pointer;
+}
+.mc-progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width .25s linear;
+}
+.mc-progress-thumb {
+  position: absolute; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px; height: 13px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 6px rgba(0,0,0,.5);
+  transition: left .25s linear;
+}
+.mc-times {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: rgba(255,255,255,.55);
+  font-weight: 500; margin-bottom: 8px;
+}
+.mc-row {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 10px;
+}
+.mc-vol-row {
+  display: flex; align-items: center; gap: 8px; flex: 1;
+}
+.mc-vol-row svg { width: 15px; height: 15px; color: rgba(255,255,255,.5); flex-shrink: 0; }
+.mc-vol-slider {
+  flex: 1; height: 3px; background: rgba(255,255,255,.2);
+  border-radius: 2px; cursor: pointer; position: relative;
+}
+.mc-vol-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 75%; }
+.mc-options { display: flex; align-items: center; gap: 10px; }
+.mc-opt-btn { color: rgba(255,255,255,.6); padding: 4px; }
+.mc-opt-btn svg { width: 18px; height: 18px; }
+.mc-speed {
+  font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,.6);
+  background: rgba(255,255,255,.1);
+  padding: 3px 8px; border-radius: 4px;
+}
+
+/* ===== Like & Comment Section inside Modal ===== */
+.like-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 16px 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.like-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.like-btn.liked {
+  background: rgba(156,37,24,0.15);
+  color: var(--primary);
+}
+
+.like-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.like-count {
+  font-weight: 700;
+}
+
+.comment-form {
+  margin-bottom: 20px;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.comment-input-wrapper input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.comment-input-wrapper input:focus {
+  border-color: var(--primary);
+}
+
+.comment-submit {
+  padding: 12px 24px;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.comment-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+}
+
+.comment-user {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.comment-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.comment-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-left: 42px;
+}
+
+.empty-comments {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+
+.modal-info {
+  flex: 1; overflow-y: auto;
+  background: var(--bg);
+  padding: 16px;
+}
+.modal-info::-webkit-scrollbar { display: none; }
+.mi-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.mi-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; line-height: 1.2; flex: 1; }
+.mi-share { color: var(--text-muted); cursor: pointer; }
+.mi-genre-row { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 10px; }
+.mi-tag {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 600;
+}
+.mi-tag.genre { background: rgba(66,167,129,.15); color: var(--accent); }
+.mi-tag.status { background: rgba(156,37,24,.15); color: var(--primary); }
+.mi-tag.free { background: rgba(66,167,129,.15); color: var(--accent); }
+.mi-stats-row {
+  display: flex; gap: 16px; margin-bottom: 12px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.mi-stat { display: flex; flex-direction: column; align-items: center; flex: 1; }
+.mi-stat .v { font-size: 15px; font-weight: 700; }
+.mi-stat .l { font-size: 10px; color: var(--text-muted); margin-top: 1px; text-transform: uppercase; letter-spacing: .4px; }
+.mi-synopsis { font-size: 13px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 14px; }
+.mi-narrator-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.mi-nar-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.mi-nar-info .name { font-size: 13px; font-weight: 600; }
+.mi-nar-info .role { font-size: 11px; color: var(--text-muted); }
+.mi-related-title { font-size: 15px; font-weight: 700; margin: 14px 0 10px; }
+.mi-related-scroll { display: flex; gap: 12px; overflow-x: auto; }
+.mi-related-scroll::-webkit-scrollbar { display: none; }
+.mrc { flex-shrink: 0; width: 100px; cursor: pointer; }
+.mrc-img { width: 100%; height: 65px; border-radius: var(--radius-xs); overflow: hidden; margin-bottom: 5px; }
+.mrc-img img { width: 100%; height: 100%; object-fit: cover; }
+.mrc h4 { font-size: 11px; font-weight: 600; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ===== Divider ===== */
+.divider { height: 1px; background: var(--border); margin: 4px 16px; }
+
+/* ===== Toast ===== */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 12px 20px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  z-index: 10000;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+.toast.success { border-color: var(--accent); color: var(--accent); }
+.toast.error { border-color: #ef4444; color: #ef4444; }
+
+/* ===== Bottom Nav ===== */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(15,15,14,.97);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around;
+  padding: 8px 14px; z-index: 100;
+}
+.nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 4px; padding: 7px 12px;
+  color: var(--text-muted);
+  font-size: 11px; font-weight: 500;
+  transition: color .18s;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+}
+.nav-item svg { width: 20px; height: 20px; }
+.nav-item:hover { color: var(--text-primary); }
+.nav-item.active { color: var(--primary); }
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center; padding: 28px 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; }
+.footer-brand { font-size: 17px; font-weight: 700; }
+.footer-brand span { color: var(--primary); }
+.footer-copy { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.footer-links { display: flex; align-items: center; justify-content: center; gap: 14px; font-size: 13px; color: var(--text-muted); }
+.footer-links a:hover { color: var(--text-primary); }
+
+/* ===== Animations ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .4s ease both; }
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(156,37,24,.5); }
+  70% { box-shadow: 0 0 0 8px rgba(156,37,24,0); }
+  100% { box-shadow: 0 0 0 0 rgba(156,37,24,0); }
+}
+.vli.playing .vli-thumb { animation: pulse-ring 1.8s infinite; }
+
+/* ===== QUALITY SELECTOR ===== */
+.mc-quality-row { display: flex; align-items: center; gap: 4px; padding: 4px 0; flex-wrap: wrap; }
+.mc-quality-btn { padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 600; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; }
+.mc-quality-btn:hover { background: var(--border-light); color: var(--text-primary); }
+.mc-quality-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.mc-quality-btn:active { transform: scale(0.95); }
+.mc-quality-row label { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-secondary); cursor: pointer; padding: 3px 8px; border-radius: 4px; background: var(--bg-secondary); border: 1px solid var(--border); }
+.mc-quality-row label:hover { background: var(--border-light); }
+.mc-quality-row input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--accent); cursor: pointer; }
+.data-usage-display { display: flex; gap: 16px; padding: 8px 12px; background: var(--bg-card); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 11px; color: var(--text-secondary); margin: 6px 0 12px; }
+.data-usage-display span { display: flex; align-items: center; gap: 4px; }
+.data-usage-display .highlight { color: var(--accent); font-weight: 700; }
+
+/* Quality menu - vertical dropdown in top-right corner (haitaziba play button) */
+.mc-quality-row-fixed {
+  position: absolute;
+  top: 58px;
+  right: 12px;
+  z-index: 25;
+  background: rgba(15,15,14,0.92);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  padding: 8px; border-radius: 12px;
+  display: flex; flex-direction: column; align-items: stretch; gap: 3px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  min-width: 120px;
+  transform-origin: top right;
+  transform: scale(0.9) translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0; pointer-events: none;
+}
+.mc-quality-row-fixed.show { opacity: 1; pointer-events: all; transform: scale(1) translateY(0); }
+.mc-quality-row-fixed > span {
+  font-size: 10px !important; font-weight: 700 !important;
+  color: rgba(255,255,255,0.45) !important;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  padding: 4px 8px 6px !important; margin: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 3px !important;
+}
+.mc-quality-row-fixed .mc-quality-btn {
+  padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  border: 1px solid transparent;
+  background: transparent; color: rgba(255,255,255,0.75);
+  cursor: pointer; transition: all 0.15s ease;
+  text-align: left; width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mc-quality-row-fixed .mc-quality-btn::after {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: transparent; transition: background 0.15s ease;
+}
+.mc-quality-row-fixed .mc-quality-btn:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.mc-quality-row-fixed .mc-quality-btn.active { background: rgba(156,37,24,0.18); color: #fff; }
+.mc-quality-row-fixed .mc-quality-btn.active::after { background: var(--primary); box-shadow: 0 0 6px var(--primary-glow); }
+.mc-quality-row-fixed .mc-quality-btn:active { transform: scale(0.97); }
+.mc-quality-row-fixed label {
+  display: flex; align-items: center; gap: 8px; font-size: 11px;
+  color: rgba(255,255,255,0.7); cursor: pointer;
+  margin: 4px 0 0; padding: 8px 12px; border-radius: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.mc-quality-row-fixed label:hover { background: rgba(255,255,255,0.05); }
+.mc-quality-row-fixed input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <a href="index.html" class="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/36x36/9c2518/white?text=SZ'">
+        </div>
+        <span class="logo-text">STORIES ZONE</span>
+      </a>
+    </div>
+    <div class="hdr-right">
+      <button class="icon-btn" id="searchBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" onclick="shareApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PAGE HERO ===== -->
+<div class="page-hero">
+  <div class="hero-inner fade-up">
+    <div class="hero-pill">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+      Video
+    </div>
+    <h1>Video za Simulizi</h1>
+    <p>Tazama hadithi zinazokuvutia kwa maono na sauti. Uzoefu mpya wa kusoma.</p>
+    <div class="hero-stats" id="heroStats">
+      <div class="hs"><span class="n">0</span><span class="l">Video</span></div>
+      <div class="hs"><span class="n">0</span><span class="l">Wasimulizi</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CATEGORY TABS ===== -->
+<div class="tabs-row" id="categoryTabs">
+  <button class="tab active" data-cat="all">🎬 Zote</button>
+</div>
+
+<!-- ===== Loading ===== -->
+<div id="loadingIndicator" class="loading">
+  <div class="spinner"></div>
+  <p>Inapakia video za simulizi...</p>
+</div>
+
+<!-- ===== Main Content ===== -->
+<div id="mainContent" style="display: none;">
+
+  <!-- ===== FEATURED VIDEO ===== -->
+  <div class="featured-wrap">
+    <div class="featured-video" id="featuredVideo">
+      <img class="fv-thumb" id="featuredThumb" src="" alt="" />
+      <div class="fv-gradient"></div>
+      <div class="fv-top-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Inayopendwa Zaidi
+      </div>
+      <div class="fv-duration" id="featuredDuration">-</div>
+      <div class="fv-content">
+        <div class="fv-info">
+          <div class="fv-label" id="featuredLabel">-</div>
+          <div class="fv-title" id="featuredTitle">-</div>
+          <div class="fv-meta" id="featuredMeta">-</div>
+        </div>
+        <button class="fv-play-btn" id="featuredPlayBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MPYA ===== -->
+  <section class="section">
+    <div class="sec-hdr">
+      <h2 class="sec-title">🆕 Mpya Wiki Hii</h2>
+      <span class="view-all" onclick="filterCategory('all')">Ona Zote</span>
+    </div>
+    <div class="vid-scroll hide-sb" id="newReleases">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ===== ORODHA YA VIDEO ===== -->
+  <section class="section">
+    <div class="sec-hdr">
+      <h2 class="sec-title">🔥 Zinapendwa Zaidi</h2>
+    </div>
+    <p class="sec-sub">Bonyeza kuanza kutazama mara moja</p>
+    <div class="vid-list" id="vidList">
+      <div class="loading"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-logo">
+    <div class="logo-icon" style="width:24px;height:24px;">
+      <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/24x24/9c2518/white?text=SZ'">
+    </div>
+    <span class="footer-brand">STORIES <span>ZONE</span></span>
+  </div>
+  <p class="footer-copy">© 2026 STORIES ZONE. Haki zote zimehifadhiwa.</p>
+  <div class="footer-links">
+    <a href="about.html">Kuhusu</a><span>·</span>
+    <a href="terms.html">Masharti</a><span>·</span>
+    <a href="privacy.html">Faragha</a><span>·</span>
+    <a href="help.html">Msaada</a>
+  </div>
+</footer>
+
+<!-- ===== BOTTOM NAV ===== -->
+<nav class="bottom-nav">
+  <a href="index.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Nyumbani
+  </a>
+  <a href="browse.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Tafuta
+  </a>
+  <a href="video.html" class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+    Video
+  </a>
+  <a href="simulizi_audio.html" class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+    Sauti
+  </a>
+  <a href="login.html" class="nav-item" id="authNavLink">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Akaunti
+  </a>
+</nav>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== SHARE MODAL ===== -->
+<div class="share-modal" id="shareModal" role="dialog" aria-modal="true" aria-label="Shiriki video">
+  <div class="share-modal-content">
+    <div class="share-modal-title" id="shareModalTitle">Shiriki video</div>
+    <div class="share-modal-sub">Nakili kiungo na utume kwa marafiki</div>
+    <div class="share-link-row">
+      <input type="text" class="share-link-input" id="shareLinkInput" readonly>
+      <button class="share-copy-btn" id="shareCopyBtn" type="button">Nakili</button>
+    </div>
+    <div class="share-socials">
+      <a class="share-soc-btn wa" id="shareWA" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 0 1 8.413 3.488 11.82 11.82 0 0 1 3.48 8.414c-.003 6.554-5.338 11.89-11.893 11.89a11.9 11.9 0 0 1-5.688-1.448L.057 24z"/></svg>
+        WhatsApp
+      </a>
+      <a class="share-soc-btn tg" id="shareTG" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        Telegram
+      </a>
+      <a class="share-soc-btn fb" id="shareFB" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01z"/></svg>
+        Facebook
+      </a>
+      <a class="share-soc-btn tw" id="shareTW" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        X / Twitter
+      </a>
+    </div>
+    <button class="share-modal-close" type="button" onclick="closeShareModal()">Funga</button>
+  </div>
+</div>
+
+
+<!-- ===== VIDEO PLAYER MODAL ===== -->
+<div class="modal-overlay" id="videoModal">
+  <div class="modal-video-wrap">
+    <div class="modal-video-aspect" id="videoAspect">
+      <video id="videoPlayer" playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;cursor:pointer;"></video>
+      <div class="video-placeholder" id="videoPlaceholder">
+        <img id="modalThumb" src="" alt="" />
+        <div class="vp-inner">
+          <div class="vp-big-play" onclick="startPlayback()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <p>Gusa kucheza video</p>
+        </div>
+      </div>
+      <div class="modal-controls-layer" id="controlsLayer">
+        <div class="mc-top">
+          <button class="mc-close" onclick="closePlayer()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
+          <div class="mc-title-area">
+            <p id="mcTitle">—</p>
+            <span id="mcNarrator">—</span>
+          </div>
+          <button class="mc-fullscreen" onclick="toggleFullscreen()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          </button>
+        </div>
+        <div class="mc-center-controls">
+          <button class="mc-skip-btn" onclick="vidSkip(-10)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+            <span>10s</span>
+          </button>
+          <button class="mc-play-big" onclick="toggleVidPlay()">
+            <svg viewBox="0 0 24 24" fill="currentColor" id="mcPlayIcon"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="mc-skip-btn" onclick="vidSkip(10)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.5"/></svg>
+            <span>10s</span>
+          </button>
+        </div>
+        <div class="mc-bottom">
+          <div class="mc-progress" id="mcProgress" onclick="vidSeek(event)">
+            <div class="mc-progress-fill" id="mcFill" style="width:0%"></div>
+            <div class="mc-progress-thumb" id="mcThumb" style="left:0%"></div>
+          </div>
+          <div class="mc-times">
+            <span id="mcCurrent">0:00</span>
+            <span id="mcTotal">0:00</span>
+          </div>
+          <div class="mc-row">
+            <div class="mc-vol-row">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/></svg>
+              <div class="mc-vol-slider" onclick="vidVolume(event)">
+                <div class="mc-vol-fill" id="mcVolFill"></div>
+              </div>
+            </div>
+            <div class="mc-options">
+              <button class="mc-speed" id="speedBtn" onclick="cycleSpeed()">1×</button>
+              <button class="mc-opt-btn" onclick="toggleSubs()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M7 12h5M7 16h10"/></svg>
+              </button>
+              <button class="mc-opt-btn" onclick="shareApp()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-info" id="modalInfo">
+    <!-- Dynamic content -->
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+  // Supabase Configuration
+  const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // State
+  let videoItems = [];
+  let genres = [];
+  let currentUser = null;
+  let currentVideo = null;
+  let currentVideoId = null;
+  let isPlaying = false;
+  let videoTimer = null;
+  let controlsTimer = null;
+  let currentCategory = 'all';
+  
+  // Like and Comment state
+  let currentLikeCount = 0;
+  let currentLiked = false;
+  let currentComments = [];
+  let likesCache = new Map();
+  let commentsCountCache = new Map();
+  
+  // Video player elements
+  let videoPlayer = null;
+
+  // DOM Elements
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const mainContent = document.getElementById('mainContent');
+  const toast = document.getElementById('toast');
+  const categoryTabs = document.getElementById('categoryTabs');
+  const newReleasesContainer = document.getElementById('newReleases');
+  const vidListContainer = document.getElementById('vidList');
+
+  // Helper: Show toast
+  function showToast(message, type = 'info') {
+    toast.textContent = message;
+    toast.className = 'toast';
+    if (type === 'success') toast.classList.add('success');
+    if (type === 'error') toast.classList.add('error');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // Helper: Format duration
+  function formatDuration(seconds) {
+    if (!seconds) return '0:00';
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    if (m > 0) return `${m}:${String(s).padStart(2, '0')}`;
+    return `0:${String(s).padStart(2, '0')}`;
+  }
+
+  // Helper: Format number
+  function formatNumber(num) {
+    if (!num) return '0';
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+    return num.toString();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  function formatDate(dateString) {
+    if (!dateString) return 'hivi karibuni';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = Math.floor((now - date) / 1000 / 60);
+    if (diff < 1) return 'sasa hivi';
+    if (diff < 60) return `${diff} dakika iliyopita`;
+    if (diff < 1440) return `${Math.floor(diff / 60)} saa iliyopita`;
+    return date.toLocaleDateString('sw');
+  }
+
+  // Authentication - KUHAMISHA KAMA MTUMIAJI AMEINGIA, KAMA HAJAINGIA PELEKEZWA LOGIN
+  async function checkAuthAndRedirect() {
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      const currentUrl = encodeURIComponent(window.location.href);
+      window.location.href = `login.html?redirect=${currentUrl}`;
+      return false;
+    }
+
+    currentUser = user;
+    return true;
+  }
+
+  // Pakia taarifa za mtumiaji baada ya kuthibitishwa
+  async function loadCurrentUser() {
+    if (!currentUser) return;
+
+    const { data: userData } = await supabase
+      .from('users')
+      .select('id, name')
+      .eq('auth_user_id', currentUser.id)
+      .single();
+
+    if (userData) {
+      currentUser = userData;
+      document.getElementById('authNavLink').innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>
+      `;
+      document.getElementById('authNavLink').href = 'profile.html';
+    }
+  }
+
+
+  // CHECK ACCESS FROM PAYMENTS TABLE
+  // CHECK ACCESS FROM PURCHASES TABLE (NOT payments)
+  async function hasPurchasedVideo(videoId) {
+    if (!currentUser) return false;
+
+    const { data, error } = await supabase
+      .from('purchases')
+      .select('id')
+      .eq('user_id', currentUser.id)
+      .eq('item_type', 'video')
+      .eq('item_id', videoId)
+      .eq('status', 'Imefanikishwa')
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error checking purchase:', error);
+      return false;
+    }
+
+    return !!data;
+  }
+
+  // Check if user has active premium subscription
+  async function hasActiveSubscription() {
+    if (!currentUser) return false;
+    
+    const today = new Date().toISOString().split('T')[0];
+    const { data } = await supabase
+      .from('subscriptions')
+      .select('id')
+      .eq('user_id', currentUser.id)
+      .eq('status', 'Hai')
+      .gte('end_date', today)
+      .maybeSingle();
+    
+    return !!data;
+  }
+
+  // Like Functions
+  async function loadLikes(videoId, forceRefresh = false) {
+    if (!forceRefresh && likesCache.has(videoId)) return likesCache.get(videoId);
+    const { count, error } = await supabase
+      .from('video_likes')
+      .select('id', { count: 'exact', head: true })
+      .eq('video_id', videoId);
+
+    if (error) {
+      console.error('Error loading likes:', error);
+      return likesCache.get(videoId) || 0;
+    }
+
+    const total = count || 0;
+    likesCache.set(videoId, total);
+    return total;
+  }
+
+  async function checkUserLiked(videoId) {
+    if (!currentUser) return false;
+    const { data, error } = await supabase
+      .from('video_likes')
+      .select('id')
+      .eq('video_id', videoId)
+      .eq('user_id', currentUser.id)
+      .maybeSingle();
+    return !!data;
+  }
+
+  async function toggleLike(videoId) {
+    if (!currentUser) {
+      showToast('Tafadhali ingia kwanza ili kupenda', 'error');
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }, 1500);
+      return false;
+    }
+    
+    const liked = await checkUserLiked(videoId);
+    
+    if (liked) {
+      const { error } = await supabase
+        .from('video_likes')
+        .delete()
+        .eq('video_id', videoId)
+        .eq('user_id', currentUser.id);
+      
+      if (error) {
+        showToast('Imeshindwa kuondoa like', 'error');
+        return false;
+      }
+      const newCount = (likesCache.get(videoId) || 1) - 1;
+      likesCache.set(videoId, newCount);
+      return false;
+    } else {
+      const { error } = await supabase
+        .from('video_likes')
+        .insert({ video_id: videoId, user_id: currentUser.id });
+      
+      if (error) {
+        showToast('Imeshindwa kupenda', 'error');
+        return false;
+      }
+      const newCount = (likesCache.get(videoId) || 0) + 1;
+      likesCache.set(videoId, newCount);
+      return true;
+    }
+  }
+
+  // Comment Functions
+  async function loadComments(videoId) {
+    const { data, error } = await supabase
+      .from('video_comments')
+      .select(`
+        *,
+        users:user_id (name)
+      `)
+      .eq('video_id', videoId)
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error loading comments:', error);
+      return [];
+    }
+    return data || [];
+  }
+
+  async function loadCommentsCount(videoId) {
+    if (commentsCountCache.has(videoId)) return commentsCountCache.get(videoId);
+    const { count, error } = await supabase
+      .from('video_comments')
+      .select('id', { count: 'exact', head: true })
+      .eq('video_id', videoId)
+      .eq('status', 'approved');
+    
+    const total = count || 0;
+    commentsCountCache.set(videoId, total);
+    return total;
+  }
+
+  async function addComment(videoId, content) {
+    if (!currentUser) {
+      showToast('Tafadhali ingia kwanza ili kutoa maoni', 'error');
+      setTimeout(() => {
+        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+      }, 1500);
+      return false;
+    }
+    
+    if (!content.trim()) {
+      showToast('Tafadhali andika maoni yako', 'error');
+      return false;
+    }
+    
+    const { data, error } = await supabase
+      .from('video_comments')
+      .insert({
+        video_id: videoId,
+        user_id: currentUser.id,
+        content: content.trim(),
+        status: 'approved'
+      })
+      .select();
+    
+    if (error) {
+      showToast('Imeshindwa kutuma maoni', 'error');
+      return false;
+    }
+    
+    const newCount = (commentsCountCache.get(videoId) || 0) + 1;
+    commentsCountCache.set(videoId, newCount);
+    
+    return true;
+  }
+
+  // Load video items from Supabase
+  async function loadVideoItems() {
+    const { data, error } = await supabase
+      .from('video_items')
+      .select(`
+        *,
+        genres:genre_id (id, name, emoji),
+        narrators:narrator_id (id, name)
+      `)
+      .eq('is_published', true)
+      .order('created_at', { ascending: false });
+    
+    if (error) {
+      console.error('Error loading videos:', error);
+      showToast('Imeshindwa kupakia video za simulizi', 'error');
+      return [];
+    }
+    
+    return data || [];
+  }
+
+  // Load genres
+  async function loadGenres() {
+    const { data, error } = await supabase
+      .from('genres')
+      .select('*')
+      .order('name');
+    
+    if (error) {
+      console.error('Error loading genres:', error);
+      return [];
+    }
+    
+    return data || [];
+  }
+
+  // Update hero stats
+  function updateHeroStats() {
+    const totalVideos = videoItems.length;
+    const uniqueNarrators = new Set(videoItems.map(v => v.narrator_id)).size;
+    
+    document.getElementById('heroStats').innerHTML = `
+      <div class="hs"><span class="n">${totalVideos}</span><span class="l">Video</span></div>
+      <div class="hs"><span class="n">${uniqueNarrators}</span><span class="l">Wasimulizi</span></div>
+    `;
+  }
+
+  // Render category tabs
+  function renderCategoryTabs() {
+    const uniqueGenres = ['all', ...new Set(videoItems.map(v => v.genres?.name).filter(Boolean))];
+    categoryTabs.innerHTML = uniqueGenres.map(genre => `
+      <button class="tab ${genre === currentCategory ? 'active' : ''}" data-cat="${genre}">
+        ${genre === 'all' ? '🎬 Zote' : `📖 ${genre}`}
+      </button>
+    `).join('');
+    
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterCategory(tab.dataset.cat);
+      });
+    });
+  }
+
+  // Filter by category
+  function filterCategory(category) {
+    currentCategory = category;
+    renderCategoryTabs();
+    
+    const filtered = category === 'all' 
+      ? videoItems 
+      : videoItems.filter(v => v.genres?.name === category);
+    
+    renderVideoList(filtered);
+  }
+
+  // Render new releases (latest 4)
+  async function renderNewReleases() {
+    const latest = [...videoItems].slice(0, 4);
+    if (latest.length === 0) {
+      newReleasesContainer.innerHTML = '<div class="empty-state">Hakuna video mpya</div>';
+      return;
+    }
+    
+    // Load likes for these videos
+    for (const video of latest) {
+      await loadLikes(video.id);
+      await loadCommentsCount(video.id);
+    }
+    
+    newReleasesContainer.innerHTML = latest.map((video, idx) => {
+      const coverImage = video.thumbnail_url || video.cover_image_url || 'https://placehold.co/400x225/1a1a1a/888888?text=No+Cover';
+      const isFree = video.is_free;
+      const duration = formatDuration(video.duration_seconds);
+      const genreName = video.genres?.name || 'Aina';
+      const rating = video.total_views ? (Math.min(5, (video.total_views / 10000) + 3.5)).toFixed(1) : '4.5';
+      const views = formatNumber(video.total_views);
+      const likes = likesCache.get(video.id) || 0;
+      const videoIndex = videoItems.findIndex(v => v.id === video.id);
+      
+      return `
+        <div class="vid-card" data-video-id="${video.id}" data-index="${videoIndex}">
+          <div class="vc-thumb">
+            <img src="${coverImage}" alt="${escapeHtml(video.title)}" onerror="this.src='https://placehold.co/400x225/1a1a1a/888888?text=No+Cover'">
+            <div class="vc-overlay"><div class="vc-play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
+            <span class="vc-type ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Premium'}</span>
+            <span class="vc-dur">${duration}</span>
+          </div>
+          <h3>${escapeHtml(video.title)}</h3>
+          <div class="vc-genre">${escapeHtml(genreName)}</div>
+          <div class="vc-stats"><span class="star">★</span>${rating} <span>· ${views}</span> <span>❤️ ${likes}</span></div>
+        </div>
+      `;
+    }).join('');
+    
+    document.querySelectorAll('#newReleases .vid-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const index = parseInt(card.dataset.index);
+        if (!isNaN(index)) openPlayer(index);
+      });
+    });
+  }
+
+  // Render featured video (most viewed)
+  async function renderFeatured() {
+    if (videoItems.length === 0) return;
+    
+    const featured = [...videoItems].sort((a, b) => (b.total_views || 0) - (a.total_views || 0))[0];
+    const coverImage = featured.thumbnail_url || featured.cover_image_url || 'https://placehold.co/800x450/1a1a1a/888888?text=No+Cover';
+    const duration = formatDuration(featured.duration_seconds);
+    const isFree = featured.is_free;
+    const genreName = featured.genres?.name || 'Aina';
+    const narratorName = featured.narrators?.name || 'Msimulizi';
+    const views = formatNumber(featured.total_views);
+    const likes = await loadLikes(featured.id);
+    const rating = featured.total_views ? (Math.min(5, (featured.total_views / 10000) + 3.5)).toFixed(1) : '4.5';
+    const featuredIndex = videoItems.findIndex(v => v.id === featured.id);
+    
+    document.getElementById('featuredThumb').src = coverImage;
+    document.getElementById('featuredDuration').textContent = duration;
+    document.getElementById('featuredLabel').textContent = `${genreName} · ${isFree ? 'Bure' : 'Premium'}`;
+    document.getElementById('featuredTitle').textContent = featured.title;
+    document.getElementById('featuredMeta').textContent = `Msimulizi: ${narratorName} · ${views} maono · ❤️ ${likes}`;
+    
+    const featuredVideo = document.getElementById('featuredVideo');
+    featuredVideo.onclick = () => openPlayer(featuredIndex);
+    document.getElementById('featuredPlayBtn').onclick = (e) => {
+      e.stopPropagation();
+      openPlayer(featuredIndex);
+    };
+  }
+
+  // Render video list
+  async function renderVideoList(items) {
+    if (items.length === 0) {
+      vidListContainer.innerHTML = '<div class="empty-state" style="text-align:center;padding:40px;">Hakuna video za simulizi katika aina hii</div>';
+      return;
+    }
+    
+    for (const video of items) {
+      await loadLikes(video.id);
+      await loadCommentsCount(video.id);
+    }
+    
+    vidListContainer.innerHTML = items.map((video, idx) => {
+      const originalIndex = videoItems.findIndex(v => v.id === video.id);
+      const coverImage = video.thumbnail_url || video.cover_image_url || 'https://placehold.co/200x112/1a1a1a/888888?text=No+Cover';
+      const isFree = video.is_free;
+      const duration = formatDuration(video.duration_seconds);
+      const genreName = video.genres?.name || 'Aina';
+      const narratorName = video.narrators?.name || 'Msimulizi';
+      const views = formatNumber(video.total_views);
+      const likes = likesCache.get(video.id) || 0;
+      const rating = video.total_views ? (Math.min(5, (video.total_views / 10000) + 3.5)).toFixed(1) : '4.5';
+      
+      return `
+        <div class="vli" data-video-id="${video.id}" data-index="${originalIndex}">
+          <div class="vli-thumb">
+            <img src="${coverImage}" alt="${escapeHtml(video.title)}" onerror="this.src='https://placehold.co/200x112/1a1a1a/888888?text=No+Cover'">
+            <div class="vli-thumb-overlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            <span class="vli-dur-badge">${duration}</span>
+          </div>
+          <div class="vli-info">
+            <div class="vli-title">${escapeHtml(video.title)}</div>
+            <div class="vli-narrator">${escapeHtml(narratorName)}</div>
+            <div class="vli-meta"><span>${escapeHtml(genreName)}</span><span>·</span><span class="star">★</span><span>${rating}</span><span>·</span><span>❤️ ${likes}</span></div>
+          </div>
+          <div class="vli-right">
+            <span class="vli-badge ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Premium'}</span>
+            <span class="vli-views">${views}</span>
+            <button class="vli-share-btn" data-share-id="${video.id}" title="Shiriki" aria-label="Shiriki video">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    document.querySelectorAll('.vli').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.closest('.vli-share-btn')) return;
+        const index = parseInt(item.dataset.index);
+        if (!isNaN(index)) openPlayer(index);
+      });
+    });
+    document.querySelectorAll('.vli-share-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.shareId;
+        const video = videoItems.find(v => String(v.id) === String(id));
+        if (video) openShareModal(video);
+      });
+    });
+  }
+
+
+  // Open video player
+  
+  function renderCommentsList(comments) {
+    if (!comments || comments.length === 0) {
+      return '<div class="empty-comments">Hakuna maoni bado. Kuwa wa kwanza kutoa maoni!</div>';
+    }
+    
+    return comments.map(comment => `
+      <div class="comment-item">
+        <div class="comment-header">
+          <div class="comment-avatar">${(comment.users?.name || 'U')[0].toUpperCase()}</div>
+          <div class="comment-user">${escapeHtml(comment.users?.name || 'Mtumiaji')}</div>
+          <div class="comment-time">${formatDate(comment.created_at)}</div>
+        </div>
+        <div class="comment-text">${escapeHtml(comment.content)}</div>
+      </div>
+    `).join('');
+  }
+  
+  // Reset video player
+  function resetVideoPlayer() {
+    stopVideoTimer();
+    isPlaying = false;
+    
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (videoPlayerEl) {
+      videoPlayerEl.pause();
+      videoPlayerEl.currentTime = 0;
+    }
+    
+    updatePlayBtn(false);
+    document.getElementById('videoPlaceholder').style.display = 'flex';
+    document.getElementById('controlsLayer').classList.remove('show');
+    document.getElementById('mcFill').style.width = '0%';
+    document.getElementById('mcThumb').style.left = '0%';
+    document.getElementById('mcCurrent').textContent = '0:00';
+    
+    if (currentVideo) {
+      document.getElementById('mcTotal').textContent = formatDuration(currentVideo.duration_seconds || 0);
+    }
+  }
+
+  // Start playback
+  function startPlayback() {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl || !currentVideo) return;
+
+    document.getElementById('videoPlaceholder').style.display = 'none';
+    const p = videoPlayerEl.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(err => console.error('Play failed:', err));
+    }
+    isPlaying = true;
+    updatePlayBtn(true);
+    showControls();
+    startVideoTimer();
+  }
+
+  // Toggle play/pause
+  function toggleVidPlay() {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl || !currentVideo) return;
+
+    // If placeholder bado inaonekana, anza kucheza
+    const placeholder = document.getElementById('videoPlaceholder');
+    if (placeholder && placeholder.style.display !== 'none' && videoPlayerEl.currentTime === 0) {
+      startPlayback();
+      return;
+    }
+
+    if (videoPlayerEl.paused || videoPlayerEl.ended) {
+      const p = videoPlayerEl.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(err => console.error('Resume failed:', err));
+      }
+      isPlaying = true;
+      updatePlayBtn(true);
+      startVideoTimer();
+      showControls();
+    } else {
+      videoPlayerEl.pause();
+      isPlaying = false;
+      updatePlayBtn(false);
+      stopVideoTimer();
+      showControls();
+    }
+  }
+
+  function updatePlayBtn(playing) {
+    const pauseSvg = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+    const playSvg = `<path d="M8 5v14l11-7z"/>`;
+    document.getElementById('mcPlayIcon').innerHTML = playing ? pauseSvg : playSvg;
+  }
+
+  function startVideoTimer() {
+    stopVideoTimer();
+    videoTimer = setInterval(() => {
+      const videoPlayerEl = document.getElementById('videoPlayer');
+      if (!videoPlayerEl || !currentVideo) return;
+      
+      if (isPlaying && videoPlayerEl.currentTime) {
+        const current = videoPlayerEl.currentTime;
+        const duration = videoPlayerEl.duration || currentVideo.duration_seconds || 0;
+        const pct = duration > 0 ? (current / duration) * 100 : 0;
+        
+        document.getElementById('mcFill').style.width = pct + '%';
+        document.getElementById('mcThumb').style.left = pct + '%';
+        document.getElementById('mcCurrent').textContent = formatDuration(current);
+        document.getElementById('mcTotal').textContent = formatDuration(duration);
+        
+        if (current >= duration && duration > 0) {
+          isPlaying = false;
+          updatePlayBtn(false);
+          stopVideoTimer();
+          resetVideoPlayer();
+        }
+      }
+    }, 500);
+  }
+
+  function stopVideoTimer() {
+    if (videoTimer) clearInterval(videoTimer);
+    videoTimer = null;
+  }
+
+  function vidSeek(e) {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl || !currentVideo) return;
+    
+    const bar = document.getElementById('mcProgress');
+    const rect = bar.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const duration = videoPlayerEl.duration || currentVideo.duration_seconds || 0;
+    videoPlayerEl.currentTime = pct * duration;
+    showControls();
+  }
+
+  function vidSkip(sec) {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl) return;
+    videoPlayerEl.currentTime = Math.max(0, Math.min(videoPlayerEl.duration || 0, videoPlayerEl.currentTime + sec));
+    showControls();
+  }
+
+  function vidVolume(e) {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl) return;
+    
+    const bar = document.getElementById('mcVolFill').parentElement;
+    const rect = bar.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    videoPlayerEl.volume = pct / 100;
+    document.getElementById('mcVolFill').style.width = pct + '%';
+  }
+
+  function cycleSpeed() {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (!videoPlayerEl) return;
+    
+    const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    const currentSpeed = videoPlayerEl.playbackRate;
+    const idx = speeds.indexOf(currentSpeed);
+    const newSpeed = speeds[(idx + 1) % speeds.length];
+    videoPlayerEl.playbackRate = newSpeed;
+    document.getElementById('speedBtn').textContent = newSpeed + '×';
+    showControls();
+  }
+
+  function toggleSubs() {
+    showControls();
+  }
+
+  function toggleFullscreen() {
+    const modal = document.getElementById('videoModal');
+    const video = document.getElementById('videoPlayer');
+    const req = modal.requestFullscreen || modal.webkitRequestFullscreen || modal.webkitRequestFullScreen || modal.mozRequestFullScreen || modal.msRequestFullscreen;
+    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || document.msExitFullscreen;
+    const fsEl = document.fullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    try {
+      if (!fsEl) {
+        if (req) {
+          const p = req.call(modal);
+          if (p && p.catch) p.catch(() => tryVideoFs(video));
+        } else {
+          tryVideoFs(video);
+        }
+      } else {
+        if (exit) exit.call(document);
+      }
+    } catch (e) {
+      tryVideoFs(video);
+    }
+  }
+  function tryVideoFs(video) {
+    if (!video) { alert('Kifaa chako hakiungi mkono Fullscreen. Tumia kitufe cha fullscreen cha kivinjari.'); return; }
+    // iOS Safari: only the <video> element supports fullscreen
+    const vReq = video.webkitEnterFullscreen || video.webkitRequestFullscreen || video.requestFullscreen;
+    if (vReq) {
+      try { vReq.call(video); } catch (e) { alert('Fullscreen haipatikani kwenye kifaa hiki.'); }
+    } else {
+      alert('Fullscreen haipatikani kwenye kifaa hiki.');
+    }
+  }
+
+  function toggleControls() {
+    const controlsLayer = document.getElementById('controlsLayer');
+    if (!controlsLayer) return;
+    if (controlsLayer.classList.contains('show')) hideControls();
+    else showControls();
+  }
+
+  function showControls() {
+    const controlsLayer = document.getElementById('controlsLayer');
+    const qualityRow = document.getElementById('qualityRowFixed');
+    if (controlsLayer) controlsLayer.classList.add('show');
+    if (qualityRow) qualityRow.classList.add('show');
+    clearTimeout(controlsTimer);
+    if (isPlaying) {
+      controlsTimer = setTimeout(() => {
+        if (controlsLayer) controlsLayer.classList.remove('show');
+        if (qualityRow) qualityRow.classList.remove('show');
+      }, 3000);
+    }
+  }
+  function hideControls() {
+    const controlsLayer = document.getElementById('controlsLayer');
+    const qualityRow = document.getElementById('qualityRowFixed');
+    if (controlsLayer) controlsLayer.classList.remove('show');
+    if (qualityRow) qualityRow.classList.remove('show');
+    clearTimeout(controlsTimer);
+  }
+
+  function closePlayer() {
+    const videoPlayerEl = document.getElementById('videoPlayer');
+    if (videoPlayerEl) {
+      videoPlayerEl.pause();
+      videoPlayerEl.src = '';
+      videoPlayerEl.load();
+    }
+    stopVideoTimer();
+    isPlaying = false;
+    document.getElementById('videoModal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.querySelectorAll('.vli').forEach(el => el.classList.remove('playing'));
+  }
+
+  function shareApp() {
+    if (navigator.share) {
+      navigator.share({ title: document.title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      showToast('Kiungo kimekopwa!', 'success');
+    }
+  }
+
+  // Make functions global for inline handlers
+  window.closePlayer = closePlayer;
+  window.startPlayback = startPlayback;
+  window.toggleVidPlay = toggleVidPlay;
+  window.vidSeek = vidSeek;
+  window.vidSkip = vidSkip;
+  window.vidVolume = vidVolume;
+  window.cycleSpeed = cycleSpeed;
+  window.toggleSubs = toggleSubs;
+  window.toggleFullscreen = toggleFullscreen;
+  window.toggleControls = toggleControls;
+  window.filterCategory = filterCategory;
+  window.shareApp = shareApp;
+
+  // Initialize
+  async function init() {
+    const isAuthenticated = await checkAuthAndRedirect();
+    if (!isAuthenticated) return;
+    await loadCurrentUser();
+
+    
+    loadingIndicator.style.display = 'block';
+    
+    const [videos, genreList] = await Promise.all([
+      loadVideoItems(),
+      loadGenres()
+    ]);
+    
+    videoItems = videos;
+    genres = genreList;
+    
+    if (videoItems.length === 0) {
+      loadingIndicator.innerHTML = '<div class="empty-state">Hakuna video za simulizi bado. Hakikisha umeongeza kwenye admin panel.</div>';
+      return;
+    }
+    
+    updateHeroStats();
+    renderCategoryTabs();
+    await renderFeatured();
+    await renderNewReleases();
+    await renderVideoList(videoItems);
+    
+    loadingIndicator.style.display = 'none';
+    mainContent.style.display = 'block';
+
+    // Deep-link: open video player if ?video=ID is present
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const videoId = params.get('video');
+      if (videoId) {
+        const idx = videoItems.findIndex(v => String(v.id) === String(videoId));
+        if (idx >= 0) setTimeout(() => openPlayer(idx), 200);
+      }
+    } catch (e) { /* noop */ }
+  }
+
+  // ===== Share helpers =====
+  const SHARE_BASE_URL = 'https://storieszone.site';
+  function buildShareUrl(videoId) {
+    const path = (window.location.pathname && window.location.pathname !== '/')
+      ? window.location.pathname
+      : '/vidoo.html';
+    const url = new URL(path, SHARE_BASE_URL);
+    url.searchParams.set('video', videoId);
+    return url.toString();
+  }
+
+  function openShareModal(video) {
+    const link = buildShareUrl(video.id);
+    const title = video.title || 'Video';
+    const text = `Tazama video "${title}" kwenye STORIES ZONE`;
+    const modal = document.getElementById('shareModal');
+    const input = document.getElementById('shareLinkInput');
+    const titleEl = document.getElementById('shareModalTitle');
+    const copyBtn = document.getElementById('shareCopyBtn');
+
+    titleEl.textContent = `Shiriki: ${title}`;
+    input.value = link;
+
+    document.getElementById('shareWA').href = `https://wa.me/?text=${encodeURIComponent(text + ' ' + link)}`;
+    document.getElementById('shareTG').href = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+    document.getElementById('shareFB').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`;
+    document.getElementById('shareTW').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+
+    copyBtn.textContent = 'Nakili';
+    copyBtn.classList.remove('copied');
+    copyBtn.onclick = async () => {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(link);
+        } else {
+          input.removeAttribute('readonly');
+          input.select();
+          document.execCommand('copy');
+          input.setAttribute('readonly', '');
+          input.blur();
+        }
+        copyBtn.textContent = 'Imenakiliwa ✓';
+        copyBtn.classList.add('copied');
+        if (typeof showToast === 'function') showToast('Kiungo kimenakiliwa!', 'success');
+        setTimeout(() => {
+          copyBtn.textContent = 'Nakili';
+          copyBtn.classList.remove('copied');
+        }, 2000);
+      } catch (err) {
+        if (typeof showToast === 'function') showToast('Imeshindwa kunakili. Chagua kiungo mwenyewe.', 'error');
+      }
+    };
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => { try { input.select(); } catch(e){} }, 50);
+  }
+
+  function closeShareModal() {
+    const modal = document.getElementById('shareModal');
+    if (modal) modal.classList.remove('show');
+    if (!document.getElementById('videoModal')?.classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.getElementById('shareModal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'shareModal') closeShareModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeShareModal();
+  });
+
+  
+  document.getElementById('searchBtn')?.addEventListener('click', () => {
+    window.location.href = 'browse.html?type=video';
+  });
+  
+  // Initialize video player reference
+  videoPlayer = document.getElementById('videoPlayer');
+
+  // Sync UI na native video events (kwa pause/resume nje ya buttons)
+  if (videoPlayer) {
+    videoPlayer.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const controlsLayer = document.getElementById('controlsLayer');
+      const isShown = controlsLayer && controlsLayer.classList.contains('show');
+      if (!isShown) {
+        // Gusa la kwanza: onyesha controls tu
+        showControls();
+      } else {
+        // Gusa la pili wakati controls zinaonekana: cheza/simamisha
+        toggleVidPlay();
+        showControls();
+      }
+    });
+    videoPlayer.addEventListener('play', () => {
+      isPlaying = true;
+      updatePlayBtn(true);
+      startVideoTimer();
+      document.getElementById('videoPlaceholder').style.display = 'none';
+    });
+    videoPlayer.addEventListener('pause', () => {
+      isPlaying = false;
+      updatePlayBtn(false);
+      stopVideoTimer();
+      showControls();
+    });
+    videoPlayer.addEventListener('ended', () => {
+      isPlaying = false;
+      updatePlayBtn(false);
+      stopVideoTimer();
+      showControls();
+    });
+  }
+  
+  init();
+
+
+
+// ============================================================
+// OVERRIDE openPlayer FUNCTION - Kwanza Direct, Kisha HLS
+// ============================================================
+let videoDurationMinutes = 0;
+window.openPlayer = async function(index) {
+  if (index < 0 || index >= videoItems.length) return;
+
+  const video = videoItems[index];
+
+  // Check access
+  if (!video.is_free) {
+    const [hasPurchased, hasPremium] = await Promise.all([
+      hasPurchasedVideo(video.id),
+      hasActiveSubscription()
+    ]);
+    if (!hasPurchased && !hasPremium) {
+      showToast('Unahitaji kununua video hii kutazama', 'error');
+      setTimeout(() => {
+        window.location.href = 'payment.html?type=video&id=' + video.id + '&price=' + (video.price || 1000);
+      }, 1500);
+      return;
+    }
+  }
+
+  // Update UI
+  document.querySelectorAll('.vli').forEach(el => el.classList.remove('playing'));
+  const listItem = document.querySelector('.vli[data-index="' + index + '"]');
+  if (listItem) listItem.classList.add('playing');
+
+  currentVideo = video;
+  currentVideoId = video.id;
+  videoDurationMinutes = (video.duration_seconds || 0) / 60;
+
+  // Load likes and comments
+  const [likeCount, userLiked, comments, commentsCount] = await Promise.all([
+    loadLikes(video.id),
+    checkUserLiked(video.id),
+    loadComments(video.id),
+    loadCommentsCount(video.id)
+  ]);
+
+  currentLikeCount = likeCount;
+  currentLiked = userLiked;
+  currentComments = comments;
+
+  const coverImage = video.thumbnail_url || video.cover_image_url || 'https://placehold.co/800x450/1a1a1a/888888?text=No+Cover';
+  const narratorName = video.narrators?.name || 'Msimulizi';
+  const genreName = video.genres?.name || 'Aina';
+  const duration = formatDuration(video.duration_seconds);
+  const rating = video.total_views ? (Math.min(5, (video.total_views / 10000) + 3.5)).toFixed(1) : '4.5';
+  const views = formatNumber(video.total_views);
+
+  const modalInfoHTML = `
+    <div class="mi-header">
+      <div class="mi-title">${escapeHtml(video.title)}</div>
+      <button class="mi-share" onclick="shareApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      </button>
+    </div>
+    <div class="mi-genre-row" id="miTags">
+      <span class="mi-tag genre">${escapeHtml(genreName)}</span>
+      <span class="mi-tag ${video.is_free ? 'free' : 'status'}">${video.is_free ? 'Bure' : 'Premium'}</span>
+      <span class="mi-tag status">${video.status || 'Imekamilika'}</span>
+    </div>
+    <div class="data-usage-display" id="dataUsageDisplay">
+      <span>📊 <span class="highlight">3 MB</span>/dakika</span>
+      <span>⏱️ <span class="highlight">${(videoDurationMinutes * 3).toFixed(0)} MB</span> kwa video hii</span>
+      <span>📱 <span class="highlight">180 MB</span>/saa</span>
+    </div>
+    <div class="mi-stats-row">
+      <div class="mi-stat"><span class="v">${views}</span><span class="l">Maono</span></div>
+      <div class="mi-stat"><span class="v" style="color:var(--yellow)">★ ${rating}</span><span class="l">Ukadiriaji</span></div>
+      <div class="mi-stat"><span class="v">${duration}</span><span class="l">Muda</span></div>
+      <div class="mi-stat"><span class="v" id="statLikes">${likeCount}</span><span class="l">Likes</span></div>
+    </div>
+    <p class="mi-synopsis">${escapeHtml(video.description || 'Hakuna maelezo ya video hii.')}</p>
+    <div class="mi-narrator-row">
+      <div class="mi-nar-avatar">${narratorName.charAt(0).toUpperCase()}</div>
+      <div class="mi-nar-info">
+        <div class="name">${escapeHtml(narratorName)}</div>
+        <div class="role">Msimulizi</div>
+      </div>
+    </div>
+    <div class="detail-actions-row">
+      <div class="like-section">
+        <button class="like-btn ${currentLiked ? 'liked' : ''}" id="likeBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span class="like-count" id="likeCount">${likeCount}</span>
+          <span>${currentLiked ? 'Umeipenda' : 'Penda'}</span>
+        </button>
+      </div>
+      <button class="share-btn-detail" id="shareBtnDetail" onclick="shareApp()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Shiriki
+      </button>
+    </div>
+    <div class="comment-form">
+      <div class="comment-input-wrapper">
+        <input type="text" id="commentInput" placeholder="Andika maoni yako hapa..." maxlength="500">
+        <button class="comment-submit" id="submitCommentBtn">Tuma</button>
+      </div>
+    </div>
+    <div class="comments-list" id="commentsList">
+      ${renderCommentsList(comments)}
+    </div>
+    <div class="mi-related-title">Unaweza Kupenda Pia</div>
+    <div class="mi-related-scroll" id="miRelated"></div>
+  `;
+
+  document.getElementById('modalInfo').innerHTML = modalInfoHTML;
+
+  const relEl = document.getElementById('miRelated');
+  relEl.innerHTML = videoItems.filter(v => v.id !== video.id).slice(0, 5).map(v => {
+    const relCover = v.thumbnail_url || v.cover_image_url || 'https://placehold.co/100x65/1a1a1a/888888?text=No+Cover';
+    const relIndex = videoItems.findIndex(item => item.id === v.id);
+    return `
+      <div class="mrc" onclick="openPlayer(${relIndex}); event.stopPropagation();">
+        <div class="mrc-img"><img src="${relCover}" alt="${escapeHtml(v.title)}" onerror="this.src='https://placehold.co/100x65/1a1a1a/888888?text=No+Cover'"></div>
+        <h4>${escapeHtml(v.title)}</h4>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('likeBtn')?.addEventListener('click', async () => {
+    const newLiked = await toggleLike(video.id);
+    currentLiked = newLiked;
+    const newCount = await loadLikes(video.id, true);
+    currentLikeCount = newCount;
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCountSpan = document.getElementById('likeCount');
+    const statLikesSpan = document.getElementById('statLikes');
+    if (likeBtn) {
+      if (newLiked) { likeBtn.classList.add('liked'); likeBtn.querySelector('span:last-child').textContent = 'Umeipenda'; }
+      else { likeBtn.classList.remove('liked'); likeBtn.querySelector('span:last-child').textContent = 'Penda'; }
+    }
+    if (likeCountSpan) likeCountSpan.textContent = newCount;
+    if (statLikesSpan) statLikesSpan.textContent = newCount;
+    likesCache.set(video.id, newCount);
+  });
+
+  document.getElementById('submitCommentBtn')?.addEventListener('click', async () => {
+    const input = document.getElementById('commentInput');
+    const content = input.value.trim();
+    if (!content) { showToast('Andika maoni yako kwanza', 'error'); return; }
+    const success = await addComment(video.id, content);
+    if (success) {
+      input.value = '';
+      const newComments = await loadComments(video.id);
+      currentComments = newComments;
+      const commentsList = document.getElementById('commentsList');
+      if (commentsList) commentsList.innerHTML = renderCommentsList(newComments);
+      const newCount = await loadCommentsCount(video.id);
+      commentsCountCache.set(video.id, newCount);
+      showToast('Maoni yametumwa!', 'success');
+    }
+  });
+
+  document.getElementById('modalThumb').src = coverImage;
+  document.getElementById('mcTitle').textContent = video.title;
+  document.getElementById('mcNarrator').textContent = narratorName;
+
+  // ============================================================
+  // 🔥 VIDEO PLAYER - TATIZO LIMEREKEBISHWA!
+  // ============================================================
+  const videoElement = document.getElementById('videoPlayer');
+
+  if (videoElement) {
+    videoElement.pause();
+    videoElement.removeAttribute('src');
+    videoElement.load();
+  }
+
+
+  isPlaying = false;
+  updatePlayBtn(false);
+  document.getElementById('videoPlaceholder').style.display = 'flex';
+  document.getElementById('controlsLayer').classList.remove('show');
+  document.getElementById('mcFill').style.width = '0%';
+  document.getElementById('mcThumb').style.left = '0%';
+  document.getElementById('mcCurrent').textContent = '0:00';
+  document.getElementById('mcTotal').textContent = formatDuration(video.duration_seconds || 0);
+
+  document.getElementById('videoModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+
+
+  // ============================================================
+  // PATA URL YA VIDEO — video_file_url kwanza, kisha qualities
+  // ============================================================
+  let videoUrl = null;
+
+  if (video.video_file_url && video.video_file_url.trim() !== '') {
+    videoUrl = video.video_file_url;
+    console.log('✅ Using direct video URL:', videoUrl);
+  } else if (video.qualities && video.qualities.length > 0) {
+    const qualityOrder = ['720p', '480p', '360p', '1080p', '4K', 'original'];
+    for (const q of qualityOrder) {
+      const qual = video.qualities.find(qi => qi.quality === q);
+      if (qual && qual.url) { videoUrl = qual.url; break; }
+    }
+    if (!videoUrl && video.qualities[0]?.url) videoUrl = video.qualities[0].url;
+  }
+
+  if (!videoUrl) {
+    showToast('❌ Video haina source inayopatikana', 'error');
+    console.error('No video URL found for:', video);
+    return;
+  }
+
+  console.log('🎬 Loading video:', videoUrl);
+  videoElement.src = videoUrl;
+  videoElement.load();
+
+  videoElement.addEventListener('loadeddata', function onLoaded() {
+    videoElement.removeEventListener('loadeddata', onLoaded);
+    document.getElementById('videoPlaceholder').style.display = 'none';
+    videoElement.play().catch(e => console.error('Auto play failed:', e));
+  }, { once: true });
+
+  // ============================================================
+  // VIDEO EVENTS
+  // ============================================================
+  videoElement.addEventListener('play', () => {
+    isPlaying = true;
+    updatePlayBtn(true);
+    startVideoTimer();
+    document.getElementById('videoPlaceholder').style.display = 'none';
+  });
+
+  videoElement.addEventListener('pause', () => {
+    isPlaying = false;
+    updatePlayBtn(false);
+    stopVideoTimer();
+    showControls();
+  });
+
+  videoElement.addEventListener('ended', () => {
+    isPlaying = false;
+    updatePlayBtn(false);
+    stopVideoTimer();
+    showControls();
+  });
+
+  videoElement.addEventListener('loadedmetadata', () => {
+    if (videoElement.duration) {
+      document.getElementById('mcTotal').textContent = formatDuration(videoElement.duration);
+    }
+  });
+
+  videoElement.addEventListener('error', (e) => {
+    console.error('Video error:', e);
+    showToast('❌ Imeshindwa kucheza video. Jaribu tena.', 'error');
+  });
+
+
+  // Update view count
+  await supabase
+    .from('video_items')
+    .update({ total_views: (video.total_views || 0) + 1 })
+    .eq('id', video.id);
+
+
+  console.log('✅ Video player ready!');
+};
+
+
+
+</script>
+</body>
+</html>
