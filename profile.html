@@ -1062,7 +1062,7 @@
     
     // Generate referral link
     const userId = currentUser?.id?.substring(0, 8) || 'USER';
-    const referralLink = `${WEBSITE_URL}/register.html?ref=${userId}`;
+    const referralLink = `${WEBSITE_URL}/signup.html?ref=${userId}`;
     document.getElementById('referralLink').textContent = referralLink;
   }
 
