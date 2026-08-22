@@ -201,7 +201,20 @@
       font-weight: 600;
       margin-bottom: 12px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
+    }
+
+    .goal-title .title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .goal-title .title-left img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) saturate(100%) invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);
     }
 
     .progress-bar-bg {
@@ -220,80 +233,9 @@
       transition: width 0.3s ease;
     }
 
-    /* referral card */
+    /* referral card - REMOVED completely */
     .referral-card {
-      background: var(--bg-card);
-      margin: 16px;
-      border-radius: var(--radius);
-      padding: 18px;
-      border: 1px solid var(--border);
-    }
-
-    .badge-tier {
-      display: inline-block;
-      background: #cd7f32;
-      padding: 4px 12px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #1e1e1e;
-      margin-bottom: 12px;
-    }
-
-    .badge-tier.silver { background: #c0c0c0; color: #1e1e1e; }
-    .badge-tier.gold { background: #ffd700; color: #1e1e1e; }
-    .badge-tier.platinum { background: #e5e4e2; color: #1e1e1e; }
-
-    .points-info {
-      font-size: 14px;
-      color: var(--yellow);
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
-
-    .ref-progress {
-      margin: 16px 0;
-    }
-
-    .ref-link-box {
-      background: var(--bg-secondary);
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-family: monospace;
-      word-break: break-all;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .copy-btn {
-      background: var(--primary);
-      padding: 6px 14px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      color: white;
-      white-space: nowrap;
-    }
-
-    .share-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .share-btn-wa {
-      background: var(--green);
-      padding: 8px 16px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      display: none;
     }
 
     /* badges menu */
@@ -331,24 +273,20 @@
       gap: 12px;
     }
 
+    .menu-item span:first-child img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) saturate(100%) invert(90%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);
+    }
+
     .chevron {
       color: var(--text-muted);
       font-size: 18px;
     }
 
-    /* free chapter banner */
+    /* free chapter banner - REMOVED */
     .free-chapter-banner {
-      background: rgba(66, 167, 129, 0.12);
-      margin: 16px;
-      padding: 12px 18px;
-      border-radius: var(--radius);
-      border-left: 4px solid var(--accent);
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      display: none;
     }
 
     .logout-btn {
@@ -562,7 +500,10 @@
     <!-- Maendeleo ya Lengo -->
     <div class="goal-card">
       <div class="goal-title">
-        <span>📖 Maendeleo ya Kusoma</span>
+        <span class="title-left">
+          <img src="/library_books_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Maendeleo" onerror="this.style.display='none'">
+          Maendeleo ya Kusoma
+        </span>
         <span style="color: var(--accent);" id="goalProgress">0/0 sura</span>
       </div>
       <div class="progress-bar-bg">
@@ -571,78 +512,38 @@
       <div style="font-size:13px; color:var(--text-muted); margin-top: 8px;" id="goalMessage">Anza kusoma hadithi!</div>
     </div>
 
-    <!-- Referral Card -->
-    <div class="referral-card">
-      <div class="badge-tier" id="tierBadge">🥉 Bronze</div>
-      <div class="points-info" id="referralPointsInfo">✨ +100 Alama / kila referral</div>
-      <div style="display: flex; justify-content: space-between; font-size:14px;">
-        <span>Umepata referrals: <strong id="referralCount">0</strong></span>
-        <span style="color: var(--accent);" id="nextTierInfo">ongeza 4 zaidi kupata Silver 🥈</span>
-      </div>
-      <div class="ref-progress">
-        <div class="progress-bar-bg">
-          <div class="progress-fill" id="referralFill" style="width: 0%; background: var(--primary);"></div>
-        </div>
-      </div>
-      <div class="ref-link-box">
-        <span style="font-size:12px; overflow-x: auto;" id="referralLink">https://storieszone.site/?ref=</span>
-        <button class="copy-btn" id="copyReferralBtn">Nakili link</button>
-      </div>
-      <div class="share-actions">
-        <button id="whatsappShareBtn" class="share-btn-wa" style="background: var(--green);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Shiriki WhatsApp
-        </button>
-        <button id="shareGenericBtn" class="share-btn-wa" style="background: var(--bg-secondary); border:1px solid var(--border);">
-          🔗 Shiriki link
-        </button>
-      </div>
-    </div>
+    <!-- Referral Card - REMOVED completely -->
 
-    <!-- Badges & Mafanikio -->
+    <!-- Badges & Mafanikio - Removed: mafanikio yako, nafasi yako, hadithi rafu na malipo, leaderboard, msaada -->
     <div class="badges-menu">
-      <div class="menu-item" id="mafanikioBtn">
-        <span>🏅 Mafanikio yako</span>
-        <span class="chevron">›</span>
-      </div>
-      <div class="menu-item" id="nafasiBtn">
-        <span>🏆 Nafasi yako</span>
-        <span class="chevron">›</span>
-      </div>
-      <div class="menu-item" id="hadithiRafuBtn">
-        <span>📚 Hadithi, rafu na malipo</span>
-        <span class="chevron">›</span>
-      </div>
       <div class="menu-item" id="lughaBtn">
-        <span>🌐 Lugha: <span id="currentLang">Kiswahili</span></span>
+        <span>
+          <img src="/language_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Lugha" onerror="this.style.display='none'">
+          Lugha: <span id="currentLang">Kiswahili</span>
+        </span>
         <span class="chevron">›</span>
       </div>
     </div>
 
-    <!-- additional menus -->
+    <!-- additional menus - with custom icons -->
     <div class="badges-menu">
-      <div class="menu-item" id="leaderboardBtn">
-        <span>📊 Leaderboard</span>
-        <span class="chevron">›</span>
-      </div>
       <div class="menu-item" id="maktabaBtn">
-        <span>📖 Maktaba Yangu</span>
-        <span class="chevron">›</span>
-      </div>
-      <div class="menu-item" id="msaadaBtn">
-        <span>🆘 Msaada</span>
+        <span>
+          <img src="/library_books_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Maktaba" onerror="this.style.display='none'">
+          Maktaba Yangu
+        </span>
         <span class="chevron">›</span>
       </div>
       <div class="menu-item" id="kuhusuBtn">
-        <span>ℹ️ Kuhusu STORIES ZONE</span>
+        <span>
+          <img src="/info_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Kuhusu" onerror="this.style.display='none'">
+          Kuhusu STORIES ZONE
+        </span>
         <span class="chevron">›</span>
       </div>
     </div>
 
-    <!-- sura za bure zimebaki leo -->
-    <div class="free-chapter-banner" id="freeChapterBanner">
-      <span>📖</span> <span id="freeChaptersText">Sura 3 za bure zimebaki leo — soma kabla usiku wa leo!</span>
-    </div>
+    <!-- FREE CHAPTER BANNER REMOVED -->
 
     <!-- Ondoka (logout) -->
     <button id="logoutBtn" class="logout-btn">
@@ -669,7 +570,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span id="navHome">Nyumbani</span>
   </a>
-  <a href="browse.html" class="nav-item">
+  <a href="index.html" class="nav-item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     <span id="navBrowse">Tafuta</span>
   </a>
@@ -693,10 +594,6 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  // Website URL
-  const WEBSITE_URL = 'https://storieszone.site';
-  const WHATSAPP_NUMBER = '+255618282371';
 
   // State
   let currentUser = null;
@@ -725,34 +622,10 @@
       completed: 'Hadithi zimekamilika',
       readingProgress: 'Maendeleo ya Kusoma',
       startReading: 'Anza kusoma hadithi!',
-      referralPoints: '✨ +100 Alama / kila referral',
-      nextTierSilver: 'ongeza 4 zaidi kupata Silver 🥈',
-      nextTierGold: 'ongeza 9 zaidi kupata Gold 🥇',
-      nextTierPlatinum: 'ongeza 24 zaidi kupata Platinum 💎',
-      maxTier: 'Umefikia kiwango cha juu! 🏆',
-      bronze: '🥉 Bronze',
-      silver: '🥈 Silver',
-      gold: '🥇 Gold',
-      platinum: '💎 Platinum',
-      shareWhatsApp: 'Shiriki WhatsApp',
-      shareLink: 'Shiriki link',
-      freeChapters: 'Sura 3 za bure zimebaki leo — soma kabla usiku wa leo!',
       logout: 'Ondoka',
-      achievements: 'Mafanikio yako',
-      rank: 'Nafasi yako',
-      libraryPurchases: 'Hadithi, rafu na malipo',
       language: 'Lugha',
-      leaderboard: 'Leaderboard',
       myLibrary: 'Maktaba Yangu',
-      help: 'Msaada',
-      about: 'Kuhusu STORIES ZONE',
-      copied: '✅ Link imenakiliwa!',
-      copyError: '⚠️ Tafadhali nakili link mwenyewe',
-      noAchievements: 'Bado hakuna mafanikio. Endelea kusoma!',
-      rankNotAvailable: 'Nafasi yako haijapatikana bado. Endelea kusoma!',
-      comingSoon: 'Kipengele hiki kitapatikana hivi karibuni!',
-      helpMessage: 'Msaada: Wasiliana nasi WhatsApp au barua pepe: support@storieszone.site',
-      aboutMessage: 'STORIES ZONE ni jukwaa la kusoma hadithi za kusisimua kwa Kiswahili na Kiingereza. Toleo 1.0'
+      about: 'Kuhusu STORIES ZONE'
     },
     en: {
       navHome: 'Home',
@@ -765,34 +638,10 @@
       completed: 'Completed stories',
       readingProgress: 'Reading Progress',
       startReading: 'Start reading stories!',
-      referralPoints: '✨ +100 Points per referral',
-      nextTierSilver: 'get 4 more to reach Silver 🥈',
-      nextTierGold: 'get 9 more to reach Gold 🥇',
-      nextTierPlatinum: 'get 24 more to reach Platinum 💎',
-      maxTier: 'You\'ve reached the highest tier! 🏆',
-      bronze: '🥉 Bronze',
-      silver: '🥈 Silver',
-      gold: '🥇 Gold',
-      platinum: '💎 Platinum',
-      shareWhatsApp: 'Share WhatsApp',
-      shareLink: 'Share link',
-      freeChapters: '3 free chapters left today — read before midnight!',
       logout: 'Logout',
-      achievements: 'Your achievements',
-      rank: 'Your rank',
-      libraryPurchases: 'Stories, shelf & purchases',
       language: 'Language',
-      leaderboard: 'Leaderboard',
       myLibrary: 'My Library',
-      help: 'Help',
-      about: 'About STORIES ZONE',
-      copied: '✅ Link copied!',
-      copyError: '⚠️ Please copy the link manually',
-      noAchievements: 'No achievements yet. Keep reading!',
-      rankNotAvailable: 'Your rank is not available yet. Keep reading!',
-      comingSoon: 'This feature is coming soon!',
-      helpMessage: 'Help: Contact us on WhatsApp or email: support@storieszone.site',
-      aboutMessage: 'STORIES ZONE is a platform for reading exciting stories in Swahili and English. Version 1.0'
+      about: 'About STORIES ZONE'
     }
   };
 
@@ -821,73 +670,49 @@
     document.querySelector('.stat-card:nth-child(2) .record-sub').innerHTML = `${t.record}: ${userStats.bestStreak}`;
     document.querySelector('.stat-card:nth-child(3) .stat-label').textContent = t.completed;
     
-    document.querySelector('.goal-card .goal-title span:first-child').innerHTML = `📖 ${t.readingProgress}`;
-    document.getElementById('goalMessage').textContent = t.startReading;
-    
-    document.getElementById('referralPointsInfo').textContent = t.referralPoints;
-    updateNextTierText();
-    
-    document.getElementById('freeChaptersText').textContent = t.freeChapters;
-    document.getElementById('logoutBtn').innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ${t.logout}`;
-    
-    const menuItems = [
-      { id: 'mafanikioBtn', span: '🏅 ' + t.achievements },
-      { id: 'nafasiBtn', span: '🏆 ' + t.rank },
-      { id: 'hadithiRafuBtn', span: '📚 ' + t.libraryPurchases },
-      { id: 'leaderboardBtn', span: '📊 ' + t.leaderboard },
-      { id: 'maktabaBtn', span: '📖 ' + t.myLibrary },
-      { id: 'msaadaBtn', span: '🆘 ' + t.help },
-      { id: 'kuhusuBtn', span: 'ℹ️ ' + t.about }
-    ];
-    
-    menuItems.forEach(item => {
-      const el = document.getElementById(item.id);
-      if (el) {
-        const firstSpan = el.querySelector('span:first-child');
-        if (firstSpan) firstSpan.innerHTML = item.span;
-      }
-    });
-    
-    document.querySelectorAll('.share-btn-wa').forEach(btn => {
-      if (btn.id === 'whatsappShareBtn') btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> ${t.shareWhatsApp}`;
-      if (btn.id === 'shareGenericBtn') btn.innerHTML = `🔗 ${t.shareLink}`;
-    });
-  }
-
-  // Update next tier text based on referrals
-  function updateNextTierText() {
-    const t = translations[currentLanguage];
-    const referrals = userStats.referrals;
-    let nextText = '';
-    
-    if (referrals < 5) {
-      nextText = t.nextTierSilver;
-    } else if (referrals < 10) {
-      nextText = t.nextTierGold;
-    } else if (referrals < 25) {
-      nextText = t.nextTierPlatinum;
-    } else {
-      nextText = t.maxTier;
+    // Update goal title with icon and text
+    const goalTitleLeft = document.querySelector('.goal-title .title-left');
+    if (goalTitleLeft) {
+      const img = goalTitleLeft.querySelector('img');
+      goalTitleLeft.innerHTML = '';
+      if (img) goalTitleLeft.appendChild(img);
+      goalTitleLeft.appendChild(document.createTextNode(' ' + t.readingProgress));
     }
     
-    const nextTierEl = document.getElementById('nextTierInfo');
-    if (nextTierEl) nextTierEl.textContent = nextText;
-  }
-
-  // Get tier based on referrals
-  function getTier(referrals) {
-    if (referrals >= 25) return { name: 'platinum', emoji: '💎', label: 'Platinum' };
-    if (referrals >= 10) return { name: 'gold', emoji: '🥇', label: 'Gold' };
-    if (referrals >= 5) return { name: 'silver', emoji: '🥈', label: 'Silver' };
-    return { name: 'bronze', emoji: '🥉', label: 'Bronze' };
-  }
-
-  // Update tier badge
-  function updateTierBadge() {
-    const tier = getTier(userStats.referrals);
-    const badgeEl = document.getElementById('tierBadge');
-    badgeEl.textContent = `${tier.emoji} ${tier.label}`;
-    badgeEl.className = `badge-tier ${tier.name}`;
+    document.getElementById('goalMessage').textContent = t.startReading;
+    
+    document.getElementById('logoutBtn').innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ${t.logout}`;
+    
+    // Update menu items with translated text (keeping icons)
+    const lughaSpan = document.querySelector('#lughaBtn span:first-child');
+    if (lughaSpan) {
+      const img = lughaSpan.querySelector('img');
+      const langSpan = lughaSpan.querySelector('#currentLang');
+      lughaSpan.innerHTML = '';
+      if (img) lughaSpan.appendChild(img);
+      lughaSpan.appendChild(document.createTextNode(' ' + t.language + ': '));
+      if (langSpan) {
+        langSpan.id = 'currentLang';
+        langSpan.textContent = currentLanguage === 'sw' ? 'Kiswahili' : 'English';
+        lughaSpan.appendChild(langSpan);
+      }
+    }
+    
+    const maktabaSpan = document.querySelector('#maktabaBtn span:first-child');
+    if (maktabaSpan) {
+      const img = maktabaSpan.querySelector('img');
+      maktabaSpan.innerHTML = '';
+      if (img) maktabaSpan.appendChild(img);
+      maktabaSpan.appendChild(document.createTextNode(' ' + t.myLibrary));
+    }
+    
+    const kuhusuSpan = document.querySelector('#kuhusuBtn span:first-child');
+    if (kuhusuSpan) {
+      const img = kuhusuSpan.querySelector('img');
+      kuhusuSpan.innerHTML = '';
+      if (img) kuhusuSpan.appendChild(img);
+      kuhusuSpan.appendChild(document.createTextNode(' ' + t.about));
+    }
   }
 
   // Load user data from Supabase
@@ -926,7 +751,6 @@
     
     // Load reading stats
     await loadReadingStats();
-    await loadReferralStats();
     
     return true;
   }
@@ -1013,84 +837,17 @@
     updateUIStats();
   }
 
-  // Load referral stats
-  async function loadReferralStats() {
-    // Get user ID
-    const { data: userData } = await supabase
-      .from('users')
-      .select('id')
-      .eq('auth_user_id', currentUser?.id)
-      .single();
-    
-    if (userData) {
-      const { data: referrals } = await supabase
-        .from('referrals')
-        .select('id')
-        .eq('referred_by', userData.id);
-      
-      userStats.referrals = referrals?.length || 0;
-      
-      // Update stats in user_stats
-      await supabase
-        .from('user_stats')
-        .update({ referrals: userStats.referrals })
-        .eq('user_id', userData.id);
-      
-      updateUIStats();
-    }
-  }
-
   // Update UI with stats
   function updateUIStats() {
     document.getElementById('pointsCount').textContent = userStats.points;
     document.getElementById('streakCount').textContent = userStats.streak;
     document.getElementById('bestStreak').innerHTML = `${translations[currentLanguage].record}: ${userStats.bestStreak}`;
     document.getElementById('completedCount').textContent = userStats.completedStories;
-    document.getElementById('referralCount').textContent = userStats.referrals;
     
     // Update goal progress
     const goalPercent = userStats.totalChapters > 0 ? (userStats.chaptersRead / userStats.totalChapters) * 100 : 0;
     document.getElementById('goalFill').style.width = `${goalPercent}%`;
     document.getElementById('goalProgress').textContent = `${userStats.chaptersRead}/${userStats.totalChapters} sura`;
-    
-    // Update referral progress (target 25 for platinum)
-    const referralPercent = Math.min((userStats.referrals / 25) * 100, 100);
-    document.getElementById('referralFill').style.width = `${referralPercent}%`;
-    
-    updateTierBadge();
-    updateNextTierText();
-    
-    // Generate referral link
-    const userId = currentUser?.id?.substring(0, 8) || 'USER';
-    const referralLink = `${WEBSITE_URL}/signup.html?ref=${userId}`;
-    document.getElementById('referralLink').textContent = referralLink;
-  }
-
-  // Copy referral link
-  function copyReferral() {
-    const link = document.getElementById('referralLink').textContent;
-    navigator.clipboard.writeText(link).then(() => {
-      showToast(translations[currentLanguage].copied);
-    }).catch(() => {
-      showToast(translations[currentLanguage].copyError);
-    });
-  }
-
-  // Share WhatsApp
-  function shareWhatsApp() {
-    const link = document.getElementById('referralLink').textContent;
-    const text = `Soma hadithi za kusisimua kwenye STORIES ZONE! Jiunge kupitia link hii: ${link}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=${encodeURIComponent(text)}`, '_blank');
-  }
-
-  // Share generic
-  function shareGeneric() {
-    const link = document.getElementById('referralLink').textContent;
-    if (navigator.share) {
-      navigator.share({ title: 'STORIES ZONE', text: 'Jiunge na mimi kusoma hadithi za kusisimua!', url: link });
-    } else {
-      copyReferral();
-    }
   }
 
   // Logout
@@ -1128,24 +885,18 @@
     if (!loggedIn) return;
     
     // Event listeners
-    document.getElementById('copyReferralBtn')?.addEventListener('click', copyReferral);
-    document.getElementById('whatsappShareBtn')?.addEventListener('click', shareWhatsApp);
-    document.getElementById('shareGenericBtn')?.addEventListener('click', shareGeneric);
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
     document.getElementById('lughaBtn')?.addEventListener('click', showLanguageModal);
     
-    // Menu item handlers
-    const t = translations[currentLanguage];
-    document.getElementById('mafanikioBtn')?.addEventListener('click', () => showToast(t.noAchievements));
-    document.getElementById('nafasiBtn')?.addEventListener('click', () => showToast(t.rankNotAvailable));
-    document.getElementById('hadithiRafuBtn')?.addEventListener('click', () => showToast(t.comingSoon));
-    document.getElementById('leaderboardBtn')?.addEventListener('click', () => showToast(t.comingSoon));
-    document.getElementById('maktabaBtn')?.addEventListener('click', () => window.location.href = 'library.html');
-    document.getElementById('msaadaBtn')?.addEventListener('click', () => {
-      window.open(`https://wa.me/${WHATSAPP_NUMBER.replace('+', '')}?text=Msaada%20kwenye%20STORIES%20ZONE`, '_blank');
-      showToast(t.helpMessage);
+    // Maktaba Yangu - goes to library.html
+    document.getElementById('maktabaBtn')?.addEventListener('click', () => {
+      window.location.href = 'library.html';
     });
-    document.getElementById('kuhusuBtn')?.addEventListener('click', () => showToast(t.aboutMessage));
+    
+    // Kuhusu STORIES ZONE - goes to kuhusu.html
+    document.getElementById('kuhusuBtn')?.addEventListener('click', () => {
+      window.location.href = 'about.html';
+    });
     
     // Language modal handlers
     document.querySelectorAll('.lang-option').forEach(option => {
@@ -1154,7 +905,7 @@
         localStorage.setItem('storieszone_language', currentLanguage);
         updateLanguage();
         document.getElementById('langModal').classList.remove('show');
-        updateUIStats(); // Refresh UI with new language
+        updateUIStats();
       });
     });
     
