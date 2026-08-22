@@ -470,7 +470,7 @@
   <div id="mainContent" style="display: none;">
     <!-- user info -->
     <div class="user-card">
-      <div class="avatar" id="userAvatar">CR</div>
+      <div class="avatar" id="userAvatar">?</div>
       <div class="user-info">
         <h2 id="userName">Mgeni</h2>
         <p id="userEmail">
@@ -514,7 +514,7 @@
 
     <!-- Referral Card - REMOVED completely -->
 
-    <!-- Badges & Mafanikio - Removed: mafanikio yako, nafasi yako, hadithi rafu na malipo, leaderboard, msaada -->
+    <!-- Badges & Mafanikio -->
     <div class="badges-menu">
       <div class="menu-item" id="lughaBtn">
         <span>
@@ -525,7 +525,7 @@
       </div>
     </div>
 
-    <!-- additional menus - with custom icons -->
+    <!-- additional menus -->
     <div class="badges-menu">
       <div class="menu-item" id="maktabaBtn">
         <span>
@@ -542,8 +542,6 @@
         <span class="chevron">›</span>
       </div>
     </div>
-
-    <!-- FREE CHAPTER BANNER REMOVED -->
 
     <!-- Ondoka (logout) -->
     <button id="logoutBtn" class="logout-btn">
@@ -715,33 +713,22 @@
     }
   }
 
-  // Check if user is logged in
-  async function checkAuth() {
-    try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error || !session) {
-        // Not logged in - redirect to login
-        const currentUrl = encodeURIComponent(window.location.href);
-        window.location.href = `login.html?redirect=${currentUrl}`;
-        return false;
-      }
-      
-      return session.user;
-    } catch (error) {
-      console.error('Auth check error:', error);
-      window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-      return false;
-    }
-  }
-
-  // Load user data from Supabase
+  // Load user data from Supabase - NO REDIRECT, just load what's available
   async function loadUserData() {
     try {
-      // Check authentication first
-      const user = await checkAuth();
-      if (!user) return false;
+      // Try to get session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
+      if (sessionError || !session) {
+        console.log('User not logged in - showing default view');
+        showToast('Ingia ili uone data yako');
+        document.getElementById('userAvatar').textContent = '?';
+        document.getElementById('userName').textContent = 'Mgeni';
+        document.getElementById('userEmailText').textContent = '-';
+        return true;
+      }
+      
+      const user = session.user;
       currentUser = user;
       
       // Get user profile from public.users
@@ -771,11 +758,8 @@
       return true;
     } catch (error) {
       console.error('Error loading user data:', error);
-      showToast('Tatizo la kuunganisha. Tafadhali ingia tena.');
-      setTimeout(() => {
-        window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
-      }, 1500);
-      return false;
+      // Don't redirect - just show default view
+      return true;
     }
   }
 
@@ -901,24 +885,21 @@
     // Show loading
     document.getElementById('loadingIndicator').style.display = 'block';
     
-    const loggedIn = await loadUserData();
+    await loadUserData();
     
     document.getElementById('loadingIndicator').style.display = 'none';
-    
-    if (!loggedIn) return;
-    
     document.getElementById('mainContent').style.display = 'block';
     
     // Event listeners
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
     document.getElementById('lughaBtn')?.addEventListener('click', showLanguageModal);
     
-    // Maktaba Yangu - goes to library.html
+    // Maktaba Yangu
     document.getElementById('maktabaBtn')?.addEventListener('click', () => {
       window.location.href = 'library.html';
     });
     
-    // Kuhusu STORIES ZONE - goes to kuhusu.html
+    // Kuhusu STORIES ZONE
     document.getElementById('kuhusuBtn')?.addEventListener('click', () => {
       window.location.href = 'about.html';
     });
@@ -941,7 +922,6 @@
     });
   }
   
-  // Run init
   init();
 </script>
 
