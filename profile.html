@@ -717,42 +717,54 @@
 
   // Load user data from Supabase
   async function loadUserData() {
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      showToast('Tafadhali ingia kwanza');
+    try {
+      // Check if user is logged in - using getSession() which is more reliable
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError || !session) {
+        showToast('Tafadhali ingia kwanza');
+        setTimeout(() => {
+          window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
+        }, 1500);
+        return false;
+      }
+      
+      const user = session.user;
+      
+      // Get user profile from public.users
+      const { data: profile, error: profileError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('auth_user_id', user.id)
+        .maybeSingle();
+      
+      if (profileError) {
+        console.error('Error loading profile:', profileError);
+      }
+      
+      userProfile = profile;
+      currentUser = user;
+      
+      // Update UI with user info
+      const displayName = userProfile?.name || user.email?.split('@')[0] || 'Mgeni';
+      const avatarLetter = displayName.charAt(0).toUpperCase();
+      
+      document.getElementById('userAvatar').textContent = avatarLetter;
+      document.getElementById('userName').textContent = displayName;
+      document.getElementById('userEmailText').textContent = user.email || '-';
+      
+      // Load reading stats
+      await loadReadingStats();
+      
+      return true;
+    } catch (error) {
+      console.error('Error loading user data:', error);
+      showToast('Tatizo la kuunganisha. Tafadhali ingia tena.');
       setTimeout(() => {
         window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`;
       }, 1500);
       return false;
     }
-    
-    // Get user profile from public.users
-    const { data: profile, error: profileError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('auth_user_id', user.id)
-      .single();
-    
-    if (profileError && profileError.code !== 'PGRST116') {
-      console.error('Error loading profile:', profileError);
-    }
-    
-    userProfile = profile;
-    currentUser = user;
-    
-    // Update UI with user info
-    const displayName = userProfile?.name || user.email?.split('@')[0] || 'Mgeni';
-    const avatarLetter = displayName.charAt(0).toUpperCase();
-    
-    document.getElementById('userAvatar').textContent = avatarLetter;
-    document.getElementById('userName').textContent = displayName;
-    document.getElementById('userEmailText').textContent = user.email || '-';
-    
-    // Load reading stats
-    await loadReadingStats();
-    
-    return true;
   }
 
   // Load reading statistics
@@ -764,7 +776,7 @@
       .from('users')
       .select('id')
       .eq('auth_user_id', currentUser.id)
-      .single();
+      .maybeSingle();
     
     if (!userData) return;
     
