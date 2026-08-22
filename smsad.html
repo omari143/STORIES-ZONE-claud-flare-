@@ -1,0 +1,4274 @@
+<!DOCTYPE html>
+<html lang="sw">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=yes"
+>
+
+<meta
+    name="theme-color"
+    content="#0f0f0e"
+>
+
+<title>Admin Panel — STORIES ZONE</title>
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+>
+
+<style>
+
+:root {
+    --bg: #0f0f0e;
+    --card: #141414;
+    --secondary: #1a1a1a;
+    --secondary-hover: #222222;
+
+    --primary: #9c2518;
+    --primary-hover: #b02d1f;
+
+    --accent: #42a781;
+    --accent-hover: #4dbd94;
+
+    --text: #e8e8e8;
+    --text-secondary: #999;
+    --text-muted: #666;
+
+    --border: #2a2a2a;
+
+    --danger: #ef4444;
+    --warning: #fbbf24;
+    --info: #3b82f6;
+
+    --radius: 14px;
+    --radius-sm: 9px;
+    --radius-full: 999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 85px;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+/* =====================================================
+   AUTH SCREEN
+===================================================== */
+
+.auth-screen {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(156,37,24,.13),
+            transparent 35%
+        ),
+        var(--bg);
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 430px;
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-logo h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.auth-logo h1 span {
+    color: var(--primary);
+}
+
+.auth-logo p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.auth-card {
+    background: rgba(20,20,20,.96);
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.35);
+}
+
+.auth-card-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 16px;
+
+    background: rgba(156,37,24,.13);
+    color: #d45a4c;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.auth-card h2 {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.auth-card-header p {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: var(--text-secondary);
+
+    margin-bottom: 7px;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper svg {
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+
+    color: var(--text-muted);
+
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 13px 0 43px;
+
+    border-radius: var(--radius-sm);
+
+    border: 1px solid var(--border);
+
+    background: var(--secondary);
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 14px;
+
+    transition: .2s;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(156,37,24,.1);
+}
+
+.auth-submit {
+    width: 100%;
+    height: 47px;
+
+    border: none;
+    border-radius: var(--radius-sm);
+
+    background: var(--primary);
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+    margin-top: 5px;
+}
+
+.auth-submit:hover {
+    background: var(--primary-hover);
+}
+
+.auth-submit:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.auth-switch {
+    text-align: center;
+
+    margin-top: 20px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+}
+
+.auth-switch button {
+    background: none;
+    border: none;
+
+    color: #d45a4c;
+
+    cursor: pointer;
+
+    font-weight: 700;
+}
+
+.auth-note {
+    margin-top: 18px;
+
+    padding: 11px 13px;
+
+    background: rgba(251,191,36,.07);
+
+    border: 1px solid rgba(251,191,36,.15);
+
+    border-radius: var(--radius-sm);
+
+    color: #c5a75b;
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+/* =====================================================
+   MAIN ADMIN
+===================================================== */
+
+.admin-app {
+    display: none;
+}
+
+.header {
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    min-height: 65px;
+
+    padding: 10px 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: rgba(15,15,14,.96);
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.logo-text {
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.logo-text span {
+    color: var(--primary);
+}
+
+.admin-badge {
+    padding: 3px 9px;
+
+    border-radius: var(--radius-full);
+
+    background: rgba(156,37,24,.15);
+
+    color: #d45a4c;
+
+    border: 1px solid rgba(156,37,24,.25);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+
+    border-radius: var(--radius-sm);
+
+    border: 1px solid var(--border);
+
+    background: var(--secondary);
+
+    color: var(--text-secondary);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.icon-btn:hover {
+    color: var(--text);
+    background: var(--secondary-hover);
+}
+
+.icon-btn svg {
+    width: 19px;
+    height: 19px;
+}
+
+.logout-btn {
+    height: 38px;
+
+    padding: 0 15px;
+
+    border-radius: var(--radius-sm);
+
+    border: 1px solid var(--border);
+
+    background: var(--secondary);
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.container {
+    width: 100%;
+    max-width: 950px;
+
+    margin: 0 auto;
+
+    padding: 25px 20px;
+}
+
+.page-title {
+    margin-bottom: 23px;
+}
+
+.page-title h1 {
+    font-size: 28px;
+    letter-spacing: -.6px;
+}
+
+.page-title p {
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    margin-top: 4px;
+}
+
+/* =====================================================
+   TABS
+===================================================== */
+
+.tabs {
+    display: flex;
+
+    gap: 7px;
+
+    overflow-x: auto;
+
+    padding-bottom: 12px;
+
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid var(--border);
+
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    height: 40px;
+
+    padding: 0 16px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    border: none;
+
+    border-radius: var(--radius-full);
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: .2s;
+}
+
+.tab-btn svg {
+    width: 17px;
+    height: 17px;
+}
+
+.tab-btn:hover {
+    background: var(--secondary);
+    color: var(--text);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* =====================================================
+   CARDS
+===================================================== */
+
+.card {
+    background: var(--card);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+}
+
+.card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-bottom: 17px;
+}
+
+.card-header h3 {
+    font-size: 17px;
+}
+
+.card-description {
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+/* =====================================================
+   SUPPORT
+===================================================== */
+
+.support-item {
+    border-bottom: 1px solid var(--border);
+
+    padding: 17px 0;
+}
+
+.support-item:first-child {
+    padding-top: 0;
+}
+
+.support-item:last-child {
+    border-bottom: none;
+
+    padding-bottom: 0;
+}
+
+.support-meta {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px 15px;
+
+    margin-bottom: 9px;
+}
+
+.support-meta strong {
+    color: var(--text);
+
+    font-size: 14px;
+}
+
+.support-meta span {
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+.support-message {
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    line-height: 1.65;
+}
+
+.admin-response {
+    margin-top: 9px;
+
+    padding: 10px 12px;
+
+    background: rgba(66,167,129,.07);
+
+    border: 1px solid rgba(66,167,129,.13);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--accent);
+
+    font-size: 13px;
+}
+
+.reply-box {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 13px;
+
+    flex-wrap: wrap;
+}
+
+.reply-textarea {
+    flex: 1;
+
+    min-width: 220px;
+
+    min-height: 43px;
+
+    padding: 10px 12px;
+
+    resize: vertical;
+
+    background: var(--secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    outline: none;
+}
+
+.reply-textarea:focus {
+    border-color: var(--primary);
+}
+
+.status-select {
+    height: 43px;
+
+    padding: 0 10px;
+
+    background: var(--secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 12px;
+}
+
+.status-badge {
+    padding: 3px 9px;
+
+    border-radius: var(--radius-full);
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+.status-pending {
+    background: rgba(251,191,36,.12);
+
+    color: var(--warning);
+}
+
+.status-reviewing {
+    background: rgba(59,130,246,.12);
+
+    color: #60a5fa;
+}
+
+.status-resolved {
+    background: rgba(66,167,129,.12);
+
+    color: var(--accent);
+}
+
+.status-rejected {
+    background: rgba(239,68,68,.12);
+
+    color: #f87171;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn {
+    min-height: 40px;
+
+    padding: 0 15px;
+
+    border: none;
+
+    border-radius: var(--radius-sm);
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-primary {
+    background: var(--primary);
+
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+}
+
+.btn-accent {
+    background: var(--accent);
+
+    color: white;
+}
+
+.btn-accent:hover {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--secondary);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    color: var(--text);
+
+    border-color: #444;
+}
+
+/* =====================================================
+   USERS
+===================================================== */
+
+.user-list {
+    display: grid;
+
+    gap: 8px;
+}
+
+.user-item {
+    min-height: 61px;
+
+    padding: 10px 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    background: var(--secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+}
+
+.user-info {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            #5f170f
+        );
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.user-details {
+    min-width: 0;
+}
+
+.user-name {
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+.user-email {
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+.role-badge {
+    display: inline-block;
+
+    margin-left: 5px;
+
+    padding: 2px 7px;
+
+    border-radius: var(--radius-full);
+
+    background: rgba(156,37,24,.15);
+
+    color: #d45a4c;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+.user-checkbox {
+    width: 18px;
+    height: 18px;
+
+    accent-color: var(--primary);
+
+    cursor: pointer;
+}
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.form-row {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 13px;
+}
+
+.panel-input,
+.panel-textarea,
+.panel-select {
+    width: 100%;
+
+    background: var(--secondary);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 13px;
+}
+
+.panel-input,
+.panel-select {
+    height: 44px;
+
+    padding: 0 12px;
+}
+
+.panel-textarea {
+    padding: 11px 12px;
+
+    resize: vertical;
+}
+
+.panel-input:focus,
+.panel-textarea:focus,
+.panel-select:focus {
+    border-color: var(--primary);
+}
+
+.selected-users {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 8px;
+}
+
+.selected-user {
+    padding: 4px 9px;
+
+    border: 1px solid var(--border);
+
+    background: var(--secondary);
+
+    border-radius: var(--radius-full);
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+}
+
+/* =====================================================
+   EMPTY / LOADING
+===================================================== */
+
+.empty-state {
+    text-align: center;
+
+    padding: 55px 20px;
+
+    color: var(--text-muted);
+}
+
+.empty-icon {
+    width: 52px;
+    height: 52px;
+
+    margin: 0 auto 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background: var(--secondary);
+
+    color: var(--text-muted);
+}
+
+.empty-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.empty-state h3 {
+    color: var(--text-secondary);
+
+    font-size: 16px;
+
+    margin-bottom: 4px;
+}
+
+.empty-state p {
+    font-size: 12px;
+}
+
+.loading {
+    text-align: center;
+
+    padding: 45px 20px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+}
+
+.spinner {
+    width: 38px;
+    height: 38px;
+
+    margin: 0 auto 12px;
+
+    border: 3px solid var(--border);
+
+    border-top-color: var(--primary);
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 92px;
+
+    transform:
+        translateX(-50%)
+        translateY(15px);
+
+    max-width: 90%;
+
+    padding: 11px 17px;
+
+    background: #292929;
+
+    border: 1px solid #3b3b3b;
+
+    border-radius: var(--radius-full);
+
+    color: white;
+
+    font-size: 12px;
+
+    text-align: center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: .25s;
+
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+/* =====================================================
+   BOTTOM NAV
+===================================================== */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-around;
+
+    background: rgba(15,15,14,.97);
+
+    backdrop-filter: blur(15px);
+
+    border-top: 1px solid var(--border);
+
+    z-index: 100;
+}
+
+.nav-item {
+    min-width: 70px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 4px;
+
+    color: var(--text-muted);
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-item:hover {
+    color: var(--text);
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:600px) {
+
+    .auth-card {
+        padding: 22px;
+    }
+
+    .container {
+        padding: 20px 14px;
+    }
+
+    .page-title h1 {
+        font-size: 24px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .reply-box {
+        flex-direction: column;
+    }
+
+    .reply-textarea {
+        width: 100%;
+    }
+
+    .status-select,
+    .reply-box .btn {
+        width: 100%;
+    }
+
+    .header {
+        padding: 10px 12px;
+    }
+
+    .admin-badge {
+        display: none;
+    }
+
+    .logo-text {
+        font-size: 17px;
+    }
+
+    .logout-btn {
+        padding: 0 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     AUTH SCREEN
+===================================================== -->
+
+<section
+    id="authScreen"
+    class="auth-screen"
+>
+
+<div class="auth-wrapper">
+
+<div class="auth-logo">
+
+<h1>
+    STORIES <span>ZONE</span>
+</h1>
+
+<p>
+    Admin Management System
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
+
+<div
+    id="loginBox"
+    class="auth-card"
+>
+
+<div class="auth-card-header">
+
+<div class="auth-icon">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+
+<rect
+    x="3"
+    y="11"
+    width="18"
+    height="10"
+    rx="2"
+/>
+
+<path
+    d="M7 11V7a5 5 0 0 1 10 0v4"
+/>
+
+</svg>
+
+</div>
+
+<h2>
+    Admin Login
+</h2>
+
+<p>
+    Ingia kwenye Admin Panel
+</p>
+
+</div>
+
+
+<form id="loginForm">
+
+<div class="form-group">
+
+<label class="form-label">
+    Email
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<rect
+    x="3"
+    y="5"
+    width="18"
+    height="14"
+    rx="2"
+/>
+
+<path
+    d="m3 7 9 6 9-6"
+/>
+
+</svg>
+
+<input
+    id="loginEmail"
+    class="form-input"
+    type="email"
+    placeholder="admin@example.com"
+    autocomplete="email"
+    required
+>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Password
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<rect
+    x="3"
+    y="11"
+    width="18"
+    height="10"
+    rx="2"
+/>
+
+<path
+    d="M7 11V7a5 5 0 0 1 10 0v4"
+/>
+
+</svg>
+
+<input
+    id="loginPassword"
+    class="form-input"
+    type="password"
+    placeholder="Password"
+    autocomplete="current-password"
+    required
+>
+
+</div>
+
+</div>
+
+
+<button
+    id="loginButton"
+    class="auth-submit"
+    type="submit"
+>
+
+INGIA
+
+</button>
+
+</form>
+
+
+<div class="auth-switch">
+
+Huna account ya admin?
+
+<button id="showSignup">
+    Jisajili
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SIGNUP
+===================================================== -->
+
+<div
+    id="signupBox"
+    class="auth-card"
+    style="display:none;"
+>
+
+<div class="auth-card-header">
+
+<div class="auth-icon">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+>
+
+<circle
+    cx="9"
+    cy="8"
+    r="4"
+/>
+
+<path
+    d="M3 21a6 6 0 0 1 12 0"
+/>
+
+<path
+    d="M19 8v6"
+/>
+
+<path
+    d="M16 11h6"
+/>
+
+</svg>
+
+</div>
+
+<h2>
+    Admin Signup
+</h2>
+
+<p>
+    Fungua account mpya ya admin
+</p>
+
+</div>
+
+
+<form id="signupForm">
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Jina la Admin
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<circle
+    cx="12"
+    cy="8"
+    r="4"
+/>
+
+<path
+    d="M4 21a8 8 0 0 1 16 0"
+/>
+
+</svg>
+
+<input
+    id="signupName"
+    class="form-input"
+    type="text"
+    placeholder="Jina lako"
+    autocomplete="name"
+    required
+>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Email
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<rect
+    x="3"
+    y="5"
+    width="18"
+    height="14"
+    rx="2"
+/>
+
+<path
+    d="m3 7 9 6 9-6"
+/>
+
+</svg>
+
+<input
+    id="signupEmail"
+    class="form-input"
+    type="email"
+    placeholder="admin@example.com"
+    autocomplete="email"
+    required
+>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Password
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<rect
+    x="3"
+    y="11"
+    width="18"
+    height="10"
+    rx="2"
+/>
+
+<path
+    d="M7 11V7a5 5 0 0 1 10 0v4"
+/>
+
+</svg>
+
+<input
+    id="signupPassword"
+    class="form-input"
+    type="password"
+    minlength="6"
+    placeholder="Angalau herufi 6"
+    autocomplete="new-password"
+    required
+>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Admin Signup Code
+</label>
+
+<div class="input-wrapper">
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<circle
+    cx="7.5"
+    cy="15.5"
+    r="3.5"
+/>
+
+<path
+    d="m10 13 8-8"
+/>
+
+<path
+    d="m16 5 3 3"
+/>
+
+<path
+    d="m14 7 3 3"
+/>
+
+</svg>
+
+<input
+    id="signupCode"
+    class="form-input"
+    type="password"
+    placeholder="Admin code"
+    required
+>
+
+</div>
+
+</div>
+
+
+<button
+    id="signupButton"
+    class="auth-submit"
+    type="submit"
+>
+
+JISAJILI
+
+</button>
+
+</form>
+
+
+<div class="auth-switch">
+
+Una account tayari?
+
+<button id="showLogin">
+    Ingia
+</button>
+
+</div>
+
+
+<div class="auth-note">
+
+Admin Signup Code inahitajika ili kuzuia
+watu wengine kujipa admin access.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ADMIN APP
+===================================================== -->
+
+<div
+    id="adminApp"
+    class="admin-app"
+>
+
+
+<header class="header">
+
+<div class="header-left">
+
+<div class="logo-text">
+    STORIES <span>ZONE</span>
+</div>
+
+<span class="admin-badge">
+    ADMIN
+</span>
+
+</div>
+
+
+<div class="header-actions">
+
+<button
+    id="logoutButton"
+    class="logout-btn"
+>
+
+Ondoka
+
+</button>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<div class="page-title">
+
+<h1>
+    Admin Panel
+</h1>
+
+<p>
+    Simamia watumiaji, maombi na jumbe za STORIES ZONE.
+</p>
+
+</div>
+
+
+<!-- =====================================================
+     TABS
+===================================================== -->
+
+<div class="tabs">
+
+
+<button
+    class="tab-btn active"
+    data-tab="requests"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<path d="M4 4h16v16H4z"/>
+
+<path d="M8 9h8"/>
+
+<path d="M8 13h6"/>
+
+<path d="M8 17h4"/>
+
+</svg>
+
+Maombi
+
+</button>
+
+
+<button
+    class="tab-btn"
+    data-tab="users"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<circle
+    cx="9"
+    cy="8"
+    r="4"
+/>
+
+<path
+    d="M2 21a7 7 0 0 1 14 0"
+/>
+
+<path
+    d="M16 4a4 4 0 0 1 0 8"
+/>
+
+<path
+    d="M16 14a7 7 0 0 1 6 7"
+/>
+
+</svg>
+
+Watumiaji
+
+</button>
+
+
+<button
+    class="tab-btn"
+    data-tab="announce"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<path d="M3 11v2"/>
+<path d="M6 10v4"/>
+<path d="M9 8v8"/>
+<path d="M12 6v12"/>
+<path d="M15 9v6"/>
+<path d="M18 11v2"/>
+<path d="M21 10v4"/>
+
+</svg>
+
+Tuma Ujumbe
+
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     REQUESTS
+===================================================== -->
+
+<section
+    id="tab-requests"
+    class="tab-content active"
+>
+
+<div id="requestsContainer">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Inapakia maombi...
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     USERS
+===================================================== -->
+
+<section
+    id="tab-users"
+    class="tab-content"
+>
+
+<div id="usersContainer">
+
+<div class="loading">
+
+<div class="spinner"></div>
+
+Inapakia watumiaji...
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ANNOUNCEMENT
+===================================================== -->
+
+<section
+    id="tab-announce"
+    class="tab-content"
+>
+
+<div class="card">
+
+<div class="card-header">
+
+<div>
+
+<h3>
+    Tuma Tangazo / Ujumbe
+</h3>
+
+<div class="card-description">
+    Tuma ujumbe kwa watumiaji wa STORIES ZONE.
+</div>
+
+</div>
+
+</div>
+
+
+<form id="announceForm">
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Kichwa
+</label>
+
+<input
+    id="announceTitle"
+    class="panel-input"
+    type="text"
+    placeholder="Kichwa cha ujumbe..."
+    required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Aina
+</label>
+
+<select
+    id="announceTag"
+    class="panel-select"
+>
+
+<option value="promotion">
+    Matangazo
+</option>
+
+<option value="system">
+    Taarifa ya Mfumo
+</option>
+
+<option value="important">
+    Muhimu
+</option>
+
+<option value="general">
+    Jumbe ya Kawaida
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Ujumbe
+</label>
+
+<textarea
+    id="announceMessage"
+    class="panel-textarea"
+    rows="6"
+    placeholder="Andika ujumbe hapa..."
+    required
+></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label class="form-label">
+    Watumiaji Lengwa
+</label>
+
+<select
+    id="announceTarget"
+    class="panel-select"
+>
+
+<option value="all">
+    Watumiaji Wote
+</option>
+
+<option value="specific">
+    Watumiaji Waliochaguliwa
+</option>
+
+</select>
+
+</div>
+
+
+<div
+    id="selectedUsersContainer"
+    class="form-group"
+    style="display:none;"
+>
+
+<label class="form-label">
+    Watumiaji Waliochaguliwa
+</label>
+
+<div
+    id="selectedUsersList"
+    class="selected-users"
+>
+
+<span
+    style="
+        color:var(--text-muted);
+        font-size:12px;
+    "
+>
+    Hakuna watumiaji waliochaguliwa.
+</span>
+
+</div>
+
+</div>
+
+
+<button
+    type="submit"
+    id="sendAnnouncementButton"
+    class="btn btn-primary"
+    style="width:100%;height:46px;"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<path d="m22 2-7 20-4-9-9-4Z"/>
+
+<path d="M22 2 11 13"/>
+
+</svg>
+
+Tuma Ujumbe
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="bottom-nav">
+
+
+<a
+    href="index.html"
+    class="nav-item"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<path d="M3 10.5 12 3l9 7.5"/>
+
+<path d="M5 9.5V21h14V9.5"/>
+
+<path d="M9 21v-6h6v6"/>
+
+</svg>
+
+Nyumbani
+
+</a>
+
+
+<a
+    href="admin.html"
+    class="nav-item active"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<rect
+    x="4"
+    y="3"
+    width="16"
+    height="18"
+    rx="3"
+/>
+
+<path d="M8 8h8"/>
+
+<path d="M8 12h8"/>
+
+<path d="M8 16h5"/>
+
+</svg>
+
+Admin
+
+</a>
+
+
+<a
+    href="index.html"
+    class="nav-item"
+>
+
+<svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+>
+
+<circle
+    cx="12"
+    cy="8"
+    r="4"
+/>
+
+<path
+    d="M4 21a8 8 0 0 1 16 0"
+/>
+
+</svg>
+
+Tovuti
+
+</a>
+
+</nav>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script type="module">
+
+import {
+    createClient
+} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    'https://fuyzusikxmkjmnhpdbof.supabase.co';
+
+const SUPABASE_ANON_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+
+
+/*
+ * MUHIMU:
+ * Hapa ndipo kulikuwa na SyntaxError.
+ *
+ * Imewekwa comma kati ya SUPABASE_URL
+ * na SUPABASE_ANON_KEY.
+ */
+
+const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentUser = null;
+
+let allUsers = [];
+
+let selectedUserIds = [];
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const authScreen =
+    document.getElementById('authScreen');
+
+const adminApp =
+    document.getElementById('adminApp');
+
+const loginBox =
+    document.getElementById('loginBox');
+
+const signupBox =
+    document.getElementById('signupBox');
+
+const toast =
+    document.getElementById('toast');
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    toast.textContent = message;
+
+    toast.classList.add('show');
+
+    setTimeout(() => {
+
+        toast.classList.remove('show');
+
+    }, 3500);
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function getInitials(name) {
+
+    if (!name) {
+        return 'U';
+    }
+
+    return name
+        .split(' ')
+        .map(word => word[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2);
+
+}
+
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return '';
+    }
+
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+}
+
+
+function formatDate(date) {
+
+    if (!date) {
+        return '-';
+    }
+
+    const parsedDate =
+        new Date(date);
+
+    if (
+        Number.isNaN(
+            parsedDate.getTime()
+        )
+    ) {
+        return '-';
+    }
+
+    return parsedDate.toLocaleDateString(
+        'sw-TZ',
+        {
+            day: 'numeric',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit'
+        }
+    );
+
+}
+
+
+/* =====================================================
+   AUTH VIEW
+===================================================== */
+
+function showLogin() {
+
+    loginBox.style.display = 'block';
+
+    signupBox.style.display = 'none';
+
+}
+
+
+function showSignup() {
+
+    loginBox.style.display = 'none';
+
+    signupBox.style.display = 'block';
+
+}
+
+
+document
+    .getElementById('showSignup')
+    .addEventListener(
+        'click',
+        showSignup
+    );
+
+
+document
+    .getElementById('showLogin')
+    .addEventListener(
+        'click',
+        showLogin
+    );
+
+
+/* =====================================================
+   SHOW ADMIN
+===================================================== */
+
+function showAdmin() {
+
+    authScreen.style.display = 'none';
+
+    adminApp.style.display = 'block';
+
+    loadAdminData();
+
+}
+
+
+/* =====================================================
+   SHOW AUTH
+===================================================== */
+
+function showAuth() {
+
+    adminApp.style.display = 'none';
+
+    authScreen.style.display = 'flex';
+
+    showLogin();
+
+}
+
+
+/* =====================================================
+   CHECK CURRENT USER
+===================================================== */
+
+async function checkCurrentAdmin() {
+
+    try {
+
+        const {
+            data: {
+                user
+            }
+        } = await supabase.auth.getUser();
+
+
+        if (!user) {
+
+            showAuth();
+
+            return false;
+
+        }
+
+
+        const {
+            data: profile,
+            error
+        } = await supabase
+            .from('users')
+            .select(
+                'id,name,email,role'
+            )
+            .eq(
+                'auth_user_id',
+                user.id
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(error);
+
+            showAuth();
+
+            return false;
+
+        }
+
+
+        if (
+            !profile ||
+            profile.role !== 'admin'
+        ) {
+
+            await supabase.auth.signOut();
+
+            showAuth();
+
+            showToast(
+                'Huna ruhusa ya kufikia Admin Panel.'
+            );
+
+            return false;
+
+        }
+
+
+        currentUser = user;
+
+        showAdmin();
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            'Check admin error:',
+            error
+        );
+
+        showAuth();
+
+        return false;
+
+    }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document
+    .getElementById('loginForm')
+    .addEventListener(
+        'submit',
+        async function(e) {
+
+            e.preventDefault();
+
+
+            const button =
+                document.getElementById(
+                    'loginButton'
+                );
+
+
+            const email =
+                document
+                    .getElementById(
+                        'loginEmail'
+                    )
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById(
+                        'loginPassword'
+                    )
+                    .value;
+
+
+            if (
+                !email ||
+                !password
+            ) {
+
+                showToast(
+                    'Tafadhali jaza email na password.'
+                );
+
+                return;
+
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                'Inaingia...';
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } = await supabase.auth
+                    .signInWithPassword({
+
+                        email,
+                        password
+
+                    });
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                const user =
+                    data.user;
+
+
+                if (!user) {
+
+                    throw new Error(
+                        'User hakupatikana.'
+                    );
+
+                }
+
+
+                const {
+                    data: profile,
+                    error: profileError
+                } = await supabase
+                    .from('users')
+                    .select(
+                        'id,role,name,email'
+                    )
+                    .eq(
+                        'auth_user_id',
+                        user.id
+                    )
+                    .maybeSingle();
+
+
+                if (profileError) {
+                    throw profileError;
+                }
+
+
+                if (
+                    !profile ||
+                    profile.role !== 'admin'
+                ) {
+
+                    await supabase.auth.signOut();
+
+                    throw new Error(
+                        'Account hii haina ruhusa ya Admin.'
+                    );
+
+                }
+
+
+                currentUser = user;
+
+
+                showToast(
+                    'Umefanikiwa kuingia.'
+                );
+
+
+                showAdmin();
+
+
+            } catch (error) {
+
+                console.error(
+                    'Login error:',
+                    error
+                );
+
+
+                showToast(
+                    error.message ||
+                    'Imeshindwa kuingia.'
+                );
+
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    'INGIA';
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   SIGNUP
+===================================================== */
+
+document
+    .getElementById('signupForm')
+    .addEventListener(
+        'submit',
+        async function(e) {
+
+            e.preventDefault();
+
+
+            const button =
+                document.getElementById(
+                    'signupButton'
+                );
+
+
+            const name =
+                document
+                    .getElementById(
+                        'signupName'
+                    )
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById(
+                        'signupEmail'
+                    )
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById(
+                        'signupPassword'
+                    )
+                    .value;
+
+
+            const signupCode =
+                document
+                    .getElementById(
+                        'signupCode'
+                    )
+                    .value
+                    .trim();
+
+
+            if (
+                !name ||
+                !email ||
+                !password ||
+                !signupCode
+            ) {
+
+                showToast(
+                    'Tafadhali jaza sehemu zote.'
+                );
+
+                return;
+
+            }
+
+
+            if (password.length < 6) {
+
+                showToast(
+                    'Password lazima iwe na angalau herufi 6.'
+                );
+
+                return;
+
+            }
+
+
+            button.disabled = true;
+
+            button.textContent =
+                'Inasajili...';
+
+
+            try {
+
+                /*
+                 * Create Supabase Auth account
+                 */
+
+                const {
+                    data,
+                    error
+                } = await supabase.auth
+                    .signUp({
+
+                        email,
+                        password,
+
+                        options: {
+
+                            data: {
+                                name: name,
+                                full_name: name
+                            }
+
+                        }
+
+                    });
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                /*
+                 * Email confirmation
+                 */
+
+                if (!data.session) {
+
+                    showToast(
+                        'Account imetengenezwa. Thibitisha email yako kwanza, kisha ingia hapa.'
+                    );
+
+                    showLogin();
+
+                    return;
+
+                }
+
+
+                /*
+                 * Make account admin
+                 */
+
+                const {
+                    data: adminResult,
+                    error: adminError
+                } = await supabase.rpc(
+                    'make_admin',
+                    {
+                        p_signup_code:
+                            signupCode
+                    }
+                );
+
+
+                if (adminError) {
+
+                    await supabase.auth.signOut();
+
+                    throw adminError;
+
+                }
+
+
+                if (
+                    !adminResult ||
+                    adminResult.success !== true
+                ) {
+
+                    await supabase.auth.signOut();
+
+                    throw new Error(
+                        'Admin account haikuundwa.'
+                    );
+
+                }
+
+
+                currentUser =
+                    data.user;
+
+
+                showToast(
+                    'Admin account imetengenezwa kwa mafanikio.'
+                );
+
+
+                showAdmin();
+
+
+            } catch (error) {
+
+                console.error(
+                    'Signup error:',
+                    error
+                );
+
+
+                showToast(
+                    error.message ||
+                    'Imeshindwa kutengeneza admin account.'
+                );
+
+
+            } finally {
+
+                button.disabled = false;
+
+                button.textContent =
+                    'JISAJILI';
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+document
+    .getElementById('logoutButton')
+    .addEventListener(
+        'click',
+        async function() {
+
+            try {
+
+                await supabase.auth.signOut();
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+
+            currentUser = null;
+
+            selectedUserIds = [];
+
+            showAuth();
+
+            showToast(
+                'Umetoka kwenye Admin Panel.'
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+document
+    .querySelectorAll('.tab-btn')
+    .forEach(button => {
+
+        button.addEventListener(
+            'click',
+            function() {
+
+                document
+                    .querySelectorAll(
+                        '.tab-btn'
+                    )
+                    .forEach(btn => {
+
+                        btn.classList.remove(
+                            'active'
+                        );
+
+                    });
+
+
+                document
+                    .querySelectorAll(
+                        '.tab-content'
+                    )
+                    .forEach(content => {
+
+                        content.classList.remove(
+                            'active'
+                        );
+
+                    });
+
+
+                this.classList.add(
+                    'active'
+                );
+
+
+                const target =
+                    document.getElementById(
+                        `tab-${this.dataset.tab}`
+                    );
+
+
+                if (target) {
+
+                    target.classList.add(
+                        'active'
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   STATUS BADGE
+===================================================== */
+
+function statusBadge(status) {
+
+    const value =
+        status || 'pending';
+
+
+    const labels = {
+
+        pending:
+            'Inasubiri',
+
+        reviewing:
+            'Inachunguzwa',
+
+        resolved:
+            'Imesuluhishwa',
+
+        rejected:
+            'Imekataliwa'
+
+    };
+
+
+    return `
+        <span class="status-badge status-${escapeHTML(value)}">
+            ${escapeHTML(
+                labels[value] || value
+            )}
+        </span>
+    `;
+
+}
+
+
+/* =====================================================
+   FETCH REQUESTS
+===================================================== */
+
+async function fetchRequests() {
+
+    const container =
+        document.getElementById(
+            'requestsContainer'
+        );
+
+
+    container.innerHTML = `
+        <div class="loading">
+            <div class="spinner"></div>
+            Inapakia maombi...
+        </div>
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabase
+            .from('supports')
+            .select('*')
+            .order(
+                'created_at',
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="card">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+
+                                <path d="M4 4h16v16H4z"/>
+
+                                <path d="M8 9h8"/>
+
+                                <path d="M8 13h6"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3>
+                            Hakuna maombi
+                        </h3>
+
+                        <p>
+                            Hakuna maombi ya usaidizi kwa sasa.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            data
+                .map(req => {
+
+                    const id =
+                        escapeHTML(
+                            req.id
+                        );
+
+
+                    return `
+
+                    <div class="card support-item">
+
+                        <div class="support-meta">
+
+                            <strong>
+                                ${escapeHTML(
+                                    req.name ||
+                                    'Mtumiaji'
+                                )}
+                            </strong>
+
+                            <span>
+                                ${escapeHTML(
+                                    req.email ||
+                                    '-'
+                                )}
+                            </span>
+
+                            <span>
+                                ${escapeHTML(
+                                    req.report_type ||
+                                    'Mengineyo'
+                                )}
+                            </span>
+
+                            <span>
+                                ${formatDate(
+                                    req.created_at
+                                )}
+                            </span>
+
+                            ${statusBadge(
+                                req.status
+                            )}
+
+                        </div>
+
+
+                        <div class="support-message">
+                            ${escapeHTML(
+                                req.message ||
+                                'Hakuna maelezo.'
+                            )}
+                        </div>
+
+
+                        ${
+                            req.admin_response
+                            ?
+                            `
+                            <div class="admin-response">
+
+                                <strong>
+                                    Jibu la Admin:
+                                </strong>
+
+                                ${escapeHTML(
+                                    req.admin_response
+                                )}
+
+                            </div>
+                            `
+                            :
+                            ''
+                        }
+
+
+                        <div class="reply-box">
+
+                            <textarea
+                                id="reply_${id}"
+                                class="reply-textarea"
+                                placeholder="Andika jibu lako..."
+                                rows="2"
+                            ></textarea>
+
+
+                            <button
+                                class="btn btn-accent"
+                                onclick="sendReply('${id}')"
+                            >
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+
+                                    <path d="m22 2-7 20-4-9-9-4Z"/>
+
+                                    <path d="M22 2 11 13"/>
+
+                                </svg>
+
+                                Tuma Jibu
+
+                            </button>
+
+
+                            <select
+                                id="status_${id}"
+                                class="status-select"
+                            >
+
+                                <option
+                                    value="pending"
+                                    ${
+                                        req.status ===
+                                        'pending'
+                                        ?
+                                        'selected'
+                                        :
+                                        ''
+                                    }
+                                >
+                                    Inasubiri
+                                </option>
+
+
+                                <option
+                                    value="reviewing"
+                                    ${
+                                        req.status ===
+                                        'reviewing'
+                                        ?
+                                        'selected'
+                                        :
+                                        ''
+                                    }
+                                >
+                                    Inachunguzwa
+                                </option>
+
+
+                                <option
+                                    value="resolved"
+                                    ${
+                                        req.status ===
+                                        'resolved'
+                                        ?
+                                        'selected'
+                                        :
+                                        ''
+                                    }
+                                >
+                                    Imesuluhishwa
+                                </option>
+
+
+                                <option
+                                    value="rejected"
+                                    ${
+                                        req.status ===
+                                        'rejected'
+                                        ?
+                                        'selected'
+                                        :
+                                        ''
+                                    }
+                                >
+                                    Imekataliwa
+                                </option>
+
+                            </select>
+
+
+                            <button
+                                class="btn btn-secondary"
+                                onclick="updateStatus('${id}')"
+                            >
+
+                                Sasisha
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    `;
+
+                })
+                .join('');
+
+
+    } catch (error) {
+
+        console.error(
+            'Fetch requests error:',
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty-state">
+
+                    <h3>
+                        Imeshindwa kupakia maombi
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            error.message
+                        )}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   SEND REPLY
+===================================================== */
+
+window.sendReply =
+    async function(id) {
+
+        const textarea =
+            document.getElementById(
+                `reply_${id}`
+            );
+
+
+        if (!textarea) {
+
+            showToast(
+                'Sehemu ya jibu haijapatikana.'
+            );
+
+            return;
+
+        }
+
+
+        const text =
+            textarea.value.trim();
+
+
+        if (!text) {
+
+            showToast(
+                'Tafadhali andika jibu.'
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            const {
+                error
+            } = await supabase
+                .from('supports')
+                .update({
+
+                    admin_response:
+                        text,
+
+                    status:
+                        'resolved',
+
+                    resolved_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    'id',
+                    id
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            showToast(
+                'Jibu limetumwa kwa mafanikio.'
+            );
+
+
+            await fetchRequests();
+
+
+        } catch (error) {
+
+            console.error(
+                'Send reply error:',
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                'Imeshindwa kutuma jibu.'
+            );
+
+        }
+
+    };
+
+
+/* =====================================================
+   UPDATE STATUS
+===================================================== */
+
+window.updateStatus =
+    async function(id) {
+
+        const select =
+            document.getElementById(
+                `status_${id}`
+            );
+
+
+        if (!select) {
+
+            showToast(
+                'Status selector haijapatikana.'
+            );
+
+            return;
+
+        }
+
+
+        const status =
+            select.value;
+
+
+        const updates = {
+            status: status
+        };
+
+
+        if (
+            status ===
+            'resolved'
+        ) {
+
+            updates.resolved_at =
+                new Date()
+                    .toISOString();
+
+        }
+
+
+        try {
+
+            const {
+                error
+            } = await supabase
+                .from('supports')
+                .update(updates)
+                .eq(
+                    'id',
+                    id
+                );
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            showToast(
+                'Hali imesasishwa.'
+            );
+
+
+            await fetchRequests();
+
+
+        } catch (error) {
+
+            console.error(
+                'Update status error:',
+                error
+            );
+
+
+            showToast(
+                error.message ||
+                'Imeshindwa kusasisha hali.'
+            );
+
+        }
+
+    };
+
+
+/* =====================================================
+   FETCH USERS
+===================================================== */
+
+async function fetchUsers() {
+
+    const container =
+        document.getElementById(
+            'usersContainer'
+        );
+
+
+    container.innerHTML = `
+        <div class="loading">
+
+            <div class="spinner"></div>
+
+            Inapakia watumiaji...
+
+        </div>
+    `;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabase
+            .from('users')
+            .select(
+                'id,name,email,role,created_at'
+            )
+            .order(
+                'created_at',
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+            throw error;
+        }
+
+
+        allUsers =
+            data || [];
+
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            container.innerHTML = `
+                <div class="card">
+
+                    <div class="empty-state">
+
+                        <h3>
+                            Hakuna watumiaji
+                        </h3>
+
+                        <p>
+                            Hakuna users kwenye database.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Watumiaji
+                        </h3>
+
+                        <div class="card-description">
+                            Chagua watumiaji kama unataka kutuma ujumbe maalum.
+                        </div>
+
+                    </div>
+
+                    <span
+                        style="
+                            color:var(--text-muted);
+                            font-size:12px;
+                        "
+                    >
+                        ${data.length}
+                    </span>
+
+                </div>
+
+
+                <div class="user-list">
+
+                    ${data
+                        .map(user => {
+
+                            const isAdmin =
+                                user.role ===
+                                'admin';
+
+
+                            const id =
+                                escapeHTML(
+                                    user.id
+                                );
+
+
+                            return `
+
+                            <div class="user-item">
+
+                                <div class="user-info">
+
+                                    <div class="avatar">
+
+                                        ${escapeHTML(
+                                            getInitials(
+                                                user.name ||
+                                                user.email
+                                            )
+                                        )}
+
+                                    </div>
+
+
+                                    <div class="user-details">
+
+                                        <div class="user-name">
+
+                                            ${escapeHTML(
+                                                user.name ||
+                                                'Mtumiaji'
+                                            )}
+
+                                            ${
+                                                isAdmin
+                                                ?
+                                                `
+                                                <span class="role-badge">
+                                                    ADMIN
+                                                </span>
+                                                `
+                                                :
+                                                ''
+                                            }
+
+                                        </div>
+
+
+                                        <div class="user-email">
+
+                                            ${escapeHTML(
+                                                user.email ||
+                                                ''
+                                            )}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                ${
+                                    !isAdmin
+                                    ?
+                                    `
+                                    <input
+                                        type="checkbox"
+                                        class="user-checkbox"
+                                        value="${id}"
+                                    >
+                                    `
+                                    :
+                                    ''
+                                }
+
+                            </div>
+
+                            `;
+
+                        })
+                        .join('')}
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document
+            .querySelectorAll(
+                '.user-checkbox'
+            )
+            .forEach(
+                checkbox => {
+
+                    checkbox.addEventListener(
+                        'change',
+                        updateSelectedUsers
+                    );
+
+                }
+            );
+
+
+        restoreSelectedUsers();
+
+
+    } catch (error) {
+
+        console.error(
+            'Fetch users error:',
+            error
+        );
+
+
+        container.innerHTML = `
+
+            <div class="card">
+
+                <div class="empty-state">
+
+                    <h3>
+                        Imeshindwa kupakia watumiaji
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            error.message
+                        )}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   SELECT USERS
+===================================================== */
+
+function updateSelectedUsers() {
+
+    const checked =
+        document.querySelectorAll(
+            '.user-checkbox:checked'
+        );
+
+
+    selectedUserIds =
+        Array.from(checked)
+            .map(
+                item => item.value
+            );
+
+
+    renderSelectedUsers();
+
+}
+
+
+function restoreSelectedUsers() {
+
+    document
+        .querySelectorAll(
+            '.user-checkbox'
+        )
+        .forEach(
+            checkbox => {
+
+                checkbox.checked =
+                    selectedUserIds.includes(
+                        checkbox.value
+                    );
+
+            }
+        );
+
+
+    renderSelectedUsers();
+
+}
+
+
+function renderSelectedUsers() {
+
+    const list =
+        document.getElementById(
+            'selectedUsersList'
+        );
+
+
+    if (!list) {
+        return;
+    }
+
+
+    if (
+        selectedUserIds.length ===
+        0
+    ) {
+
+        list.innerHTML = `
+
+            <span
+                style="
+                    color:var(--text-muted);
+                    font-size:12px;
+                "
+            >
+                Hakuna watumiaji waliochaguliwa.
+            </span>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        selectedUserIds
+            .map(id => {
+
+                const user =
+                    allUsers.find(
+                        item =>
+                            String(
+                                item.id
+                            ) ===
+                            String(id)
+                    );
+
+
+                return `
+
+                    <span class="selected-user">
+
+                        ${escapeHTML(
+                            user?.name ||
+                            user?.email ||
+                            'Mtumiaji'
+                        )}
+
+                    </span>
+
+                `;
+
+            })
+            .join('');
+
+}
+
+
+/* =====================================================
+   TARGET CHANGE
+===================================================== */
+
+document
+    .getElementById(
+        'announceTarget'
+    )
+    .addEventListener(
+        'change',
+        function() {
+
+            const container =
+                document.getElementById(
+                    'selectedUsersContainer'
+                );
+
+
+            if (
+                this.value ===
+                'specific'
+            ) {
+
+                container.style.display =
+                    'block';
+
+                restoreSelectedUsers();
+
+            } else {
+
+                container.style.display =
+                    'none';
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   SEND ANNOUNCEMENT
+===================================================== */
+
+document
+    .getElementById(
+        'announceForm'
+    )
+    .addEventListener(
+        'submit',
+        async function(e) {
+
+            e.preventDefault();
+
+
+            if (!currentUser) {
+
+                showToast(
+                    'Admin session haipo.'
+                );
+
+                return;
+
+            }
+
+
+            const title =
+                document
+                    .getElementById(
+                        'announceTitle'
+                    )
+                    .value
+                    .trim();
+
+
+            const message =
+                document
+                    .getElementById(
+                        'announceMessage'
+                    )
+                    .value
+                    .trim();
+
+
+            const target =
+                document
+                    .getElementById(
+                        'announceTarget'
+                    )
+                    .value;
+
+
+            const tag =
+                document
+                    .getElementById(
+                        'announceTag'
+                    )
+                    .value;
+
+
+            if (
+                !title ||
+                !message
+            ) {
+
+                showToast(
+                    'Tafadhali jaza kichwa na ujumbe.'
+                );
+
+                return;
+
+            }
+
+
+            if (
+                target === 'specific' &&
+                selectedUserIds.length === 0
+            ) {
+
+                showToast(
+                    'Chagua angalau mtumiaji mmoja.'
+                );
+
+                return;
+
+            }
+
+
+            const tagLabels = {
+
+                promotion:
+                    'Matangazo',
+
+                system:
+                    'Taarifa ya Mfumo',
+
+                important:
+                    'Muhimu',
+
+                general:
+                    'Jumbe ya Kawaida'
+
+            };
+
+
+            const button =
+                document.getElementById(
+                    'sendAnnouncementButton'
+                );
+
+
+            button.disabled = true;
+
+            button.innerHTML =
+                'Inatuma...';
+
+
+            try {
+
+                const {
+                    data,
+                    error
+                } = await supabase.rpc(
+
+                    'send_announcement_to_users',
+
+                    {
+
+                        p_admin_id:
+                            currentUser.id,
+
+                        p_title:
+                            title,
+
+                        p_message:
+                            message,
+
+                        p_target_type:
+                            target,
+
+                        p_target_users:
+                            selectedUserIds,
+
+                        p_tag:
+                            tag,
+
+                        p_tag_label:
+                            tagLabels[tag] ||
+                            'Taarifa'
+
+                    }
+
+                );
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                console.log(
+                    'Announcement result:',
+                    data
+                );
+
+
+                showToast(
+                    'Ujumbe umetumwa kwa mafanikio.'
+                );
+
+
+                document
+                    .getElementById(
+                        'announceTitle'
+                    )
+                    .value = '';
+
+
+                document
+                    .getElementById(
+                        'announceMessage'
+                    )
+                    .value = '';
+
+
+                selectedUserIds = [];
+
+
+                document
+                    .querySelectorAll(
+                        '.user-checkbox'
+                    )
+                    .forEach(
+                        checkbox => {
+
+                            checkbox.checked =
+                                false;
+
+                        }
+                    );
+
+
+                renderSelectedUsers();
+
+
+            } catch (error) {
+
+                console.error(
+                    'Announcement error:',
+                    error
+                );
+
+
+                showToast(
+                    error.message ||
+                    'Imeshindwa kutuma ujumbe.'
+                );
+
+
+            } finally {
+
+                button.disabled =
+                    false;
+
+
+                button.innerHTML = `
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+
+                        <path d="m22 2-7 20-4-9-9-4Z"/>
+
+                        <path d="M22 2 11 13"/>
+
+                    </svg>
+
+                    Tuma Ujumbe
+
+                `;
+
+            }
+
+        }
+    );
+
+
+/* =====================================================
+   LOAD ADMIN DATA
+===================================================== */
+
+async function loadAdminData() {
+
+    await Promise.all([
+        fetchRequests(),
+        fetchUsers()
+    ]);
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabase.auth.onAuthStateChange(
+    async (event, session) => {
+
+        if (
+            event === 'SIGNED_OUT' ||
+            !session
+        ) {
+
+            currentUser = null;
+
+            showAuth();
+
+            return;
+
+        }
+
+
+        if (
+            event === 'SIGNED_IN' ||
+            event === 'INITIAL_SESSION'
+        ) {
+
+            setTimeout(
+                () => {
+
+                    checkCurrentAdmin();
+
+                },
+                100
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+checkCurrentAdmin();
+
+</script>
+
+</body>
+
+</html>
