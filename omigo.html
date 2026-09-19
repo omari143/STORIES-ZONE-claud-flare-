@@ -1289,23 +1289,31 @@ async function uploadToStorage(file, bucket, folder='') {
 async function deleteFromStorage(fileUrl, bucket) {
   if (!fileUrl) return;
   try {
-    const marker = '.backblazeb2.com/';
-    const idx = fileUrl.indexOf(marker);
-    if (idx === -1) return;
+    // ✅ Inasaidia URLs ZOTE MBILI: za zamani (B2) na mpya (Worker)
+    let key = null;
     
-    let key = fileUrl.substring(idx + marker.length);
-    if (key.startsWith('storieszone-storage/')) {
-      key = key.substring('storieszone-storage/'.length);
+    // Jaribu Worker URL kwanza
+    const workerMarker = 'b2-proxy.omarisalim144.workers.dev/';
+    const workerIdx = fileUrl.indexOf(workerMarker);
+    if (workerIdx !== -1) {
+      key = fileUrl.substring(workerIdx + workerMarker.length);
+    } else {
+      // Jaribu B2 URL ya zamani
+      const b2Marker = '.backblazeb2.com/';
+      const b2Idx = fileUrl.indexOf(b2Marker);
+      if (b2Idx !== -1) {
+        key = fileUrl.substring(b2Idx + b2Marker.length);
+        if (key.startsWith('storieszone-storage/')) {
+          key = key.substring('storieszone-storage/'.length);
+        }
+      }
     }
+    
     if (!key) return;
-
     console.log('🗑️ Deleting file:', key);
-
-    // ✅ TUMIA FORMDATA!
     const formData = new FormData();
     formData.append('action', 'delete');
     formData.append('key', key);
-
     const response = await fetch(`${BACKBLAZE_FN_URL}?action=delete`, {
       method: 'POST',
       headers: {
@@ -1313,7 +1321,6 @@ async function deleteFromStorage(fileUrl, bucket) {
       },
       body: formData
     });
-
     const result = await response.json().catch(() => ({}));
     
     if (!response.ok || result.success === false) {
@@ -3462,130 +3469,241 @@ async function saveEditedStory() {
 })();
 
 // ============================================================
-// B2 UPLOAD CLIENT - Toleo Lililoboreshwa
+// B2 UPLOAD CLIENT - TOLEO LA KUDUMU
+// Badilisha block nzima ya zamani (kuanzia "B2 UPLOAD CLIENT" hadi mwisho wa
+// `window.uploadToStorage = async function ... };`) kwa faili hii.
+//
+// - Faili <= 100MB : upload moja kwa moja kwenda B2 (na X-Bz-File-Name)
+// - Faili >  100MB : B2 Large File API, vipande vya 32MB, 3 sambamba,
+//                    retry kwa kila kipande, SHA1 halisi, progress sahihi
+// - Hakuna base64, hakuna JSON kubwa, memory ya browser inabaki ndogo
 // ============================================================
-const BACKBLAZE_FN_URL_V2 = `${SB_URL}/functions/v1/backblaze-storage`;
 
-async function directUploadToB2(file, folder = 'general') {
-  if (!file) return null;
-  const fileName = folder ? `${folder}/${file.name}` : file.name;
-  const response = await fetch(`${BACKBLAZE_FN_URL_V2}?action=get-upload-url`, {
+const BACKBLAZE_FN_URL_V2 = `${SB_URL}/functions/v1/backblaze-storage`;
+const B2_DIRECT_MAX = 100 * 1024 * 1024; // hadi hapa: upload moja
+const B2_PART_SIZE = 32 * 1024 * 1024;   // ukubwa wa kipande (min ya B2 ni 5MB)
+const B2_PARALLEL = 3;                   // vipande vinavyopakiwa kwa wakati mmoja
+const B2_RETRIES = 3;                    // majaribio kwa kila kipande
+
+// ---------- Helpers ----------
+async function b2Call(action, payload) {
+  const res = await fetch(`${BACKBLAZE_FN_URL_V2}?action=${action}`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${SB_KEY}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      fileName: fileName,
-      contentType: file.type || 'application/octet-stream'
-    })
+    body: JSON.stringify(payload)
   });
-  const data = await response.json();
-  if (!data.success || !data.uploadUrl) {
-    throw new Error(data.error || 'Imeshindwa kupata URL ya upload');
+  let data;
+  try {
+    data = await res.json();
+  } catch (e) {
+    throw new Error(`${action}: jibu si JSON (HTTP ${res.status})`);
   }
-  const fileBuffer = await file.arrayBuffer();
-  const sha1 = await calculateSHA1(fileBuffer);
-  const uploadResponse = await fetch(data.uploadUrl, {
-    method: 'POST',
-    headers: {
-      'Authorization': data.authorizationToken,
-      'Content-Type': file.type || 'application/octet-stream',
-      'X-Bz-Content-Sha1': sha1,
-      'Content-Length': fileBuffer.byteLength.toString()
-    },
-    body: fileBuffer
-  });
-  if (!uploadResponse.ok) {
-    const text = await uploadResponse.text();
-    throw new Error(`B2 upload failed (${uploadResponse.status}): ${text}`);
+  if (!res.ok || !data.success) {
+    const msg = data.error || `${action} imeshindwa (HTTP ${res.status})`;
+    if (/^Unknown action/.test(msg)) {
+      throw new Error(msg + ' — edge function backblaze-storage bado ni toleo la zamani (deploy index.ts mpya)');
+    }
+    throw new Error(msg);
   }
-  const result = await uploadResponse.json();
-  return {
-    url: data.downloadUrl || result.downloadUrl,
-    fileId: data.fileId || result.fileId,
-    fileName: data.fileName || result.fileName,
-    key: fileName
-  };
+  return data;
 }
 
 async function calculateSHA1(buffer) {
   const hashBuffer = await crypto.subtle.digest('SHA-1', buffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
 }
 
-async function smartUploadToB2(file, folder = 'general', onProgress = null) {
-  const MAX_DIRECT_SIZE = 50 * 1024 * 1024;
-  if (file.size <= MAX_DIRECT_SIZE) {
-    if (onProgress) onProgress(20);
-    const result = await directUploadToB2(file, folder);
-    if (onProgress) onProgress(100);
-    return result;
-  }
-  if (onProgress) onProgress(10);
-  return await chunkedUploadToB2(file, folder, onProgress);
+// XHR (si fetch) ili tupate progress ya upload halisi
+function b2XhrPost(url, headers, body, onBytes) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    Object.keys(headers).forEach(k => xhr.setRequestHeader(k, headers[k]));
+    xhr.upload.onprogress = e => {
+      if (e.lengthComputable && onBytes) onBytes(e.loaded);
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { resolve(JSON.parse(xhr.responseText)); } catch (e) { resolve({}); }
+      } else {
+        const err = new Error(`B2 ${xhr.status}: ${xhr.responseText}`);
+        err.status = xhr.status;
+        reject(err);
+      }
+    };
+    xhr.onerror = () => reject(new Error('Network/CORS error kwenda B2 (angalia CORS rules za bucket)'));
+    xhr.onabort = () => reject(new Error('Upload imesitishwa'));
+    xhr.send(body);
+  });
 }
 
-async function chunkedUploadToB2(file, folder = 'general', onProgress = null) {
-  const CHUNK_SIZE = 10 * 1024 * 1024;
-  const fileName = folder ? `${folder}/${file.name}` : file.name;
-  const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-  const chunks = [];
-  for (let i = 0; i < totalChunks; i++) {
-    const start = i * CHUNK_SIZE;
-    const end = Math.min(file.size, start + CHUNK_SIZE);
-    const chunkData = file.slice(start, end);
-    const buffer = await chunkData.arrayBuffer();
-    const base64 = btoa(
-      String.fromCharCode(...new Uint8Array(buffer))
-    );
-    chunks.push({
-      partNumber: i + 1,
-      base64: base64
-    });
-    if (onProgress) {
-      const progress = 10 + ((i / totalChunks) * 70);
-      onProgress(progress);
+const b2Sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ---------- Upload ndogo/ya kati (moja kwa moja) ----------
+async function directUploadToB2(file, folder = 'general', onProgress = null) {
+  if (!file) return null;
+  const contentType = file.type || 'application/octet-stream';
+  const buffer = await file.arrayBuffer();
+  const sha1 = await calculateSHA1(buffer);
+
+  let lastErr;
+  for (let attempt = 1; attempt <= B2_RETRIES; attempt++) {
+    try {
+      // URL mpya kila jaribio (URL za B2 zinaweza kuisha/kushindwa)
+      const info = await b2Call('get-upload-url', {
+        fileName: file.name,
+        folder: folder,
+        contentType: contentType
+      });
+
+      if (!info.key) {
+        const fatal = new Error('Edge function backblaze-storage bado ni toleo la zamani (haijarudisha "key"). Deploy index.ts mpya.');
+        fatal.fatal = true;
+        throw fatal;
+      }
+
+      const result = await b2XhrPost(info.uploadUrl, {
+        'Authorization': info.authorizationToken,
+        'X-Bz-File-Name': info.uploadFileName || info.key,
+        'Content-Type': contentType,
+        'X-Bz-Content-Sha1': sha1
+      }, buffer, n => {
+        if (onProgress) onProgress(Math.min(99, Math.round((n / file.size) * 100)));
+      });
+
+      if (onProgress) onProgress(100);
+      return {
+        url: info.downloadUrl,
+        fileId: result.fileId,
+        fileName: info.key,
+        key: info.key
+      };
+    } catch (e) {
+      if (e.fatal) throw e;
+      lastErr = e;
+      await b2Sleep(1000 * attempt);
     }
   }
-  const formData = new FormData();
-  formData.append('fileName', fileName);
-  formData.append('contentType', file.type || 'application/octet-stream');
-  formData.append('totalSize', file.size.toString());
-  formData.append('chunks', JSON.stringify(chunks));
-  const response = await fetch(`${BACKBLAZE_FN_URL_V2}?action=upload-chunk`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${SB_KEY}`
-    },
-    body: formData
+  throw lastErr;
+}
+
+// ---------- Upload kubwa (vipande) ----------
+async function largeUploadToB2(file, folder = 'general', onProgress = null) {
+  const contentType = file.type || 'application/octet-stream';
+
+  const start = await b2Call('start-large-file', {
+    fileName: file.name,
+    folder: folder,
+    contentType: contentType
   });
-  const result = await response.json();
-  if (!result.success) {
-    throw new Error(result.error || 'Chunked upload failed');
+  const fileId = start.fileId;
+
+  const totalParts = Math.ceil(file.size / B2_PART_SIZE);
+  const partSha1s = new Array(totalParts);
+  const loaded = new Array(totalParts).fill(0);
+
+  const report = () => {
+    if (!onProgress) return;
+    const sum = loaded.reduce((a, b) => a + b, 0);
+    onProgress(Math.min(99, Math.round((sum / file.size) * 100)));
+  };
+
+  async function uploadPart(index) {
+    const from = index * B2_PART_SIZE;
+    const blob = file.slice(from, Math.min(file.size, from + B2_PART_SIZE));
+    const buffer = await blob.arrayBuffer();
+    const sha1 = await calculateSHA1(buffer);
+
+    let lastErr;
+    for (let attempt = 1; attempt <= B2_RETRIES; attempt++) {
+      try {
+        loaded[index] = 0;
+        report();
+        const p = await b2Call('get-part-url', { fileId: fileId });
+        await b2XhrPost(p.uploadUrl, {
+          'Authorization': p.authorizationToken,
+          'X-Bz-Part-Number': String(index + 1),
+          'X-Bz-Content-Sha1': sha1
+        }, buffer, n => { loaded[index] = n; report(); });
+        loaded[index] = blob.size;
+        report();
+        partSha1s[index] = sha1;
+        return;
+      } catch (e) {
+        lastErr = e;
+        await b2Sleep(1000 * attempt);
+      }
+    }
+    throw lastErr;
   }
+
+  let cursor = 0;
+  let failure = null;
+  async function worker() {
+    while (!failure) {
+      const i = cursor++;
+      if (i >= totalParts) return;
+      try {
+        await uploadPart(i);
+      } catch (e) {
+        failure = e;
+        return;
+      }
+    }
+  }
+
+  await Promise.all(
+    Array.from({ length: Math.min(B2_PARALLEL, totalParts) }, worker)
+  );
+
+  if (failure) {
+    // Futa vipande visivyokamilika ili visibaki kwenye bucket
+    try { await b2Call('cancel-large-file', { fileId: fileId }); } catch (e) {}
+    throw failure;
+  }
+
+  await b2Call('finish-large-file', {
+    fileId: fileId,
+    partSha1Array: partSha1s
+  });
+
   if (onProgress) onProgress(100);
   return {
-    url: result.url,
-    fileId: result.fileId,
-    fileName: result.fileName,
-    key: result.key
+    url: start.downloadUrl,
+    fileId: fileId,
+    fileName: start.key,
+    key: start.key
   };
 }
 
+// ---------- Chagua njia kulingana na ukubwa ----------
+async function smartUploadToB2(file, folder = 'general', onProgress = null) {
+  if (file.size <= B2_DIRECT_MAX) {
+    return await directUploadToB2(file, folder, onProgress);
+  }
+  return await largeUploadToB2(file, folder, onProgress);
+}
+
 // ============================================================
-// REPLACE - Badilisha `uploadToStorage` yako
+// REPLACE - uploadToStorage
 // ============================================================
 const originalUploadToStorage = window.uploadToStorage;
-window.uploadToStorage = async function(file, bucket, folder = '') {
+
+window.uploadToStorage = async function (file, bucket, folder = '') {
   if (!file) return null;
   try {
     const result = await smartUploadToB2(file, folder || bucket || 'general');
     return result ? result.url : null;
   } catch (error) {
-    console.error('B2 upload error:', error);
-    if (originalUploadToStorage) {
+    console.error('B2 upload error: ' + (error && error.message ? error.message : String(error)));
+    // Fallback ya zamani kwa faili ndogo tu. Kwa faili kubwa inaficha
+    // error halisi na itashindwa pia, kwa hiyo tunairusha kama ilivyo.
+    if (originalUploadToStorage && file.size <= 20 * 1024 * 1024) {
       return await originalUploadToStorage(file, bucket, folder);
     }
     throw error;
