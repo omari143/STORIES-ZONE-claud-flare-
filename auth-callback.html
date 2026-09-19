@@ -93,9 +93,9 @@
           // Store session in localStorage for backup
           localStorage.setItem('supabase_session', JSON.stringify(data.session));
           
-          // Redirect to home page after 1.5 seconds
+          // ✅ IMEREKEBISHWA: Redirect to home page after 1.5 seconds
           setTimeout(() => {
-            window.location.href = 'https://storieszone.site';
+            window.location.href = 'https://stories-zone.vercel.app';
           }, 1500);
         } else {
           // ❌ No session found
@@ -110,9 +110,9 @@
         
         document.getElementById('status').textContent = err.message || 'Tafadhali jaribu tena kuingia.';
         
-        // Redirect to login after 3 seconds
+        // ✅ IMEREKEBISHWA: Redirect to login after 3 seconds
         setTimeout(() => {
-          window.location.href = 'https://storieszone.site/login.html?error=google_auth_failed';
+          window.location.href = 'https://stories-zone.vercel.app/login.html?error=google_auth_failed';
         }, 3000);
       }
     }
