@@ -591,7 +591,13 @@
   const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
+  });
 
   // State
   let currentUser = null;
@@ -714,51 +720,95 @@
   }
 
   // Load user data from Supabase - NO REDIRECT, just load what's available
+  // FIX: Tumia getUser() (kama index.html) badala ya getSession() peke yake.
+  // getUser() inathibitisha token moja kwa moja na server ya Supabase,
+  // hivyo ni ya kuaminika zaidi kuliko kusoma localStorage tu.
+  function showLoggedOutUI() {
+    document.getElementById('userAvatar').textContent = '?';
+    document.getElementById('userName').textContent = 'Mgeni';
+    document.getElementById('userEmailText').textContent = '-';
+  }
+
+  function paintUser(user) {
+    currentUser = user;
+    const displayName = userProfile?.name || user.email?.split('@')[0] || 'Mgeni';
+    const avatarLetter = displayName.charAt(0).toUpperCase();
+    document.getElementById('userAvatar').textContent = avatarLetter;
+    document.getElementById('userName').textContent = displayName;
+    document.getElementById('userEmailText').textContent = user.email || '-';
+  }
+
+  // KANUNI: session ikiwepo kwenye kifaa (localStorage), MTUMIAJI ANABAKI
+  // AMELOGIN hata kama uthibitisho wa ziada (getUser/network) ukishindwa
+  // kwa muda (mtandao mbaya, timeout n.k). "Mgeni" inaonyeshwa TU pale
+  // ambapo hakuna session kabisa kwenye kifaa.
   async function loadUserData() {
     try {
-      // Try to get session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      
-      if (sessionError || !session) {
-        console.log('User not logged in - showing default view');
+      // Hatua 1: Soma session iliyohifadhiwa - HARAKA, haitegemei mtandao.
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session || !session.user) {
+        console.log('Hakuna session ndani ya kifaa - Mgeni');
         showToast('Ingia ili uone data yako');
-        document.getElementById('userAvatar').textContent = '?';
-        document.getElementById('userName').textContent = 'Mgeni';
-        document.getElementById('userEmailText').textContent = '-';
+        showLoggedOutUI();
         return true;
       }
-      
-      const user = session.user;
-      currentUser = user;
-      
+
+      // Onyesha user MARA MOJA kutoka session ya ndani (haraka, ya kuaminika)
+      paintUser(session.user);
+
+      // Hatua 2: Thibitisha nyuma kwa server (bila kum-logout kwa hitilafu
+      // za mtandao). Ikiwa itafeli kwa sababu ya mtandao, TUNAENDELEA
+      // kuonyesha user kama alivyo - HATUMWEKI "Mgeni".
+      try {
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+        if (userError) {
+          const msg = (userError.message || '').toLowerCase();
+          const isRealAuthError =
+            msg.includes('invalid') ||
+            msg.includes('expired') ||
+            msg.includes('not found') ||
+            userError.status === 401 || userError.status === 403;
+
+          if (isRealAuthError) {
+            // Token halisi imekufa (siyo tatizo la mtandao) - hii pekee
+            // ndiyo sababu halali ya kuonyesha "Mgeni".
+            console.log('Session imekufa kweli:', userError.message);
+            showToast('Muda wa kuingia umeisha, tafadhali ingia tena');
+            showLoggedOutUI();
+            return true;
+          }
+          // Vinginevyo (mtandao/timeout) - puuza error, endelea na session ya ndani.
+          console.warn('getUser() imeshindwa kwa muda (labda mtandao), tunaendelea na session ya ndani:', userError.message);
+        } else if (user) {
+          paintUser(user); // sasisha kwa data mpya kutoka server
+        }
+      } catch (netErr) {
+        console.warn('getUser() imefeli kwa mtandao, tunaendelea na session ya ndani:', netErr);
+      }
+
       // Get user profile from public.users
       const { data: profile, error: profileError } = await supabase
         .from('users')
         .select('*')
-        .eq('auth_user_id', user.id)
+        .eq('auth_user_id', currentUser.id)
         .maybeSingle();
-      
+
       if (profileError) {
         console.error('Error loading profile:', profileError);
+      } else {
+        userProfile = profile;
+        paintUser(currentUser); // sasisha jina kama profile ina 'name'
       }
-      
-      userProfile = profile;
-      
-      // Update UI with user info
-      const displayName = userProfile?.name || user.email?.split('@')[0] || 'Mgeni';
-      const avatarLetter = displayName.charAt(0).toUpperCase();
-      
-      document.getElementById('userAvatar').textContent = avatarLetter;
-      document.getElementById('userName').textContent = displayName;
-      document.getElementById('userEmailText').textContent = user.email || '-';
-      
+
       // Load reading stats
       await loadReadingStats();
-      
+
       return true;
     } catch (error) {
       console.error('Error loading user data:', error);
-      // Don't redirect - just show default view
+      // Hitilafu isiyotarajiwa - USIONYESHE "Mgeni" bila sababu dhahiri.
       return true;
     }
   }
@@ -918,6 +968,18 @@
     document.getElementById('langModal')?.addEventListener('click', (e) => {
       if (e.target === document.getElementById('langModal')) {
         document.getElementById('langModal').classList.remove('show');
+      }
+    });
+
+    // Sasisha data ukiwa bado kwenye ukurasa (mfano user akiingia/kutoka kwenye tab nyingine).
+    // Kwa SIGNED_OUT pekee ndiyo tunaonyesha "Mgeni" moja kwa moja bila kusubiri mtandao.
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        showLoggedOutUI();
+        return;
+      }
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED' || event === 'INITIAL_SESSION') {
+        await loadUserData();
       }
     });
   }
