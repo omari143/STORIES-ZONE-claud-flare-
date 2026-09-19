@@ -217,6 +217,36 @@
       font-size: 13px; font-weight: 500;
       margin-bottom: 8px; color: var(--muted);
     }
+
+    /* Network Dropdown (mtandao unachaguliwa na mtumiaji) */
+    .network-select {
+      width: 100%;
+      padding: 14px 40px 14px 14px;
+      margin-bottom: 16px;
+      background-color: var(--surface2);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%239a9488' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5l5 5 5-5'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: .2s;
+    }
+    .network-select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(66,167,129,.1);
+    }
+    .network-select option {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
     .phone-row {
       display: flex;
       background: var(--surface2);
@@ -564,8 +594,16 @@
       </div>
     </div>
 
-    <!-- Phone Number -->
+    <!-- Network + Phone Number -->
     <div class="phone-group">
+      <label class="input-label" for="networkSelect">Chagua Mtandao</label>
+      <select class="network-select" id="networkSelect" autocomplete="off">
+        <option value="mpesa" selected>M-Pesa</option>
+        <option value="airtel">Airtel Money</option>
+        <option value="tigo">Tigo Pesa</option>
+        <option value="halotel">Halotel Pesa</option>
+      </select>
+
       <label class="input-label" for="phoneNumber">Namba ya Simu yako</label>
       <div class="phone-row" id="phoneRow">
         <div class="country-code">+255</div>
@@ -576,7 +614,6 @@
           autocomplete="tel"
         />
       </div>
-      <div class="network-pill" id="networkPill"></div>
       <div class="hint">Ingiza namba kama: 0712345678 au 712345678</div>
     </div>
 
@@ -599,7 +636,7 @@
 
     <!-- Pay Button -->
     <button class="pay-btn" id="payBtn" onclick="processPayment()">
-      <span>💳</span>
+      <span></span>
       <span id="payBtnText">Lipa Sasa</span>
     </button>
 
@@ -689,16 +726,6 @@ function normalizePhone(raw) {
 function isValidPhone(raw) {
   const p = raw.replace(/\D/g, '');
   return p.length >= 9 && p.length <= 12;
-}
-
-function detectNetwork(raw) {
-  const p = raw.replace(/\D/g, '');
-  const local = p.startsWith('255') ? '0' + p.slice(3) : p.startsWith('0') ? p : '0' + p;
-  if (/^(06[1-9])/.test(local)) return { name: 'Halotel Pesa', code: 'halotel' };
-  if (/^(07[34][0-9]|075|076)/.test(local)) return { name: 'M-Pesa', code: 'mpesa' };
-  if (/^(07[89]|068)/.test(local)) return { name: 'Airtel Money', code: 'airtel' };
-  if (/^(07[12]|065|067|077)/.test(local)) return { name: 'Tigo Pesa', code: 'tigo' };
-  return { name: 'Mobile Money', code: 'unknown' };
 }
 
 // ========== AUTH ==========
@@ -1186,6 +1213,9 @@ window.selectMethod = function(method) {
   document.querySelector(`.method-item[data-method="${method}"]`).classList.add('selected');
   document.getElementById(`wrap-${method}`).classList.add('selected');
   document.getElementById('summaryMethod').textContent = methodNames[method];
+  // Weka dropdown ya mtandao sawa na chaguo lililochaguliwa (kadi na dropdown vinaenda pamoja)
+  const netSelect = document.getElementById('networkSelect');
+  if (netSelect) netSelect.value = method;
 };
 
 // ========== SHOW ALTERNATIVE METHODS ==========
@@ -1405,7 +1435,6 @@ window.processPayment = async function() {
   showProcessingModal('Inaanzisha Malipo', 'Tafadhali subiri kidogo...');
 
   const normalizedPhone = normalizePhone(phone);
-  const network = detectNetwork(phone);
   
   // Prepare order description
   let orderDesc = '';
@@ -1431,7 +1460,7 @@ window.processPayment = async function() {
         amount: itemData.amount,
         payment_method: selectedMethod.toUpperCase(),
         phone_number: normalizedPhone,
-        network: network.code,
+        network: selectedMethod,
       }
     });
 
@@ -1471,21 +1500,24 @@ window.goBack = function() {
   }
 };
 
+// ========== NETWORK DROPDOWN ==========
+// Mtumiaji anachagua mtandao mwenyewe (hakuna kugundua kiotomatiki kutoka kwenye namba).
+document.getElementById('networkSelect').value = selectedMethod;
+document.getElementById('networkSelect').addEventListener('change', function() {
+  selectMethod(this.value);
+  const phoneVal = document.getElementById('phoneNumber').value.trim();
+  setStep(phoneVal && isValidPhone(phoneVal) ? 3 : 2);
+});
+
 // ========== PHONE INPUT HANDLERS ==========
 document.getElementById('phoneNumber').addEventListener('input', function() {
   const val = this.value.trim();
-  const pill = document.getElementById('networkPill');
   const row = document.getElementById('phoneRow');
 
   if (val.length >= 9 && isValidPhone(val)) {
-    const net = detectNetwork(val);
-    pill.innerHTML = `${net.name} imegunduliwa`;
-    pill.classList.add('show');
     row.classList.remove('error');
-    if (net.code !== 'unknown') selectMethod(net.code);
     setStep(2);
   } else {
-    pill.classList.remove('show');
     if (val.length > 0 && val.length < 9) row.classList.remove('error');
   }
 });
