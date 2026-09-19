@@ -1360,12 +1360,27 @@ img { max-width: 100%; display: block; }
 }
 .episode-row .ep-thumb {
   width: 52px; height: 52px;
+  position: relative;
   border-radius: 8px;
   overflow: hidden;
   background: var(--bg-secondary);
   flex-shrink: 0;
 }
 .episode-row .ep-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.episode-duration-badge {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
 .episode-row .ep-main { min-width: 0; }
 .episode-row .ep-title {
   font-size: 14px;
@@ -1809,6 +1824,9 @@ img { max-width: 100%; display: block; }
     const totalDurationCache = new Map(); // audioId -> total seconds (sum of episode durations)
     const episodeCommentsCache = new Map(); // episodeId -> comments array
 
+    // Real duration cache: episodeId -> actual audio duration in seconds
+    const episodeRealDurations = new Map();
+
     // DOM
     const loadingIndicator = document.getElementById('loadingIndicator');
     const mainContent = document.getElementById('mainContent');
@@ -1964,17 +1982,49 @@ img { max-width: 100%; display: block; }
       await loadAllDurations();
     }
     // Fetch all episodes once and aggregate total duration per podcast
+    function getEpisodeDuration(ep) {
+      const real = episodeRealDurations.get(ep.id);
+      return Number.isFinite(real) && real > 0 ? real : Number(ep.duration_seconds || 0);
+    }
+
+    function getAudioDuration(url) {
+      return new Promise(resolve => {
+        if (!url) return resolve(0);
+        const probe = new Audio();
+        let settled = false;
+        const finish = value => {
+          if (settled) return;
+          settled = true;
+          probe.removeAttribute('src');
+          probe.load();
+          resolve(Number.isFinite(value) && value > 0 ? value : 0);
+        };
+        probe.preload = 'metadata';
+        probe.addEventListener('loadedmetadata', () => finish(probe.duration), { once: true });
+        probe.addEventListener('error', () => finish(0), { once: true });
+        setTimeout(() => finish(0), 10000);
+        probe.src = url;
+        probe.load();
+      });
+    }
+
     async function loadAllDurations() {
       const ids = audioItems.map(a => a.id);
       if (!ids.length) return;
       const { data } = await supabase
         .from('audio_episodes')
-        .select('audio_id,duration_seconds')
+        .select('id,audio_id,duration_seconds,audio_file_url')
         .in('audio_id', ids);
       const totals = new Map();
-      (data || []).forEach(r => {
-        totals.set(r.audio_id, (totals.get(r.audio_id) || 0) + (r.duration_seconds || 0));
-      });
+      await Promise.all((data || []).map(async ep => {
+        let duration = Number(ep.duration_seconds || 0);
+        if (ep.audio_file_url) {
+          const real = await getAudioDuration(ep.audio_file_url);
+          if (real > 0) duration = real;
+        }
+        episodeRealDurations.set(ep.id, duration);
+        totals.set(ep.audio_id, (totals.get(ep.audio_id) || 0) + duration);
+      }));
       ids.forEach(id => totalDurationCache.set(id, totals.get(id) || 0));
     }
     async function checkUserLiked(audioId) {
@@ -2061,6 +2111,15 @@ img { max-width: 100%; display: block; }
         .order('episode_number', { ascending: true });
       if (error) { console.error(error); return []; }
       const eps = data || [];
+      await Promise.all(eps.map(async ep => {
+        let duration = Number(ep.duration_seconds || 0);
+        if (ep.audio_file_url) {
+          const real = await getAudioDuration(ep.audio_file_url);
+          if (real > 0) duration = real;
+        }
+        episodeRealDurations.set(ep.id, duration);
+        ep.duration_seconds = duration;
+      }));
       episodesCache.set(audioId, eps);
       return eps;
     }
@@ -2110,7 +2169,7 @@ img { max-width: 100%; display: block; }
               <img src="${cover}" alt="${escapeHtml(audio.title)}" onerror="this.src='https://placehold.co/300x300/1a1a1a/888888?text=No+Cover'">
               <div class="audio-card-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
               <span class="audio-type-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
-              <span class="podcast-episode-badge">🎧 ${epCount} · ⏱ ${formatDuration(totalSec)}</span>
+              <span class="podcast-episode-badge">🎧 ${epCount} vipande</span>
             </div>
             <h3>${escapeHtml(audio.title)}</h3>
             <div class="genre-lbl">${genreName}</div>
@@ -2139,7 +2198,7 @@ img { max-width: 100%; display: block; }
       document.getElementById('featuredImg').src = cover;
       document.getElementById('featuredTitle').textContent = featured.title;
       document.getElementById('featuredNarrator').textContent = `Msomaji: ${narratorName}`;
-      document.getElementById('featuredDuration').textContent = `🎧 ${featured.total_episodes || 0} · ⏱ ${formatDuration(totalDurationCache.get(featured.id) || 0)}`;
+      document.getElementById('featuredDuration').textContent = `🎧 ${featured.total_episodes || 0} vipande`;
       document.getElementById('featuredCard').onclick = () => showAudioDetail(idx);
       document.getElementById('featuredPlayBtn').onclick = (e) => { e.stopPropagation(); showAudioDetail(idx); };
     }
@@ -2172,7 +2231,7 @@ img { max-width: 100%; display: block; }
               </div>
             </div>
             <div class="ali-right">
-              <span class="ali-duration">🎧 ${epCount} · ⏱ ${formatDuration(totalDurationCache.get(audio.id) || 0)}</span>
+              <span class="ali-duration">🎧 ${epCount} vipande</span>
               <span class="ali-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
               <button class="ali-share-btn" data-share-id="${audio.id}" title="Shiriki" aria-label="Shiriki podcast">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -2229,7 +2288,7 @@ img { max-width: 100%; display: block; }
       const cover = audio.cover_image_url || 'https://placehold.co/300x300/1a1a1a/888888?text=No+Cover';
       const narratorName = audio.narrators?.name || 'Msomaji';
       const genreName = audio.genres?.name || 'Aina';
-      const totalSeconds = episodes.reduce((s,e)=>s+(e.duration_seconds||0),0);
+      const totalSeconds = episodes.reduce((s,e)=>s+getEpisodeDuration(e),0);
       const plays = formatNumber(audio.total_plays);
       const podcastFullPrice = Number(audio.podcast_full_price || 0);
 
@@ -2331,11 +2390,14 @@ img { max-width: 100%; display: block; }
             <div class="episode-row ${playing}" data-ep-id="${ep.id}">
               <input type="checkbox" class="ep-check" data-ep-id="${ep.id}" data-price="${price}" ${checkDisabled}>
               <div class="ep-num">#${ep.episode_number}</div>
-              <div class="ep-thumb"><img src="${thumb}" alt="${escapeHtml(ep.title)}" onerror="this.src='${fallback}'"></div>
+              <div class="ep-thumb">
+                <img src="${thumb}" alt="${escapeHtml(ep.title)}" onerror="this.src='${fallback}'">
+                <span class="episode-duration-badge">${formatDuration(getEpisodeDuration(ep))}</span>
+              </div>
               <div class="ep-main">
                 <div class="ep-title">${escapeHtml(ep.title)}</div>
                 <div class="ep-meta">
-                  <span>⏱ ${formatDuration(ep.duration_seconds)}</span>
+                  <span>⏱ ${formatDuration(getEpisodeDuration(ep))}</span>
                   ${badge}
                   ${!owned && !ep.is_free ? `<span>· ${formatPrice(price)}</span>` : ''}
                 </div>
@@ -2595,7 +2657,7 @@ img { max-width: 100%; display: block; }
     }
 
     // ===== Share =====
-    const SHARE_BASE_URL = 'https://storieszone.site';
+    const SHARE_BASE_URL = 'https://stories-zone.vercel.app';
     function buildShareUrl(audioId) {
       const path = (window.location.pathname && window.location.pathname !== '/') ? window.location.pathname : '/simulizi_audio.html';
       const url = new URL(path, SHARE_BASE_URL);
