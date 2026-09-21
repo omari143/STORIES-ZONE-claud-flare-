@@ -922,7 +922,345 @@ img { max-width: 100%; display: block; }
 }
 .mc-quality-row-fixed label:hover { background: rgba(255,255,255,0.05); }
 .mc-quality-row-fixed input[type="checkbox"] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; }
-  </style>
+  
+/* ===== AUTHOR ROW (kwenye kila card/item/player) ===== */
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.author-row:hover { opacity: 0.85; }
+.author-row:active { transform: scale(0.98); }
+
+.author-avatar-mini {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.author-avatar-mini-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1.5px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-avatar-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.author-avatar-initial-mini {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #c43a2a);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.author-name-mini {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.author-name-mini strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Kwenye vid-card */
+.vid-card .author-row {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.vid-card .author-name-mini {
+  font-size: 10.5px;
+}
+
+/* Kwenye vli (video list item) */
+.vli .author-row {
+  margin-top: 4px;
+}
+
+.vli .author-name-mini {
+  font-size: 11.5px;
+}
+
+/* Kwenye featured-video */
+.fv-info .author-row {
+  margin-top: 6px;
+  margin-bottom: 2px;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fv-info .author-name-mini {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 11px;
+}
+
+.fv-info .author-name-mini strong {
+  color: #fff;
+}
+
+/* Kwenye player modal info */
+.detail-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 12px 0 16px;
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+.detail-author-row:hover {
+  background: var(--bg-card);
+  border-color: var(--accent);
+}
+
+.detail-author-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.detail-author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  flex-shrink: 0;
+}
+
+.detail-author-avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 2px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-author-initial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #c43a2a);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.detail-author-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.detail-author-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.detail-author-name {
+  font-size: 13.5px;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.detail-author-arrow {
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+}
+
+.detail-author-arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ===== Search Bar Styling ===== */
+.search-section {
+  max-width: 900px;
+  margin: 14px auto 10px;
+  padding: 0 16px;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(66, 167, 129, 0.2);
+  background: var(--bg-secondary);
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.search-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14.5px;
+  padding: 10px 0;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-clear-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-left: 6px;
+}
+
+.search-clear-btn:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.search-clear-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+.search-status {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.search-status strong {
+  color: var(--accent);
+}
+
+.search-reset-btn {
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 2px 4px;
+}
+
+</style>
 </head>
 <body>
 
@@ -964,6 +1302,28 @@ img { max-width: 100%; display: block; }
       <div class="hs"><span class="n">0</span><span class="l">Video</span></div>
       <div class="hs"><span class="n">0</span><span class="l">Wasimulizi</span></div>
     </div>
+  </div>
+</div>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="search-section" id="storySearchSection">
+  <div class="search-wrapper">
+    <div class="search-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+    <input type="text" id="videoSearchInput" class="search-input" placeholder="Tafuta video za simulizi, mwandishi, au msimulizi..." autocomplete="off" />
+    <div id="searchSpinner" class="search-spinner" style="display:none;"></div>
+    <button id="searchClearBtn" class="search-clear-btn" type="button" aria-label="Futa utafutaji" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div id="searchStatus" class="search-status" style="display:none;">
+    <span id="searchStatusText"></span>
+    <button type="button" class="search-reset-btn" id="searchResetBtn">Onyesha zote</button>
   </div>
 </div>
 
@@ -1480,15 +1840,33 @@ img { max-width: 100%; display: block; }
 
   // Load video items from Supabase
   async function loadVideoItems() {
-    const { data, error } = await supabase
+    // Jaribu kwanza na authors join
+    let { data, error } = await supabase
       .from('video_items')
       .select(`
         *,
         genres:genre_id (id, name, emoji),
-        narrators:narrator_id (id, name)
+        narrators:narrator_id (id, name),
+        authors:author_user_id (id, name, avatar_url)
       `)
       .eq('is_published', true)
       .order('created_at', { ascending: false });
+    
+    // Kama authors join imeshindwa (table au relation haipo), fallback bila authors
+    if (error) {
+      console.warn('authors join failed, falling back:', error.message);
+      const fallback = await supabase
+        .from('video_items')
+        .select(`
+          *,
+          genres:genre_id (id, name, emoji),
+          narrators:narrator_id (id, name)
+        `)
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+      data = fallback.data;
+      error = fallback.error;
+    }
     
     if (error) {
       console.error('Error loading videos:', error);
@@ -1553,6 +1931,74 @@ img { max-width: 100%; display: block; }
     renderVideoList(filtered);
   }
 
+  // ===== Build author row HTML =====
+  function buildAuthorRow(video, options = {}) {
+    const { variant = 'mini' } = options;
+    
+    const authorData = video.authors || null;
+    const authorId = authorData?.id || video.author_user_id || null;
+    const authorName = authorData?.name || video.author || 'Mwandishi';
+    const authorAvatar = authorData?.avatar_url || null;
+    
+    if (!authorId && !authorName) return '';
+    
+    const initial = (authorName.trim().charAt(0) || 'M').toUpperCase();
+    const authorUrl = authorId 
+      ? `author.html?id=${encodeURIComponent(authorId)}` 
+      : `author.html?id=${encodeURIComponent(authorName)}`;
+    
+    const avatarHtml = authorAvatar
+      ? `<img src="${escapeHtml(authorAvatar)}" alt="${escapeHtml(authorName)}" onerror="this.parentElement.innerHTML='<div class=\'author-avatar-initial-mini\'>${initial}</div>'" />`
+      : `<div class="author-avatar-initial-mini">${initial}</div>`;
+    
+    return `
+      <a href="${authorUrl}" class="author-row" onclick="event.stopPropagation()" aria-label="Ona hadithi za ${escapeHtml(authorName)}">
+        <div class="author-avatar-mini">
+          <div class="author-avatar-mini-inner">${avatarHtml}</div>
+        </div>
+        <div class="author-name-mini">na <strong>${escapeHtml(authorName)}</strong></div>
+      </a>
+    `;
+  }
+
+  // ===== Build author row kwa player modal info =====
+  function buildAuthorRowDetail(video) {
+    const authorData = video.authors || null;
+    const authorId = authorData?.id || video.author_user_id || null;
+    const authorName = authorData?.name || video.author || 'Mwandishi';
+    const authorAvatar = authorData?.avatar_url || null;
+    
+    if (!authorId && !authorName) return '';
+    
+    const initial = (authorName.trim().charAt(0) || 'M').toUpperCase();
+    const authorUrl = authorId 
+      ? `author.html?id=${encodeURIComponent(authorId)}` 
+      : `author.html?id=${encodeURIComponent(authorName)}`;
+    
+    const avatarHtml = authorAvatar
+      ? `<img src="${escapeHtml(authorAvatar)}" alt="${escapeHtml(authorName)}" onerror="this.parentElement.innerHTML='<div class=\'detail-author-initial\'>${initial}</div>'" />`
+      : `<div class="detail-author-initial">${initial}</div>`;
+    
+    return `
+      <a href="${authorUrl}" class="detail-author-row" onclick="event.stopPropagation()" aria-label="Ona hadithi za ${escapeHtml(authorName)}">
+        <div class="detail-author-left">
+          <div class="detail-author-avatar">
+            <div class="detail-author-avatar-inner">${avatarHtml}</div>
+          </div>
+          <div class="detail-author-info">
+            <span class="detail-author-lbl">Mwandishi wa Hadithi</span>
+            <span class="detail-author-name">${escapeHtml(authorName)}</span>
+          </div>
+        </div>
+        <span class="detail-author-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </span>
+      </a>
+    `;
+  }
+
   // Render new releases (latest 4)
   async function renderNewReleases() {
     const latest = [...videoItems].slice(0, 4);
@@ -1588,14 +2034,22 @@ img { max-width: 100%; display: block; }
           <h3>${escapeHtml(video.title)}</h3>
           <div class="vc-genre">${escapeHtml(genreName)}</div>
           <div class="vc-stats"><span class="star">★</span>${rating} <span>· ${views}</span> <span>❤️ ${likes}</span></div>
+          ${buildAuthorRow(video)}
         </div>
       `;
     }).join('');
     
     document.querySelectorAll('#newReleases .vid-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const index = parseInt(card.dataset.index);
-        if (!isNaN(index)) openPlayer(index);
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.author-row')) return;
+        const videoId = card.dataset.videoId;
+        const found = videoItems.find(v => String(v.id) === String(videoId));
+        if (found) {
+          openPlayer(found);
+        } else {
+          const index = parseInt(card.dataset.index);
+          if (!isNaN(index)) openPlayer(index);
+        }
       });
     });
   }
@@ -1620,6 +2074,13 @@ img { max-width: 100%; display: block; }
     document.getElementById('featuredLabel').textContent = `${genreName} · ${isFree ? 'Bure' : 'Premium'}`;
     document.getElementById('featuredTitle').textContent = featured.title;
     document.getElementById('featuredMeta').textContent = `Msimulizi: ${narratorName} · ${views} maono · ❤️ ${likes}`;
+
+    // Ongeza author row kwenye featured video
+    const fvInfo = document.querySelector('.fv-info');
+    if (fvInfo) {
+      fvInfo.querySelectorAll('.author-row').forEach(el => el.remove());
+      fvInfo.insertAdjacentHTML('beforeend', buildAuthorRow(featured, { variant: 'featured' }));
+    }
     
     const featuredVideo = document.getElementById('featuredVideo');
     featuredVideo.onclick = () => openPlayer(featuredIndex);
@@ -1663,6 +2124,7 @@ img { max-width: 100%; display: block; }
             <div class="vli-title">${escapeHtml(video.title)}</div>
             <div class="vli-narrator">${escapeHtml(narratorName)}</div>
             <div class="vli-meta"><span>${escapeHtml(genreName)}</span><span>·</span><span class="star">★</span><span>${rating}</span><span>·</span><span>❤️ ${likes}</span></div>
+            ${buildAuthorRow(video)}
           </div>
           <div class="vli-right">
             <span class="vli-badge ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Premium'}</span>
@@ -1677,9 +2139,15 @@ img { max-width: 100%; display: block; }
     
     document.querySelectorAll('.vli').forEach(item => {
       item.addEventListener('click', (e) => {
-        if (e.target.closest('.vli-share-btn')) return;
-        const index = parseInt(item.dataset.index);
-        if (!isNaN(index)) openPlayer(index);
+        if (e.target.closest('.vli-share-btn') || e.target.closest('.author-row')) return;
+        const videoId = item.dataset.videoId;
+        const found = currentSearchResults?.find(v => String(v.id) === String(videoId)) || videoItems.find(v => String(v.id) === String(videoId));
+        if (found) {
+          openPlayer(found);
+        } else {
+          const index = parseInt(item.dataset.index);
+          if (!isNaN(index) && index >= 0) openPlayer(index);
+        }
       });
     });
     document.querySelectorAll('.vli-share-btn').forEach(btn => {
@@ -1962,6 +2430,162 @@ img { max-width: 100%; display: block; }
   window.filterCategory = filterCategory;
   window.shareApp = shareApp;
 
+
+  // ===== DATABASE SEARCH LOGIC KWA VIDEO =====
+  let currentSearchResults = null;
+  let videoSearchDebounceTimer = null;
+
+  async function searchDatabaseVideos(query) {
+    const term = (query || '').trim();
+    const statusEl = document.getElementById('searchStatus');
+    const statusText = document.getElementById('searchStatusText');
+    const spinner = document.getElementById('searchSpinner');
+    const clearBtn = document.getElementById('searchClearBtn');
+
+    if (!term) {
+      currentSearchResults = null;
+      if (statusEl) statusEl.style.display = 'none';
+      if (clearBtn) clearBtn.style.display = 'none';
+      if (spinner) spinner.style.display = 'none';
+      renderVideoList(currentCategory === 'all' ? videoItems : videoItems.filter(v => v.genres?.name === currentCategory));
+      return;
+    }
+
+    if (clearBtn) clearBtn.style.display = 'flex';
+    if (spinner) spinner.style.display = 'block';
+
+    try {
+      // Query Supabase directly on video_items with ILIKE on title, description, author
+      let { data, error } = await supabase
+        .from('video_items')
+        .select(`
+          *,
+          genres:genre_id (id, name, emoji),
+          narrators:narrator_id (id, name),
+          authors:author_user_id (id, name, avatar_url)
+        `)
+        .eq('is_published', true)
+        .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.warn('Database video search with authors join failed, fallback:', error.message);
+        const fallback = await supabase
+          .from('video_items')
+          .select(`
+            *,
+            genres:genre_id (id, name, emoji),
+            narrators:narrator_id (id, name)
+          `)
+          .eq('is_published', true)
+          .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
+          .order('created_at', { ascending: false });
+        data = fallback.data;
+        error = fallback.error;
+      }
+
+      let results = data || [];
+
+      // Changanya pia na memory matches (kama narrator, genre, au title)
+      const qLower = term.toLowerCase();
+      const memMatches = videoItems.filter(item => {
+        const narrator = (item.narrators?.name || '').toLowerCase();
+        const genre = (item.genres?.name || '').toLowerCase();
+        const author = (item.authors?.name || item.author || '').toLowerCase();
+        const title = (item.title || '').toLowerCase();
+        return narrator.includes(qLower) || genre.includes(qLower) || author.includes(qLower) || title.includes(qLower);
+      });
+
+      const mergedMap = new Map();
+      results.forEach(item => mergedMap.set(String(item.id), item));
+      memMatches.forEach(item => {
+        if (!mergedMap.has(String(item.id))) mergedMap.set(String(item.id), item);
+      });
+
+      const finalResults = Array.from(mergedMap.values());
+      currentSearchResults = finalResults;
+
+      // Ongeza vitu vipya kwenye videoItems
+      finalResults.forEach(item => {
+        if (!videoItems.some(v => String(v.id) === String(item.id))) {
+          videoItems.push(item);
+        }
+      });
+
+      if (statusEl && statusText) {
+        statusEl.style.display = 'flex';
+        statusText.innerHTML = `Matokeo ya: "<strong>${escapeHtml(term)}</strong>" (${finalResults.length} zimepatikana)`;
+      }
+
+      await renderVideoList(finalResults);
+
+      const listContainer = document.getElementById('vidList');
+      if (listContainer && window.scrollY < 200) {
+        document.getElementById('storySearchSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (err) {
+      console.error('Video search error:', err);
+      showToast('Hitilafu wakati wa kutafuta', 'error');
+    } finally {
+      if (spinner) spinner.style.display = 'none';
+    }
+  }
+
+  function initVideoSearchListeners() {
+    const searchInput = document.getElementById('videoSearchInput');
+    const clearBtn = document.getElementById('searchClearBtn');
+    const resetBtn = document.getElementById('searchResetBtn');
+    const headerSearchBtn = document.getElementById('searchBtn');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (clearBtn) clearBtn.style.display = val ? 'flex' : 'none';
+        clearTimeout(videoSearchDebounceTimer);
+        videoSearchDebounceTimer = setTimeout(() => {
+          searchDatabaseVideos(val);
+        }, 350);
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          clearTimeout(videoSearchDebounceTimer);
+          searchDatabaseVideos(searchInput.value);
+        }
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+        }
+        searchDatabaseVideos('');
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        searchDatabaseVideos('');
+      });
+    }
+
+    if (headerSearchBtn) {
+      headerSearchBtn.onclick = (e) => {
+        e.preventDefault();
+        const searchSection = document.getElementById('storySearchSection');
+        const input = document.getElementById('videoSearchInput');
+        if (searchSection) {
+          searchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => input?.focus(), 300);
+        }
+      };
+    }
+  }
+
   // Initialize
   async function init() {
     const isAuthenticated = await checkAuthAndRedirect();
@@ -1993,6 +2617,8 @@ img { max-width: 100%; display: block; }
     loadingIndicator.style.display = 'none';
     mainContent.style.display = 'block';
 
+    initVideoSearchListeners();
+
     // Deep-link: open video player if ?video=ID is present
     try {
       const params = new URLSearchParams(window.location.search);
@@ -2000,6 +2626,16 @@ img { max-width: 100%; display: block; }
       if (videoId) {
         const idx = videoItems.findIndex(v => String(v.id) === String(videoId));
         if (idx >= 0) setTimeout(() => openPlayer(idx), 200);
+      }
+
+      // Kama URL ina ?q= au ?search= fanya utafutaji moja kwa moja
+      const searchParam = params.get('q') || params.get('search');
+      if (searchParam) {
+        const input = document.getElementById('videoSearchInput');
+        if (input) {
+          input.value = searchParam;
+          searchDatabaseVideos(searchParam);
+        }
       }
     } catch (e) { /* noop */ }
   }
@@ -2078,9 +2714,7 @@ img { max-width: 100%; display: block; }
   });
 
   
-  document.getElementById('searchBtn')?.addEventListener('click', () => {
-    window.location.href = 'index.html?type=video';
-  });
+  // searchBtn sasa inafungua na ku-focus search bar ya database
   
   // Initialize video player reference
   videoPlayer = document.getElementById('videoPlayer');
@@ -2128,10 +2762,22 @@ img { max-width: 100%; display: block; }
 // OVERRIDE openPlayer FUNCTION - Kwanza Direct, Kisha HLS
 // ============================================================
 let videoDurationMinutes = 0;
-window.openPlayer = async function(index) {
-  if (index < 0 || index >= videoItems.length) return;
-
-  const video = videoItems[index];
+window.openPlayer = async function(indexOrVideo) {
+  let video;
+  let index = -1;
+  if (typeof indexOrVideo === 'object' && indexOrVideo !== null) {
+    video = indexOrVideo;
+    index = videoItems.findIndex(v => String(v.id) === String(video.id));
+    if (index === -1) {
+      videoItems.push(video);
+      index = videoItems.length - 1;
+    }
+  } else {
+    index = indexOrVideo;
+    if (index < 0 || index >= videoItems.length) return;
+    video = videoItems[index];
+  }
+  if (!video) return;
 
   // Check access
   if (!video.is_free) {
@@ -2200,6 +2846,7 @@ window.openPlayer = async function(index) {
       <div class="mi-stat"><span class="v" id="statLikes">${likeCount}</span><span class="l">Likes</span></div>
     </div>
     <p class="mi-synopsis">${escapeHtml(video.description || 'Hakuna maelezo ya video hii.')}</p>
+    ${buildAuthorRowDetail(video)}
     <div class="mi-narrator-row">
       <div class="mi-nar-avatar">${narratorName.charAt(0).toUpperCase()}</div>
       <div class="mi-nar-info">
