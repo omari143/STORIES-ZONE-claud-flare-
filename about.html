@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <style>
@@ -31,11 +30,7 @@
       --yellow: #fbbf24;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -45,7 +40,6 @@
       padding-bottom: 80px;
     }
 
-    /* Header */
     .header {
       position: sticky;
       top: 0;
@@ -62,12 +56,7 @@
       padding: 12px 16px;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      text-decoration: none;
-    }
+    .logo { display: flex; align-items: center; gap: 0; text-decoration: none; }
 
     .logo-text {
       font-size: 20px;
@@ -76,9 +65,7 @@
       color: var(--text-primary);
     }
 
-    .logo-text span {
-      color: var(--primary);
-    }
+    .logo-text span { color: var(--primary); }
 
     .back-btn {
       width: 40px;
@@ -92,19 +79,12 @@
       text-decoration: none;
     }
 
-    .back-btn i {
-      font-size: 18px;
-    }
+    .back-btn i { font-size: 18px; }
 
-    /* Hero Section */
     .page-hero {
       padding: 40px 20px 20px;
       text-align: center;
-      background: linear-gradient(
-        135deg,
-        rgba(156,37,24,0.08) 0%,
-        transparent 70%
-      );
+      background: linear-gradient(135deg, rgba(156,37,24,0.08) 0%, transparent 70%);
     }
 
     .page-hero h1 {
@@ -121,22 +101,10 @@
       margin: 0 auto;
     }
 
-    /* Container */
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
 
-    /* Sections */
-    .section {
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .section:last-child {
-      border-bottom: none;
-    }
+    .section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+    .section:last-child { border-bottom: none; }
 
     .section-title {
       font-size: 24px;
@@ -148,25 +116,12 @@
       gap: 10px;
     }
 
-    .section-title i {
-      color: var(--primary);
-      font-size: 21px;
-    }
+    .section-title i { color: var(--primary); font-size: 21px; }
 
-    .section-content {
-      color: var(--text-secondary);
-      line-height: 1.8;
-    }
+    .section-content { color: var(--text-secondary); line-height: 1.8; }
+    .section-content p { margin-bottom: 16px; }
+    .section-content strong { color: var(--text-primary); }
 
-    .section-content p {
-      margin-bottom: 16px;
-    }
-
-    .section-content strong {
-      color: var(--text-primary);
-    }
-
-    /* Mission Cards */
     .mission-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -193,22 +148,10 @@
       margin: 0 auto 16px;
     }
 
-    .mission-icon i {
-      font-size: 27px;
-      color: var(--primary);
-    }
+    .mission-icon i { font-size: 27px; color: var(--primary); }
+    .mission-card h3 { font-size: 18px; margin-bottom: 10px; }
+    .mission-card p { font-size: 14px; color: var(--text-muted); }
 
-    .mission-card h3 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .mission-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    /* Stats */
     .stats-row {
       display: flex;
       justify-content: space-around;
@@ -218,10 +161,7 @@
       margin: 30px 0;
     }
 
-    .stat-item {
-      flex: 1;
-      min-width: 120px;
-    }
+    .stat-item { flex: 1; min-width: 120px; }
 
     .stat-number {
       font-size: 36px;
@@ -230,16 +170,9 @@
       font-family: 'Playfair Display', Georgia, serif;
     }
 
-    .stat-label {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 5px;
-    }
+    .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 5px; }
 
-    /* Values */
-    .value-list {
-      list-style: none;
-    }
+    .value-list { list-style: none; }
 
     .value-list li {
       display: flex;
@@ -249,9 +182,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .value-list li:last-child {
-      border-bottom: none;
-    }
+    .value-list li:last-child { border-bottom: none; }
 
     .value-icon {
       color: var(--accent);
@@ -262,21 +193,10 @@
       justify-content: center;
     }
 
-    .value-icon i {
-      font-size: 20px;
-    }
+    .value-icon i { font-size: 20px; }
+    .value-text h4 { font-size: 16px; margin-bottom: 4px; }
+    .value-text p { font-size: 14px; color: var(--text-muted); }
 
-    .value-text h4 {
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .value-text p {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    /* ===== Writer Info Cards ===== */
     .writer-hero {
       background: linear-gradient(135deg, rgba(66,167,129,0.10) 0%, rgba(156,37,24,0.08) 100%);
       border: 1px solid var(--border);
@@ -294,9 +214,7 @@
       gap: 10px;
     }
 
-    .writer-hero h3 i {
-      color: var(--accent);
-    }
+    .writer-hero h3 i { color: var(--accent); }
 
     .writer-hero p {
       color: var(--text-secondary);
@@ -305,11 +223,8 @@
       margin-bottom: 12px;
     }
 
-    .writer-hero p:last-child {
-      margin-bottom: 0;
-    }
+    .writer-hero p:last-child { margin-bottom: 0; }
 
-    /* Benefit grid */
     .benefit-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -328,10 +243,7 @@
       transition: border-color .2s ease, transform .2s ease;
     }
 
-    .benefit-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
+    .benefit-card:hover { border-color: var(--accent); transform: translateY(-2px); }
 
     .benefit-icon {
       width: 44px;
@@ -344,24 +256,10 @@
       flex-shrink: 0;
     }
 
-    .benefit-icon i {
-      color: var(--accent);
-      font-size: 20px;
-    }
+    .benefit-icon i { color: var(--accent); font-size: 20px; }
+    .benefit-text h4 { font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
+    .benefit-text p { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
 
-    .benefit-text h4 {
-      font-size: 15px;
-      margin-bottom: 4px;
-      color: var(--text-primary);
-    }
-
-    .benefit-text p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.55;
-    }
-
-    /* Payment model box */
     .payment-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -380,22 +278,10 @@
       color: var(--text-primary);
     }
 
-    .payment-box h3 i {
-      color: var(--primary);
-    }
+    .payment-box h3 i { color: var(--primary); }
+    .payment-box p { color: var(--text-secondary); font-size: 15px; line-height: 1.8; margin-bottom: 12px; }
+    .payment-box p:last-child { margin-bottom: 0; }
 
-    .payment-box p {
-      color: var(--text-secondary);
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 12px;
-    }
-
-    .payment-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Highlight pill */
     .highlight-pill {
       display: inline-block;
       background: rgba(156,37,24,0.15);
@@ -418,12 +304,7 @@
       margin: 0 2px;
     }
 
-    /* Steps */
-    .steps-list {
-      counter-reset: step-counter;
-      list-style: none;
-      margin-top: 20px;
-    }
+    .steps-list { counter-reset: step-counter; list-style: none; margin-top: 20px; }
 
     .steps-list li {
       position: relative;
@@ -453,23 +334,10 @@
       font-size: 14px;
     }
 
-    .steps-list li h4 {
-      font-size: 15px;
-      margin-bottom: 4px;
-      color: var(--text-primary);
-    }
+    .steps-list li h4 { font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
+    .steps-list li p { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
 
-    .steps-list li p {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    /* Rules list */
-    .rules-list {
-      list-style: none;
-      margin-top: 14px;
-    }
+    .rules-list { list-style: none; margin-top: 14px; }
 
     .rules-list li {
       display: flex;
@@ -487,15 +355,9 @@
       font-size: 14px;
     }
 
-    .rules-list li.warning i {
-      color: var(--yellow);
-    }
+    .rules-list li.warning i { color: var(--yellow); }
 
-    /* CTA button */
-    .cta-wrap {
-      text-align: center;
-      margin-top: 28px;
-    }
+    .cta-wrap { text-align: center; margin-top: 28px; }
 
     .cta-btn {
       display: inline-flex;
@@ -518,11 +380,8 @@
       box-shadow: 0 10px 26px rgba(156,37,24,0.5);
     }
 
-    .cta-btn i {
-      font-size: 16px;
-    }
+    .cta-btn i { font-size: 16px; }
 
-    /* Loading */
     .loading-stats {
       display: flex;
       justify-content: center;
@@ -541,13 +400,8 @@
       animation: spin 0.8s linear infinite;
     }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Footer */
     .footer {
       text-align: center;
       padding: 40px 20px 20px;
@@ -563,20 +417,9 @@
       margin-bottom: 8px;
     }
 
-    .footer-brand {
-      font-size: 18px;
-      font-weight: 700;
-    }
-
-    .footer-brand span {
-      color: var(--primary);
-    }
-
-    .footer-copy {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
+    .footer-brand { font-size: 18px; font-weight: 700; }
+    .footer-brand span { color: var(--primary); }
+    .footer-copy { font-size: 14px; color: var(--text-muted); margin-bottom: 14px; }
 
     .footer-links {
       display: flex;
@@ -588,16 +431,9 @@
       margin-bottom: 20px;
     }
 
-    .footer-links a {
-      text-decoration: none;
-      color: inherit;
-    }
+    .footer-links a { text-decoration: none; color: inherit; }
+    .footer-links a:hover { color: var(--text-primary); }
 
-    .footer-links a:hover {
-      color: var(--text-primary);
-    }
-
-    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -626,636 +462,306 @@
       text-decoration: none;
     }
 
-    .nav-item i {
-      font-size: 19px;
-    }
-
-    .nav-item:hover {
-      color: var(--text-primary);
-    }
-
-    .nav-item.active {
-      color: var(--primary);
-    }
+    .nav-item i { font-size: 19px; }
+    .nav-item:hover { color: var(--text-primary); }
+    .nav-item.active { color: var(--primary); }
 
     @media (max-width: 600px) {
-      .page-hero h1 {
-        font-size: 28px;
-      }
-
-      .section-title {
-        font-size: 20px;
-      }
-
-      .mission-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .stats-row {
-        gap: 15px;
-      }
-
-      .stat-number {
-        font-size: 28px;
-      }
-
-      .writer-hero h3 {
-        font-size: 19px;
-      }
-
-      .payment-box h3 {
-        font-size: 16.5px;
-      }
+      .page-hero h1 { font-size: 28px; }
+      .section-title { font-size: 20px; }
+      .mission-grid { grid-template-columns: 1fr; }
+      .stats-row { gap: 15px; }
+      .stat-number { font-size: 28px; }
+      .writer-hero h3 { font-size: 19px; }
+      .payment-box h3 { font-size: 16.5px; }
     }
   </style>
 </head>
 
 <body>
 
-<!-- Header -->
 <header class="header">
   <div class="header-inner">
-
     <div style="display:flex;align-items:center;gap:10px;">
-
       <a href="index.html" class="back-btn" aria-label="Rudi">
         <i class="fa-solid fa-arrow-left"></i>
       </a>
-
       <a href="index.html" class="logo">
-        <span class="logo-text">
-          STORIES <span>ZONE</span>
-        </span>
+        <span class="logo-text">STORIES <span>ZONE</span></span>
       </a>
-
     </div>
-
   </div>
 </header>
 
-<!-- Hero -->
 <div class="page-hero">
   <h1>Kuhusu STORIES ZONE</h1>
-  <p>
-    Jukwaa la kisasa la kusoma, kusikiliza na kutazama simulizi za kuvutia kwa Kiswahili.
-  </p>
+  <p>Jukwaa la kisasa la kusoma, kusikiliza na kutazama simulizi za kuvutia kwa Kiswahili.</p>
 </div>
 
 <div class="container">
 
-  <!-- Dira na Maono -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-book-open"></i>
       Dira yetu
     </h2>
-
     <div class="section-content">
-
-      <p>
-        <strong>STORIES ZONE</strong> ni jukwaa la kidijitali linalolenga kukuza na kuhifadhi utamaduni wa simulizi za Kiswahili kupitia teknolojia ya kisasa. Tunatoa fursa kwa waandishi, wasimulizi na watazamaji kuunganika katika mazingira salama na ya kuvutia.
-      </p>
-
-      <p>
-        Dira yetu ni kuwa jukwaa linaloongoza Afrika kwa hadithi za Kiswahili, kwa kuwaunganisha waandishi na wasomaji wao huku tukihakikisha uwazi, usalama na ubora wa maudhui.
-      </p>
-
+      <p><strong>STORIES ZONE</strong> ni jukwaa la kidijitali linalolenga kukuza na kuhifadhi utamaduni wa simulizi za Kiswahili kupitia teknolojia ya kisasa. Tunatoa fursa kwa waandishi, wasimulizi na watazamaji kuunganika katika mazingira salama na ya kuvutia.</p>
+      <p>Dira yetu ni kuwa jukwaa linaloongoza Afrika kwa hadithi za Kiswahili, kwa kuwaunganisha waandishi na wasomaji wao huku tukihakikisha uwazi, usalama na ubora wa maudhui.</p>
     </div>
   </div>
 
-  <!-- Misheni -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-bullseye"></i>
       Misheni yetu
     </h2>
-
     <div class="mission-grid">
-
       <div class="mission-card">
-
-        <div class="mission-icon">
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-        </div>
-
+        <div class="mission-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         <h3>Kuburudisha</h3>
-
-        <p>
-          Kutoa burudani bora kupitia hadithi, sauti na video za kusisimua.
-        </p>
-
+        <p>Kutoa burudani bora kupitia hadithi, sauti na video za kusisimua.</p>
       </div>
-
       <div class="mission-card">
-
-        <div class="mission-icon">
-          <i class="fa-solid fa-circle-check"></i>
-        </div>
-
+        <div class="mission-icon"><i class="fa-solid fa-circle-check"></i></div>
         <h3>Kuelimisha</h3>
-
-        <p>
-          Kukuza uandishi bora na kuhifadhi utamaduni wa simulizi.
-        </p>
-
+        <p>Kukuza uandishi bora na kuhifadhi utamaduni wa simulizi.</p>
       </div>
-
       <div class="mission-card">
-
-        <div class="mission-icon">
-          <i class="fa-solid fa-clock"></i>
-        </div>
-
+        <div class="mission-icon"><i class="fa-solid fa-clock"></i></div>
         <h3>Kuwawezesha Waandishi</h3>
-
-        <p>
-          Kuwapa waandishi jukwaa la kuchapisha na kupata mapato kutokana na vipaji vyao.
-        </p>
-
+        <p>Kuwapa waandishi jukwaa la kuchapisha na kupata mapato kutokana na vipaji vyao.</p>
       </div>
-
     </div>
   </div>
 
-  <!-- ===== Kwa Waandishi na Wasimulizi ===== -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-feather-pointed"></i>
       Kwa Waandishi na Wasimulizi
     </h2>
-
     <div class="writer-hero">
-
-      <h3>
-        <i class="fa-solid fa-pen-nib"></i>
-        Jiunge nasi, ufikishe hadithi yako kwa maelfu ya wasomaji
-      </h3>
-
-      <p>
-        <strong>STORIES ZONE</strong> inatoa nafasi ya kipekee kwa <strong>waandishi</strong>, <strong>wasimulizi</strong> na <strong>watayarishaji wa maudhui</strong> kujiunga nasi na kuchapisha kazi zao kwa Kiswahili. Iwe ni hadithi za kubuni, simulizi za sauti, au video za kuelimisha na kuburudisha — unaweza kuziweka hapa na kuzifikisha kwa hadhira kubwa zaidi.
-      </p>
-
-      <p>
-        Tunakuwezesha kuanzisha profaili yako mwenyewe, kupakia kazi zako, kufuatilia idadi ya wasomaji na mapato yako kwa wakati halisi kupitia dashibodi yako ya mwandishi.
-      </p>
-
+      <h3><i class="fa-solid fa-pen-nib"></i> Jiunge nasi, ufikishe hadithi yako kwa maelfu ya wasomaji</h3>
+      <p><strong>STORIES ZONE</strong> inatoa nafasi ya kipekee kwa <strong>waandishi</strong>, <strong>wasimulizi</strong> na <strong>watayarishaji wa maudhui</strong> kujiunga nasi na kuchapisha kazi zao kwa Kiswahili. Iwe ni hadithi za kubuni, simulizi za sauti, au video za kuelimisha na kuburudisha — unaweza kuziweka hapa na kuzifikisha kwa hadhira kubwa zaidi.</p>
+      <p>Tunakuwezesha kuanzisha profaili yako mwenyewe, kupakia kazi zako, kufuatilia idadi ya wasomaji na mapato yako kwa wakati halisi kupitia dashibodi yako ya mwandishi.</p>
     </div>
-
     <div class="benefit-grid">
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-user-plus"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-user-plus"></i></div>
         <div class="benefit-text">
           <h4>Profaili ya Mwandishi</h4>
           <p>Unda profaili yako ya kibinafsi na uonyeshe kazi zako zote mahali pamoja.</p>
         </div>
       </div>
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-chart-line"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-chart-line"></i></div>
         <div class="benefit-text">
           <h4>Dashibodi ya Mapato</h4>
           <p>Fuatilia mapato yako, idadi ya wasomaji na mwenendo wa kazi zako kwa wakati halisi.</p>
         </div>
       </div>
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-shield-halved"></i></div>
         <div class="benefit-text">
           <h4>Haki Zinalindwa</h4>
           <p>Kazi zako zinalindwa dhidi ya wizi wa maudhui na kunakiliwa bila idhini.</p>
         </div>
       </div>
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-users"></i></div>
         <div class="benefit-text">
           <h4>Hadhira Kubwa</h4>
           <p>Fikia maelfu ya wasomaji, wasikilizaji na watazamaji wa Kiswahili kila mwezi.</p>
         </div>
       </div>
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-money-bill-trend-up"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
         <div class="benefit-text">
           <h4>Mapato ya Mara kwa Mara</h4>
           <p>Pata sehemu yako ya mapato yanayotokana na kazi yako kwenye jukwaa.</p>
         </div>
       </div>
-
       <div class="benefit-card">
-        <div class="benefit-icon">
-          <i class="fa-solid fa-headset"></i>
-        </div>
+        <div class="benefit-icon"><i class="fa-solid fa-headset"></i></div>
         <div class="benefit-text">
           <h4>Msaada wa Karibu</h4>
           <p>Timu yetu ipo karibu kukusaidia kutatua changamoto zozote za kiufundi.</p>
         </div>
       </div>
-
     </div>
-
   </div>
 
-  <!-- ===== Mkakati wa Malipo ===== -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-hand-holding-dollar"></i>
       Mkakati wa Malipo kwa Waandishi
     </h2>
-
     <div class="section-content">
-      <p>
-        Tunataka kila mwandishi na msimulizi anayechapisha kazi zake <strong>STORIES ZONE</strong> apate haki yake kwa uwazi na uadilifu. Hii hapa ni mfumo wetu wa malipo:
-      </p>
+      <p>Tunataka kila mwandishi na msimulizi anayechapisha kazi zake <strong>STORIES ZONE</strong> apate haki yake kwa uwazi na uadilifu. Hii hapa ni mfumo wetu wa malipo:</p>
     </div>
-
     <div class="payment-box">
-
-      <h3>
-        <i class="fa-solid fa-percent"></i>
-        Mgawanyo wa Mapato
-      </h3>
-
-      <p>
-        Kwa kila kazi moja ya mwandishi inayoingiza mapato kwenye jukwaa (kuanzia mauzo ya hadithi, usajili wa premium, matangazo, au mchango wa wasomaji), <strong>STORIES ZONE</strong> itachukua <span class="highlight-pill">asilimia 20 (20%)</span> ya mapato jumla. Asilimia hii hutumika kugharamia uendeshaji wa jukwaa, ukuzaji wa teknolojia, usalama wa maudhui, na uendelezaji wa huduma kwa waandishi.
-      </p>
-
-      <p>
-        Mwandishi atapata <span class="highlight-accent">asilimia 80 (80%)</span> ya mapato yanayotokana na kazi yake. Hii ni sehemu ya mapato yanayolipwa moja kwa moja kwa mwandishi kulingana na mchanganuo wa kazi yake.
-      </p>
-
+      <h3><i class="fa-solid fa-percent"></i> Mgawanyo wa Mapato</h3>
+      <p>Kwa kila kazi moja ya mwandishi inayoingiza mapato kwenye jukwaa (kuanzia mauzo ya hadithi, usajili wa premium, matangazo, au mchango wa wasomaji), <strong>STORIES ZONE</strong> itachukua <span class="highlight-pill">asilimia 20 (20%)</span> ya mapato jumla. Asilimia hii hutumika kugharamia uendeshaji wa jukwaa, ukuzaji wa teknolojia, usalama wa maudhui, na uendelezaji wa huduma kwa waandishi.</p>
+      <p>Mwandishi atapata <span class="highlight-accent">asilimia 80 (80%)</span> ya mapato yanayotokana na kazi yake. Hii ni sehemu ya mapato yanayolipwa moja kwa moja kwa mwandishi kulingana na mchanganuo wa kazi yake.</p>
     </div>
-
     <div class="payment-box">
-
-      <h3>
-        <i class="fa-solid fa-calendar-days"></i>
-        Muda wa Malipo kwa Mwandishi
-      </h3>
-
-      <p>
-        Malipo kwa mwandishi yatalipwa kwa <strong>kipindi cha miezi mitatu (3) tu</strong> kuanzia tarehe ya kuchapishwa kwa kazi yake kwenye jukwaa. Katika kipindi hiki, mwandishi atapata asilimia 80 ya mapato yote yanayotokana na kazi hiyo.
-      </p>
-
-      <p>
-        Baada ya kipindi cha miezi mitatu kupita, kazi hiyo itaendelea kubaki kwenye jukwaa na kuendelea kuzalisha mapato, lakini <strong>malipo yote yatakayopatikana kwa kazi hizo baada ya miezi hiyo mitatu yatakuwa ni mali ya jukwaa la STORIES ZONE</strong>. Mwandishi hatalipwa tena kwa kazi hiyo baada ya kipindi hicho.
-      </p>
-
+      <h3><i class="fa-solid fa-calendar-days"></i> Muda wa Malipo kwa Mwandishi</h3>
+      <p>Malipo kwa mwandishi yatalipwa kwa <strong>kipindi cha miezi mitatu (3) tu</strong> kuanzia tarehe ya kuchapishwa kwa kazi yake kwenye jukwaa. Katika kipindi hiki, mwandishi atapata asilimia 80 ya mapato yote yanayotokana na kazi hiyo.</p>
+      <p>Baada ya kipindi cha miezi mitatu kupita, kazi hiyo itaendelea kubaki kwenye jukwaa na kuendelea kuzalisha mapato, lakini <strong>malipo yote yatakayopatikana kwa kazi hizo baada ya miezi hiyo mitatu yatakuwa ni mali ya jukwaa la STORIES ZONE</strong>. Mwandishi hatalipwa tena kwa kazi hiyo baada ya kipindi hicho.</p>
       <p style="font-size:13.5px; color: var(--text-muted); margin-top: 8px;">
         <i class="fa-solid fa-circle-info" style="color: var(--accent); margin-right: 6px;"></i>
         Ufafanuzi huu unalenga kuweka mazingira ya uwazi na kuepusha migogoro yoyote ya malipo kati ya jukwaa na mwandishi.
       </p>
-
     </div>
-
     <div class="payment-box" style="border-left-color: var(--accent);">
-
-      <h3>
-        <i class="fa-solid fa-list-check" style="color: var(--accent);"></i>
-        Muhtasari wa Mfumo wa Malipo
-      </h3>
-
+      <h3><i class="fa-solid fa-list-check" style="color: var(--accent);"></i> Muhtasari wa Mfumo wa Malipo</h3>
       <ul class="rules-list">
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>Jukwaa huchukua <strong>20%</strong> ya mapato ya kila kazi moja ya mwandishi.</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>Mwandishi hupata <strong>80%</strong> ya mapato ya kazi yake.</span>
-        </li>
-        <li>
-          <i class="fa-solid fa-check"></i>
-          <span>Malipo kwa mwandishi yanafanyika kwa <strong>miezi 3 tu</strong> tangu kazi ichapishwe.</span>
-        </li>
-        <li class="warning">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <span>Baada ya miezi 3, mapato yote ya kazi hiyo yanakuwa mali ya <strong>STORIES ZONE</strong>.</span>
-        </li>
+        <li><i class="fa-solid fa-check"></i><span>Jukwaa huchukua <strong>20%</strong> ya mapato ya kila kazi moja ya mwandishi.</span></li>
+        <li><i class="fa-solid fa-check"></i><span>Mwandishi hupata <strong>80%</strong> ya mapato ya kazi yake.</span></li>
+        <li><i class="fa-solid fa-check"></i><span>Malipo kwa mwandishi yanafanyika kwa <strong>miezi 3 tu</strong> tangu kazi ichapishwe.</span></li>
+        <li class="warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Baada ya miezi 3, mapato yote ya kazi hiyo yanakuwa mali ya <strong>STORIES ZONE</strong>.</span></li>
       </ul>
-
     </div>
-
   </div>
 
-  <!-- ===== Jinsi ya Kujiunga ===== -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-user-plus"></i>
       Jinsi ya Kujiunga kama Mwandishi
     </h2>
-
     <div class="section-content">
-      <p>
-        Kujiunga na <strong>STORIES ZONE</strong> kama mwandishi ni rahisi sana. Fuata hatua hizi:
-      </p>
+      <p>Kujiunga na <strong>STORIES ZONE</strong> kama mwandishi ni rahisi sana. Fuata hatua hizi:</p>
     </div>
-
     <ol class="steps-list">
-
       <li>
         <h4>Fungua akaunti</h4>
         <p>Bonyeza kitufe cha <strong>"Jiunge"</strong> na utengeneze akaunti yako ya mwandishi kwa kutumia barua pepe au namba ya simu.</p>
       </li>
-
       <li>
         <h4>Kamilisha profaili yako</h4>
         <p>Weka jina lako, picha ya profaili, maelezo mafupi kuhusu wewe, na aina za maudhui unayochapisha.</p>
       </li>
-
       <li>
         <h4>Pakia kazi yako</h4>
         <p>Chapisha hadithi yako, simulizi ya sauti au video. Unaweza kuweka picha ya jalada, maelezo na bei kama unataka.</p>
       </li>
-
       <li>
         <h4>Fuatilia mapato yako</h4>
         <p>Angalia dashibodi yako kila wakati kuona idadi ya wasomaji na mapato yanayotokana na kazi zako.</p>
       </li>
-
       <li>
         <h4>Pokea malipo yako</h4>
         <p>Malipo yako yatatumwa kwa njia uliyochagua (M-Pesa, Airtel Money, Tigo Pesa au benki) kwa kipindi cha miezi 3 tangu kuchapishwa.</p>
       </li>
-
     </ol>
-
     <div class="cta-wrap">
       <a href="author_signup.html" class="cta-btn">
         <i class="fa-solid fa-pen-fancy"></i>
         Jiunge kama Mwandishi
       </a>
     </div>
-
   </div>
 
-  <!-- ===== Sera na Haki za Maudhui ===== -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-scale-balanced"></i>
       Sera na Haki za Maudhui
     </h2>
-
     <div class="section-content">
-      <p>
-        Tunathamini kazi ya waandishi wetu na kulinda haki zao. Hii hapa ni sera yetu kwa muhtasari:
-      </p>
+      <p>Tunathamini kazi ya waandishi wetu na kulinda haki zao. Hii hapa ni sera yetu kwa muhtasari:</p>
     </div>
-
     <ul class="rules-list">
-      <li>
-        <i class="fa-solid fa-check"></i>
-        <span>Mwandishi anabaki kuwa mmiliki wa kazi yake, lakini anaruhusu jukwaa kuichapisha na kuizalisha mapato kwa mujibu wa makubaliano.</span>
-      </li>
-      <li>
-        <i class="fa-solid fa-check"></i>
-        <span>Ni marufuku kupakia kazi za watu wengine bila idhini yao — wizi wa maudhui unasababisha kufutwa akaunti mara moja.</span>
-      </li>
-      <li>
-        <i class="fa-solid fa-check"></i>
-        <span>Maudhui yenye chuki, uchochezi, au yasiyofaa kwa hadhira ya jumla hayataruhusiwa.</span>
-      </li>
-      <li>
-        <i class="fa-solid fa-check"></i>
-        <span>Jukwaa lina haki ya kuondoa kazi yoyote inayokiuka masharti yetu bila taarifa ya awali.</span>
-      </li>
-      <li class="warning">
-        <i class="fa-solid fa-triangle-exclamation"></i>
-        <span>Mwandishi anayekiuka sheria za jukwaa anaweza kuzuiwa kuchapisha kwa muda au kufutwa kabisa.</span>
-      </li>
+      <li><i class="fa-solid fa-check"></i><span>Mwandishi anabaki kuwa mmiliki wa kazi yake, lakini anaruhusu jukwaa kuichapisha na kuizalisha mapato kwa mujibu wa makubaliano.</span></li>
+      <li><i class="fa-solid fa-check"></i><span>Ni marufuku kupakia kazi za watu wengine bila idhini yao — wizi wa maudhui unasababisha kufutwa akaunti mara moja.</span></li>
+      <li><i class="fa-solid fa-check"></i><span>Maudhui yenye chuki, uchochezi, au yasiyofaa kwa hadhira ya jumla hayataruhusiwa.</span></li>
+      <li><i class="fa-solid fa-check"></i><span>Jukwaa lina haki ya kuondoa kazi yoyote inayokiuka masharti yetu bila taarifa ya awali.</span></li>
+      <li class="warning"><i class="fa-solid fa-triangle-exclamation"></i><span>Mwandishi anayekiuka sheria za jukwaa anaweza kuzuiwa kuchapisha kwa muda au kufutwa kabisa.</span></li>
     </ul>
-
   </div>
 
-  <!-- Takwimu za Uhalisia -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-chart-column"></i>
       Takwimu za Jukwaa
     </h2>
-
     <div class="stats-row" id="statsContainer">
-
       <div class="loading-stats">
         <div class="spinner"></div>
         Inapakia takwimu...
       </div>
-
     </div>
-
   </div>
 
-  <!-- Thamani Zetu -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-star"></i>
       Thamani Zetu
     </h2>
-
     <div class="value-list">
-
       <li>
-
-        <div class="value-icon">
-          <i class="fa-solid fa-star"></i>
-        </div>
-
+        <div class="value-icon"><i class="fa-solid fa-star"></i></div>
         <div class="value-text">
-
           <h4>Ubora</h4>
-
-          <p>
-            Tunahakikisha maudhui yetu yanakidhi viwango vya juu vya ubora na uhalisi.
-          </p>
-
+          <p>Tunahakikisha maudhui yetu yanakidhi viwango vya juu vya ubora na uhalisi.</p>
         </div>
-
       </li>
-
       <li>
-
-        <div class="value-icon">
-          <i class="fa-solid fa-user"></i>
-        </div>
-
+        <div class="value-icon"><i class="fa-solid fa-user"></i></div>
         <div class="value-text">
-
           <h4>Uhalisi</h4>
-
-          <p>
-            Tunathamini kazi asili na tunalinda haki za waandishi dhidi ya wizi.
-          </p>
-
+          <p>Tunathamini kazi asili na tunalinda haki za waandishi dhidi ya wizi.</p>
         </div>
-
       </li>
-
       <li>
-
-        <div class="value-icon">
-          <i class="fa-solid fa-shield-halved"></i>
-        </div>
-
+        <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
         <div class="value-text">
-
           <h4>Usalama</h4>
-
-          <p>
-            Tunatumia teknolojia za kisasa kukinga maudhui na taarifa za watumiaji.
-          </p>
-
+          <p>Tunatumia teknolojia za kisasa kukinga maudhui na taarifa za watumiaji.</p>
         </div>
-
       </li>
-
       <li>
-
-        <div class="value-icon">
-          <i class="fa-solid fa-circle-info"></i>
-        </div>
-
+        <div class="value-icon"><i class="fa-solid fa-circle-info"></i></div>
         <div class="value-text">
-
           <h4>Uwazi</h4>
-
-          <p>
-            Tunafanya kazi kwa uwazi na kuwajibika kwa jamii yetu ya waandishi na wasomaji.
-          </p>
-
+          <p>Tunafanya kazi kwa uwazi na kuwajibika kwa jamii yetu ya waandishi na wasomaji.</p>
         </div>
-
       </li>
-
     </div>
   </div>
 
-  <!-- Mawasiliano -->
   <div class="section">
-
     <h2 class="section-title">
       <i class="fa-solid fa-phone"></i>
       Wasiliana Nasi
     </h2>
-
     <div class="section-content">
-
-      <p>
-        Una swali, maoni au unataka kuwa mshirika wetu? Tunaweza kusaidiana.
-      </p>
-
-      <p>
-        <strong>Barua Pepe:</strong>
-        <span style="color: var(--accent);">
-          storieszonetz@gmail.com
-        </span>
-      </p>
-
-      <p>
-        <strong>WhatsApp / Simu:</strong>
-        <span style="color: var(--accent);">
-          +255 618 282 371
-        </span>
-      </p>
-
+      <p>Una swali, maoni au unataka kuwa mshirika wetu? Tunaweza kusaidiana.</p>
+      <p><strong>Barua Pepe:</strong> <span style="color: var(--accent);">storieszonetz@gmail.com</span></p>
+      <p><strong>WhatsApp / Simu:</strong> <span style="color: var(--accent);">+255 618 282 371</span></p>
     </div>
   </div>
 
 </div>
 
-<!-- Footer -->
 <footer class="footer">
-
   <div class="footer-logo">
-
-    <span class="footer-brand">
-      STORIES <span>ZONE</span>
-    </span>
-
+    <span class="footer-brand">STORIES <span>ZONE</span></span>
   </div>
-
-  <p class="footer-copy">
-    © 2026 STORIES ZONE. Haki zote zimehifadhiwa.
-  </p>
-
+  <p class="footer-copy">© 2026 STORIES ZONE. Haki zote zimehifadhiwa.</p>
   <div class="footer-links">
-
-    <a href="about.html">Kuhusu</a>
-    <span>·</span>
-
-    <a href="terms.html">Masharti</a>
-    <span>·</span>
-
-    <a href="privacy.html">Faragha</a>
-    <span>·</span>
-
+    <a href="about.html">Kuhusu</a><span>·</span>
+    <a href="terms.html">Masharti</a><span>·</span>
+    <a href="privacy.html">Faragha</a><span>·</span>
     <a href="help.html">Msaada</a>
-
   </div>
-
 </footer>
 
-<!-- Bottom Navigation -->
 <nav class="bottom-nav">
-
-  <a href="index.html" class="nav-item">
-
-    <i class="fa-solid fa-house"></i>
-
-    Nyumbani
-
-  </a>
-
-  <a href="index.html" class="nav-item">
-
-    <i class="fa-solid fa-magnifying-glass"></i>
-
-    Tafuta
-
-  </a>
-
-  <a href="video.html" class="nav-item">
-
-    <i class="fa-solid fa-video"></i>
-
-    Video
-
-  </a>
-
-  <a href="simulizi_audio.html" class="nav-item">
-
-    <i class="fa-solid fa-music"></i>
-
-    Sauti
-
-  </a>
-
-  <a href="login.html" class="nav-item">
-
-    <i class="fa-solid fa-user"></i>
-
-    Akaunti
-
-  </a>
-
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i>Nyumbani</a>
+  <a href="index.html" class="nav-item"><i class="fa-solid fa-magnifying-glass"></i>Tafuta</a>
+  <a href="video.html" class="nav-item"><i class="fa-solid fa-video"></i>Video</a>
+  <a href="simulizi_audio.html" class="nav-item"><i class="fa-solid fa-music"></i>Sauti</a>
+  <a href="login.html" class="nav-item"><i class="fa-solid fa-user"></i>Akaunti</a>
 </nav>
 
 <script type="module">
@@ -1264,7 +770,6 @@
     createClient
   } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-  // Supabase Configuration
   const SUPABASE_URL =
     'https://fuyzusikxmkjmnhpdbof.supabase.co';
 
@@ -1272,28 +777,15 @@
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
 
   const supabase =
-    createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+    createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Format number helper
   function formatNumber(num) {
-
     if (!num) return '0';
-
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
-    }
-
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'k';
-    }
-
+    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+    if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
     return num.toString();
   }
 
-  // Load real statistics from database
   async function loadStatistics() {
 
     const statsContainer =
@@ -1307,44 +799,26 @@
         error: storiesError
       } = await supabase
         .from('stories')
-        .select('id', {
-          count: 'exact',
-          head: true
-        })
+        .select('id', { count: 'exact', head: true })
         .eq('is_published', true);
 
       if (storiesError) console.warn('stories count error:', storiesError);
 
-      // ====== 2. Total AUTHORS kutoka table authors ======
-      let authorsCount = 0;
-
+      // ====== 2. Total ACTIVE AUTHORS kutoka table authors ======
+      // Inahesabu waandishi wenye status = 'active' PEKEE.
       const {
-        count: approvedAuthorsCount,
-        error: approvedAuthorsError
+        count: activeAuthorsCount,
+        error: activeAuthorsError
       } = await supabase
         .from('authors')
-        .select('id', {
-          count: 'exact',
-          head: true
-        })
-        .eq('status', 'approved');
+        .select('id', { count: 'exact', head: true })
+        .eq('status', 'active');
 
-      if (!approvedAuthorsError && approvedAuthorsCount !== null) {
-        authorsCount = approvedAuthorsCount;
-      } else {
-        const {
-          count: allAuthorsCount,
-          error: allAuthorsError
-        } = await supabase
-          .from('authors')
-          .select('id', {
-            count: 'exact',
-            head: true
-          });
-
-        if (allAuthorsError) console.warn('authors count error:', allAuthorsError);
-        authorsCount = allAuthorsCount || 0;
+      if (activeAuthorsError) {
+        console.warn('active authors count error:', activeAuthorsError);
       }
+
+      const authorsCount = activeAuthorsCount || 0;
 
       // ====== 3. Total readers (users) ======
       const {
@@ -1352,10 +826,7 @@
         error: readersError
       } = await supabase
         .from('users')
-        .select('id', {
-          count: 'exact',
-          head: true
-        });
+        .select('id', { count: 'exact', head: true });
 
       if (readersError) console.warn('users count error:', readersError);
 
@@ -1365,10 +836,7 @@
         error: audioError
       } = await supabase
         .from('audio_items')
-        .select('id', {
-          count: 'exact',
-          head: true
-        })
+        .select('id', { count: 'exact', head: true })
         .eq('is_published', true);
 
       if (audioError) console.warn('audio count error:', audioError);
@@ -1379,10 +847,7 @@
         error: videoError
       } = await supabase
         .from('video_items')
-        .select('id', {
-          count: 'exact',
-          head: true
-        })
+        .select('id', { count: 'exact', head: true })
         .eq('is_published', true);
 
       if (videoError) console.warn('video count error:', videoError);
@@ -1391,141 +856,46 @@
       statsContainer.innerHTML = `
 
         <div class="stat-item">
-
-          <div class="stat-number">
-            ${formatNumber(storiesCount || 0)}
-          </div>
-
-          <div class="stat-label">
-            Hadithi Zilizochapishwa
-          </div>
-
+          <div class="stat-number">${formatNumber(storiesCount || 0)}</div>
+          <div class="stat-label">Hadithi Zilizochapishwa</div>
         </div>
 
         <div class="stat-item">
-
-          <div class="stat-number">
-            ${formatNumber(authorsCount)}
-          </div>
-
-          <div class="stat-label">
-            Waandishi Waliojiunga
-          </div>
-
+          <div class="stat-number">${formatNumber(authorsCount)}</div>
+          <div class="stat-label">Waandishi Waliojiunga</div>
         </div>
 
         <div class="stat-item">
-
-          <div class="stat-number">
-            ${formatNumber(readersCount || 0)}
-          </div>
-
-          <div class="stat-label">
-            Wasomaji Wanaotumia
-          </div>
-
+          <div class="stat-number">${formatNumber(readersCount || 0)}</div>
+          <div class="stat-label">Wasomaji Wanaotumia</div>
         </div>
 
         <div class="stat-item">
-
-          <div class="stat-number">
-            ${formatNumber(audioCount || 0)}
-          </div>
-
-          <div class="stat-label">
-            Simulizi za Sauti
-          </div>
-
+          <div class="stat-number">${formatNumber(audioCount || 0)}</div>
+          <div class="stat-label">Simulizi za Sauti</div>
         </div>
 
         <div class="stat-item">
-
-          <div class="stat-number">
-            ${formatNumber(videoCount || 0)}
-          </div>
-
-          <div class="stat-label">
-            Video za Simulizi
-          </div>
-
+          <div class="stat-number">${formatNumber(videoCount || 0)}</div>
+          <div class="stat-label">Video za Simulizi</div>
         </div>
 
       `;
 
     } catch (error) {
 
-      console.error(
-        'Error loading statistics:',
-        error
-      );
+      console.error('Error loading statistics:', error);
 
       statsContainer.innerHTML = `
-
-        <div class="stat-item">
-
-          <div class="stat-number">
-            500+
-          </div>
-
-          <div class="stat-label">
-            Hadithi Zilizochapishwa
-          </div>
-
-        </div>
-
-        <div class="stat-item">
-
-          <div class="stat-number">
-            150+
-          </div>
-
-          <div class="stat-label">
-            Waandishi Waliojiunga
-          </div>
-
-        </div>
-
-        <div class="stat-item">
-
-          <div class="stat-number">
-            10k+
-          </div>
-
-          <div class="stat-label">
-            Wasomaji Wanaotumia
-          </div>
-
-        </div>
-
-        <div class="stat-item">
-
-          <div class="stat-number">
-            50+
-          </div>
-
-          <div class="stat-label">
-            Simulizi za Sauti
-          </div>
-
-        </div>
-
-        <div class="stat-item">
-
-          <div class="stat-number">
-            50+
-          </div>
-
-          <div class="stat-label">
-            Video za Simulizi
-          </div>
-
-        </div>
-
+        <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Hadithi Zilizochapishwa</div></div>
+        <div class="stat-item"><div class="stat-number">150+</div><div class="stat-label">Waandishi Waliojiunga</div></div>
+        <div class="stat-item"><div class="stat-number">10k+</div><div class="stat-label">Wasomaji Wanaotumia</div></div>
+        <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Simulizi za Sauti</div></div>
+        <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Video za Simulizi</div></div>
       `;
     }
   }
 
-  // Initialize
   loadStatistics();
 
 </script>
