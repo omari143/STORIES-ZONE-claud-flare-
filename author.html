@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f0e" />
+  <title>Mwandishi — Stories Zone</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #0f0f0e;
+      --bg-card: #141414;
+      --bg-secondary: #1a1a1a;
+      --text-primary: #e8e8e8;
+      --text-secondary: #a8a8a8;
+      --text-muted: #6e6e6e;
+      --primary: #9c2518;
+      --primary-hover: #b02d1f;
+      --accent: #42a781;
+      --border: #2a2a2a;
+      --yellow: #fbbf24;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-full: 9999px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: calc(88px + var(--safe-bottom));
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    header.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(15, 15, 14, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    .top-nav h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    /* Author Profile Card */
+    .profile-hero {
+      padding: 28px 16px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(156,37,24,0.15) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .author-avatar-large {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 8px 24px rgba(156,37,24,0.3);
+    }
+
+    .author-avatar-large-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 2px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .author-avatar-large-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .author-initial-large {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary), #c43a2a);
+      color: #fff;
+      font-size: 40px;
+      font-weight: 700;
+    }
+
+    .author-name-large {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .author-bio {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto 16px;
+      line-height: 1.45;
+    }
+
+    .author-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+    }
+
+    .stat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+
+    .stat-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Stories Section */
+    .stories-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .stories-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
+
+    @media (min-width: 860px) {
+      .stories-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    }
+
+    .story-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .story-card:hover {
+      transform: translateY(-4px);
+      border-color: #444;
+    }
+
+    .story-cover-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: var(--bg-secondary);
+      overflow: hidden;
+    }
+
+    .story-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .story-info {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .story-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .story-meta {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+  <header class="top-nav">
+    <button class="back-btn" onclick="history.back() || (window.location.href='index.html')" aria-label="Rudi">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h1>Profaili ya Mwandishi</h1>
+  </header>
+
+  <main>
+    <section class="profile-hero" id="authorHero">
+      <div class="author-avatar-large">
+        <div class="author-avatar-large-inner" id="heroAvatar">
+          <div class="author-initial-large">...</div>
+        </div>
+      </div>
+      <h2 class="author-name-large" id="heroName">Inapakia...</h2>
+      <p class="author-bio" id="heroBio"></p>
+      <div class="author-stats">
+        <div class="stat-item">
+          <div class="stat-val" id="statStories">0</div>
+          <div class="stat-label">Hadithi</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statReads">0</div>
+          <div class="stat-label">Wasomaji</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stories-container">
+      <h3 class="section-title">
+        <i class="fa-solid fa-book-open" style="color:var(--primary)"></i>
+        Hadithi za Mwandishi
+      </h3>
+      <div class="stories-grid" id="storiesGrid">
+        <div class="empty-state">Inapakia hadithi...</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+    const headers = {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json'
+    };
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatNumber(num) {
+      const n = Number(num) || 0;
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+      return String(n);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const authorParam = params.get('id') || params.get('author') || '';
+
+    // ===================== LOAD AUTHOR PROFILE =====================
+    // Inajaribu njia 3 kwa mpangilio:
+    //   1. authors table kwa ID (UUID)
+    //   2. authors table kwa jina (ilike)
+    //   3. Fallback: tumia jina la URL moja kwa moja
+    async function loadAuthorProfile() {
+      if (!authorParam) {
+        document.getElementById('heroName').textContent = 'Mwandishi Hakupatikana';
+        document.getElementById('storiesGrid').innerHTML =
+          '<div class="empty-state">Mwandishi hajatambuliwa. Tafadhali rudi mwanzo.</div>';
+        return;
+      }
+
+      let authorData = { name: authorParam, avatar_url: null, bio: '' };
+      let resolvedAuthorName = authorParam;
+
+      // ---- NJIA 1: authors table kwa ID (UUID) ----
+      try {
+        const url = `${SUPABASE_URL}/rest/v1/authors?id=eq.${encodeURIComponent(authorParam)}&select=id,name,avatar_url,bio&limit=1`;
+        const res = await fetch(url, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            authorData = data[0];
+            resolvedAuthorName = data[0].name || authorParam;
+          }
+        }
+      } catch (err) {
+        console.warn('authors id lookup failed:', err);
+      }
+
+      // ---- NJIA 2: authors table kwa jina (ilike — case-insensitive) ----
+      if (resolvedAuthorName === authorParam) {
+        try {
+          const byNameUrl = `${SUPABASE_URL}/rest/v1/authors?name=ilike.${encodeURIComponent(authorParam.trim())}&select=id,name,avatar_url,bio&limit=1`;
+          const byNameRes = await fetch(byNameUrl, { headers });
+          if (byNameRes.ok) {
+            const d2 = await byNameRes.json();
+            if (Array.isArray(d2) && d2.length > 0) {
+              authorData = d2[0];
+              resolvedAuthorName = d2[0].name || authorParam;
+            }
+          }
+        } catch (err) {
+          console.warn('authors name lookup failed:', err);
+        }
+      }
+
+      const name = authorData.name || resolvedAuthorName;
+      document.title = `${name} — Stories Zone`;
+      document.getElementById('heroName').textContent = name;
+
+      if (authorData.bio) {
+        document.getElementById('heroBio').textContent = authorData.bio;
+      }
+
+      // ---- Avatar ----
+      const initial = (name.trim().charAt(0) || 'M').toUpperCase();
+      const heroAvatarEl = document.getElementById('heroAvatar');
+      if (authorData.avatar_url) {
+        heroAvatarEl.innerHTML =
+          `<img src="${escapeHtml(authorData.avatar_url)}" alt="${escapeHtml(name)}" onerror="this.parentElement.innerHTML='<div class=\\'author-initial-large\\'>${initial}</div>'" />`;
+      } else {
+        heroAvatarEl.innerHTML = `<div class="author-initial-large">${initial}</div>`;
+      }
+
+      // ---- Pakia hadithi kwa jina halisi ----
+      loadAuthorStories(resolvedAuthorName, authorParam);
+    }
+
+    // ===================== LOAD AUTHOR STORIES =====================
+    // Inajaribu njia 3 za fetch ili kuhakikisha hadithi zote zinaonekana:
+    //   1. author=eq.<jina halisi>
+    //   2. author=ilike.<jina halisi>  (case-insensitive, trim)
+    //   3. author=ilike.<originalParam>  (kama jina halisi ni tofauti)
+    async function loadAuthorStories(authorName, originalParam) {
+      const grid = document.getElementById('storiesGrid');
+      try {
+        let stories = [];
+
+        // ---- NJIA 1: eq (exact match) ----
+        const url1 = `${SUPABASE_URL}/rest/v1/stories?author=eq.${encodeURIComponent(authorName)}&is_published=eq.true&order=created_at.desc`;
+        const res1 = await fetch(url1, { headers });
+        if (res1.ok) stories = await res1.json();
+
+        // ---- NJIA 2: ilike (case-insensitive) ----
+        if (!Array.isArray(stories) || stories.length === 0) {
+          const url2 = `${SUPABASE_URL}/rest/v1/stories?author=ilike.${encodeURIComponent(authorName.trim())}&is_published=eq.true&order=created_at.desc`;
+          const res2 = await fetch(url2, { headers });
+          if (res2.ok) stories = await res2.json();
+        }
+
+        // ---- NJIA 3: ilike kwa originalParam (kama tofauti) ----
+        if (
+          (!Array.isArray(stories) || stories.length === 0) &&
+          originalParam !== authorName
+        ) {
+          const url3 = `${SUPABASE_URL}/rest/v1/stories?author=ilike.${encodeURIComponent(originalParam.trim())}&is_published=eq.true&order=created_at.desc`;
+          const res3 = await fetch(url3, { headers });
+          if (res3.ok) stories = await res3.json();
+        }
+
+        // ---- Empty state ----
+        if (!Array.isArray(stories) || stories.length === 0) {
+          grid.innerHTML =
+            '<div class="empty-state">Mwandishi huyu hana hadithi zilizochapishwa kwa sasa.</div>';
+          document.getElementById('statStories').textContent = '0';
+          document.getElementById('statReads').textContent = '0';
+          return;
+        }
+
+        // ---- Stats ----
+        document.getElementById('statStories').textContent = stories.length;
+        const totalReads = stories.reduce(
+          (acc, s) => acc + (Number(s.total_reads) || 0),
+          0
+        );
+        document.getElementById('statReads').textContent = formatNumber(totalReads);
+
+        // ---- Render grid ----
+        grid.innerHTML = stories
+          .map((s) => {
+            const cover =
+              s.cover_image_url ||
+              'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80';
+            const title = escapeHtml(s.title || 'Hadithi');
+            const reads = formatNumber(s.total_reads || 0);
+            return `
+              <a href="story.html?id=${encodeURIComponent(s.id)}" class="story-card">
+                <div class="story-cover-wrap">
+                  <img src="${escapeHtml(cover)}" alt="${title}" loading="lazy" />
+                </div>
+                <div class="story-info">
+                  <h4 class="story-title">${title}</h4>
+                  <div class="story-meta">
+                    <span><i class="fa-regular fa-eye"></i> ${reads}</span>
+                    <span><i class="fa-solid fa-chevron-right"></i></span>
+                  </div>
+                </div>
+              </a>
+            `;
+          })
+          .join('');
+      } catch (err) {
+        console.error('Error loading author stories:', err);
+        grid.innerHTML =
+          '<div class="empty-state">Imeshindikana kupakia hadithi za mwandishi huyu.</div>';
+      }
+    }
+
+    // ===================== INIT =====================
+    loadAuthorProfile();
+  </script>
+</body>
+</html>
