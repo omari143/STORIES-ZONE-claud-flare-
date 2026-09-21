@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ingia — Stories Zone Authors</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f0e;--bg-card:#141414;--bg-sec:#1a1a1a;--bg-ter:#222;
+  --txt:#e8e8e8;--txt2:#999;--txt3:#555;
+  --primary:#9c2518;--primary-h:#b02d1f;--primary-soft:rgba(156,37,24,.15);
+  --accent:#42a781;--accent-soft:rgba(66,167,129,.15);
+  --border:#2a2a2a;--border2:#333;
+  --red:#e74c3c;--yellow:#fbbf24;--blue:#3498db;
+  --rad:12px;--rad-sm:8px;--rad-full:999px;
+}
+html{font-size:14px;font-family:'Segoe UI',system-ui,sans-serif}
+body{
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;position:relative;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;top:-200px;right:-200px;width:500px;height:500px;
+  background:radial-gradient(circle, rgba(156,37,24,.25) 0%, transparent 70%);
+  pointer-events:none;
+}
+body::after{
+  content:'';position:fixed;bottom:-200px;left:-200px;width:500px;height:500px;
+  background:radial-gradient(circle, rgba(66,167,129,.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.auth-wrap{
+  width:100%;max-width:420px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:var(--rad);
+  padding:36px 32px;position:relative;z-index:1;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.auth-logo{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-bottom:8px;
+}
+.auth-logo-img{
+  width:52px;height:52px;border-radius:12px;object-fit:cover;
+  box-shadow:0 8px 20px rgba(156,37,24,.4);
+  background:var(--bg-ter);
+}
+.auth-brand{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.auth-brand span{color:var(--primary)}
+.auth-tagline{
+  text-align:center;font-size:12px;color:var(--txt2);
+  letter-spacing:1px;text-transform:uppercase;font-weight:600;
+  margin-bottom:28px;
+}
+
+.auth-title{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.auth-sub{font-size:13px;color:var(--txt2);margin-bottom:24px;line-height:1.5}
+
+.field{margin-bottom:16px;position:relative}
+.field label{
+  display:block;font-size:12px;font-weight:600;color:var(--txt2);
+  margin-bottom:6px;letter-spacing:.3px;
+}
+.field-input-wrap{position:relative}
+.field-input{
+  width:100%;background:var(--bg-sec);border:1.5px solid var(--border);
+  border-radius:var(--rad-sm);color:var(--txt);padding:12px 42px 12px 14px;
+  font-size:14px;outline:none;transition:.15s;font-family:inherit;
+}
+.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.field-input::placeholder{color:var(--txt3)}
+.field-icon{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--txt3);font-size:16px;pointer-events:none;
+}
+.toggle-pw{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:var(--txt3);font-size:16px;cursor:pointer;background:none;border:none;
+  padding:4px;border-radius:4px;transition:.15s;
+}
+.toggle-pw:hover{color:var(--txt);background:var(--bg-ter)}
+
+.btn-submit{
+  width:100%;background:linear-gradient(135deg, var(--primary), var(--primary-h));
+  color:#fff;padding:13px;border:none;border-radius:var(--rad-sm);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:.15s;margin-top:8px;
+  box-shadow:0 8px 20px rgba(156,37,24,.35);
+}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(156,37,24,.45)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.auth-footer{
+  text-align:center;font-size:13px;color:var(--txt2);
+  margin-top:20px;padding-top:20px;border-top:1px solid var(--border);
+}
+.auth-footer a{color:var(--accent);font-weight:600;text-decoration:none}
+.auth-footer a:hover{text-decoration:underline}
+
+.alert{
+  padding:12px 14px;border-radius:var(--rad-sm);font-size:13px;
+  display:none;align-items:flex-start;gap:10px;margin-bottom:18px;
+  line-height:1.5;
+}
+.alert.show{display:flex;animation:slideDown .25s ease}
+.alert i{font-size:18px;flex-shrink:0;margin-top:1px}
+.alert.error{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#ef6b5e}
+.alert.success{background:var(--accent-soft);border:1px solid rgba(66,167,129,.3);color:var(--accent)}
+.alert.info{background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);color:#5dade2}
+
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+.spinner{
+  width:16px;height:16px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.forgot-link{
+  display:block;text-align:right;font-size:12px;
+  color:var(--txt3);margin-top:-8px;margin-bottom:16px;
+  text-decoration:none;transition:.15s;
+}
+.forgot-link:hover{color:var(--accent)}
+
+.back-home{
+  position:absolute;top:20px;left:20px;
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--txt2);text-decoration:none;
+  padding:8px 12px;border-radius:var(--rad-sm);transition:.15s;
+  background:var(--bg-sec);border:1px solid var(--border);
+}
+.back-home:hover{color:var(--txt);background:var(--bg-ter)}
+
+@media(max-width:480px){
+  .auth-wrap{padding:28px 22px}
+  .auth-title{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-home"><i class="ti ti-arrow-left"></i> Nyumbani</a>
+
+<div class="auth-wrap">
+  <div class="auth-logo">
+    <img class="auth-logo-img" src="/file_00000000d1cc6230872747a8605addb8.png" alt="Stories Zone"
+         onerror="this.src='https://placehold.co/52x52/9c2518/white?text=SZ'">
+    <div class="auth-brand">STORIES <span>ZONE</span></div>
+  </div>
+  <div class="auth-tagline">Author Studio</div>
+
+  <div class="auth-title">Karibu Tena</div>
+  <div class="auth-sub">Ingia kwenye akaunti yako ya mwandishi ili kuendelea kupakia hadithi zako.</div>
+
+  <div class="alert error" id="alertBox">
+    <i class="ti ti-alert-circle"></i>
+    <span id="alertMsg"></span>
+  </div>
+
+  <form id="loginForm" autocomplete="on">
+    <div class="field">
+      <label>Barua Pepe</label>
+      <div class="field-input-wrap">
+        <input class="field-input" type="email" id="email" placeholder="jina@mfano.com" required autocomplete="email">
+        <i class="ti ti-mail field-icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Neno la Siri</label>
+      <div class="field-input-wrap">
+        <input class="field-input" type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+        <button type="button" class="toggle-pw" onclick="togglePassword('password', this)">
+          <i class="ti ti-eye"></i>
+        </button>
+      </div>
+    </div>
+
+    <a href="#" class="forgot-link" onclick="forgotPassword(); return false;">Umesahau neno la siri?</a>
+
+    <button type="submit" class="btn-submit" id="submitBtn">
+      <i class="ti ti-login"></i> <span>Ingia</span>
+    </button>
+  </form>
+
+  <div class="auth-footer">
+    Hauna akaunti? <a href="author_signup.html">Jisajili hapa</a>
+  </div>
+</div>
+
+<script>
+// ==================== CONFIG ====================
+const SB_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+const AUTHOR_SESSION_KEY = 'sz_author_session';
+const H_READ = { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY };
+
+// ==================== HELPERS ====================
+function showAlert(msg, type='error') {
+  const box = document.getElementById('alertBox');
+  const text = document.getElementById('alertMsg');
+  box.className = 'alert show ' + type;
+  text.textContent = msg;
+  box.querySelector('i').className = type === 'error' ? 'ti ti-alert-circle'
+    : type === 'success' ? 'ti ti-circle-check' : 'ti ti-info-circle';
+  box.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') { input.type = 'text'; icon.className = 'ti ti-eye-off'; }
+  else { input.type = 'password'; icon.className = 'ti ti-eye'; }
+}
+
+async function sha256Hex(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+async function hashPassword(password, salt) {
+  return await sha256Hex(salt + '::' + password);
+}
+
+// ==================== REDIRECT IF ALREADY LOGGED IN ====================
+(function checkExistingSession() {
+  try {
+    const raw = localStorage.getItem(AUTHOR_SESSION_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s && s.user_id && s.author_name) {
+        window.location.replace('authors_studio.html');
+        return;
+      }
+    }
+  } catch(e){}
+})();
+
+// ==================== SHOW ERROR FROM URL ====================
+(function showUrlError() {
+  const params = new URLSearchParams(window.location.search);
+  const err = params.get('error');
+  const errMap = {
+    'session_missing': 'Session imeisha. Tafadhali ingia tena.',
+    'author_not_found': 'Akaunti yako haipatikani. Tafadhali jisajili au wasiliana na msaada.',
+    'account_inactive': 'Akaunti yako imezimwa. Wasiliana na msaada.',
+    'auth_check_failed': 'Imeshindwa kuthibitisha akaunti. Jaribu tena.'
+  };
+  if (err && errMap[err]) showAlert(errMap[err], 'error');
+  const registered = params.get('registered');
+  if (registered === '1') showAlert('Akaunti yako imesajiliwa! Tafadhali ingia.', 'success');
+})();
+
+// ==================== LOGIN ====================
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) { showAlert('Tafadhali jaza barua pepe na neno la siri.', 'error'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> <span>Inaingia...</span>';
+
+  try {
+    const url = SB_URL + '/rest/v1/authors?email=eq.' + encodeURIComponent(email) +
+      '&select=id,name,display_name,email,password_hash,password_salt,status';
+    const res = await fetch(url, { headers: H_READ });
+    if (!res.ok) throw new Error('Hitilafu ya mtandao. Jaribu tena.');
+    const rows = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) {
+      throw new Error('Barua pepe au neno la siri si sahihi.');
+    }
+    const author = rows[0];
+
+    if (author.status === 'pending') {
+      throw new Error('Akaunti yako bado haijaidhinishwa. Wasiliana na admin.');
+    }
+    if (author.status === 'suspended' || author.status === 'inactive') {
+      throw new Error('Akaunti yako imezimwa. Wasiliana na msaada.');
+    }
+    if (author.status !== 'active') {
+      throw new Error('Akaunti yako haina ruhusa kuingia.');
+    }
+
+    const salt = author.password_salt || 'sz-default-salt';
+    const hashed = await hashPassword(password, salt);
+    if (hashed !== author.password_hash) {
+      throw new Error('Barua pepe au neno la siri si sahihi.');
+    }
+
+    const session = {
+      user_id: author.id,
+      author_name: author.name || author.display_name,
+      email: author.email,
+      logged_at: Date.now()
+    };
+    localStorage.setItem(AUTHOR_SESSION_KEY, JSON.stringify(session));
+
+    showAlert('Karibu, ' + (author.name || author.display_name) + '! Tunakupeleka...', 'success');
+
+    setTimeout(() => { window.location.replace('authors_studio.html'); }, 800);
+  } catch (err) {
+    showAlert(err.message || 'Hitilafu isiyojulikana.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-login"></i> <span>Ingia</span>';
+  }
+});
+
+function forgotPassword() {
+  showAlert('Tafadhali wasiliana na msaada kwa maelekezo ya kubadilisha neno la siri. Barua pepe: support@storieszone.app', 'info');
+}
+
+(function autoFill() {
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get('email');
+  if (email) document.getElementById('email').value = email;
+})();
+</script>
+</body>
+</html>

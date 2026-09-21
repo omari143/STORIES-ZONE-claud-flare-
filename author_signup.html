@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Jisajili — Stories Zone Authors</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f0e;--bg-card:#141414;--bg-sec:#1a1a1a;--bg-ter:#222;
+  --txt:#e8e8e8;--txt2:#999;--txt3:#555;
+  --primary:#9c2518;--primary-h:#b02d1f;--primary-soft:rgba(156,37,24,.15);
+  --accent:#42a781;--accent-soft:rgba(66,167,129,.15);
+  --border:#2a2a2a;--border2:#333;
+  --red:#e74c3c;--yellow:#fbbf24;--blue:#3498db;
+  --rad:12px;--rad-sm:8px;--rad-full:999px;
+}
+html{font-size:14px;font-family:'Segoe UI',system-ui,sans-serif}
+body{
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:24px;position:relative;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;top:-200px;right:-200px;width:500px;height:500px;
+  background:radial-gradient(circle, rgba(156,37,24,.25) 0%, transparent 70%);
+  pointer-events:none;
+}
+body::after{
+  content:'';position:fixed;bottom:-200px;left:-200px;width:500px;height:500px;
+  background:radial-gradient(circle, rgba(66,167,129,.15) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.auth-wrap{
+  width:100%;max-width:520px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:var(--rad);
+  padding:36px 32px;position:relative;z-index:1;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.auth-logo{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-bottom:8px;
+}
+.auth-logo-img{
+  width:52px;height:52px;border-radius:12px;object-fit:cover;
+  box-shadow:0 8px 20px rgba(156,37,24,.4);
+  background:var(--bg-ter);
+}
+.auth-brand{font-size:20px;font-weight:800;letter-spacing:-.5px}
+.auth-brand span{color:var(--primary)}
+.auth-tagline{
+  text-align:center;font-size:12px;color:var(--txt2);
+  letter-spacing:1px;text-transform:uppercase;font-weight:600;
+  margin-bottom:28px;
+}
+
+.auth-title{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.auth-sub{font-size:13px;color:var(--txt2);margin-bottom:24px;line-height:1.5}
+
+/* ===== AVATAR UPLOAD ===== */
+.avatar-upload-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:24px;gap:10px;
+}
+.avatar-upload{
+  width:110px;height:110px;border-radius:50%;
+  border:2px dashed var(--border2);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;overflow:hidden;position:relative;
+  transition:.2s;background:var(--bg-sec);
+  color:var(--txt3);
+}
+.avatar-upload:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-soft)}
+.avatar-upload i{font-size:28px}
+.avatar-upload span{font-size:10px;font-weight:600;letter-spacing:.3px}
+.avatar-preview{
+  width:110px;height:110px;border-radius:50%;
+  overflow:hidden;border:2px solid var(--primary);position:relative;
+  background:var(--bg-ter);
+}
+.avatar-preview img{width:100%;height:100%;object-fit:cover}
+.avatar-remove{
+  position:absolute;bottom:0;right:0;width:30px;height:30px;
+  border-radius:50%;background:var(--red);color:#fff;border:2px solid var(--bg-card);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  font-size:14px;transition:.15s;
+}
+.avatar-remove:hover{background:#c0392b}
+.avatar-hint{font-size:11px;color:var(--txt3);text-align:center;line-height:1.5}
+
+.field{margin-bottom:16px;position:relative}
+.field label{
+  display:block;font-size:12px;font-weight:600;color:var(--txt2);
+  margin-bottom:6px;letter-spacing:.3px;
+}
+.field-input-wrap{position:relative}
+.field-input{
+  width:100%;background:var(--bg-sec);border:1.5px solid var(--border);
+  border-radius:var(--rad-sm);color:var(--txt);padding:12px 14px;
+  font-size:14px;outline:none;transition:.15s;font-family:inherit;
+}
+.field-input.with-icon{padding-right:42px}
+.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+.field-input::placeholder{color:var(--txt3)}
+.field-icon{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--txt3);font-size:16px;pointer-events:none;
+}
+.toggle-pw{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  color:var(--txt3);font-size:16px;cursor:pointer;background:none;border:none;
+  padding:4px;border-radius:4px;transition:.15s;
+}
+.toggle-pw:hover{color:var(--txt);background:var(--bg-ter)}
+
+textarea.field-input{resize:vertical;min-height:90px;line-height:1.6}
+
+.pw-strength{
+  height:4px;background:var(--bg-ter);border-radius:2px;overflow:hidden;
+  margin-top:6px;
+}
+.pw-strength-bar{
+  height:100%;width:0%;transition:.3s;border-radius:2px;
+}
+.pw-strength-text{font-size:11px;color:var(--txt3);margin-top:4px;display:flex;justify-content:space-between}
+
+.terms{
+  display:flex;align-items:flex-start;gap:10px;
+  margin:18px 0;font-size:13px;color:var(--txt2);line-height:1.5;
+}
+.terms input[type="checkbox"]{
+  width:18px;height:18px;accent-color:var(--primary);
+  cursor:pointer;flex-shrink:0;margin-top:1px;
+}
+.terms a{color:var(--accent);text-decoration:none}
+.terms a:hover{text-decoration:underline}
+
+.btn-submit{
+  width:100%;background:linear-gradient(135deg, var(--primary), var(--primary-h));
+  color:#fff;padding:13px;border:none;border-radius:var(--rad-sm);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:.15s;margin-top:8px;
+  box-shadow:0 8px 20px rgba(156,37,24,.35);
+}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(156,37,24,.45)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+
+.auth-footer{
+  text-align:center;font-size:13px;color:var(--txt2);
+  margin-top:20px;padding-top:20px;border-top:1px solid var(--border);
+}
+.auth-footer a{color:var(--accent);font-weight:600;text-decoration:none}
+.auth-footer a:hover{text-decoration:underline}
+
+.alert{
+  padding:12px 14px;border-radius:var(--rad-sm);font-size:13px;
+  display:none;align-items:flex-start;gap:10px;margin-bottom:18px;
+  line-height:1.5;
+}
+.alert.show{display:flex;animation:slideDown .25s ease}
+.alert i{font-size:18px;flex-shrink:0;margin-top:1px}
+.alert.error{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#ef6b5e}
+.alert.success{background:var(--accent-soft);border:1px solid rgba(66,167,129,.3);color:var(--accent)}
+.alert.info{background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.3);color:#5dade2}
+
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+.spinner{
+  width:16px;height:16px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.back-home{
+  position:absolute;top:20px;left:20px;
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--txt2);text-decoration:none;
+  padding:8px 12px;border-radius:var(--rad-sm);transition:.15s;
+  background:var(--bg-sec);border:1px solid var(--border);
+}
+.back-home:hover{color:var(--txt);background:var(--bg-ter)}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.upload-progress{
+  display:none;margin-top:8px;width:100%;
+}
+.upload-progress.show{display:block}
+.upload-progress-bar{
+  height:4px;background:var(--bg-ter);border-radius:2px;overflow:hidden;
+}
+.upload-progress-fill{
+  height:100%;width:0%;background:var(--accent);transition:width .3s;
+}
+.upload-progress-text{font-size:11px;color:var(--txt2);margin-top:4px;text-align:center}
+
+@media(max-width:520px){
+  .auth-wrap{padding:28px 22px}
+  .auth-title{font-size:20px}
+  .two-col{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-home"><i class="ti ti-arrow-left"></i> Nyumbani</a>
+
+<div class="auth-wrap">
+  <div class="auth-logo">
+    <img class="auth-logo-img" src="/file_00000000d1cc6230872747a8605addb8.png" alt="Stories Zone"
+         onerror="this.src='https://placehold.co/52x52/9c2518/white?text=SZ'">
+    <div class="auth-brand">STORIES <span>ZONE</span></div>
+  </div>
+  <div class="auth-tagline">Author Studio</div>
+
+  <div class="auth-title">Jiunge Nasi</div>
+  <div class="auth-sub">Unda akaunti yako ya mwandishi ili kuanza kupakia hadithi, sauti, na video zako.</div>
+
+  <div class="alert error" id="alertBox">
+    <i class="ti ti-alert-circle"></i>
+    <span id="alertMsg"></span>
+  </div>
+
+  <form id="signupForm" autocomplete="on">
+
+    <!-- ===== AVATAR UPLOAD ===== -->
+    <div class="avatar-upload-wrap">
+      <div id="avatarArea">
+        <label class="avatar-upload" for="avatarFile">
+          <i class="ti ti-camera"></i>
+          <span>Pakia Picha</span>
+        </label>
+        <input type="file" id="avatarFile" accept="image/*" style="display:none" onchange="previewAvatar(this)">
+      </div>
+      <div class="avatar-hint">
+        Picha ya wasifu (hiari) — JPG/PNG. Picha itapunguzwa kiotomatiki.
+      </div>
+      <div class="upload-progress" id="avatarProgress">
+        <div class="upload-progress-bar"><div class="upload-progress-fill" id="avatarProgressFill"></div></div>
+        <div class="upload-progress-text" id="avatarProgressText">0%</div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Jina Lako Kamili *</label>
+      <div class="field-input-wrap">
+        <input class="field-input with-icon" type="text" id="name" placeholder="Mfano: Joshua Mwangi" required autocomplete="name" maxlength="80">
+        <i class="ti ti-user field-icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Barua Pepe *</label>
+      <div class="field-input-wrap">
+        <input class="field-input with-icon" type="email" id="email" placeholder="jina@mfano.com" required autocomplete="email">
+        <i class="ti ti-mail field-icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Nambari ya Simu (Hiari)</label>
+      <div class="field-input-wrap">
+        <input class="field-input with-icon" type="tel" id="phone" placeholder="+255 700 000 000" autocomplete="tel">
+        <i class="ti ti-phone field-icon"></i>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Wasifu Wako (Bio)</label>
+      <textarea class="field-input" id="bio" placeholder="Maelezo mafupi kuhusu wewe kama mwandishi..." rows="4" maxlength="500"></textarea>
+      <div class="pw-strength-text"><span>Eleza uzoefu wako, aina za hadithi unazoandika, n.k.</span><span id="bioCount">0 / 500</span></div>
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>Neno la Siri *</label>
+        <div class="field-input-wrap">
+          <input class="field-input with-icon" type="password" id="password" placeholder="••••••••" required minlength="8" autocomplete="new-password">
+          <button type="button" class="toggle-pw" onclick="togglePassword('password', this)">
+            <i class="ti ti-eye"></i>
+          </button>
+        </div>
+        <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
+        <div class="pw-strength-text"><span id="pwText">Nguvu ya neno la siri</span></div>
+      </div>
+
+      <div class="field">
+        <label>Rudia Neno la Siri *</label>
+        <div class="field-input-wrap">
+          <input class="field-input with-icon" type="password" id="password2" placeholder="••••••••" required autocomplete="new-password">
+          <button type="button" class="toggle-pw" onclick="togglePassword('password2', this)">
+            <i class="ti ti-eye"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="terms">
+      <input type="checkbox" id="agree" required>
+      <label for="agree" style="margin:0;font-weight:400;color:var(--txt2)">
+        Nakubali <a href="terms.html" target="_blank">Masharti ya Matumizi</a> na <a href="privacy.html" target="_blank">Sera ya Faragha</a> ya Stories Zone.
+      </label>
+    </div>
+
+    <button type="submit" class="btn-submit" id="submitBtn">
+      <i class="ti ti-user-plus"></i> <span>Jisajili</span>
+    </button>
+  </form>
+
+  <div class="auth-footer">
+    Una akaunti tayari? <a href="author_login.html">Ingia hapa</a>
+  </div>
+</div>
+
+<script>
+// ==================== CONFIG ====================
+const SB_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+const BACKBLAZE_FN_URL = SB_URL + '/functions/v1/backblaze-storage';
+const H_READ = { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY };
+const H_WRITE = { ...H_READ, 'Prefer':'return=representation' };
+
+// ==================== STATE ====================
+let avatarFile = null;
+let avatarUrl = null;
+
+// ==================== HELPERS ====================
+function showAlert(msg, type='error') {
+  const box = document.getElementById('alertBox');
+  const text = document.getElementById('alertMsg');
+  box.className = 'alert show ' + type;
+  text.textContent = msg;
+  box.querySelector('i').className = type === 'error' ? 'ti ti-alert-circle'
+    : type === 'success' ? 'ti ti-circle-check' : 'ti ti-info-circle';
+  box.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function togglePassword(inputId, btn) {
+  const input = document.getElementById(inputId);
+  const icon = btn.querySelector('i');
+  if (input.type === 'password') { input.type = 'text'; icon.className = 'ti ti-eye-off'; }
+  else { input.type = 'password'; icon.className = 'ti ti-eye'; }
+}
+
+async function sha256Hex(text) {
+  const buf = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+function generateSalt() {
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+async function hashPassword(password, salt) {
+  return await sha256Hex(salt + '::' + password);
+}
+
+// ==================== IMAGE COMPRESSION ====================
+function compressImage(file, maxWidth, maxHeight, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        // Scale down
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        // White background kwa PNG na transparency
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) { reject(new Error('Compression failed')); return; }
+            const compressedFile = new File(
+              [blob],
+              file.name.replace(/\.[^.]+$/, '.jpg'),
+              { type: 'image/jpeg', lastModified: Date.now() }
+            );
+            resolve(compressedFile);
+          },
+          'image/jpeg',
+          quality
+        );
+      };
+      img.onerror = () => reject(new Error('Picha si sahihi'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('Imeshindwa kusoma faili'));
+    reader.readAsDataURL(file);
+  });
+}
+
+// ==================== AVATAR PREVIEW (NA COMPRESSION) ====================
+async function previewAvatar(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // 1. Angalia kama ni picha
+  if (!file.type.startsWith('image/')) {
+    showAlert('Faili lazima liwe picha (JPG, PNG, n.k.).', 'error');
+    input.value = '';
+    return;
+  }
+
+  // 2. Angalia ukubwa wa awali (max 20MB kabla ya compress)
+  if (file.size > 20 * 1024 * 1024) {
+    showAlert('Picha ni kubwa sana. Tumia picha chini ya 20MB.', 'error');
+    input.value = '';
+    return;
+  }
+
+  // 3. Compress picha kwa 500x500 na quality 0.85
+  try {
+    const compressedFile = await compressImage(file, 500, 500, 0.85);
+    avatarFile = compressedFile;
+
+    const originalMB = (file.size / 1024 / 1024).toFixed(2);
+    const compressedKB = (compressedFile.size / 1024).toFixed(0);
+
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('avatarArea').innerHTML = `
+        <div class="avatar-preview">
+          <img src="${e.target.result}" alt="Avatar">
+          <button type="button" class="avatar-remove" onclick="removeAvatar()" title="Ondoa">
+            <i class="ti ti-x"></i>
+          </button>
+        </div>
+        <input type="file" id="avatarFile" accept="image/*" style="display:none" onchange="previewAvatar(this)">`;
+
+      const sizeInfo = compressedFile.size > 1024 * 1024
+        ? `${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`
+        : `${compressedKB} KB`;
+
+      showAlert(`Picha imepunguzwa: ${originalMB} MB → ${sizeInfo}`, 'success');
+    };
+    reader.readAsDataURL(compressedFile);
+  } catch (err) {
+    console.error('Compress error:', err);
+    showAlert('Imeshindwa kupunguza picha. Jaribu picha nyingine.', 'error');
+    input.value = '';
+  }
+}
+
+function removeAvatar() {
+  avatarFile = null;
+  avatarUrl = null;
+  document.getElementById('avatarArea').innerHTML = `
+    <label class="avatar-upload" for="avatarFile">
+      <i class="ti ti-camera"></i>
+      <span>Pakia Picha</span>
+    </label>
+    <input type="file" id="avatarFile" accept="image/*" style="display:none" onchange="previewAvatar(this)">`;
+}
+
+// ==================== UPLOAD AVATAR TO B2 ====================
+async function uploadAvatar(file) {
+  if (!file) return null;
+  const formData = new FormData();
+  formData.append('action', 'upload');
+  formData.append('file', file);
+  formData.append('folder', 'author-avatars');
+
+  const prog = document.getElementById('avatarProgress');
+  const fill = document.getElementById('avatarProgressFill');
+  const text = document.getElementById('avatarProgressText');
+  prog.classList.add('show');
+  fill.style.width = '0%';
+  text.textContent = '0%';
+
+  let pct = 0;
+  const interval = setInterval(() => {
+    pct = Math.min(90, pct + Math.random() * 10 + 5);
+    fill.style.width = pct + '%';
+    text.textContent = Math.floor(pct) + '%';
+  }, 200);
+
+  try {
+    const response = await fetch(`${BACKBLAZE_FN_URL}?action=upload`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${SB_KEY}` },
+      body: formData
+    });
+    const result = await response.json();
+    clearInterval(interval);
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || 'Upload failed');
+    }
+    fill.style.width = '100%';
+    text.textContent = '100%';
+    setTimeout(() => { prog.classList.remove('show'); fill.style.width = '0%'; text.textContent = '0%'; }, 800);
+    return result.url;
+  } catch (err) {
+    clearInterval(interval);
+    prog.classList.remove('show');
+    fill.style.width = '0%';
+    text.textContent = '0%';
+    throw err;
+  }
+}
+
+// ==================== PASSWORD STRENGTH ====================
+function checkPasswordStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+  if (/\d/.test(pw)) score++;
+  if (/[^a-zA-Z0-9]/.test(pw)) score++;
+  const levels = [
+    { w:'0%', color:'var(--red)', label:'Dhaifu sana' },
+    { w:'25%', color:'var(--red)', label:'Dhaifu' },
+    { w:'50%', color:'var(--yellow)', label:'Wastani' },
+    { w:'75%', color:'var(--blue)', label:'Nzuri' },
+    { w:'100%', color:'var(--accent)', label:'Imara sana' }
+  ];
+  return levels[Math.min(score, levels.length - 1)];
+}
+
+document.getElementById('password').addEventListener('input', (e) => {
+  const bar = document.getElementById('pwBar');
+  const text = document.getElementById('pwText');
+  const pw = e.target.value;
+  if (!pw) { bar.style.width = '0%'; text.textContent = 'Nguvu ya neno la siri'; return; }
+  const s = checkPasswordStrength(pw);
+  bar.style.width = s.w;
+  bar.style.background = s.color;
+  text.textContent = s.label;
+});
+
+document.getElementById('bio').addEventListener('input', (e) => {
+  document.getElementById('bioCount').textContent = e.target.value.length + ' / 500';
+});
+
+// ==================== SIGNUP ====================
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim().toLowerCase();
+  const phone = document.getElementById('phone').value.trim();
+  const password = document.getElementById('password').value;
+  const password2 = document.getElementById('password2').value;
+  const bio = document.getElementById('bio').value.trim();
+  const agree = document.getElementById('agree').checked;
+
+  // Validation
+  if (!name || name.length < 2) { showAlert('Tafadhali weka jina lako kamili (angalau herufi 2).', 'error'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showAlert('Barua pepe si sahihi.', 'error'); return; }
+  if (password.length < 8) { showAlert('Neno la siri linahitaji angalau herufi 8.', 'error'); return; }
+  if (password !== password2) { showAlert('Maneno ya siri hayafanani.', 'error'); return; }
+  if (!agree) { showAlert('Tafadhali kubali masharti ya matumizi.', 'error'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> <span>Inasajili...</span>';
+
+  try {
+    // 1. Angalia kama email ipo tayari
+    const checkUrl = SB_URL + '/rest/v1/authors?email=eq.' + encodeURIComponent(email) + '&select=id';
+    const checkRes = await fetch(checkUrl, { headers: H_READ });
+    if (!checkRes.ok) throw new Error('Imeshindwa kuangalia barua pepe. Jaribu tena.');
+    const existing = await checkRes.json();
+    if (Array.isArray(existing) && existing.length > 0) {
+      throw new Error('Barua pepe hii imesajiliwa tayari. Jaribu kuingia au tumia nyingine.');
+    }
+
+    // 2. Upload avatar (kama ipo)
+    if (avatarFile) {
+      btn.innerHTML = '<div class="spinner"></div> <span>Inapakia picha...</span>';
+      try {
+        avatarUrl = await uploadAvatar(avatarFile);
+      } catch (err) {
+        console.warn('Avatar upload failed:', err);
+        showAlert('Picha haikupakiwa: ' + err.message + '. Tutaendelea bila picha.', 'info');
+        avatarUrl = null;
+      }
+      btn.innerHTML = '<div class="spinner"></div> <span>Inasajili...</span>';
+    }
+
+    // 3. Andaa password
+    const salt = generateSalt();
+    const hash = await hashPassword(password, salt);
+
+    // 4. Insert author mpya
+    const insertUrl = SB_URL + '/rest/v1/authors';
+    const payload = {
+      display_name: name,
+      name: name,
+      email: email,
+      password_hash: hash,
+      password_salt: salt,
+      phone: phone || null,
+      bio: bio || null,
+      avatar_url: avatarUrl,
+      status: 'pending'
+    };
+    const res = await fetch(insertUrl, {
+      method: 'POST',
+      headers: H_WRITE,
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+      let msg = 'Imeshindwa kusajili akaunti.';
+      try { const e = await res.json(); msg = e.message || e.details || msg; } catch(x){}
+      throw new Error(msg);
+    }
+
+    // 5. Success
+    showAlert('Akaunti yako imesajiliwa! Bado inasubiri idhini ya admin. Mara itakapoidhinishwa, unaweza kuingia.', 'success');
+
+    setTimeout(() => {
+      window.location.href = 'author_login.html?registered=1&email=' + encodeURIComponent(email);
+    }, 3500);
+
+  } catch (err) {
+    showAlert(err.message || 'Hitilafu isiyojulikana.', 'error');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-user-plus"></i> <span>Jisajili</span>';
+  }
+});
+</script>
+</body>
+</html>

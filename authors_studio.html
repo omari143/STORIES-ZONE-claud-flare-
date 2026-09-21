@@ -1,0 +1,2551 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>STORIES ZONE — Author Studio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0f0f0e;--bg-card:#141414;--bg-sec:#1a1a1a;--bg-ter:#222;
+  --txt:#e8e8e8;--txt2:#999;--txt3:#555;
+  --primary:#9c2518;--primary-h:#b02d1f;--primary-soft:rgba(156,37,24,.15);
+  --accent:#42a781;--accent-soft:rgba(66,167,129,.15);
+  --border:#2a2a2a;--border2:#333;
+  --yellow:#fbbf24;--red:#e74c3c;--blue:#3498db;--purple:#8e44ad;
+  --sidebar:240px;--rad:10px;--rad-sm:6px;--rad-full:999px;
+}
+html{font-size:14px;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:var(--bg);color:var(--txt);min-height:100vh;display:flex;overflow:hidden}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,textarea,select{font-family:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bg-ter);border-radius:3px}
+
+.sidebar{width:var(--sidebar);flex-shrink:0;height:100vh;overflow-y:auto;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:18px 16px;border-bottom:1px solid var(--border)}
+.logo-box{width:34px;height:34px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-box i{font-size:18px;color:#fff}
+.logo-txt{font-size:15px;font-weight:700;line-height:1.1}
+.logo-sub{font-size:10px;color:var(--accent);letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.sidebar-menu{flex:1;padding:12px 0}
+.menu-label{font-size:10px;color:var(--txt3);letter-spacing:.8px;text-transform:uppercase;padding:8px 16px 4px;font-weight:600}
+.menu-item{display:flex;align-items:center;gap:10px;padding:9px 16px;color:var(--txt2);font-size:13px;font-weight:500;cursor:pointer;border-left:3px solid transparent;transition:.15s}
+.menu-item:hover{background:var(--bg-sec);color:var(--txt)}
+.menu-item.active{background:var(--primary-soft);color:var(--primary);border-left-color:var(--primary)}
+.menu-item i{font-size:17px;flex-shrink:0}
+.menu-badge{margin-left:auto;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:var(--rad-full)}
+.sidebar-user{padding:14px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer;transition:.15s}
+.sidebar-user:hover{background:var(--bg-sec)}
+.user-av{width:34px;height:34px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+
+.main{flex:1;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--bg-card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30}
+.page-title{font-size:18px;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.tb-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rad-sm);font-size:13px;font-weight:600;transition:.15s;cursor:pointer;border:none}
+.tb-btn-primary{background:var(--primary);color:#fff}
+.tb-btn-primary:hover{background:var(--primary-h)}
+.tb-btn-ghost{background:var(--bg-sec);color:var(--txt2);border:1px solid var(--border)}
+.tb-btn-ghost:hover{color:var(--txt)}
+.content{flex:1;padding:24px}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);padding:16px;display:flex;flex-direction:column;gap:8px}
+.stat-icon{width:38px;height:38px;border-radius:var(--rad-sm);display:flex;align-items:center;justify-content:center}
+.stat-icon i{font-size:19px}
+.si-red{background:var(--primary-soft);color:var(--primary)}
+.si-green{background:var(--accent-soft);color:var(--accent)}
+.si-blue{background:rgba(52,152,219,.15);color:var(--blue)}
+.si-purple{background:rgba(142,68,173,.15);color:var(--purple)}
+.stat-val{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.stat-lbl{font-size:12px;color:var(--txt2)}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);padding:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sec-title i{font-size:17px;color:var(--txt3)}
+.sec-link{font-size:12px;color:var(--primary);font-weight:600;cursor:pointer}
+
+.table-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);overflow:hidden;margin-bottom:24px}
+.table-toolbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
+.search-mini{display:flex;align-items:center;gap:8px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);padding:0 10px}
+.search-mini i{color:var(--txt3);font-size:15px}
+.search-mini input{background:none;border:none;color:var(--txt);outline:none;padding:7px 0;font-size:13px;width:180px}
+.search-mini input::placeholder{color:var(--txt3)}
+.tbl-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tbl-sel{background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);color:var(--txt);padding:7px 10px;font-size:12px;outline:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+thead th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);transition:.15s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--bg-sec)}
+tbody td{padding:11px 14px;font-size:13px;vertical-align:middle}
+.td-title{font-weight:600}
+.td-muted{color:var(--txt2)}
+.td-actions{display:flex;align-items:center;gap:6px}
+.act-btn{width:28px;height:28px;border-radius:var(--rad-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;border:none}
+.act-btn i{font-size:14px}
+.act-edit{background:rgba(66,167,129,.12);color:var(--accent)}
+.act-edit:hover{background:rgba(66,167,129,.25)}
+.act-add{background:rgba(52,152,219,.12);color:var(--blue)}
+.act-add:hover{background:rgba(52,152,219,.25)}
+.act-view{background:rgba(52,152,219,.12);color:var(--blue)}
+.act-view:hover{background:rgba(52,152,219,.25)}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--rad-full);font-size:11px;font-weight:700}
+.b-green{background:rgba(66,167,129,.15);color:var(--accent)}
+.b-yellow{background:rgba(251,191,36,.12);color:var(--yellow)}
+.b-blue{background:rgba(52,152,219,.12);color:var(--blue)}
+.b-gray{background:var(--bg-ter);color:var(--txt2)}
+.b-orange{background:rgba(230,126,34,.12);color:#e67e22}
+.b-purple{background:rgba(142,68,173,.12);color:var(--purple)}
+.b-optional{background:rgba(52,152,219,.12);color:var(--blue);font-weight:600}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:12px;font-weight:600;color:var(--txt2);letter-spacing:.3px}
+.form-label .opt{color:var(--txt3);font-weight:400;font-size:11px;margin-left:4px}
+.form-inp{background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);color:var(--txt);padding:9px 12px;font-size:13px;outline:none;transition:.15s;width:100%}
+.form-inp:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(156,37,24,.12)}
+.form-inp.fa:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(66,167,129,.12)}
+.form-inp.fp:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(142,68,173,.12)}
+.form-inp::placeholder{color:var(--txt3)}
+textarea.form-inp{resize:vertical;min-height:90px;line-height:1.6}
+select.form-inp{cursor:pointer}
+.form-hint{font-size:11px;color:var(--txt3)}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px;overflow-x:auto}
+.tab{padding:10px 16px;font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer;border-bottom:2px solid transparent;transition:.15s;white-space:nowrap}
+.tab:hover{color:var(--txt)}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab.active.ta{color:var(--accent);border-bottom-color:var(--accent)}
+.tab.active.tp{color:var(--purple);border-bottom-color:var(--purple)}
+
+.toggle-wrap{display:flex;align-items:center;gap:10px;cursor:pointer}
+.toggle{width:38px;height:20px;background:var(--bg-ter);border-radius:10px;position:relative;transition:.2s;flex-shrink:0}
+.toggle::after{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s}
+.toggle.on{background:var(--accent)}
+.toggle.on::after{left:21px}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-bg.show{display:flex;animation:fadeIn .2s ease}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6);animation:slideUp .25s ease}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.modal-hdr h3{font-size:16px;font-weight:700}
+.modal-close{width:30px;height:30px;border-radius:var(--rad-sm);background:var(--bg-sec);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--txt2);border:none;transition:.15s}
+.modal-close:hover{background:var(--red);color:#fff}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;gap:8px}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== ALERT/CONFIRM MODAL ===== */
+.alert-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.alert-modal-bg.show{display:flex;animation:fadeIn .2s ease}
+.alert-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);width:100%;max-width:420px;padding:28px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.7);animation:slideUp .25s ease}
+.alert-icon{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:32px}
+.alert-icon.success{background:var(--accent-soft);color:var(--accent)}
+.alert-icon.error{background:rgba(231,76,60,.15);color:var(--red)}
+.alert-icon.info{background:rgba(52,152,219,.15);color:var(--blue)}
+.alert-icon.warning{background:rgba(251,191,36,.15);color:var(--yellow)}
+.alert-title{font-size:17px;font-weight:700;margin-bottom:8px}
+.alert-message{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:22px;word-wrap:break-word}
+.alert-actions{display:flex;gap:8px;justify-content:center}
+.alert-btn{padding:10px 20px;border-radius:var(--rad-sm);font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.15s;min-width:90px}
+.alert-btn-primary{background:var(--primary);color:#fff}
+.alert-btn-primary:hover{background:var(--primary-h)}
+.alert-btn-ghost{background:var(--bg-sec);color:var(--txt2);border:1px solid var(--border)}
+.alert-btn-ghost:hover{background:var(--bg-ter);color:var(--txt)}
+.alert-btn-danger{background:var(--red);color:#fff}
+.alert-btn-danger:hover{background:#c0392b}
+
+/* ===== PROMPT MODAL (modern) ===== */
+.prompt-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.prompt-modal-bg.show{display:flex;animation:fadeIn .2s ease}
+.prompt-modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.7);animation:slideUp .25s ease}
+.prompt-title{font-size:17px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.prompt-title i{color:var(--primary);font-size:20px}
+.prompt-desc{font-size:13px;color:var(--txt2);margin-bottom:18px;line-height:1.5}
+.prompt-input{width:100%;background:var(--bg-sec);border:1.5px solid var(--border);border-radius:var(--rad-sm);color:var(--txt);padding:11px 14px;font-size:14px;outline:none;transition:.15s;margin-bottom:18px}
+.prompt-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(156,37,24,.15)}
+.prompt-actions{display:flex;gap:8px;justify-content:flex-end}
+
+.upload-area{border:2px dashed var(--border2);border-radius:var(--rad);padding:24px 20px;text-align:center;cursor:pointer;transition:.2s;margin-bottom:14px;display:block}
+.upload-area:hover{border-color:var(--accent);background:var(--accent-soft)}
+.upload-area.vup:hover{border-color:var(--purple);background:rgba(142,68,173,.06)}
+.ua-icon{font-size:28px;color:var(--txt3);display:block;margin-bottom:8px}
+.ua-fmts{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.ua-fmt{padding:2px 8px;background:var(--bg-ter);border-radius:4px;font-size:10px;font-weight:700;color:var(--txt3)}
+
+.cover-upload{width:120px;height:160px;border:2px dashed var(--border2);border-radius:var(--rad);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:.2s;color:var(--txt3);font-size:12px;text-align:center}
+.cover-upload:hover{border-color:var(--primary);color:var(--primary)}
+.cover-preview{width:120px;height:160px;border-radius:var(--rad);overflow:hidden;border:1px solid var(--border);position:relative}
+.cover-preview img{width:100%;height:100%;object-fit:cover}
+.cov-rm{position:absolute;top:4px;right:4px;width:22px;height:22px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:13px;border:none}
+
+.nar-card{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);cursor:pointer;transition:.15s}
+.nar-card:hover{border-color:var(--border2)}
+.nar-card.sel{border-color:var(--accent);background:var(--accent-soft)}
+.nar-av{width:36px;height:36px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.nar-info{flex:1}
+.nar-name{font-size:13px;font-weight:600}
+.nar-lang{font-size:11px;color:var(--txt2)}
+.nar-check{font-size:16px;color:var(--accent);display:none}
+.nar-card.sel .nar-check{display:block}
+
+.settings-section{margin-bottom:24px}
+.settings-section h3{font-size:14px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px}
+.setting-row:last-child{border-bottom:none}
+.setting-info h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.setting-info p{font-size:12px;color:var(--txt2)}
+
+.mli{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.mli:last-child{border-bottom:none}
+.mli-ico{width:32px;height:32px;border-radius:var(--rad-sm);background:var(--bg-sec);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mli-info{flex:1;min-width:0}
+.mli-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mli-sub{font-size:11px;color:var(--txt2)}
+.mli-val{font-size:13px;font-weight:700;color:var(--accent);white-space:nowrap}
+
+.toast{position:fixed;bottom:24px;right:24px;z-index:600;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:13px;min-width:260px;transform:translateY(100px);opacity:0;transition:.3s;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-icon{font-size:18px}
+.toast.success .toast-icon{color:var(--accent)}
+.toast.error .toast-icon{color:var(--red)}
+.toast.info .toast-icon{color:var(--blue)}
+
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--txt3);gap:10px;font-size:13px}
+.spin{animation:spin 1s linear infinite;font-size:20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:40px;color:var(--txt3);font-size:13px}
+
+.page{display:none}
+.page.active{display:block}
+
+.chapter-item{background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.ch-num{width:26px;height:26px;background:var(--primary-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary);flex-shrink:0}
+.add-ch-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;border:1px dashed var(--border2);border-radius:var(--rad-sm);color:var(--txt3);font-size:13px;cursor:pointer;transition:.15s}
+.add-ch-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+.upload-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.upload-overlay.show{display:flex}
+.upload-overlay-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--rad);padding:32px 40px;text-align:center;min-width:320px}
+.upload-overlay-box .spin{font-size:36px;color:var(--accent);margin-bottom:16px;display:block}
+.upload-overlay-box h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.upload-overlay-box p{font-size:13px;color:var(--txt2);margin-bottom:16px}
+.prog-bar{height:6px;background:var(--bg-ter);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;background:var(--accent);width:0%;transition:width .3s}
+.upload-overlay-box .pct-lbl{font-size:12px;color:var(--txt2);margin-top:8px}
+
+@media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.sidebar{display:none}.stats-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-box"><i class="ti ti-book-2"></i></div>
+    <div>
+      <div class="logo-txt">STORIES ZONE</div>
+      <div class="logo-sub">Author Studio</div>
+    </div>
+  </div>
+  <nav class="sidebar-menu">
+    <div class="menu-label">Kuu</div>
+    <div class="menu-item active" data-page="dashboard"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+    <div class="menu-item" data-page="stories"><i class="ti ti-books"></i> Hadithi Zangu <span class="menu-badge" id="badge-stories">0</span></div>
+    <div class="menu-item" data-page="chapters"><i class="ti ti-file-text"></i> Sura Zangu</div>
+    <div class="menu-item" data-page="upload"><i class="ti ti-upload"></i> Pakia Hadithi</div>
+    <div class="menu-label">Sauti &amp; Video</div>
+    <div class="menu-item" data-page="audio"><i class="ti ti-music"></i> Sauti Zangu <span class="menu-badge" id="badge-audio" style="background:var(--accent)">0</span></div>
+    <div class="menu-item" data-page="video"><i class="ti ti-video"></i> Video Zangu <span class="menu-badge" id="badge-video" style="background:var(--purple)">0</span></div>
+    <div class="menu-item" data-page="upload-audio"><i class="ti ti-microphone"></i> Pakia Sauti</div>
+    <div class="menu-item" data-page="upload-video"><i class="ti ti-movie"></i> Pakia Video</div>
+    <div class="menu-label">Watazamaji</div>
+    <div class="menu-item" data-page="comments"><i class="ti ti-message-circle"></i> Maoni <span class="menu-badge" id="badge-comments">0</span></div>
+    <div class="menu-label">Fedha</div>
+    <div class="menu-item" data-page="revenue"><i class="ti ti-currency-dollar"></i> Mapato Yangu</div>
+    <div class="menu-label">Mfumo</div>
+    <div class="menu-item" data-page="narrators"><i class="ti ti-microphone-2"></i> Wasimulizi</div>
+  </nav>
+  <div class="sidebar-user" onclick="confirmLogout()" title="Bonyeza kutoka">
+    <div class="user-av" id="authorAvatar">M</div>
+    <div>
+      <div style="font-size:13px;font-weight:600" id="authorDisplayName">Mwandishi</div>
+      <div style="font-size:11px;color:var(--txt3)">Bonyeza kutoka</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="page-title" id="pageTitle">Dashboard</div>
+    <div class="topbar-right">
+      <button class="tb-btn tb-btn-ghost" onclick="goPage('upload-audio')"><i class="ti ti-microphone"></i> Sauti</button>
+      <button class="tb-btn tb-btn-ghost" onclick="goPage('upload-video')"><i class="ti ti-video"></i> Video</button>
+      <button class="tb-btn tb-btn-primary" onclick="goPage('upload')"><i class="ti ti-plus"></i> Hadithi Mpya</button>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid" id="dashStats"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></div>
+      <div class="grid2">
+        <div class="card">
+          <div class="sec-hdr"><div class="sec-title"><i class="ti ti-flame"></i> Hadithi Zangu Bora</div><span class="sec-link" onclick="goPage('stories')">Ona Zote</span></div>
+          <div id="topStories"><div class="loading"><i class="ti ti-loader spin"></i></div></div>
+        </div>
+        <div class="card">
+          <div class="sec-hdr"><div class="sec-title"><i class="ti ti-coin" style="color:var(--accent)"></i> Mapato ya Hivi Karibuni</div><span class="sec-link" onclick="goPage('revenue')">Ona Yote</span></div>
+          <div id="latestRevenueDash"><div class="loading"><i class="ti ti-loader spin"></i></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-stories">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-mini"><i class="ti ti-search"></i><input type="text" placeholder="Tafuta hadithi..." id="storySearch" oninput="filterStories()"></div>
+          <div class="tbl-actions">
+            <select class="tbl-sel" id="storyStatusFilter" onchange="filterStories()">
+              <option value="">Hali Zote</option>
+              <option value="Inaendelea">Inaendelea</option>
+              <option value="Imekamilika">Imekamilika</option>
+              <option value="Rasimu">Rasimu</option>
+            </select>
+            <button class="tb-btn tb-btn-primary" onclick="goPage('upload')"><i class="ti ti-plus"></i> Ongeza</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Jina</th><th>Aina</th><th>Sura</th><th>Views</th><th>Mapato (TZS)</th><th>Hali</th><th>Vitendo</th></tr></thead>
+            <tbody id="storiesTable"><tr><td colspan="7"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-chapters">
+      <div class="grid2" style="margin-bottom:0">
+        <div>
+          <div class="table-wrap" style="margin-bottom:14px">
+            <div class="table-toolbar"><div class="sec-title" style="font-size:13px"><i class="ti ti-books"></i> Chagua Hadithi Yako</div></div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead><tr><th>Hadithi</th><th>Sura</th><th>Chagua</th></tr></thead>
+                <tbody id="chapStoryList"><tr><td colspan="3"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="sec-hdr">
+              <div class="sec-title" id="chapStoryTitle"><i class="ti ti-file-text"></i> Sura za Hadithi</div>
+              <button class="tb-btn tb-btn-primary" style="padding:6px 12px;font-size:12px" onclick="openAddChapter()"><i class="ti ti-plus"></i> Sura Mpya</button>
+            </div>
+            <div id="chaptersList"><div class="empty"><i class="ti ti-arrow-left" style="font-size:28px;display:block;margin-bottom:8px"></i>Chagua hadithi kushoto</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-upload">
+      <div class="card" style="max-width:800px">
+        <div class="tabs">
+          <div class="tab active" data-tab="ui">Maelezo</div>
+          <div class="tab" data-tab="uc">Jalada</div>
+          <div class="tab" data-tab="uch">Sura</div>
+          <div class="tab" data-tab="us">Mipangilio</div>
+        </div>
+        <div id="tab-ui">
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Jina la Hadithi *</label><input class="form-inp" type="text" id="newTitle" placeholder="Mfano: Siri ya Moyo Wangu"></div>
+            <div class="form-group">
+              <label class="form-label">Mwandishi <span class="opt">(wewe)</span></label>
+              <input class="form-inp" type="text" id="newAuthor" readonly style="background:var(--bg-ter);cursor:not-allowed;color:var(--accent)">
+              <span class="form-hint">Jina lako la mwandishi (halibadiliki)</span>
+            </div>
+            <div class="form-group"><label class="form-label">Aina / Genre *</label><select class="form-inp" id="newGenre"><option value="">-- Chagua Aina --</option></select></div>
+            <div class="form-group"><label class="form-label">Hali ya Hadithi</label><select class="form-inp" id="newStatus"><option value="Rasimu">Rasimu</option><option value="Inaendelea">Inaendelea</option><option value="Imekamilika">Imekamilika</option></select></div>
+            <div class="form-group full"><label class="form-label">Maelezo *</label><textarea class="form-inp" id="newDesc" placeholder="Eleza hadithi hii kwa ufupi..." style="min-height:110px"></textarea></div>
+            <div class="form-group"><label class="form-label">Lebo / Tags</label><input class="form-inp" type="text" id="newTags" placeholder="upendo, drama, Kenya"><span class="form-hint">Tengana lebo kwa koma (,)</span></div>
+            <div class="form-group"><label class="form-label">Lugha</label><select class="form-inp" id="newLang"><option value="sw">Kiswahili</option><option value="en">Kiingereza</option><option value="sw-en">Kiswahili + Kiingereza</option></select></div>
+          </div>
+          <button class="tb-btn tb-btn-primary" onclick="switchTab('upload','uc')">Endelea <i class="ti ti-arrow-right"></i></button>
+        </div>
+        <div id="tab-uc" style="display:none">
+          <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <div id="coverArea">
+              <label class="cover-upload" for="coverFile"><i class="ti ti-photo"></i><span>Bonyeza kupakia</span><span style="font-size:10px">JPG, PNG — Max 2MB</span></label>
+              <input type="file" id="coverFile" accept="image/*" style="display:none" onchange="previewCover(this,'coverArea','coverFile','primary')">
+            </div>
+            <div style="flex:1;min-width:200px">
+              <div class="form-label" style="margin-bottom:8px">Mwongozo wa Jalada</div>
+              <div style="font-size:12px;color:var(--txt2);line-height:1.8">• Ukubwa: 600 × 900px<br>• Muundo: JPG, PNG<br>• Ukubwa wa juu: 2MB</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:20px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchTab('upload','ui')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" onclick="switchTab('upload','uch')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-uch" style="display:none">
+          <div style="background:var(--primary-soft);border:1px solid rgba(156,37,24,.2);border-radius:var(--rad-sm);padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px">
+            <i class="ti ti-info-circle" style="color:var(--primary);font-size:18px;flex-shrink:0"></i>
+            <div style="font-size:12px;color:var(--txt2)">Bonyeza <strong style="color:var(--txt)">"Ongeza Sura Mpya"</strong> kisha andika maudhui ya sura.</div>
+          </div>
+          <div id="newChaptersList"></div>
+          <div class="add-ch-btn" onclick="addChapterRow()"><i class="ti ti-plus"></i> Ongeza Sura Mpya</div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchTab('upload','uc')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" onclick="switchTab('upload','us')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-us" style="display:none">
+          <div class="settings-section">
+            <h3>Upatikanaji</h3>
+            <div class="setting-row"><div class="setting-info"><h4>Hadithi ya Bure</h4><p>Sura zote zinapatikana bila malipo</p></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="storyIsFree"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><h4>Sura za Kwanza Bure</h4></div><input class="form-inp" id="newFreeCh" type="number" value="3" min="0" max="20" style="width:70px;text-align:center"></div>
+            <div class="setting-row"><div class="setting-info"><h4>Bei ya Sura (TSh)</h4></div><input class="form-inp" id="newPrice" type="number" value="500" min="0" style="width:90px"></div>
+          </div>
+          <div class="settings-section">
+            <h3>Uchapishaji</h3>
+            <div class="setting-row"><div class="setting-info"><h4>Chapisha Mara Moja</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="publishNow"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><h4>Ruhusu Maoni</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="allowComments"></div></div></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="tb-btn tb-btn-ghost" onclick="switchTab('upload','uch')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-ghost" onclick="saveStory(false)"><i class="ti ti-file"></i> Hifadhi Rasimu</button>
+            <button class="tb-btn tb-btn-primary" onclick="saveStory(true)"><i class="ti ti-send"></i> Chapisha Hadithi</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-audio">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-mini"><i class="ti ti-search"></i><input type="text" placeholder="Tafuta sauti..." id="audioSearch" oninput="filterAudio()"></div>
+          <div class="tbl-actions">
+            <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="goPage('upload-audio')"><i class="ti ti-plus"></i> Pakia Sauti</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Jina</th><th>Hadithi</th><th>Vipande</th><th>Plays</th><th>Hali</th><th>Vitendo</th></tr></thead>
+            <tbody id="audioTable"><tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-video">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="search-mini"><i class="ti ti-search"></i><input type="text" placeholder="Tafuta video..." id="videoSearch" oninput="filterVideo()"></div>
+          <div class="tbl-actions">
+            <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="goPage('upload-video')"><i class="ti ti-plus"></i> Pakia Video</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Jina</th><th>Hadithi</th><th>Muda</th><th>Views</th><th>Hali</th><th>Vitendo</th></tr></thead>
+            <tbody id="videoTable"><tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-upload-audio">
+      <div class="card" style="max-width:860px">
+        <div style="display:flex;align-items:center;gap:12px;padding:0 0 16px;border-bottom:1px solid var(--border);margin-bottom:20px">
+          <div class="stat-icon si-green" style="width:44px;height:44px"><i class="ti ti-music" style="font-size:22px"></i></div>
+          <div><div style="font-size:16px;font-weight:700">Pakia Simulizi ya Sauti</div><div style="font-size:12px;color:var(--txt2)">Ongeza hadithi kwa muundo wa sauti</div></div>
+          <button class="tb-btn tb-btn-ghost" style="margin-left:auto" onclick="goPage('audio')"><i class="ti ti-arrow-left"></i> Rudi</button>
+        </div>
+        <div class="tabs">
+          <div class="tab active ta" data-atab="ai">Maelezo</div>
+          <div class="tab ta" data-atab="af">Faili ya Sauti</div>
+          <div class="tab ta" data-atab="an">Msomaji</div>
+          <div class="tab ta" data-atab="as">Mipangilio</div>
+        </div>
+        <div id="tab-ai">
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Jina la Simulizi *</label><input class="form-inp fa" type="text" id="auTitle" placeholder="Mfano: Roho ya Pwani — Sauti"></div>
+            <div class="form-group">
+              <label class="form-label">Hadithi Inayohusiana <span class="opt">(hiari)</span></label>
+              <select class="form-inp fa" id="auLinkedStory">
+                <option value="">-- Bila Hadithi (Hiari) --</option>
+              </select>
+              <span class="form-hint">Acha wazi kama hii ni sauti huru</span>
+            </div>
+            <div class="form-group"><label class="form-label">Aina / Genre</label><select class="form-inp fa" id="auGenre"><option value="">-- Chagua Aina --</option></select></div>
+            <div class="form-group"><label class="form-label">Lugha ya Sauti</label><select class="form-inp fa" id="auLang"><option value="sw">Kiswahili</option><option value="en">Kiingereza</option></select></div>
+            <div class="form-group full"><label class="form-label">Maelezo ya Simulizi</label><textarea class="form-inp fa" id="auDesc" placeholder="Eleza simulizi hii kwa ufupi..."></textarea></div>
+            <div class="form-group"><label class="form-label">Jalada la Sauti</label><div id="auCoverArea"><label class="cover-upload" for="auCoverFile" style="border-color:var(--accent);color:var(--accent)"><i class="ti ti-photo"></i><span>Pakia jalada</span></label><input type="file" id="auCoverFile" accept="image/*" style="display:none" onchange="previewCover(this,'auCoverArea','auCoverFile','accent')"></div></div>
+            <div class="form-group"><label class="form-label">Lebo / Tags</label><input class="form-inp fa" type="text" id="auTags" placeholder="sauti, mapenzi, kenya"></div>
+          </div>
+          <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="switchAuTab('af')">Endelea <i class="ti ti-arrow-right"></i></button>
+        </div>
+        <div id="tab-af" style="display:none">
+          <div style="margin-bottom:16px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <label class="form-label">Vipande / Sura za Sauti</label>
+              <button class="tb-btn tb-btn-ghost" style="font-size:12px;padding:5px 10px" onclick="addAudioTrack()"><i class="ti ti-plus"></i> Ongeza Kipande</button>
+            </div>
+            <div id="audioTracksList"></div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchAuTab('ai')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="switchAuTab('an')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-an" style="display:none">
+          <div class="form-label" style="margin-bottom:10px">Chagua Msomaji wa Sauti *</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px" id="audioNarGrid"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia wasomaji...</div></div>
+          <button class="tb-btn tb-btn-ghost" style="font-size:12px;margin-bottom:16px" onclick="openAddNarrator()"><i class="ti ti-user-plus"></i> Ongeza Msomaji Mpya</button>
+          <div style="display:flex;gap:8px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchAuTab('af')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="switchAuTab('as')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-as" style="display:none">
+          <div class="settings-section">
+            <h3>Upatikanaji wa Sauti</h3>
+            <div class="setting-row"><div class="setting-info"><h4>Sauti ya Bure Kabisa</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="auFree"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><h4>Vipande vya Kwanza Bure</h4></div><input class="form-inp" id="auFreeCount" type="number" value="2" min="0" style="width:70px;text-align:center"></div>
+            <div class="setting-row"><div class="setting-info"><h4>Bei ya Kipande (TSh)</h4></div><input class="form-inp" id="auPrice" type="number" value="500" min="0" style="width:90px"></div>
+            <div class="setting-row"><div class="setting-info"><h4>Premium Tu</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle" id="auPremium"></div></div></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="tb-btn tb-btn-ghost" onclick="switchAuTab('an')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-ghost" onclick="saveAudio(false)"><i class="ti ti-file"></i> Hifadhi Rasimu</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="saveAudio(true)"><i class="ti ti-send"></i> Chapisha Sauti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-upload-video">
+      <div class="card" style="max-width:860px">
+        <div style="display:flex;align-items:center;gap:12px;padding:0 0 16px;border-bottom:1px solid var(--border);margin-bottom:20px">
+          <div class="stat-icon si-purple" style="width:44px;height:44px"><i class="ti ti-video" style="font-size:22px"></i></div>
+          <div><div style="font-size:16px;font-weight:700">Pakia Video ya Simulizi</div><div style="font-size:12px;color:var(--txt2)">Ongeza hadithi kwa muundo wa video</div></div>
+          <button class="tb-btn tb-btn-ghost" style="margin-left:auto" onclick="goPage('video')"><i class="ti ti-arrow-left"></i> Rudi</button>
+        </div>
+        <div class="tabs">
+          <div class="tab active tp" data-vtab="vi">Maelezo</div>
+          <div class="tab tp" data-vtab="vf">Faili ya Video</div>
+          <div class="tab tp" data-vtab="vn">Msimulizi</div>
+          <div class="tab tp" data-vtab="vs">Mipangilio</div>
+        </div>
+        <div id="tab-vi">
+          <div class="form-grid">
+            <div class="form-group"><label class="form-label">Jina la Video *</label><input class="form-inp fp" type="text" id="vuTitle" placeholder="Mfano: Roho ya Pwani — Video"></div>
+            <div class="form-group">
+              <label class="form-label">Hadithi Inayohusiana <span class="opt">(hiari)</span></label>
+              <select class="form-inp fp" id="vuLinkedStory">
+                <option value="">-- Bila Hadithi (Hiari) --</option>
+              </select>
+              <span class="form-hint">Acha wazi kama hii ni video huru</span>
+            </div>
+            <div class="form-group"><label class="form-label">Aina / Genre</label><select class="form-inp fp" id="vuGenre"><option value="">-- Chagua Aina --</option></select></div>
+            <div class="form-group"><label class="form-label">Lugha ya Video</label><select class="form-inp fp" id="vuLang"><option value="sw">Kiswahili</option><option value="en">Kiingereza</option></select></div>
+            <div class="form-group full"><label class="form-label">Maelezo ya Video</label><textarea class="form-inp fp" id="vuDesc" placeholder="Eleza video hii kwa ufupi..."></textarea></div>
+            <div class="form-group"><label class="form-label">Muda wa Video</label><input class="form-inp fp" type="text" id="vuDuration" placeholder="Mfano: 45:30"></div>
+            <div class="form-group"><label class="form-label">Ubora (Quality)</label><select class="form-inp fp" id="vuQuality"><option>1080p</option><option>720p</option><option>480p</option></select></div>
+          </div>
+          <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="switchVuTab('vf')">Endelea <i class="ti ti-arrow-right"></i></button>
+        </div>
+        <div id="tab-vf" style="display:none">
+          <label class="upload-area vup" for="vuMainFile" style="cursor:pointer">
+            <i class="ti ti-movie ua-icon" style="color:var(--purple)"></i>
+            <div style="font-size:14px;font-weight:700;margin-bottom:4px">Bonyeza kupakia Video</div>
+            <div style="font-size:12px;color:var(--txt2)">Pakia video yako ya simulizi</div>
+            <div class="ua-fmts"><span class="ua-fmt">MP4</span><span class="ua-fmt">MOV</span><span class="ua-fmt">MKV</span><span class="ua-fmt">WebM</span></div>
+          </label>
+          <input type="file" id="vuMainFile" accept="video/*" style="display:none" onchange="onVideoFileSelected(this)">
+          <div id="vuFileInfo" style="display:none;margin-bottom:12px;padding:10px;background:var(--bg-sec);border-radius:var(--rad-sm);border:1px solid var(--border)">
+            <div style="display:flex;align-items:center;gap:10px">
+              <i class="ti ti-video" style="color:var(--purple);font-size:20px"></i>
+              <div style="flex:1"><div id="vuFileName" style="font-size:13px;font-weight:600"></div><div id="vuFileSize" style="font-size:11px;color:var(--txt2)"></div></div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:16px"><label class="form-label">Picha ya Thumbnail</label><input type="file" class="form-inp" accept="image/*" id="vuThumb"></div>
+          <div style="display:flex;gap:8px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchVuTab('vi')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="switchVuTab('vn')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-vn" style="display:none">
+          <div class="form-label" style="margin-bottom:10px">Chagua Msimulizi wa Video *</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px" id="videoNarGrid"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia wasimulizi...</div></div>
+          <button class="tb-btn tb-btn-ghost" style="font-size:12px;margin-bottom:16px" onclick="openAddNarrator()"><i class="ti ti-user-plus"></i> Ongeza Msimulizi Mpya</button>
+          <div style="display:flex;gap:8px">
+            <button class="tb-btn tb-btn-ghost" onclick="switchVuTab('vf')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="switchVuTab('vs')">Endelea <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+        <div id="tab-vs" style="display:none">
+          <div class="settings-section">
+            <h3>Upatikanaji wa Video</h3>
+            <div class="setting-row"><div class="setting-info"><h4>Video ya Bure Kabisa</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="vuFree"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><h4>Bei ya Kutazama (TSh)</h4></div><input class="form-inp" id="vuPrice" type="number" value="1000" min="0" style="width:90px"></div>
+            <div class="setting-row"><div class="setting-info"><h4>Premium Tu</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle" id="vuPremium"></div></div></div>
+            <div class="setting-row"><div class="setting-info"><h4>Chapisha Mara Moja</h4></div><div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle on" id="vuPublishNow"></div></div></div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="tb-btn tb-btn-ghost" onclick="switchVuTab('vn')"><i class="ti ti-arrow-left"></i> Rudi</button>
+            <button class="tb-btn tb-btn-ghost" onclick="saveVideo(false)"><i class="ti ti-file"></i> Hifadhi Rasimu</button>
+            <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="saveVideo(true)"><i class="ti ti-send"></i> Chapisha Video</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-comments">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="sec-title" style="font-size:13px"><i class="ti ti-message-circle"></i> Maoni kwa Hadithi Zangu</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Msomaji</th><th>Hadithi</th><th>Maoni</th><th>Tarehe</th></tr></thead>
+            <tbody id="commentsTable"><tr><td colspan="4"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-revenue">
+      <div class="stats-grid" id="revStats"><div class="loading"><i class="ti ti-loader spin"></i></div></div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="sec-title" style="font-size:13px"><i class="ti ti-receipt"></i> Mapato kwa Kila Hadithi</div>
+          <button class="tb-btn tb-btn-ghost" onclick="exportRevenueCSV()"><i class="ti ti-download"></i> Export CSV</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Hadithi</th><th>Bei/Sura</th><th>Views</th><th>Manunuzi</th><th>Mapato (TZS)</th></tr></thead>
+            <tbody id="revenueTable"><tr><td colspan="5"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="sec-title" style="font-size:13px"><i class="ti ti-list"></i> Historia ya Manunuzi</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Msomaji</th><th>Hadithi</th><th>Aina</th><th>Kiasi (TZS)</th><th>Tarehe</th><th>Hali</th></tr></thead>
+            <tbody id="purchasesTable"><tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="page-narrators">
+      <div class="table-wrap">
+        <div class="table-toolbar">
+          <div class="sec-title" style="font-size:13px"><i class="ti ti-microphone-2"></i> Wasomaji / Wasimulizi</div>
+          <button class="tb-btn tb-btn-primary" onclick="openAddNarrator()"><i class="ti ti-plus"></i> Ongeza Msimulizi</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>Jina</th><th>Lugha</th><th>Mtindo wa Sauti</th></tr></thead>
+            <tbody id="narratorsTable"><tr><td colspan="3"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="upload-overlay" id="uploadOverlay">
+  <div class="upload-overlay-box">
+    <i class="ti ti-loader spin"></i>
+    <h3 id="overlayTitle">Inapakia...</h3>
+    <p id="overlayDesc">Tafadhali subiri...</p>
+    <div class="prog-bar"><div class="prog-fill" id="overlayFill" style="width:0%"></div></div>
+    <div class="pct-lbl" id="overlayPct">0%</div>
+  </div>
+</div>
+
+<!-- ===== MODERN ALERT MODAL ===== -->
+<div class="alert-modal-bg" id="alertModal">
+  <div class="alert-modal">
+    <div class="alert-icon info" id="alertIcon"><i class="ti ti-info-circle"></i></div>
+    <div class="alert-title" id="alertTitle">Taarifa</div>
+    <div class="alert-message" id="alertMessage">Ujumbe hapa</div>
+    <div class="alert-actions" id="alertActions">
+      <button class="alert-btn alert-btn-primary" onclick="closeAlert()">Sawa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODERN PROMPT MODAL ===== -->
+<div class="prompt-modal-bg" id="promptModal">
+  <div class="prompt-modal">
+    <div class="prompt-title"><i class="ti ti-edit" id="promptIcon"></i> <span id="promptTitle">Ingiza</span></div>
+    <div class="prompt-desc" id="promptDesc">Tafadhali ingiza thamani:</div>
+    <input class="prompt-input" id="promptInput" type="text">
+    <div class="prompt-actions">
+      <button class="alert-btn alert-btn-ghost" onclick="closePrompt(false)">Ghairi</button>
+      <button class="alert-btn alert-btn-primary" onclick="closePrompt(true)">Sawa</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalChapter">
+  <div class="modal">
+    <div class="modal-hdr"><h3 id="chModalTitle">Ongeza Sura</h3><button class="modal-close" onclick="closeModal('modalChapter')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="chapterId">
+      <div class="form-group"><label class="form-label">Kichwa cha Sura *</label><input class="form-inp" type="text" id="chTitle" placeholder="Mfano: Mkutano wa Kwanza"></div>
+      <div class="form-group"><label class="form-label">Nambari ya Sura *</label><input class="form-inp" type="number" id="chNum" value="1" min="1"></div>
+      <div class="form-group"><label class="form-label">Maudhui ya Sura</label><textarea class="form-inp" id="chContent" placeholder="Andika maudhui..." style="min-height:200px;line-height:1.8"></textarea></div>
+      <div class="form-group">
+        <label class="form-label">Aina ya Upatikanaji</label>
+        <select class="form-inp" id="chAccess" onchange="toggleChapterPrice(this.value)">
+          <option value="free">Bure (Bila Malipo)</option>
+          <option value="paid">Inayolipwa</option>
+          <option value="premium">Premium Tu</option>
+        </select>
+      </div>
+      <div class="form-group" id="chPriceGroup" style="display:none">
+        <label class="form-label">Bei (TSh)</label>
+        <input class="form-inp" type="number" id="chPrice" placeholder="Mfano: 500" min="0">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalChapter')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" onclick="saveChapter()"><i class="ti ti-check"></i> Hifadhi Sura</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalAddChapterToStory">
+  <div class="modal" style="max-width:750px">
+    <div class="modal-hdr">
+      <h3 id="addChStoryTitle"><i class="ti ti-file-plus"></i> Ongeza Sura Mpya</h3>
+      <button class="modal-close" onclick="closeModal('modalAddChapterToStory')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="addChStoryId">
+      <div id="addChStoryInfo" style="background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--txt2)"></div>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label" style="margin:0"><i class="ti ti-list"></i> Sura Zilizopo</label>
+          <button class="tb-btn tb-btn-ghost" style="font-size:11px;padding:4px 10px" onclick="toggleExistingChapters()"><i class="ti ti-eye" id="toggleChIcon"></i> <span id="toggleChText">Onyesha</span></button>
+        </div>
+        <div id="existingChaptersList" style="display:none;max-height:200px;overflow-y:auto;background:var(--bg-ter);border:1px solid var(--border);border-radius:var(--rad-sm);padding:8px">
+          <div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Kichwa cha Sura *</label><input class="form-inp" type="text" id="addChTitle" placeholder="Mfano: Sura ya Kumi"></div>
+      <div class="form-group"><label class="form-label">Nambari ya Sura *</label><input class="form-inp" type="number" id="addChNum" min="1"></div>
+      <div class="form-group">
+        <label class="form-label">Aina ya Upatikanaji</label>
+        <select class="form-inp" id="addChAccess" onchange="toggleAddChPrice(this.value)">
+          <option value="free">Bure (Bila Malipo)</option>
+          <option value="paid">Inayolipwa</option>
+          <option value="premium">Premium Tu</option>
+        </select>
+      </div>
+      <div class="form-group" id="addChPriceGroup" style="display:none">
+        <label class="form-label">Bei (TSh)</label>
+        <input class="form-inp" type="number" id="addChPrice" placeholder="Mfano: 500" min="0">
+      </div>
+      <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <label class="form-label">Maudhui ya Sura</label>
+          <span id="addChWordCount" style="font-size:11px;color:var(--txt3)">0 maneno</span>
+        </div>
+        <textarea class="form-inp" id="addChContent" placeholder="Andika au paste maudhui..." style="min-height:260px;line-height:1.9;font-size:13.5px;resize:vertical" oninput="countWordsEl(this,'addChWordCount')"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalAddChapterToStory')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" onclick="saveChapterToExistingStory()"><i class="ti ti-check"></i> Hifadhi Sura</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalEditStory">
+  <div class="modal" style="max-width:820px">
+    <div class="modal-hdr">
+      <h3 id="editStoryTitleHdr"><i class="ti ti-edit"></i> Hariri Hadithi</h3>
+      <button class="modal-close" onclick="closeModal('modalEditStory')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editStoryId">
+      <div class="form-group">
+        <label class="form-label"><i class="ti ti-photo"></i> Jalada la Hadithi</label>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <div id="editStoryCoverArea" style="flex-shrink:0">
+            <label class="cover-upload" for="editStoryCoverFile"><i class="ti ti-photo"></i><span>Bonyeza kupakia</span></label>
+            <input type="file" id="editStoryCoverFile" accept="image/*" style="display:none" onchange="previewCover(this,'editStoryCoverArea','editStoryCoverFile','primary')">
+          </div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Jina la Hadithi *</label><input class="form-inp" type="text" id="editStoryTitle"></div>
+        <div class="form-group"><label class="form-label">Mwandishi *</label><input class="form-inp" type="text" id="editStoryAuthor" readonly style="background:var(--bg-ter)"></div>
+        <div class="form-group"><label class="form-label">Aina *</label><select class="form-inp" id="editStoryGenre"></select></div>
+        <div class="form-group"><label class="form-label">Hali</label><select class="form-inp" id="editStoryStatus">
+          <option value="Rasimu">Rasimu</option>
+          <option value="Inaendelea">Inaendelea</option>
+          <option value="Imekamilika">Imekamilika</option>
+        </select></div>
+        <div class="form-group"><label class="form-label">Lugha</label><select class="form-inp" id="editStoryLang">
+          <option value="Swahili">Swahili</option>
+          <option value="English">English</option>
+        </select></div>
+        <div class="form-group"><label class="form-label">Tags</label><input class="form-inp" type="text" id="editStoryTags" placeholder="mapenzi, ushujaa"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Maelezo *</label><textarea class="form-inp" id="editStoryDesc" style="min-height:100px"></textarea></div>
+      <div style="background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--txt);margin-bottom:10px"><i class="ti ti-coin"></i> Bei / Upatikanaji</div>
+        <div class="setting-row"><div class="setting-info"><h4>Hadithi ya Bure</h4></div>
+          <div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle" id="editStoryIsFree"></div></div>
+        </div>
+        <div class="setting-row"><div class="setting-info"><h4>Sura za Kwanza Bure</h4></div>
+          <input class="form-inp" id="editStoryFreeCh" type="number" min="0" max="50" style="width:80px;text-align:center">
+        </div>
+        <div class="setting-row"><div class="setting-info"><h4>Bei ya Sura (TSh)</h4></div>
+          <input class="form-inp" id="editStoryPrice" type="number" min="0" style="width:100px">
+        </div>
+        <div class="setting-row"><div class="setting-info"><h4>Ruhusu Maoni</h4></div>
+          <div class="toggle-wrap" onclick="this.querySelector('.toggle').classList.toggle('on')"><div class="toggle" id="editStoryAllowComments"></div></div>
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label" style="margin:0"><i class="ti ti-list"></i> Sura Zilizopo</label>
+          <button class="tb-btn tb-btn-primary" style="font-size:11px;padding:6px 12px" onclick="openAddChapterFromEdit()"><i class="ti ti-plus"></i> Ongeza Sura Mpya</button>
+        </div>
+        <div id="editStoryChaptersList" style="max-height:280px;overflow-y:auto;background:var(--bg-ter);border:1px solid var(--border);border-radius:var(--rad-sm);padding:8px">
+          <div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalEditStory')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" onclick="saveEditedStory()"><i class="ti ti-device-floppy"></i> Hifadhi Mabadiliko</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalEditAudio">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-hdr">
+      <h3><i class="ti ti-edit"></i> Hariri Podcast</h3>
+      <button class="modal-close" onclick="closeModal('modalEditAudio')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editAudioId">
+      <div class="form-group"><label class="form-label">Jina la Podcast *</label><input class="form-inp" type="text" id="editAudioTitle"></div>
+      <div class="form-group"><label class="form-label">Maelezo</label><textarea class="form-inp" id="editAudioDesc" style="min-height:80px"></textarea></div>
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Lugha</label>
+          <select class="form-inp" id="editAudioLang">
+            <option value="sw">Kiswahili</option><option value="en">Kiingereza</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Bei kwa Kipande (TSh)</label><input class="form-inp" type="number" id="editAudioPrice" min="0"></div>
+        <div class="form-group"><label class="form-label">Vipande Bure vya Kwanza</label><input class="form-inp" type="number" id="editAudioFreeCount" min="0"></div>
+        <div class="form-group"><label class="form-label">Hali</label>
+          <select class="form-inp" id="editAudioStatus">
+            <option value="Imechapishwa">Imechapishwa</option>
+            <option value="Rasimu">Rasimu</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalEditAudio')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" style="background:var(--blue)" onclick="saveEditAudio()"><i class="ti ti-check"></i> Hifadhi Mabadiliko</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalAddAudioTrack">
+  <div class="modal" style="max-width:650px">
+    <div class="modal-hdr">
+      <h3 id="addAudioTrackTitle"><i class="ti ti-music"></i> Ongeza Kipande cha Sauti</h3>
+      <button class="modal-close" onclick="closeModal('modalAddAudioTrack')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="addAudioItemId">
+      <input type="hidden" id="addAudioStoryId">
+      <div id="addAudioItemInfo" style="background:var(--accent-soft);border:1px solid rgba(66,167,129,.3);border-radius:var(--rad-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--txt2)"></div>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label" style="margin:0"><i class="ti ti-list"></i> Vipande Vilivyopo</label>
+          <button class="tb-btn tb-btn-ghost" style="font-size:11px;padding:4px 10px" onclick="toggleExistingAudioTracks()"><i class="ti ti-eye" id="toggleAudioIcon"></i> <span id="toggleAudioText">Onyesha</span></button>
+        </div>
+        <div id="existingAudioTracksList" style="display:none;max-height:180px;overflow-y:auto;background:var(--bg-ter);border:1px solid var(--border);border-radius:var(--rad-sm);padding:8px">
+          <div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Kichwa cha Kipande *</label><input class="form-inp fa" type="text" id="addAudioChTitle" placeholder="Mfano: Sehemu ya Kwanza"></div>
+      <div class="form-group"><label class="form-label">Nambari ya Kipande *</label><input class="form-inp fa" type="number" id="addAudioChNum" min="1"></div>
+      <div class="form-group">
+        <label class="form-label">Aina ya Upatikanaji</label>
+        <select class="form-inp fa" id="addAudioChAccess" onchange="toggleAddAudioPrice(this.value)">
+          <option value="free">Bure (Bila Malipo)</option>
+          <option value="paid">Inayolipwa</option>
+          <option value="premium">Premium Tu</option>
+        </select>
+      </div>
+      <div class="form-group" id="addAudioPriceGroup" style="display:none">
+        <label class="form-label">Bei (TSh)</label>
+        <input class="form-inp fa" type="number" id="addAudioPrice" placeholder="Mfano: 500" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Faili ya Sauti ya Kipande</label>
+        <label class="upload-area" for="addAudioChFile" style="cursor:pointer;padding:16px;margin-bottom:0;border-color:rgba(66,167,129,.4)">
+          <i class="ti ti-file-music" style="font-size:24px;color:var(--accent);display:block;margin-bottom:6px"></i>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">Bonyeza kupakia faili ya sauti</div>
+          <div class="ua-fmts"><span class="ua-fmt">MP3</span><span class="ua-fmt">AAC</span><span class="ua-fmt">WAV</span><span class="ua-fmt">M4A</span></div>
+        </label>
+        <input type="file" id="addAudioChFile" accept="audio/*" style="display:none" onchange="onAddAudioChFileSelected(this)">
+        <div id="addAudioChFileInfo" style="display:none;margin-top:8px;padding:8px 12px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);font-size:12px;color:var(--accent)"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Maelezo ya Kipande</label>
+        <textarea class="form-inp fa" id="addAudioChDesc" placeholder="Maelezo mafupi..." style="min-height:70px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalAddAudioTrack')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" style="background:var(--accent)" onclick="saveAudioTrackToExistingItem()"><i class="ti ti-check"></i> Hifadhi Kipande</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalAddVideoTrack">
+  <div class="modal" style="max-width:650px">
+    <div class="modal-hdr">
+      <h3 id="addVideoTrackTitle"><i class="ti ti-video"></i> Ongeza Kipande cha Video</h3>
+      <button class="modal-close" onclick="closeModal('modalAddVideoTrack')">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="addVideoItemId">
+      <input type="hidden" id="addVideoStoryId">
+      <div id="addVideoItemInfo" style="background:rgba(142,68,173,.1);border:1px solid rgba(142,68,173,.3);border-radius:var(--rad-sm);padding:10px 14px;margin-bottom:16px;font-size:12px;color:var(--txt2)"></div>
+      <div style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <label class="form-label" style="margin:0"><i class="ti ti-list"></i> Vipande Vilivyopo</label>
+          <button class="tb-btn tb-btn-ghost" style="font-size:11px;padding:4px 10px" onclick="toggleExistingVideoTracks()"><i class="ti ti-eye" id="toggleVideoIcon"></i> <span id="toggleVideoText">Onyesha</span></button>
+        </div>
+        <div id="existingVideoTracksList" style="display:none;max-height:180px;overflow-y:auto;background:var(--bg-ter);border:1px solid var(--border);border-radius:var(--rad-sm);padding:8px">
+          <div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Kichwa cha Kipande *</label><input class="form-inp fp" type="text" id="addVideoChTitle" placeholder="Mfano: Sehemu ya Kwanza"></div>
+      <div class="form-group"><label class="form-label">Nambari ya Kipande *</label><input class="form-inp fp" type="number" id="addVideoChNum" min="1"></div>
+      <div class="form-group">
+        <label class="form-label">Aina ya Upatikanaji</label>
+        <select class="form-inp fp" id="addVideoChAccess" onchange="toggleAddVideoPrice(this.value)">
+          <option value="free">Bure (Bila Malipo)</option>
+          <option value="paid">Inayolipwa</option>
+          <option value="premium">Premium Tu</option>
+        </select>
+      </div>
+      <div class="form-group" id="addVideoPriceGroup" style="display:none">
+        <label class="form-label">Bei (TSh)</label>
+        <input class="form-inp fp" type="number" id="addVideoPrice" placeholder="Mfano: 500" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Faili ya Video ya Kipande</label>
+        <label class="upload-area vup" for="addVideoChFile" style="cursor:pointer;padding:16px;margin-bottom:0;border-color:rgba(142,68,173,.4)">
+          <i class="ti ti-movie" style="font-size:24px;color:var(--purple);display:block;margin-bottom:6px"></i>
+          <div style="font-size:13px;font-weight:600;margin-bottom:2px">Bonyeza kupakia faili ya video</div>
+          <div class="ua-fmts"><span class="ua-fmt">MP4</span><span class="ua-fmt">MOV</span><span class="ua-fmt">MKV</span><span class="ua-fmt">WebM</span></div>
+        </label>
+        <input type="file" id="addVideoChFile" accept="video/*" style="display:none" onchange="onAddVideoChFileSelected(this)">
+        <div id="addVideoChFileInfo" style="display:none;margin-top:8px;padding:8px 12px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);font-size:12px;color:var(--purple)"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Muda wa Kipande</label><input class="form-inp fp" type="text" id="addVideoChDuration" placeholder="Mfano: 12:30"></div>
+      <div class="form-group">
+        <label class="form-label">Maelezo ya Kipande</label>
+        <textarea class="form-inp fp" id="addVideoChDesc" placeholder="Maelezo mafupi..." style="min-height:70px"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalAddVideoTrack')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" style="background:var(--purple)" onclick="saveVideoTrackToExistingItem()"><i class="ti ti-check"></i> Hifadhi Kipande</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalNarrator">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-hdr"><h3>Ongeza Msimulizi Mpya</h3><button class="modal-close" onclick="closeModal('modalNarrator')">×</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label class="form-label">Jina Kamili *</label><input class="form-inp" type="text" id="narName" placeholder="Mfano: Fatuma Hassan"></div>
+      <div class="form-group"><label class="form-label">Herufi ya Avatar</label><input class="form-inp" type="text" id="narLetter" placeholder="F" maxlength="1" style="text-transform:uppercase"></div>
+      <div class="form-group"><label class="form-label">Lugha</label><input class="form-inp" type="text" id="narLang" placeholder="Kiswahili"></div>
+      <div class="form-group"><label class="form-label">Mtindo wa Sauti</label><input class="form-inp" type="text" id="narStyle" placeholder="Mfano: Sauti ya Dhahabu"></div>
+      <div class="form-group"><label class="form-label">Wasifu (Bio)</label><textarea class="form-inp" id="narBio" placeholder="Maelezo kuhusu msimulizi..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="tb-btn tb-btn-ghost" onclick="closeModal('modalNarrator')">Ghairi</button>
+      <button class="tb-btn tb-btn-primary" onclick="addNarrator()"><i class="ti ti-check"></i> Ongeza Msimulizi</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon" id="toastIcon"></span><span id="toastMsg"></span></div>
+
+<script>
+// ==================== MODERN ALERT & PROMPT ====================
+function showAlert(opts) {
+  return new Promise(resolve => {
+    const bg = document.getElementById('alertModal');
+    const icon = document.getElementById('alertIcon');
+    const title = document.getElementById('alertTitle');
+    const message = document.getElementById('alertMessage');
+    const actions = document.getElementById('alertActions');
+
+    const type = opts.type || 'info';
+    const icons = { success:'ti-circle-check', error:'ti-alert-circle', info:'ti-info-circle', warning:'ti-alert-triangle', confirm:'ti-help-circle' };
+    icon.className = 'alert-icon ' + (type === 'confirm' ? 'warning' : type);
+    icon.innerHTML = `<i class="ti ${icons[type] || icons.info}"></i>`;
+    title.textContent = opts.title || (type === 'confirm' ? 'Thibitisha' : 'Taarifa');
+    message.textContent = opts.message || '';
+
+    if (type === 'confirm') {
+      actions.innerHTML = `
+        <button class="alert-btn alert-btn-ghost" id="alertCancelBtn">${opts.cancelText || 'Ghairi'}</button>
+        <button class="alert-btn ${opts.danger ? 'alert-btn-danger' : 'alert-btn-primary'}" id="alertOkBtn">${opts.okText || 'Ndio'}</button>`;
+      actions.querySelector('#alertCancelBtn').onclick = () => { bg.classList.remove('show'); resolve(false); };
+      actions.querySelector('#alertOkBtn').onclick = () => { bg.classList.remove('show'); resolve(true); };
+    } else {
+      actions.innerHTML = `<button class="alert-btn alert-btn-primary" id="alertOkBtn">${opts.okText || 'Sawa'}</button>`;
+      actions.querySelector('#alertOkBtn').onclick = () => { bg.classList.remove('show'); resolve(true); };
+    }
+    bg.classList.add('show');
+  });
+}
+function closeAlert() { document.getElementById('alertModal').classList.remove('show'); }
+
+function showPrompt(opts) {
+  return new Promise(resolve => {
+    const bg = document.getElementById('promptModal');
+    const title = document.getElementById('promptTitle');
+    const desc = document.getElementById('promptDesc');
+    const input = document.getElementById('promptInput');
+    const icon = document.getElementById('promptIcon');
+    title.textContent = opts.title || 'Ingiza';
+    desc.textContent = opts.message || 'Tafadhali ingiza thamani:';
+    input.value = opts.value || '';
+    input.type = opts.inputType || 'text';
+    input.placeholder = opts.placeholder || '';
+    icon.className = 'ti ' + (opts.icon || 'ti-edit');
+    bg.classList.add('show');
+    setTimeout(() => { input.focus(); input.select(); }, 100);
+
+    window._promptResolve = resolve;
+    window._promptBg = bg;
+  });
+}
+function closePrompt(ok) {
+  const bg = window._promptBg;
+  const resolve = window._promptResolve;
+  if (bg) bg.classList.remove('show');
+  if (resolve) {
+    const val = ok ? document.getElementById('promptInput').value : null;
+    resolve(val);
+  }
+  window._promptResolve = null;
+  window._promptBg = null;
+}
+
+// ==================== AUTHOR AUTH ====================
+const AUTHOR_SESSION_KEY = 'sz_author_session';
+let currentAuthor = '';
+let currentAuthorId = '';
+
+function getAuthorSession() {
+  try {
+    const raw = localStorage.getItem(AUTHOR_SESSION_KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    if (!s || !s.user_id || !s.author_name) return null;
+    if (s.logged_at && (Date.now() - s.logged_at) > 30*24*60*60*1000) {
+      localStorage.removeItem(AUTHOR_SESSION_KEY);
+      return null;
+    }
+    return s;
+  } catch(e) { return null; }
+}
+
+function redirectToLogin(reason) {
+  try { localStorage.removeItem(AUTHOR_SESSION_KEY); } catch(e){}
+  const url = 'author_login.html' + (reason ? '?error='+encodeURIComponent(reason) : '');
+  window.location.replace(url);
+}
+
+async function verifyAuthorSession() {
+  const s = getAuthorSession();
+  if (!s) {
+    redirectToLogin('session_missing');
+    return false;
+  }
+  currentAuthor = s.author_name;
+  currentAuthorId = s.user_id;
+
+  try {
+    const url = SB_URL + '/rest/v1/authors?id=eq.' + encodeURIComponent(s.user_id) + '&select=id,name,email,status';
+    const res = await fetch(url, { headers: H_READ });
+    if (!res.ok) {
+      redirectToLogin('auth_check_failed');
+      return false;
+    }
+    const rows = await res.json();
+    if (!Array.isArray(rows) || rows.length === 0) {
+      redirectToLogin('author_not_found');
+      return false;
+    }
+    const author = rows[0];
+    if (author.status && author.status !== 'active') {
+      redirectToLogin('account_inactive');
+      return false;
+    }
+    currentAuthor = author.name || s.author_name;
+    currentAuthorId = author.id;
+    localStorage.setItem(AUTHOR_SESSION_KEY, JSON.stringify({
+      user_id: author.id,
+      author_name: currentAuthor,
+      email: author.email,
+      logged_at: s.logged_at || Date.now()
+    }));
+    return true;
+  } catch(e) {
+    console.warn('verifyAuthorSession network error:', e);
+    return true;
+  }
+}
+
+function updateAuthorUI() {
+  const n = document.getElementById('authorDisplayName');
+  const a = document.getElementById('authorAvatar');
+  if (n) n.textContent = currentAuthor;
+  if (a) a.textContent = (currentAuthor.trim()[0] || 'M').toUpperCase();
+  const inp = document.getElementById('newAuthor');
+  if (inp) { inp.value = currentAuthor; inp.readOnly = true; }
+}
+
+async function confirmLogout() {
+  const ok = await showAlert({
+    type: 'confirm',
+    title: 'Toka kwenye Studio?',
+    message: 'Utarudi kwenye ukurasa wa kuingia. Una uhakika?',
+    okText: 'Ndio, Toka',
+    cancelText: 'Ghairi',
+    danger: true
+  });
+  if (ok) {
+    localStorage.removeItem(AUTHOR_SESSION_KEY);
+    window.location.replace('author_login.html');
+  }
+}
+
+// ==================== SUPABASE ====================
+const SB_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+const H_READ = { 'Content-Type':'application/json', 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY };
+const H_WRITE = { ...H_READ, 'Prefer':'return=representation' };
+const H_WRITE_MIN = { ...H_READ, 'Prefer':'return=minimal' };
+
+async function sbFetch(path, opts = {}) {
+  const url = SB_URL + '/rest/v1/' + path;
+  const res = await fetch(url, {
+    method: opts.method || 'GET',
+    headers: opts.write ? H_WRITE : opts.writeMin ? H_WRITE_MIN : H_READ,
+    body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined
+  });
+  if (!res.ok) { let msg='Hitilafu'; try{const e=await res.json();msg=e.message||e.details||msg;}catch(x){} throw new Error(msg); }
+  if (opts.writeMin || res.status === 204) return null;
+  return res.json();
+}
+async function sbSelect(table, { select='*', filters=[], order, limit }={}) {
+  let q = table + '?select=' + encodeURIComponent(select);
+  filters.forEach(f => { q += '&' + f; });
+  if (order) q += '&order=' + order;
+  if (limit) q += '&limit=' + limit;
+  try { const rows = await sbFetch(q); return Array.isArray(rows) ? rows : []; }
+  catch(e) { console.error('sbSelect error ('+table+'):', e); return []; }
+}
+function sbInsert(t,b){ return sbFetch(t,{method:'POST',body:b,write:true}); }
+function sbUpdate(t,id,b){ return sbFetch(t+'?id=eq.'+id,{method:'PATCH',body:b,writeMin:true}); }
+
+// ==================== B2 UPLOAD ====================
+const BACKBLAZE_FN_URL = `${SB_URL}/functions/v1/backblaze-storage`;
+
+async function uploadToStorage(file, bucket, folder='') {
+  if (!file) return null;
+  const formData = new FormData();
+  formData.append('action', 'upload');
+  formData.append('file', file);
+  formData.append('folder', folder || bucket || 'general');
+  const response = await fetch(`${BACKBLAZE_FN_URL}?action=upload`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${SB_KEY}` },
+    body: formData
+  });
+  const result = await response.json();
+  if (!response.ok || !result.success) throw new Error(result.error || 'Upload failed');
+  return result.url;
+}
+async function deleteFromStorage(fileUrl) {
+  if (!fileUrl) return;
+  try {
+    let key = null;
+    const wm = 'b2-proxy.omarisalim144.workers.dev/';
+    const wi = fileUrl.indexOf(wm);
+    if (wi !== -1) key = fileUrl.substring(wi + wm.length);
+    else {
+      const bm = '.backblazeb2.com/';
+      const bi = fileUrl.indexOf(bm);
+      if (bi !== -1) { key = fileUrl.substring(bi + bm.length); if (key.startsWith('storieszone-storage/')) key = key.substring('storieszone-storage/'.length); }
+    }
+    if (!key) return;
+    const fd = new FormData(); fd.append('action','delete'); fd.append('key',key);
+    await fetch(`${BACKBLAZE_FN_URL}?action=delete`, { method:'POST', headers:{'Authorization':`Bearer ${SB_KEY}`}, body:fd });
+  } catch(e) { console.error('Delete failed:', e); }
+}
+function showUploadOverlay(title, desc, pct) {
+  document.getElementById('overlayTitle').textContent = title;
+  document.getElementById('overlayDesc').textContent = desc || 'Tafadhali subiri...';
+  document.getElementById('overlayFill').style.width = (pct||0) + '%';
+  document.getElementById('overlayPct').textContent = (pct||0) + '%';
+  document.getElementById('uploadOverlay').classList.add('show');
+}
+function hideUploadOverlay() { document.getElementById('uploadOverlay').classList.remove('show'); }
+
+// ==================== STATE ====================
+let currentPage = 'dashboard';
+let allStories = [], allAudio = [], allVideo = [], allNarrators = [], allGenres = [];
+let storyRevenue = {};
+let selectedNarratorId = null;
+let activeChapterStoryId = null;
+let coverFiles = {};
+let selectedVideoFile = null;
+let addAudioChFileSelected = null, addVideoChFileSelected = null;
+
+const pageTitles = {
+  dashboard:'Dashboard', stories:'Hadithi Zangu', chapters:'Sura Zangu',
+  upload:'Pakia Hadithi Mpya', comments:'Maoni', revenue:'Mapato Yangu',
+  narrators:'Wasimulizi', audio:'Sauti Zangu', video:'Video Zangu',
+  'upload-audio':'Pakia Sauti', 'upload-video':'Pakia Video'
+};
+
+// ==================== NAVIGATION ====================
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+  const pg = document.getElementById('page-'+id);
+  const mi = document.querySelector('[data-page="'+id+'"]');
+  if (pg) pg.classList.add('active');
+  if (mi) mi.classList.add('active');
+  document.getElementById('pageTitle').textContent = pageTitles[id] || id;
+  currentPage = id;
+  loadPage(id);
+}
+document.querySelectorAll('.menu-item').forEach(item => item.addEventListener('click', () => goPage(item.dataset.page)));
+
+async function loadPage(id) {
+  currentPage = id;
+  updateAuthorUI();
+  const map = {
+    dashboard: loadDashboard, stories: loadStories, chapters: loadChapterStories,
+    audio: loadAudio, video: loadVideo, comments: loadComments, revenue: loadRevenue,
+    narrators: loadNarrators, upload: prepareUploadForm,
+    'upload-audio': prepareAudioUploadForm, 'upload-video': prepareVideoUploadForm
+  };
+  if (map[id]) await map[id]();
+}
+
+// ==================== LOAD AUTHOR STORIES ====================
+// Kwanza tunajaribu kwa author_user_id (kitambulisho cha kipekee cha mwandishi)
+// Kama database ina column hiyo na tumehifadhi, itafanya kazi 100%.
+// Kama hadithi za zamani hazina author_user_id, tunarudi kwa author (jina) kwa fallback.
+async function loadMyStories() {
+  // Njia ya 1: kwa author_user_id
+  if (currentAuthorId) {
+    try {
+      const byId = await sbSelect('stories', {
+        select:'id,title,author,author_user_id,status,total_reads,chapters_count,has_audio,has_video,genre_id,cover_image_url,price_per_chapter,is_free,genres!stories_genre_id_fkey(name,emoji)',
+        filters:['author_user_id=eq.'+encodeURIComponent(currentAuthorId)],
+        order:'created_at.desc'
+      });
+      if (Array.isArray(byId) && byId.length > 0) {
+        console.log('[loadMyStories] Found', byId.length, 'by author_user_id');
+        return byId;
+      }
+    } catch(e) { console.warn('author_user_id lookup failed:', e.message); }
+  }
+
+  // Njia ya 2 (fallback): kwa author (jina) — kwa hadithi za zamani
+  if (currentAuthor) {
+    try {
+      const byName = await sbSelect('stories', {
+        select:'id,title,author,author_user_id,status,total_reads,chapters_count,has_audio,has_video,genre_id,cover_image_url,price_per_chapter,is_free,genres!stories_genre_id_fkey(name,emoji)',
+        filters:['author=eq.'+encodeURIComponent(currentAuthor)],
+        order:'created_at.desc'
+      });
+      if (Array.isArray(byName) && byName.length > 0) {
+        console.log('[loadMyStories] Found', byName.length, 'by author name');
+        return byName;
+      }
+    } catch(e) { console.warn('author name lookup failed:', e.message); }
+  }
+
+  console.warn('[loadMyStories] No stories for', currentAuthor, '/', currentAuthorId);
+  return [];
+}
+
+// ==================== LOAD AUDIO (DIRECT by author_user_id) ====================
+async function loadMyAudio() {
+  if (!currentAuthorId) return [];
+  try {
+    return await sbSelect('audio_items', {
+      select:'id,title,status,total_plays,total_episodes,story_id,narrator_id,description,language,is_free,free_tracks_count,price_per_track,is_premium_only,cover_image_url,author_user_id,stories!audio_items_story_id_fkey(title),narrators!audio_items_narrator_id_fkey(name)',
+      filters:['author_user_id=eq.'+encodeURIComponent(currentAuthorId)],
+      order:'created_at.desc'
+    });
+  } catch(e) { console.warn('loadMyAudio failed:', e.message); return []; }
+}
+
+// ==================== LOAD VIDEO (DIRECT by author_user_id) ====================
+async function loadMyVideo() {
+  if (!currentAuthorId) return [];
+  try {
+    return await sbSelect('video_items', {
+      select:'id,title,status,total_views,duration_seconds,quality,story_id,narrator_id,video_file_url,thumbnail_url,cover_image_url,author_user_id,stories!video_items_story_id_fkey(title),narrators!video_items_narrator_id_fkey(name)',
+      filters:['author_user_id=eq.'+encodeURIComponent(currentAuthorId)],
+      order:'created_at.desc'
+    });
+  } catch(e) { console.warn('loadMyVideo failed:', e.message); return []; }
+}
+
+// ==================== LOAD REVENUE PER STORY ====================
+async function loadRevenueForStories(storyIds) {
+  const rev = {};
+  storyIds.forEach(id => { rev[id] = { total: 0, count: 0 }; });
+  if (storyIds.length === 0) return rev;
+  try {
+    const purchases = await sbSelect('purchases', {
+      select:'id,item_id,item_type,amount,status,user_id,story_id',
+      filters:['story_id=in.('+storyIds.join(',')+')'],
+      order:'purchased_at.desc'
+    });
+    purchases.forEach(p => {
+      if (p.status === 'Imefanikishwa' && rev[p.story_id]) {
+        rev[p.story_id].total += parseFloat(p.amount) || 0;
+        rev[p.story_id].count += 1;
+      }
+    });
+  } catch(e) { console.warn('Revenue fetch failed:', e); }
+  return rev;
+}
+
+// ==================== DASHBOARD ====================
+async function loadDashboard() {
+  try {
+    const stories = await loadMyStories();
+    allStories = stories;
+    const storyIds = stories.map(s => s.id);
+    storyRevenue = await loadRevenueForStories(storyIds);
+
+    const totalReads = stories.reduce((sum, s) => sum + (parseInt(s.total_reads)||0), 0);
+    const totalRevenue = Object.values(storyRevenue).reduce((sum, r) => sum + r.total, 0);
+    const totalPurchases = Object.values(storyRevenue).reduce((sum, r) => sum + r.count, 0);
+
+    document.getElementById('badge-stories').textContent = stories.length;
+    document.getElementById('dashStats').innerHTML = `
+      <div class="stat-card"><div class="stat-icon si-red"><i class="ti ti-books"></i></div><div class="stat-val">${stories.length}</div><div class="stat-lbl">Jumla Hadithi</div></div>
+      <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-eye"></i></div><div class="stat-val">${fmtNum(totalReads)}</div><div class="stat-lbl">Jumla ya Views</div></div>
+      <div class="stat-card"><div class="stat-icon si-green"><i class="ti ti-coin"></i></div><div class="stat-val">TZS ${fmtNum(Math.round(totalRevenue))}</div><div class="stat-lbl">Mapato Yote</div></div>
+      <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-shopping-cart"></i></div><div class="stat-val">${totalPurchases}</div><div class="stat-lbl">Manunuzi</div></div>`;
+
+    const top = [...stories].sort((a,b) => (b.total_reads||0)-(a.total_reads||0)).slice(0,5);
+    document.getElementById('topStories').innerHTML = top.length===0
+      ? '<div class="empty">Hakuna hadithi bado</div>'
+      : top.map((s,i) => {
+          const rev = storyRevenue[s.id]?.total || 0;
+          return `<div class="mli">
+            <div class="mli-ico"><span style="font-size:15px;font-weight:700;color:${i===0?'var(--yellow)':'var(--txt3)'}">${i+1}</span></div>
+            <div class="mli-info"><div class="mli-name">${esc(s.title)}</div><div class="mli-sub">${fmtNum(s.total_reads||0)} views · TZS ${fmtNum(Math.round(rev))}</div></div>
+            <div class="mli-val">${fmtNum(s.total_reads||0)}</div>
+          </div>`;
+        }).join('');
+
+    const storiesWithRev = stories.filter(s => (storyRevenue[s.id]?.total||0) > 0)
+      .sort((a,b) => (storyRevenue[b.id]?.total||0)-(storyRevenue[a.id]?.total||0)).slice(0,5);
+    document.getElementById('latestRevenueDash').innerHTML = storiesWithRev.length===0
+      ? '<div class="empty">Hakuna mapato bado</div>'
+      : storiesWithRev.map(s => {
+          const r = storyRevenue[s.id];
+          return `<div class="mli">
+            <div class="mli-ico" style="background:var(--accent-soft)"><i class="ti ti-coin" style="color:var(--accent)"></i></div>
+            <div class="mli-info"><div class="mli-name">${esc(s.title)}</div><div class="mli-sub">${r.count} manunuzi</div></div>
+            <div class="mli-val">TZS ${fmtNum(Math.round(r.total))}</div>
+          </div>`;
+        }).join('');
+  } catch(e) { showToast('Hitilafu: '+e.message, 'error'); }
+}
+
+// ==================== STORIES LIST ====================
+async function loadStories() {
+  document.getElementById('storiesTable').innerHTML = '<tr><td colspan="7"><div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div></td></tr>';
+  try {
+    const stories = await loadMyStories();
+    allStories = stories;
+    const storyIds = stories.map(s => s.id);
+    storyRevenue = await loadRevenueForStories(storyIds);
+    document.getElementById('badge-stories').textContent = stories.length;
+    renderStoriesTable(allStories);
+  } catch(e) { showToast(e.message, 'error'); }
+}
+function renderStoriesTable(list) {
+  const sc = { Inaendelea:'b-green', Imekamilika:'b-blue', Rasimu:'b-gray' };
+  document.getElementById('storiesTable').innerHTML = list.length===0
+    ? '<tr><td colspan="7"><div class="empty">Hakuna hadithi</div></td></tr>'
+    : list.map(s => {
+        const rev = storyRevenue[s.id]?.total || 0;
+        const purchases = storyRevenue[s.id]?.count || 0;
+        return `<tr>
+          <td class="td-title">${esc(s.title)}</td>
+          <td><span class="badge b-gray">${s.genres?esc(s.genres.emoji||'')+' '+esc(s.genres.name):'—'}</span></td>
+          <td style="text-align:center">${s.chapters_count||0}</td>
+          <td style="text-align:center"><span class="badge b-blue">${fmtNum(s.total_reads||0)}</span></td>
+          <td style="text-align:right"><strong style="color:var(--accent)">TZS ${fmtNum(Math.round(rev))}</strong><br><span style="font-size:10px;color:var(--txt3)">${purchases} manunuzi</span></td>
+          <td><span class="badge ${sc[s.status]||'b-gray'}">${s.status||''}</span></td>
+          <td><div class="td-actions">
+            <button class="act-btn act-edit" title="Hariri" onclick="openEditStory('${s.id}')"><i class="ti ti-edit"></i></button>
+            <button class="act-btn act-add" title="Ongeza Sura" onclick="openAddChapterToStory('${s.id}','${escAttr(s.title)}',${s.chapters_count||0})"><i class="ti ti-file-plus"></i></button>
+          </div></td>
+        </tr>`;
+      }).join('');
+}
+function filterStories() {
+  const q = (document.getElementById('storySearch').value||'').toLowerCase();
+  const st = document.getElementById('storyStatusFilter').value;
+  renderStoriesTable(allStories.filter(s =>
+    (!q || (s.title||'').toLowerCase().includes(q)) && (!st || s.status===st)
+  ));
+}
+
+// ==================== ADD CHAPTER ====================
+async function openAddChapterToStory(storyId, title, currentCount) {
+  if (!allStories.find(s => s.id === storyId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  document.getElementById('addChStoryId').value = storyId;
+  document.getElementById('addChStoryTitle').innerHTML = '<i class="ti ti-file-plus"></i> Ongeza Sura — ' + esc(title);
+  document.getElementById('addChTitle').value = '';
+  document.getElementById('addChContent').value = '';
+  document.getElementById('addChAccess').value = 'free';
+  document.getElementById('addChWordCount').textContent = '0 maneno';
+  document.getElementById('addChPriceGroup').style.display = 'none';
+  document.getElementById('existingChaptersList').style.display = 'none';
+  document.getElementById('toggleChIcon').className = 'ti ti-eye';
+  document.getElementById('toggleChText').textContent = 'Onyesha';
+  try {
+    const existing = await sbSelect('story_chapters', { select:'chapter_number', filters:['story_id=eq.'+storyId], order:'chapter_number.desc', limit:1 });
+    document.getElementById('addChNum').value = existing && existing.length>0 ? existing[0].chapter_number+1 : (currentCount+1||1);
+  } catch(e) { document.getElementById('addChNum').value = currentCount+1||1; }
+  document.getElementById('addChStoryInfo').innerHTML = `<i class="ti ti-info-circle" style="color:var(--primary)"></i> Hadithi: <strong style="color:var(--txt)">${esc(title)}</strong> · Sura zilizopo: <strong>${currentCount}</strong>`;
+  openModal('modalAddChapterToStory');
+}
+function toggleAddChPrice(val) { document.getElementById('addChPriceGroup').style.display = val==='free'?'none':'block'; }
+async function toggleExistingChapters() {
+  const list = document.getElementById('existingChaptersList');
+  const icon = document.getElementById('toggleChIcon');
+  const text = document.getElementById('toggleChText');
+  if (list.style.display === 'none') {
+    list.style.display = 'block'; icon.className = 'ti ti-eye-off'; text.textContent = 'Ficha';
+    const storyId = document.getElementById('addChStoryId').value;
+    if (storyId) {
+      list.innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>';
+      try {
+        const chapters = await sbSelect('story_chapters', { select:'chapter_number,title,access_type,word_count', filters:['story_id=eq.'+storyId], order:'chapter_number.asc' });
+        const ab = { free:'b-green', paid:'b-orange', premium:'b-yellow' };
+        const al = { free:'Bure', paid:'Inayolipwa', premium:'Premium' };
+        list.innerHTML = chapters.length===0 ? '<div style="padding:10px;text-align:center;color:var(--txt3);font-size:12px">Hakuna sura</div>'
+          : chapters.map(c => `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--bg-sec);border-radius:var(--rad-sm);margin-bottom:4px">
+              <div style="width:22px;height:22px;background:var(--primary-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--primary)">${c.chapter_number}</div>
+              <div style="flex:1;font-size:12px;font-weight:600">${esc(c.title)}</div>
+              <span class="badge ${ab[c.access_type]||'b-gray'}" style="font-size:9px">${al[c.access_type]||c.access_type}</span>
+            </div>`).join('');
+      } catch(e) { list.innerHTML = '<div style="color:var(--red);padding:10px;font-size:12px">'+e.message+'</div>'; }
+    }
+  } else { list.style.display='none'; icon.className='ti ti-eye'; text.textContent='Onyesha'; }
+}
+async function saveChapterToExistingStory() {
+  const storyId = document.getElementById('addChStoryId').value;
+  if (!allStories.find(s => s.id === storyId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  const title = document.getElementById('addChTitle').value.trim();
+  const chapter_number = parseInt(document.getElementById('addChNum').value);
+  const content = document.getElementById('addChContent').value.trim();
+  const access_type = document.getElementById('addChAccess').value;
+  const price = parseInt(document.getElementById('addChPrice')?.value) || 0;
+  if (!title || !chapter_number) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Tafadhali jaza kichwa na nambari ya sura.' }); return; }
+  const word_count = content ? content.trim().split(/\s+/).filter(Boolean).length : 0;
+  try {
+    await sbInsert('story_chapters', {
+      story_id: storyId, title, chapter_number,
+      content: price > 0 ? (content+'\n[price:'+price+']') : content,
+      access_type, is_free: access_type==='free', word_count, is_published: true
+    });
+    const countRows = await sbSelect('story_chapters', { select:'id', filters:['story_id=eq.'+storyId] });
+    await sbUpdate('stories', storyId, { chapters_count: countRows.length }).catch(()=>{});
+    closeModal('modalAddChapterToStory');
+    showToast(`Sura "${title}" imeongezwa!`, 'success');
+    allStories = []; loadStories();
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== CHAPTERS PAGE ====================
+async function loadChapterStories() {
+  try {
+    const stories = await loadMyStories();
+    allStories = stories;
+    document.getElementById('chapStoryList').innerHTML = stories.length===0
+      ? '<tr><td colspan="3"><div class="empty">Hakuna hadithi</div></td></tr>'
+      : stories.map(s => `<tr>
+          <td class="td-title" style="font-size:13px">${esc(s.title)}</td>
+          <td style="font-size:12px;color:var(--txt2)">${s.chapters_count||0}</td>
+          <td><button class="act-btn act-view" onclick="loadChaptersForStory('${s.id}','${escAttr(s.title)}')"><i class="ti ti-arrow-right"></i></button></td>
+        </tr>`).join('');
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function loadChaptersForStory(storyId, title) {
+  if (!allStories.find(s => s.id === storyId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  activeChapterStoryId = storyId;
+  document.getElementById('chapStoryTitle').innerHTML = `<i class="ti ti-file-text"></i> ${esc(title)}`;
+  document.getElementById('chaptersList').innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i></div>';
+  try {
+    const chapters = await sbSelect('story_chapters', { select:'id,chapter_number,title,word_count,access_type,is_free,created_at', filters:['story_id=eq.'+storyId], order:'chapter_number.asc' });
+    const ab = { free:'b-green', paid:'b-orange', premium:'b-yellow' };
+    const al = { free:'Bure', paid:'Inayolipwa', premium:'Premium' };
+    document.getElementById('chaptersList').innerHTML = chapters.length===0
+      ? '<div class="empty">Hakuna sura bado.</div>'
+      : chapters.map(c => `<div class="chapter-item">
+          <div class="ch-num">${c.chapter_number}</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600">${esc(c.title)}</div>
+            <div style="font-size:11px;color:var(--txt2)">${fmtNum(c.word_count||0)} maneno</div>
+          </div>
+          <span class="badge ${ab[c.access_type]||'b-gray'}">${al[c.access_type]||c.access_type}</span>
+          <button class="act-btn act-edit" onclick="openEditChapterById('${c.id}')"><i class="ti ti-edit"></i></button>
+        </div>`).join('')
+      + `<div class="add-ch-btn" style="margin-top:8px" onclick="openAddChapter()"><i class="ti ti-plus"></i> Ongeza Sura Mpya</div>`;
+  } catch(e) { showToast(e.message,'error'); }
+}
+function toggleChapterPrice(access) {
+  document.getElementById('chPriceGroup').style.display = access==='paid'?'block':'none';
+  if (access==='paid' && !document.getElementById('chPrice').value) document.getElementById('chPrice').value = 500;
+}
+function openAddChapter() {
+  if (!activeChapterStoryId) { showAlert({ type:'warning', title:'Chagua hadithi', message:'Chagua hadithi kwanza.' }); return; }
+  if (!allStories.find(s => s.id === activeChapterStoryId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  document.getElementById('chModalTitle').textContent = 'Ongeza Sura Mpya';
+  document.getElementById('chapterId').value = '';
+  document.getElementById('chTitle').value = '';
+  document.getElementById('chNum').value = '';
+  document.getElementById('chContent').value = '';
+  document.getElementById('chAccess').value = 'free';
+  document.getElementById('chPriceGroup').style.display = 'none';
+  openModal('modalChapter');
+}
+async function openEditChapterById(id) {
+  try {
+    const rows = await sbSelect('story_chapters', { select:'id,story_id,chapter_number,title,content,access_type,price', filters:['id=eq.'+id] });
+    if (!rows||rows.length===0) { showAlert({ type:'error', title:'Haipatikani', message:'Sura haikupatikana.' }); return; }
+    const c = rows[0];
+    if (!allStories.find(s => s.id === c.story_id)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Sura hii si ya hadithi yako.' }); return; }
+    document.getElementById('chModalTitle').textContent = 'Hariri: '+c.title;
+    document.getElementById('chapterId').value = c.id;
+    document.getElementById('chTitle').value = c.title;
+    document.getElementById('chNum').value = c.chapter_number;
+    document.getElementById('chContent').value = c.content||'';
+    document.getElementById('chAccess').value = c.access_type||'free';
+    document.getElementById('chPrice').value = c.price || 0;
+    document.getElementById('chPriceGroup').style.display = c.access_type==='paid'?'block':'none';
+    activeChapterStoryId = c.story_id;
+    openModal('modalChapter');
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+async function saveChapter() {
+  const id = document.getElementById('chapterId').value.trim();
+  const title = document.getElementById('chTitle').value.trim();
+  const chapter_number = parseInt(document.getElementById('chNum').value);
+  const content = document.getElementById('chContent').value.trim();
+  const access_type = document.getElementById('chAccess').value;
+  const price = parseInt(document.getElementById('chPrice').value) || 0;
+  if (!title || !chapter_number) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jaza kichwa na nambari ya sura.' }); return; }
+  if (!activeChapterStoryId || !allStories.find(s => s.id === activeChapterStoryId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  const word_count = content ? content.trim().split(/\s+/).filter(Boolean).length : 0;
+  const data = { title, chapter_number, content, access_type, is_free: access_type==='free', word_count, story_id: activeChapterStoryId, is_published: true, price: access_type==='paid'?price:0 };
+  try {
+    if (id) await sbUpdate('story_chapters', id, data);
+    else {
+      await sbInsert('story_chapters', data);
+      const countRows = await sbSelect('story_chapters', { select:'id', filters:['story_id=eq.'+activeChapterStoryId] });
+      await sbUpdate('stories', activeChapterStoryId, { chapters_count: countRows.length }).catch(()=>{});
+    }
+    closeModal('modalChapter');
+    showToast('Sura imehifadhiwa!','success');
+    const t = document.getElementById('chapStoryTitle').textContent.replace(/^\s*\S+\s*/,'').trim();
+    loadChaptersForStory(activeChapterStoryId, t);
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== AUDIO LIST ====================
+async function loadAudio() {
+  document.getElementById('audioTable').innerHTML = '<tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  try {
+    allAudio = await loadMyAudio();
+    renderAudioTable(allAudio);
+    document.getElementById('badge-audio').textContent = allAudio.length;
+  } catch(e) { showToast(e.message,'error'); }
+}
+function renderAudioTable(list) {
+  const sc = { Imechapishwa:'b-green', Rasimu:'b-gray' };
+  document.getElementById('audioTable').innerHTML = list.length===0
+    ? '<tr><td colspan="6"><div class="empty">Hakuna sauti</div></td></tr>'
+    : list.map(a => `<tr>
+        <td><div style="display:flex;align-items:center;gap:8px">
+          <div style="width:28px;height:28px;background:var(--accent-soft);border-radius:6px;display:flex;align-items:center;justify-content:center"><i class="ti ti-music" style="font-size:13px;color:var(--accent)"></i></div>
+          <div class="td-title">${esc(a.title)}</div>
+        </div></td>
+        <td><span class="badge b-gray" style="font-size:10px">${a.stories?esc(a.stories.title):'<em style="color:var(--txt3)">Huru</em>'}</span></td>
+        <td class="td-muted">${fmtNum(a.total_episodes||0)}</td>
+        <td><span class="badge b-blue">${fmtNum(a.total_plays||0)}</span></td>
+        <td><span class="badge ${sc[a.status]||'b-gray'}">${a.status||''}</span></td>
+        <td><div class="td-actions">
+          <button class="act-btn act-add" title="Ongeza Kipande" style="background:rgba(66,167,129,.12);color:var(--accent)" onclick="openAddAudioTrack('${a.id}','${escAttr(a.title)}','${escAttr(a.story_id||'')}')"><i class="ti ti-music-plus"></i></button>
+          <button class="act-btn act-edit" onclick='openEditAudio(${JSON.stringify(a).replace(/'/g,"&#39;")})'><i class="ti ti-edit"></i></button>
+        </div></td>
+      </tr>`).join('');
+}
+function filterAudio() {
+  const q = (document.getElementById('audioSearch').value||'').toLowerCase();
+  renderAudioTable(allAudio.filter(a => (a.title||'').toLowerCase().includes(q)));
+}
+async function openAddAudioTrack(audioItemId, audioTitle, storyId) {
+  document.getElementById('addAudioItemId').value = audioItemId;
+  document.getElementById('addAudioStoryId').value = storyId || '';
+  document.getElementById('addAudioTrackTitle').innerHTML = '<i class="ti ti-music"></i> Ongeza Kipande — ' + esc(audioTitle);
+  document.getElementById('addAudioChTitle').value = '';
+  document.getElementById('addAudioChDesc').value = '';
+  document.getElementById('addAudioChAccess').value = 'free';
+  document.getElementById('addAudioChFileInfo').style.display = 'none';
+  document.getElementById('addAudioPriceGroup').style.display = 'none';
+  document.getElementById('existingAudioTracksList').style.display = 'none';
+  addAudioChFileSelected = null;
+  document.getElementById('addAudioChFile').value = '';
+  try {
+    const existing = await sbSelect('audio_episodes', { select:'episode_number', filters:['audio_id=eq.'+audioItemId], order:'episode_number.desc', limit:1 });
+    document.getElementById('addAudioChNum').value = existing && existing.length>0 ? existing[0].episode_number+1 : 1;
+  } catch(e) { document.getElementById('addAudioChNum').value = 1; }
+  document.getElementById('addAudioItemInfo').innerHTML = `<i class="ti ti-music" style="color:var(--accent)"></i> Simulizi: <strong style="color:var(--txt)">${esc(audioTitle)}</strong>`;
+  openModal('modalAddAudioTrack');
+}
+function toggleAddAudioPrice(val) { document.getElementById('addAudioPriceGroup').style.display = val==='free'?'none':'block'; }
+async function toggleExistingAudioTracks() {
+  const list = document.getElementById('existingAudioTracksList');
+  const icon = document.getElementById('toggleAudioIcon');
+  const text = document.getElementById('toggleAudioText');
+  if (list.style.display === 'none') {
+    list.style.display = 'block'; icon.className = 'ti ti-eye-off'; text.textContent = 'Ficha';
+    const audioId = document.getElementById('addAudioItemId').value;
+    if (audioId) {
+      list.innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>';
+      try {
+        const tracks = await sbSelect('audio_episodes', { select:'id,episode_number,title,access_type,price', filters:['audio_id=eq.'+audioId], order:'episode_number.asc' });
+        list.innerHTML = tracks.length===0 ? '<div style="padding:10px;text-align:center;color:var(--txt3);font-size:12px">Hakuna vipande</div>'
+          : tracks.map(c => `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--bg-sec);border-radius:var(--rad-sm);margin-bottom:4px">
+              <div style="width:22px;height:22px;background:var(--accent-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--accent)">${c.episode_number}</div>
+              <div style="flex:1;font-size:12px;font-weight:600">${esc(c.title)}</div>
+            </div>`).join('');
+      } catch(e) { list.innerHTML = '<div style="color:var(--red);padding:10px;font-size:12px">'+e.message+'</div>'; }
+    }
+  } else { list.style.display='none'; icon.className='ti ti-eye'; text.textContent='Onyesha'; }
+}
+function onAddAudioChFileSelected(input) {
+  const file = input.files[0]; if (!file) return;
+  addAudioChFileSelected = file;
+  const info = document.getElementById('addAudioChFileInfo');
+  info.style.display = 'block';
+  info.innerHTML = `<i class="ti ti-check"></i> ${esc(file.name)} — ${(file.size/1024/1024).toFixed(1)} MB`;
+}
+async function saveAudioTrackToExistingItem() {
+  const audioId = document.getElementById('addAudioItemId').value;
+  const title = document.getElementById('addAudioChTitle').value.trim();
+  const chNum = parseInt(document.getElementById('addAudioChNum').value);
+  const access_type = document.getElementById('addAudioChAccess').value;
+  const desc = document.getElementById('addAudioChDesc').value.trim();
+  const price = parseInt(document.getElementById('addAudioPrice')?.value) || 0;
+  if (!title || !chNum) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jaza kichwa na nambari ya kipande.' }); return; }
+  if (!addAudioChFileSelected) { showAlert({ type:'warning', title:'Pakia faili', message:'Tafadhali pakia faili ya sauti.' }); return; }
+  try {
+    showUploadOverlay('Inapakia Sauti...','Inapakia kipande...',30);
+    const audio_file_url = await uploadToStorage(addAudioChFileSelected,'audio-files','audio-episodes');
+    showUploadOverlay('Ikihifadhi...','Inahifadhi...',80);
+    await sbInsert('audio_episodes', {
+      audio_id: audioId, title, episode_number: chNum, audio_file_url,
+      file_size_mb: parseFloat((addAudioChFileSelected.size/1024/1024).toFixed(2)),
+      description: desc || null, access_type, is_free: access_type==='free',
+      price: access_type==='free' ? 0 : price, is_published: true
+    });
+    try {
+      const all = await sbSelect('audio_episodes', { select:'id', filters:['audio_id=eq.'+audioId] });
+      await sbUpdate('audio_items', audioId, { total_episodes: all.length });
+    } catch(_){}
+    hideUploadOverlay(); closeModal('modalAddAudioTrack');
+    showToast(`Kipande "${title}" kimeongezwa!`,'success');
+    addAudioChFileSelected = null; allAudio = []; loadAudio();
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+function openEditAudio(a) {
+  if (typeof a === 'string') { try { a = JSON.parse(a); } catch(e){ return; } }
+  document.getElementById('editAudioId').value = a.id;
+  document.getElementById('editAudioTitle').value = a.title||'';
+  document.getElementById('editAudioDesc').value = a.description||'';
+  document.getElementById('editAudioLang').value = a.language||'sw';
+  document.getElementById('editAudioPrice').value = a.price_per_track||0;
+  document.getElementById('editAudioFreeCount').value = a.free_tracks_count||0;
+  document.getElementById('editAudioStatus').value = a.status||'Imechapishwa';
+  openModal('modalEditAudio');
+}
+async function saveEditAudio() {
+  const id = document.getElementById('editAudioId').value;
+  const title = document.getElementById('editAudioTitle').value.trim();
+  if (!id || !title) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jina linahitajika.' }); return; }
+  try {
+    const status = document.getElementById('editAudioStatus').value;
+    await sbUpdate('audio_items', id, {
+      title, description: document.getElementById('editAudioDesc').value.trim(),
+      language: document.getElementById('editAudioLang').value,
+      price_per_track: parseInt(document.getElementById('editAudioPrice').value)||0,
+      free_tracks_count: parseInt(document.getElementById('editAudioFreeCount').value)||0,
+      status, is_published: status==='Imechapishwa'
+    });
+    closeModal('modalEditAudio');
+    showToast('Podcast imehifadhiwa!','success');
+    allAudio = []; loadAudio();
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== VIDEO LIST ====================
+async function loadVideo() {
+  document.getElementById('videoTable').innerHTML = '<tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  try {
+    allVideo = await loadMyVideo();
+    renderVideoTable(allVideo);
+    document.getElementById('badge-video').textContent = allVideo.length;
+  } catch(e) { showToast(e.message,'error'); }
+}
+function renderVideoTable(list) {
+  const sc = { Imechapishwa:'b-green', Rasimu:'b-gray' };
+  document.getElementById('videoTable').innerHTML = list.length===0
+    ? '<tr><td colspan="6"><div class="empty">Hakuna video</div></td></tr>'
+    : list.map(v => `<tr>
+        <td><div style="display:flex;align-items:center;gap:8px">
+          <div style="width:28px;height:28px;background:rgba(142,68,173,.15);border-radius:6px;display:flex;align-items:center;justify-content:center"><i class="ti ti-video" style="font-size:13px;color:var(--purple)"></i></div>
+          <div class="td-title">${esc(v.title)}</div>
+        </div></td>
+        <td><span class="badge b-gray" style="font-size:10px">${v.stories?esc(v.stories.title):'<em style="color:var(--txt3)">Huru</em>'}</span></td>
+        <td class="td-muted">${fmtDuration(v.duration_seconds)}</td>
+        <td><span class="badge b-blue">${fmtNum(v.total_views||0)}</span></td>
+        <td><span class="badge ${sc[v.status]||'b-gray'}">${v.status||''}</span></td>
+        <td><div class="td-actions">
+          <button class="act-btn act-add" title="Ongeza Kipande" style="background:rgba(142,68,173,.12);color:var(--purple)" onclick="openAddVideoTrack('${v.id}','${escAttr(v.title)}','${escAttr(v.story_id||'')}')"><i class="ti ti-video-plus"></i></button>
+        </div></td>
+      </tr>`).join('');
+}
+function filterVideo() {
+  const q = (document.getElementById('videoSearch').value||'').toLowerCase();
+  renderVideoTable(allVideo.filter(v => (v.title||'').toLowerCase().includes(q)));
+}
+async function openAddVideoTrack(videoItemId, videoTitle, storyId) {
+  document.getElementById('addVideoItemId').value = videoItemId;
+  document.getElementById('addVideoStoryId').value = storyId || '';
+  document.getElementById('addVideoTrackTitle').innerHTML = '<i class="ti ti-video"></i> Ongeza Kipande — ' + esc(videoTitle);
+  document.getElementById('addVideoChTitle').value = '';
+  document.getElementById('addVideoChDesc').value = '';
+  document.getElementById('addVideoChDuration').value = '';
+  document.getElementById('addVideoChAccess').value = 'free';
+  document.getElementById('addVideoChFileInfo').style.display = 'none';
+  document.getElementById('addVideoPriceGroup').style.display = 'none';
+  document.getElementById('existingVideoTracksList').style.display = 'none';
+  addVideoChFileSelected = null;
+  document.getElementById('addVideoChFile').value = '';
+  if (storyId) {
+    try {
+      const existing = await sbSelect('story_chapters', { select:'chapter_number', filters:['story_id=eq.'+storyId], order:'chapter_number.desc', limit:1 });
+      document.getElementById('addVideoChNum').value = existing && existing.length>0 ? existing[0].chapter_number+1 : 1;
+    } catch(e) { document.getElementById('addVideoChNum').value = 1; }
+  } else {
+    document.getElementById('addVideoChNum').value = 1;
+  }
+  document.getElementById('addVideoItemInfo').innerHTML = `<i class="ti ti-video" style="color:var(--purple)"></i> Video: <strong style="color:var(--txt)">${esc(videoTitle)}</strong>`;
+  openModal('modalAddVideoTrack');
+}
+function toggleAddVideoPrice(val) { document.getElementById('addVideoPriceGroup').style.display = val==='free'?'none':'block'; }
+async function toggleExistingVideoTracks() {
+  const list = document.getElementById('existingVideoTracksList');
+  const icon = document.getElementById('toggleVideoIcon');
+  const text = document.getElementById('toggleVideoText');
+  if (list.style.display === 'none') {
+    list.style.display = 'block'; icon.className = 'ti ti-eye-off'; text.textContent = 'Ficha';
+    const storyId = document.getElementById('addVideoStoryId').value;
+    if (storyId) {
+      list.innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>';
+      try {
+        const tracks = await sbSelect('story_chapters', { select:'chapter_number,title,access_type', filters:['story_id=eq.'+storyId], order:'chapter_number.asc' });
+        list.innerHTML = tracks.length===0 ? '<div style="padding:10px;text-align:center;color:var(--txt3);font-size:12px">Hakuna vipande</div>'
+          : tracks.map(c => `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;background:var(--bg-sec);border-radius:var(--rad-sm);margin-bottom:4px">
+              <div style="width:22px;height:22px;background:rgba(142,68,173,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--purple)">${c.chapter_number}</div>
+              <div style="flex:1;font-size:12px;font-weight:600">${esc(c.title)}</div>
+            </div>`).join('');
+      } catch(e) { list.innerHTML = '<div style="color:var(--red);padding:10px;font-size:12px">'+e.message+'</div>'; }
+    } else {
+      list.innerHTML = '<div style="padding:10px;text-align:center;color:var(--txt3);font-size:12px">Hii ni video huru (bila hadithi)</div>';
+    }
+  } else { list.style.display='none'; icon.className='ti ti-eye'; text.textContent='Onyesha'; }
+}
+function onAddVideoChFileSelected(input) {
+  const file = input.files[0]; if (!file) return;
+  addVideoChFileSelected = file;
+  const info = document.getElementById('addVideoChFileInfo');
+  info.style.display = 'block';
+  info.innerHTML = `<i class="ti ti-check"></i> ${esc(file.name)} — ${(file.size/1024/1024).toFixed(1)} MB`;
+}
+async function saveVideoTrackToExistingItem() {
+  const storyId = document.getElementById('addVideoStoryId').value;
+  const title = document.getElementById('addVideoChTitle').value.trim();
+  const chNum = parseInt(document.getElementById('addVideoChNum').value);
+  const access_type = document.getElementById('addVideoChAccess').value;
+  const desc = document.getElementById('addVideoChDesc').value.trim();
+  const durText = document.getElementById('addVideoChDuration').value.trim();
+  const price = parseInt(document.getElementById('addVideoPrice')?.value) || 0;
+  if (!title || !chNum) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jaza kichwa na nambari ya kipande.' }); return; }
+  if (!storyId) { showAlert({ type:'error', title:'Hakuna hadithi', message:'Kipande cha video kinahitaji hadithi. Tumia "Pakia Video" kwa video huru.' }); return; }
+  let durNote = durText ? '\n[duration:'+durText+']' : '';
+  let priceNote = price > 0 ? '\n[price:'+price+']' : '';
+  try {
+    let content = desc || null;
+    if (addVideoChFileSelected) {
+      showUploadOverlay('Inapakia Video...','Inapakia kipande...',20);
+      const url = await uploadToStorage(addVideoChFileSelected,'video-files','video-tracks');
+      content = (desc ? desc+'\n\n' : '') + '[video:'+url+']' + durNote + priceNote;
+      showUploadOverlay('Ikihifadhi...','Inahifadhi...',90);
+    } else content = (content||'') + durNote + priceNote;
+    await sbInsert('story_chapters', {
+      story_id: storyId, title, chapter_number: chNum, content,
+      access_type, is_free: access_type==='free', word_count: 0, is_published: true
+    });
+    hideUploadOverlay(); closeModal('modalAddVideoTrack');
+    showToast(`Kipande "${title}" kimeongezwa!`,'success');
+    addVideoChFileSelected = null; allVideo = []; loadVideo();
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== COMMENTS ====================
+async function loadComments() {
+  document.getElementById('commentsTable').innerHTML = '<tr><td colspan="4"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  try {
+    const myStories = await loadMyStories();
+    const storyIds = myStories.map(s => s.id);
+    let comments = [];
+    if (storyIds.length > 0) {
+      comments = await sbSelect('comments', {
+        select:'id,content,status,created_at,user_id,story_id,users!comments_user_id_fkey(name),stories!comments_story_id_fkey(title)',
+        filters:['story_id=in.('+storyIds.join(',')+')'], order:'created_at.desc'
+      });
+    }
+    document.getElementById('badge-comments').textContent = comments.length;
+    document.getElementById('commentsTable').innerHTML = comments.length===0
+      ? '<tr><td colspan="4"><div class="empty">Hakuna maoni</div></td></tr>'
+      : comments.map(c => `<tr>
+          <td><div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:var(--bg-ter);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${((c.users&&c.users.name)||'U')[0].toUpperCase()}</div><div class="td-title">${c.users?esc(c.users.name):'—'}</div></div></td>
+          <td><span class="badge b-gray">${c.stories?esc(c.stories.title):'—'}</span></td>
+          <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:var(--txt2)">"${esc((c.content||'').substring(0,100))}"</td>
+          <td class="td-muted" style="font-size:12px">${(c.created_at||'').substring(0,10)}</td>
+        </tr>`).join('');
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+// ==================== REVENUE PAGE ====================
+async function loadRevenue() {
+  document.getElementById('revenueTable').innerHTML = '<tr><td colspan="5"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  document.getElementById('purchasesTable').innerHTML = '<tr><td colspan="6"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  try {
+    const stories = await loadMyStories();
+    allStories = stories;
+    const storyIds = stories.map(s => s.id);
+    storyRevenue = await loadRevenueForStories(storyIds);
+
+    let totalRevenue = 0, totalPurchases = 0;
+    Object.values(storyRevenue).forEach(r => { totalRevenue += r.total; totalPurchases += r.count; });
+    const totalReads = stories.reduce((sum, s) => sum + (parseInt(s.total_reads)||0), 0);
+
+    document.getElementById('revStats').innerHTML = `
+      <div class="stat-card"><div class="stat-icon si-green"><i class="ti ti-coin"></i></div><div class="stat-val">TZS ${fmtNum(Math.round(totalRevenue))}</div><div class="stat-lbl">Mapato Yote</div></div>
+      <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-shopping-cart"></i></div><div class="stat-val">${totalPurchases}</div><div class="stat-lbl">Manunuzi</div></div>
+      <div class="stat-card"><div class="stat-icon si-red"><i class="ti ti-books"></i></div><div class="stat-val">${stories.length}</div><div class="stat-lbl">Hadithi</div></div>
+      <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-eye"></i></div><div class="stat-val">${fmtNum(totalReads)}</div><div class="stat-lbl">Views</div></div>`;
+
+    const rows = stories.map(s => {
+      const r = storyRevenue[s.id] || { total: 0, count: 0 };
+      return `<tr>
+        <td class="td-title">${esc(s.title)}</td>
+        <td>${s.is_free ? '<span class="badge b-green">Bure</span>' : 'TZS '+fmtNum(s.price_per_chapter||0)}</td>
+        <td><span class="badge b-blue">${fmtNum(s.total_reads||0)}</span></td>
+        <td>${r.count}</td>
+        <td style="text-align:right;font-weight:700;color:var(--accent)">TZS ${fmtNum(Math.round(r.total))}</td>
+      </tr>`;
+    });
+    document.getElementById('revenueTable').innerHTML = rows.length===0
+      ? '<tr><td colspan="5"><div class="empty">Hakuna hadithi</div></td></tr>'
+      : rows.join('') + `<tr style="background:var(--bg-ter);font-weight:700">
+          <td colspan="3">JUMLA</td>
+          <td>${totalPurchases}</td>
+          <td style="text-align:right;color:var(--accent);font-size:15px">TZS ${fmtNum(Math.round(totalRevenue))}</td>
+        </tr>`;
+
+    if (storyIds.length > 0) {
+      const purchases = await sbSelect('purchases', {
+        select:'id,item_type,item_id,story_id,amount,payment_method,status,purchased_at,user_id,users!purchases_user_id_fkey(name),stories!purchases_story_id_fkey(title)',
+        filters:['story_id=in.('+storyIds.join(',')+')'], order:'purchased_at.desc', limit:100
+      });
+      const sc = { Imefanikishwa:'b-green', Imekataliwa:'b-red', Inashughulikiwa:'b-yellow' };
+      document.getElementById('purchasesTable').innerHTML = purchases.length===0
+        ? '<tr><td colspan="6"><div class="empty">Hakuna manunuzi bado</div></td></tr>'
+        : purchases.map(p => `<tr>
+            <td><div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:var(--bg-ter);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${((p.users&&p.users.name)||'U')[0].toUpperCase()}</div><span class="td-title">${p.users?esc(p.users.name):'—'}</span></div></td>
+            <td>${p.stories?esc(p.stories.title):'—'}</td>
+            <td style="font-size:12px;color:var(--txt2)">${p.item_type||''}</td>
+            <td style="font-weight:700;color:var(--accent)">TZS ${fmtNum(Math.round(parseFloat(p.amount)||0))}</td>
+            <td class="td-muted" style="font-size:12px">${(p.purchased_at||'').substring(0,10)}</td>
+            <td><span class="badge ${sc[p.status]||'b-gray'}">${p.status||''}</span></td>
+          </tr>`).join('');
+    }
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+function exportRevenueCSV() {
+  if (allStories.length === 0) { showAlert({ type:'warning', title:'Hakuna data', message:'Hakuna hadithi za ku-export.' }); return; }
+  const rows = [['Hadithi','Bei/Sura','Views','Manunuzi','Mapato (TZS)']];
+  let totalRev = 0, totalPurch = 0;
+  allStories.forEach(s => {
+    const r = storyRevenue[s.id] || { total: 0, count: 0 };
+    totalRev += r.total; totalPurch += r.count;
+    rows.push([s.title, s.is_free?'Bure':s.price_per_chapter||0, s.total_reads||0, r.count, Math.round(r.total)]);
+  });
+  rows.push(['JUMLA','','',totalPurch,Math.round(totalRev)]);
+  const csv = rows.map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob([csv], { type:'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'mapato-' + new Date().toISOString().substring(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('CSV imepakuliwa!','success');
+}
+
+// ==================== NARRATORS ====================
+async function loadNarrators() {
+  document.getElementById('narratorsTable').innerHTML = '<tr><td colspan="3"><div class="loading"><i class="ti ti-loader spin"></i></div></td></tr>';
+  try {
+    allNarrators = await sbSelect('narrators', { select:'id,name,avatar_letter,language,voice_style', order:'name.asc' });
+    document.getElementById('narratorsTable').innerHTML = allNarrators.length===0
+      ? '<tr><td colspan="3"><div class="empty">Hakuna wasimulizi</div></td></tr>'
+      : allNarrators.map(n => `<tr>
+          <td><div style="display:flex;align-items:center;gap:8px"><div style="width:30px;height:30px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff">${(n.avatar_letter||(n.name||'N')[0]).toUpperCase()}</div><div class="td-title">${esc(n.name)}</div></div></td>
+          <td class="td-muted">${esc(n.language||'')}</td>
+          <td class="td-muted">${esc(n.voice_style||'')}</td>
+        </tr>`).join('');
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function loadNarratorGrid(gridId) {
+  const el = document.getElementById(gridId); if (!el) return;
+  el.innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i></div>';
+  try {
+    if (!allNarrators.length) allNarrators = await sbSelect('narrators', { select:'id,name,avatar_letter,language,voice_style', order:'name.asc' });
+    el.innerHTML = allNarrators.length===0
+      ? '<div class="empty">Hakuna wasimulizi.</div>'
+      : allNarrators.map((n,i) => `<div class="nar-card${i===0?' sel':''}" onclick="selectNarrator(this,'${n.id}','${gridId}')">
+          <div class="nar-av">${(n.avatar_letter||(n.name||'N')[0]).toUpperCase()}</div>
+          <div class="nar-info"><div class="nar-name">${esc(n.name)}</div><div class="nar-lang">${esc(n.language||'')} · ${esc(n.voice_style||'')}</div></div>
+          <i class="ti ti-circle-check nar-check"></i>
+        </div>`).join('');
+    if (allNarrators.length) selectedNarratorId = allNarrators[0].id;
+  } catch(e) { el.innerHTML = '<div class="empty">'+e.message+'</div>'; }
+}
+function selectNarrator(card, id, gridId) {
+  document.querySelectorAll('#'+gridId+' .nar-card').forEach(c => c.classList.remove('sel'));
+  card.classList.add('sel');
+  selectedNarratorId = id;
+}
+function openAddNarrator() { openModal('modalNarrator'); }
+async function addNarrator() {
+  const name = document.getElementById('narName').value.trim();
+  if (!name) { showAlert({ type:'warning', title:'Jina linahitajika', message:'Weka jina la msimulizi.' }); return; }
+  try {
+    await sbInsert('narrators', {
+      name,
+      avatar_letter: (document.getElementById('narLetter').value.trim().toUpperCase()||name[0].toUpperCase()),
+      language: document.getElementById('narLang').value.trim()||'Kiswahili',
+      voice_style: document.getElementById('narStyle').value.trim(),
+      bio: document.getElementById('narBio').value.trim()
+    });
+    closeModal('modalNarrator');
+    showToast('Msimulizi "'+name+'" ameongezwa!','success');
+    allNarrators = [];
+    ['narName','narLetter','narLang','narStyle','narBio'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+    if (document.getElementById('audioNarGrid')) loadNarratorGrid('audioNarGrid');
+    if (document.getElementById('videoNarGrid')) loadNarratorGrid('videoNarGrid');
+    if (currentPage==='narrators') loadNarrators();
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== PREPARE FORMS ====================
+async function prepareUploadForm() {
+  if (!allGenres.length) allGenres = await sbSelect('genres', { select:'id,name,emoji', order:'name.asc' }).catch(()=>[]);
+  populateGenreSelects();
+  document.getElementById('newChaptersList').innerHTML = '';
+  ['newTitle','newDesc','newTags'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('newAuthor').value = currentAuthor;
+}
+async function prepareAudioUploadForm() {
+  if (!allGenres.length) allGenres = await sbSelect('genres', { select:'id,name,emoji', order:'name.asc' }).catch(()=>[]);
+  const myStories = await loadMyStories();
+  document.getElementById('auLinkedStory').innerHTML =
+    '<option value="">-- Bila Hadithi (Hiari) --</option>' +
+    myStories.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+  document.getElementById('auGenre').innerHTML = '<option value="">-- Chagua Aina --</option>' + allGenres.map(g=>`<option value="${g.id}">${g.emoji||''} ${esc(g.name)}</option>`).join('');
+  document.getElementById('audioTracksList').innerHTML = '';
+  ['auTitle','auDesc','auTags'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  loadNarratorGrid('audioNarGrid');
+}
+async function prepareVideoUploadForm() {
+  if (!allGenres.length) allGenres = await sbSelect('genres', { select:'id,name,emoji', order:'name.asc' }).catch(()=>[]);
+  const myStories = await loadMyStories();
+  document.getElementById('vuLinkedStory').innerHTML =
+    '<option value="">-- Bila Hadithi (Hiari) --</option>' +
+    myStories.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+  document.getElementById('vuGenre').innerHTML = '<option value="">-- Chagua Aina --</option>' + allGenres.map(g=>`<option value="${g.id}">${g.emoji||''} ${esc(g.name)}</option>`).join('');
+  selectedVideoFile = null;
+  ['vuTitle','vuDesc','vuDuration'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  loadNarratorGrid('videoNarGrid');
+}
+
+// ==================== SAVE STORY (NA author_user_id) ====================
+async function saveStory(publish) {
+  const title = document.getElementById('newTitle').value.trim();
+  const genre_id = document.getElementById('newGenre').value;
+  const description = document.getElementById('newDesc').value.trim();
+  if (!title || !genre_id) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jaza jina la hadithi na aina (genre).' }); switchTab('upload','ui'); return; }
+  const tags = document.getElementById('newTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const chapters = collectNewChapters();
+  try {
+    let cover_image_url = null;
+    if (coverFiles['coverArea']) {
+      showUploadOverlay('Inapakia Jalada...','Inapakia picha...',20);
+      cover_image_url = await uploadToStorage(coverFiles['coverArea'],'story-covers','covers');
+      showUploadOverlay('Ikihifadhi...','Inahifadhi...',70);
+    }
+    const storyData = {
+      title,
+      author: currentAuthor,
+      author_user_id: currentAuthorId,
+      genre_id, description, tags,
+      language: document.getElementById('newLang').value,
+      status: publish ? document.getElementById('newStatus').value : 'Rasimu',
+      is_free: document.getElementById('storyIsFree').classList.contains('on'),
+      free_chapters_count: parseInt(document.getElementById('newFreeCh').value)||3,
+      price_per_chapter: parseInt(document.getElementById('newPrice').value)||500,
+      allow_comments: document.getElementById('allowComments').classList.contains('on'),
+      is_published: publish, chapters_count: chapters.length,
+      published_at: publish ? new Date().toISOString() : null, cover_image_url
+    };
+    const inserted = await sbInsert('stories', storyData);
+    const story = Array.isArray(inserted) ? inserted[0] : inserted;
+    if (!story||!story.id) throw new Error('Hadithi haikuingizwa');
+    if (chapters.length > 0) {
+      const chapRows = chapters.map(c => ({
+        story_id: story.id, title: c.title, chapter_number: c.chapter_number,
+        content: c.content || null, word_count: c.word_count || 0,
+        is_free: c.access_type === 'free', access_type: c.access_type, is_published: publish
+      }));
+      const res = await fetch(SB_URL + '/rest/v1/story_chapters', { method: 'POST', headers: H_WRITE_MIN, body: JSON.stringify(chapRows) });
+      if (!res.ok) throw new Error('Sura hazikuhifadhiwa');
+    }
+    hideUploadOverlay();
+    showToast(publish ? `Hadithi "${title}" imechapishwa!` : `Rasimu imehifadhiwa!`, 'success');
+    coverFiles['coverArea'] = null;
+    allStories = [];
+    setTimeout(() => goPage('stories'), 1200);
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== SAVE AUDIO (NA author_user_id) ====================
+async function saveAudio(publish) {
+  const title = document.getElementById('auTitle').value.trim();
+  const story_id = document.getElementById('auLinkedStory').value || null;
+  if (!title) { showAlert({ type:'warning', title:'Jina linahitajika', message:'Jaza jina la simulizi.' }); switchAuTab('ai'); return; }
+  const genre_id = document.getElementById('auGenre').value || null;
+  const episodes = collectEpisodesData();
+  for (let i=0; i<episodes.length; i++) {
+    if (!episodes[i].file) { showAlert({ type:'warning', title:'Faili haipo', message:'Pakia faili ya sauti kwa Kipande '+(i+1) }); switchAuTab('af'); return; }
+  }
+  if (episodes.length === 0) { showAlert({ type:'warning', title:'Ongeza kipande', message:'Ongeza kipande kimoja cha sauti.' }); return; }
+  try {
+    let cover_image_url = null;
+    if (coverFiles['auCoverArea']) {
+      showUploadOverlay('Inapakia Jalada...','...',10);
+      cover_image_url = await uploadToStorage(coverFiles['auCoverArea'],'story-covers','audio-covers');
+    }
+    showUploadOverlay('Ikihifadhi Podcast...','...',20);
+    const payload = {
+      title, genre_id,
+      narrator_id: selectedNarratorId||null,
+      author_user_id: currentAuthorId,
+      description: document.getElementById('auDesc').value.trim(),
+      language: document.getElementById('auLang').value,
+      tags: (document.getElementById('auTags').value||'').split(',').map(t=>t.trim()).filter(Boolean),
+      cover_image_url,
+      is_free: document.getElementById('auFree').classList.contains('on'),
+      free_tracks_count: parseInt(document.getElementById('auFreeCount').value)||2,
+      price_per_track: parseInt(document.getElementById('auPrice').value)||500,
+      is_premium_only: document.getElementById('auPremium').classList.contains('on'),
+      total_episodes: episodes.length,
+      status: publish?'Imechapishwa':'Rasimu',
+      is_published: publish,
+      published_at: publish?new Date().toISOString():null
+    };
+    if (story_id) payload.story_id = story_id;
+    const inserted = await sbInsert('audio_items', payload);
+    const audioItemId = Array.isArray(inserted) && inserted[0] ? inserted[0].id : null;
+    if (!audioItemId) throw new Error('Imeshindwa kupata kitambulisho');
+    for (let i=0; i<episodes.length; i++) {
+      const ep = episodes[i];
+      showUploadOverlay('Inapakia Kipande '+(i+1)+'/'+episodes.length+'...','...',30 + Math.round(((i+1)/episodes.length)*60));
+      const url = await uploadToStorage(ep.file,'audio-files','audio-episodes');
+      await sbInsert('audio_episodes', {
+        audio_id: audioItemId, title: ep.title, episode_number: ep.episode_number,
+        audio_file_url: url, file_size_mb: parseFloat((ep.file.size/1024/1024).toFixed(2)),
+        duration_seconds: ep.duration_seconds, description: ep.description,
+        access_type: ep.access_type, is_free: ep.access_type==='free', price: ep.price, is_published: publish
+      });
+    }
+    if (story_id) {
+      await sbUpdate('stories', story_id, { has_audio:true }).catch(()=>{});
+    }
+    hideUploadOverlay();
+    showToast(publish?`Podcast imechapishwa!`:`Rasimu imehifadhiwa!`,'success');
+    allAudio=[]; coverFiles['auCoverArea']=null;
+    for (const k in audioEpisodeFiles) delete audioEpisodeFiles[k];
+    document.getElementById('audioTracksList').innerHTML = '';
+    setTimeout(()=>goPage('audio'),1200);
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== SAVE VIDEO (NA author_user_id) ====================
+async function saveVideo(publish) {
+  const title = document.getElementById('vuTitle').value.trim();
+  const story_id = document.getElementById('vuLinkedStory').value || null;
+  if (!title) { showAlert({ type:'warning', title:'Jina linahitajika', message:'Jaza jina la video.' }); switchVuTab('vi'); return; }
+  const genre_id = document.getElementById('vuGenre').value || null;
+  const durText = document.getElementById('vuDuration').value.trim();
+  let duration_seconds = null;
+  if (durText) { const p = durText.split(':').map(Number); if(p.length===3) duration_seconds=p[0]*3600+p[1]*60+p[2]; else if(p.length===2) duration_seconds=p[0]*60+p[1]; else duration_seconds=p[0]; }
+  const thumbInput = document.getElementById('vuThumb');
+  try {
+    let video_file_url = null, thumbnail_url = null, cover_image_url = null;
+    if (selectedVideoFile) {
+      showUploadOverlay('Inapakia Video...','Inapakia...',10);
+      const videoId = `vid_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+      const formData = new FormData();
+      formData.append('action', 'process-video');
+      formData.append('file', selectedVideoFile);
+      formData.append('videoId', videoId);
+      const response = await fetch(`${BACKBLAZE_FN_URL}?action=process-video`, { method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}` }, body: formData });
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error || 'Video processing failed');
+      video_file_url = result.originalUrl || (result.qualities && result.qualities[0] && result.qualities[0].url);
+      if (!video_file_url) throw new Error('Imeshindwa kupata URL ya video');
+    }
+    if (thumbInput && thumbInput.files && thumbInput.files[0]) thumbnail_url = await uploadToStorage(thumbInput.files[0], 'thumbnails', 'video-thumbs');
+    if (coverFiles['vuCoverArea']) cover_image_url = await uploadToStorage(coverFiles['vuCoverArea'], 'story-covers', 'video-covers');
+    const payload = {
+      title, genre_id, narrator_id: selectedNarratorId||null,
+      author_user_id: currentAuthorId,
+      description: document.getElementById('vuDesc').value.trim(),
+      language: document.getElementById('vuLang').value,
+      quality: document.getElementById('vuQuality').value,
+      duration_seconds, video_file_url, thumbnail_url, cover_image_url,
+      file_size_mb: selectedVideoFile ? parseFloat((selectedVideoFile.size/1024/1024).toFixed(2)) : null,
+      is_free: document.getElementById('vuFree').classList.contains('on'),
+      price: parseFloat(document.getElementById('vuPrice').value)||1000,
+      is_premium_only: document.getElementById('vuPremium').classList.contains('on'),
+      status: publish ? 'Imechapishwa' : 'Rasimu',
+      is_published: publish,
+      published_at: publish ? new Date().toISOString() : null
+    };
+    if (story_id) payload.story_id = story_id;
+    await sbInsert('video_items', payload);
+    if (story_id) {
+      await sbUpdate('stories', story_id, { has_video: true }).catch(()=>{});
+    }
+    hideUploadOverlay();
+    showToast(publish ? `Video imechapishwa!` : `Rasimu imehifadhiwa!`, 'success');
+    allVideo = []; selectedVideoFile = null; coverFiles['vuCoverArea'] = null;
+    setTimeout(() => goPage('video'), 1200);
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== CHAPTER ROW EDITOR ====================
+function addChapterRow() {
+  const list = document.getElementById('newChaptersList');
+  const num = list.querySelectorAll('.new-chapter-block').length+1;
+  const id = 'ch_'+Date.now()+'_'+num;
+  const div = document.createElement('div');
+  div.className = 'new-chapter-block';
+  div.dataset.id = id;
+  div.style.cssText = 'background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad);margin-bottom:12px;overflow:hidden';
+  div.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-ter);border-bottom:1px solid var(--border)">
+      <div class="ch-num ch-num-dyn" style="flex-shrink:0">${num}</div>
+      <input class="form-inp" type="text" placeholder="Kichwa cha sura ${num}" style="padding:6px 10px;font-size:13px;font-weight:600;flex:1;background:var(--bg-sec)" id="chTitle_${id}">
+      <select class="tbl-sel" style="font-size:11px;padding:4px 8px" onchange="newChAccessChange(this,'${id}')">
+        <option value="free">Bure</option>
+        <option value="paid">Inayolipwa</option>
+        <option value="premium">Premium</option>
+      </select>
+      <button class="act-btn" style="background:var(--bg-sec);color:var(--txt2)" onclick="toggleChBody('${id}')" title="Panua/Ficha"><i class="ti ti-chevron-down" id="chChevron_${id}"></i></button>
+    </div>
+    <div id="chBody_${id}" style="padding:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <label class="form-label">Maudhui ya Sura</label>
+        <span id="chWordCount_${id}" style="font-size:11px;color:var(--txt3)">0 maneno</span>
+      </div>
+      <textarea class="form-inp" rows="12" placeholder="Andika au paste maudhui..." style="min-height:240px;line-height:1.9;font-size:13.5px;resize:vertical" id="chContent_${id}" oninput="countWords(this,'chWordCount_${id}')"></textarea>
+    </div>`;
+  list.appendChild(div);
+  setTimeout(() => document.getElementById('chTitle_'+id)?.focus(), 50);
+}
+function newChAccessChange(sel, id) {}
+function toggleChBody(id) {
+  const body = document.getElementById('chBody_'+id);
+  const chev = document.getElementById('chChevron_'+id);
+  const hidden = body.style.display==='none';
+  body.style.display = hidden?'block':'none';
+  chev.className = hidden?'ti ti-chevron-up':'ti ti-chevron-down';
+}
+function countWords(ta, counterId) { const words = ta.value.trim().split(/\s+/).filter(w=>w.length>0).length; const el = document.getElementById(counterId); if (el) el.textContent = words.toLocaleString()+' maneno'; }
+function countWordsEl(ta, counterId) { const words = ta.value.trim().split(/\s+/).filter(w=>w.length>0).length; const el = document.getElementById(counterId); if (el) el.textContent = words.toLocaleString()+' maneno'; }
+function collectNewChapters() {
+  const chapters = [];
+  document.querySelectorAll('#newChaptersList .new-chapter-block').forEach((item,i) => {
+    const id = item.dataset.id;
+    const title = (document.getElementById('chTitle_'+id)?.value||'').trim();
+    const content = (document.getElementById('chContent_'+id)?.value||'').trim();
+    const access_type = item.querySelector('select')?.value||'free';
+    if (title) {
+      chapters.push({ chapter_number: i+1, title, content: content||null, access_type, is_free: access_type==='free', word_count: content.split(/\s+/).filter(Boolean).length });
+    }
+  });
+  return chapters;
+}
+
+// ==================== AUDIO TRACK ROW ====================
+const audioEpisodeFiles = {};
+let audioEpisodeSeq = 0;
+function addAudioTrack() {
+  const list = document.getElementById('audioTracksList');
+  const rid = 'ep_'+(++audioEpisodeSeq);
+  const num = list.querySelectorAll('.track-item').length+1;
+  const div = document.createElement('div');
+  div.className = 'track-item';
+  div.dataset.rid = rid;
+  div.style.cssText = 'background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);padding:12px;margin-bottom:10px';
+  div.innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;display:flex;align-items:center;justify-content:center">${num}</div>
+      <input class="form-inp ep-title" type="text" placeholder="Kichwa cha kipande" style="flex:1;padding:6px 8px;font-size:13px">
+      <input class="form-inp ep-num" type="number" min="1" value="${num}" placeholder="Namba" style="width:70px;padding:6px 8px;font-size:13px">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+      <select class="form-inp ep-access" style="padding:6px 8px;font-size:13px" onchange="epAccessChange(this)">
+        <option value="free">Bure</option>
+        <option value="paid">Inayolipwa</option>
+        <option value="premium">Premium</option>
+      </select>
+      <input class="form-inp ep-price" type="number" min="0" placeholder="Bei (TSh)" style="padding:6px 8px;font-size:13px;display:none">
+      <input class="form-inp ep-duration" type="text" placeholder="Muda (mm:ss)" style="padding:6px 8px;font-size:13px">
+      <input class="form-inp ep-desc" type="text" placeholder="Maelezo mafupi" style="padding:6px 8px;font-size:13px">
+    </div>
+    <label class="upload-area" for="trackFile_${rid}" style="padding:10px;margin:0;cursor:pointer;display:block;border-color:rgba(66,167,129,.4)">
+      <i class="ti ti-file-music" style="font-size:18px;color:var(--accent);display:block;margin-bottom:4px"></i>
+      <span style="font-size:11px;color:var(--txt2)">Bonyeza kupakia faili ya sauti</span>
+    </label>
+    <input type="file" id="trackFile_${rid}" accept="audio/*" style="display:none" onchange="onTrackFileSelected(this,'${rid}')">
+    <div id="trackInfo_${rid}" style="display:none;font-size:11px;color:var(--accent);margin-top:6px"></div>`;
+  list.appendChild(div);
+}
+function onTrackFileSelected(input, rid) {
+  const file = input.files[0]; if (!file) return;
+  audioEpisodeFiles[rid] = file;
+  const info = document.getElementById('trackInfo_'+rid);
+  if (info) { info.style.display='block'; info.innerHTML = `<i class="ti ti-check"></i> ${esc(file.name)} (${(file.size/1024/1024).toFixed(1)} MB)`; }
+}
+function epAccessChange(sel) {
+  const row = sel.closest('.track-item');
+  const priceEl = row.querySelector('.ep-price');
+  priceEl.style.display = sel.value === 'free' ? 'none' : 'block';
+}
+function collectEpisodesData() {
+  const rows = document.querySelectorAll('#audioTracksList .track-item');
+  const out = [];
+  rows.forEach((row,i) => {
+    const rid = row.dataset.rid;
+    const title = (row.querySelector('.ep-title').value||'').trim();
+    const epNum = parseInt(row.querySelector('.ep-num').value)||(i+1);
+    const access = row.querySelector('.ep-access').value;
+    const price = parseInt(row.querySelector('.ep-price').value)||0;
+    const durTxt = (row.querySelector('.ep-duration').value||'').trim();
+    const desc = (row.querySelector('.ep-desc').value||'').trim();
+    const file = audioEpisodeFiles[rid] || null;
+    let duration_seconds = null;
+    if (durTxt) { const p = durTxt.split(':').map(Number); if(p.length===3) duration_seconds=p[0]*3600+p[1]*60+p[2]; else if(p.length===2) duration_seconds=p[0]*60+p[1]; else duration_seconds=p[0]; }
+    out.push({ title: title||('Kipande '+epNum), episode_number: epNum, access_type: access, price: access==='free'?0:price, duration_seconds, description: desc||null, file });
+  });
+  return out;
+}
+
+// ==================== FILE SELECTION ====================
+function onVideoFileSelected(input) {
+  const file = input.files[0]; if (!file) return;
+  selectedVideoFile = file;
+  document.getElementById('vuFileName').textContent = file.name;
+  document.getElementById('vuFileSize').textContent = (file.size/1024/1024).toFixed(1)+' MB · '+file.type;
+  document.getElementById('vuFileInfo').style.display = 'block';
+}
+
+// ==================== COVER PREVIEW ====================
+function previewCover(input, areaId, fileId, color) {
+  const file = input.files[0]; if (!file) return;
+  coverFiles[areaId] = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById(areaId).innerHTML = `<div class="cover-preview"><img src="${e.target.result}" alt="Cover"><button class="cov-rm" onclick="removeCover('${areaId}','${fileId}','${color}')"><i class="ti ti-x"></i></button></div>`;
+  };
+  reader.readAsDataURL(file);
+}
+function removeCover(areaId, fileId, color) {
+  const borderC = color==='accent'?'var(--accent)':'var(--primary)';
+  document.getElementById(areaId).innerHTML = `<label class="cover-upload" for="${fileId}" style="border-color:${borderC};color:${borderC}"><i class="ti ti-photo"></i><span>Bonyeza kupakia</span></label><input type="file" id="${fileId}" accept="image/*" style="display:none" onchange="previewCover(this,'${areaId}','${fileId}','${color}')">`;
+  delete coverFiles[areaId];
+}
+
+// ==================== MODAL ====================
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-bg').forEach(bg => bg.addEventListener('click', e => { if(e.target===bg) bg.classList.remove('show'); }));
+
+// ==================== TAB SWITCHING ====================
+function switchTab(prefix, tabId) {
+  ['ui','uc','uch','us'].forEach(t => { const el=document.getElementById('tab-'+t); if(el) el.style.display='none'; });
+  const target = document.getElementById('tab-'+tabId);
+  if (target) target.style.display='block';
+  document.querySelectorAll('#page-'+prefix+' [data-tab]').forEach(t=>t.classList.remove('active'));
+  const activeTab = document.querySelector('#page-'+prefix+' [data-tab="'+tabId+'"]');
+  if (activeTab) activeTab.classList.add('active');
+}
+function switchAuTab(tabId) {
+  ['ai','af','an','as'].forEach(t => { const el=document.getElementById('tab-'+t); if(el) el.style.display='none'; });
+  const target = document.getElementById('tab-'+tabId);
+  if (target) target.style.display='block';
+  document.querySelectorAll('[data-atab]').forEach(t=>t.classList.remove('active'));
+  const activeTab = document.querySelector('[data-atab="'+tabId+'"]');
+  if (activeTab) activeTab.classList.add('active');
+  if (tabId==='an') loadNarratorGrid('audioNarGrid');
+}
+function switchVuTab(tabId) {
+  ['vi','vf','vn','vs'].forEach(t => { const el=document.getElementById('tab-'+t); if(el) el.style.display='none'; });
+  const target = document.getElementById('tab-'+tabId);
+  if (target) target.style.display='block';
+  document.querySelectorAll('[data-vtab]').forEach(t=>t.classList.remove('active'));
+  const activeTab = document.querySelector('[data-vtab="'+tabId+'"]');
+  if (activeTab) activeTab.classList.add('active');
+  if (tabId==='vn') loadNarratorGrid('videoNarGrid');
+}
+document.querySelectorAll('[data-tab]').forEach(t=>t.addEventListener('click',()=>switchTab('upload',t.dataset.tab)));
+document.querySelectorAll('[data-atab]').forEach(t=>t.addEventListener('click',()=>switchAuTab(t.dataset.atab)));
+document.querySelectorAll('[data-vtab]').forEach(t=>t.addEventListener('click',()=>switchVuTab(t.dataset.vtab)));
+
+// ==================== TOAST ====================
+const toastIcons = { success:'ti-check', error:'ti-alert-circle', info:'ti-info-circle' };
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.className = 'toast '+type;
+  document.getElementById('toastIcon').className = 'toast-icon ti '+(toastIcons[type]||'ti-info-circle');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+// ==================== HELPERS ====================
+function fmtNum(n) { n = Number(n)||0; if (n>=1000000) return (n/1000000).toFixed(1)+'M'; if (n>=1000) return (n/1000).toFixed(1)+'k'; return String(n); }
+function fmtDuration(secs) { if (!secs) return '—'; const h=Math.floor(secs/3600), m=Math.floor((secs%3600)/60), s=secs%60; if (h>0) return `${h}h ${m}m`; return `${m}:${String(s).padStart(2,'0')}`; }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function escAttr(s) { return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+// ==================== EDIT STORY ====================
+async function openEditStory(id) {
+  try {
+    if (!allStories.find(s => s.id === id)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+    if (!allGenres.length) allGenres = await sbSelect('genres', { select:'id,name,emoji', order:'name.asc' }).catch(()=>[]);
+    const rows = await sbSelect('stories', { select:'id,title,author,author_user_id,description,genre_id,status,language,tags,cover_image_url,is_free,free_chapters_count,price_per_chapter,allow_comments', filters:['id=eq.'+id] });
+    if (!rows || !rows.length) { showAlert({ type:'error', title:'Haipatikani', message:'Hadithi haikupatikana.' }); return; }
+    const s = rows[0];
+    if (s.author !== currentAuthor && s.author_user_id !== currentAuthorId) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+    window._editStoryOriginalCover = s.cover_image_url || '';
+    document.getElementById('editStoryId').value = s.id;
+    document.getElementById('editStoryTitle').value = s.title || '';
+    document.getElementById('editStoryAuthor').value = s.author || '';
+    document.getElementById('editStoryDesc').value = s.description || '';
+    document.getElementById('editStoryStatus').value = s.status || 'Rasimu';
+    document.getElementById('editStoryLang').value = s.language || 'Swahili';
+    document.getElementById('editStoryTags').value = Array.isArray(s.tags) ? s.tags.join(', ') : (s.tags||'');
+    document.getElementById('editStoryFreeCh').value = s.free_chapters_count ?? 3;
+    document.getElementById('editStoryPrice').value = s.price_per_chapter ?? 500;
+    document.getElementById('editStoryGenre').innerHTML = '<option value="">-- Chagua Aina --</option>' + allGenres.map(g=>`<option value="${g.id}" ${g.id===s.genre_id?'selected':''}>${g.emoji||''} ${esc(g.name)}</option>`).join('');
+    document.getElementById('editStoryIsFree').classList.toggle('on', !!s.is_free);
+    document.getElementById('editStoryAllowComments').classList.toggle('on', s.allow_comments !== false);
+    coverFiles['editStoryCoverArea'] = null;
+    const area = document.getElementById('editStoryCoverArea');
+    if (s.cover_image_url) {
+      area.innerHTML = `<div class="cover-preview"><img src="${esc(s.cover_image_url)}" alt="Cover"><button class="cov-rm" onclick="removeCover('editStoryCoverArea','editStoryCoverFile','primary')"><i class="ti ti-x"></i></button></div>`;
+    } else {
+      area.innerHTML = `<label class="cover-upload" for="editStoryCoverFile"><i class="ti ti-photo"></i><span>Bonyeza kupakia</span></label><input type="file" id="editStoryCoverFile" accept="image/*" style="display:none" onchange="previewCover(this,'editStoryCoverArea','editStoryCoverFile','primary')">`;
+    }
+    document.getElementById('editStoryTitleHdr').innerHTML = '<i class="ti ti-edit"></i> Hariri: ' + esc(s.title);
+    await renderEditStoryChapters(s.id);
+    openModal('modalEditStory');
+  } catch(e) { showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+async function renderEditStoryChapters(storyId) {
+  const wrap = document.getElementById('editStoryChaptersList');
+  wrap.innerHTML = '<div class="loading"><i class="ti ti-loader spin"></i> Inapakia...</div>';
+  try {
+    const chapters = await sbSelect('story_chapters', { select:'id,chapter_number,title,word_count,access_type,price', filters:['story_id=eq.'+storyId], order:'chapter_number.asc' });
+    const ab = { free:'b-green', paid:'b-orange', premium:'b-yellow' };
+    const al = { free:'Bure', paid:'Inayolipwa', premium:'Premium' };
+    wrap.innerHTML = chapters.length === 0 ? '<div style="padding:14px;text-align:center;color:var(--txt3);font-size:12px">Hakuna sura bado.</div>'
+      : chapters.map(c => `<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg-sec);border:1px solid var(--border);border-radius:var(--rad-sm);margin-bottom:6px">
+          <div style="width:26px;height:26px;background:var(--primary-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--primary);flex-shrink:0">${c.chapter_number}</div>
+          <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(c.title)}</div><div style="font-size:10.5px;color:var(--txt3)">${fmtNum(c.word_count||0)} maneno</div></div>
+          <span class="badge ${ab[c.access_type]||'b-gray'}" style="font-size:9.5px">${al[c.access_type]||c.access_type}</span>
+          <button class="act-btn act-edit" onclick="openEditChapterFromStory('${c.id}','${storyId}')"><i class="ti ti-edit"></i></button>
+        </div>`).join('');
+  } catch(e) { wrap.innerHTML = '<div style="color:var(--red);padding:10px;font-size:12px">'+esc(e.message)+'</div>'; }
+}
+async function openEditChapterFromStory(chapterId, storyId) {
+  activeChapterStoryId = storyId;
+  await openEditChapterById(chapterId);
+}
+function openAddChapterFromEdit() {
+  const storyId = document.getElementById('editStoryId').value;
+  const title = document.getElementById('editStoryTitle').value.trim() || 'Hadithi';
+  if (!storyId) return;
+  if (!allStories.find(s => s.id === storyId)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  const count = parseInt(document.querySelectorAll('#editStoryChaptersList .badge').length) || 0;
+  openAddChapterToStory(storyId, title, count);
+}
+async function saveEditedStory() {
+  const id = document.getElementById('editStoryId').value;
+  if (!allStories.find(s => s.id === id)) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hadithi hii si yako.' }); return; }
+  const title = document.getElementById('editStoryTitle').value.trim();
+  const author = document.getElementById('editStoryAuthor').value.trim();
+  const genre_id = document.getElementById('editStoryGenre').value;
+  const description = document.getElementById('editStoryDesc').value.trim();
+  if (!title || !genre_id) { showAlert({ type:'warning', title:'Sehemu hazijakamilika', message:'Jaza jina na aina.' }); return; }
+  if (author !== currentAuthor) { showAlert({ type:'error', title:'Hauna ruhusa', message:'Hauwezi kubadilisha jina la mwandishi.' }); return; }
+  const tags = document.getElementById('editStoryTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  const updateData = {
+    title, author, genre_id, description, tags,
+    author_user_id: currentAuthorId,
+    language: document.getElementById('editStoryLang').value,
+    status: document.getElementById('editStoryStatus').value,
+    is_free: document.getElementById('editStoryIsFree').classList.contains('on'),
+    free_chapters_count: parseInt(document.getElementById('editStoryFreeCh').value)||0,
+    price_per_chapter: parseInt(document.getElementById('editStoryPrice').value)||0,
+    allow_comments: document.getElementById('editStoryAllowComments').classList.contains('on')
+  };
+  try {
+    const newCover = coverFiles['editStoryCoverArea'];
+    const originalCover = window._editStoryOriginalCover || '';
+    const areaHTML = document.getElementById('editStoryCoverArea').innerHTML;
+    const hasPreview = areaHTML.indexOf('cover-preview') !== -1;
+    if (newCover) {
+      showUploadOverlay('Inapakia Jalada...','...',30);
+      updateData.cover_image_url = await uploadToStorage(newCover, 'story-covers', 'covers');
+      if (originalCover) { try { await deleteFromStorage(originalCover); } catch(_){} }
+    } else if (!hasPreview && originalCover) {
+      updateData.cover_image_url = null;
+      try { await deleteFromStorage(originalCover); } catch(_){}
+    }
+    showUploadOverlay('Ikihifadhi...','...',80);
+    await sbUpdate('stories', id, updateData);
+    hideUploadOverlay();
+    coverFiles['editStoryCoverArea'] = null;
+    closeModal('modalEditStory');
+    showToast('Hadithi imehifadhiwa!','success');
+    allStories = [];
+    loadStories();
+  } catch(e) { hideUploadOverlay(); showAlert({ type:'error', title:'Hitilafu', message:e.message }); }
+}
+
+// ==================== GENRES DROPDOWN ====================
+function populateGenreSelects() {
+  const opts = allGenres.map(g => `<option value="${g.id}">${g.emoji||''} ${esc(g.name)}</option>`).join('');
+  ['newGenre','auGenre','vuGenre'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<option value="">-- Chagua Aina --</option>' + opts;
+  });
+}
+
+// ==================== INIT ====================
+(async function init() {
+  const ok = await verifyAuthorSession();
+  if (!ok) return;
+  updateAuthorUI();
+  try {
+    allGenres = await sbSelect('genres', { select:'id,name,emoji,color', order:'name.asc' });
+    populateGenreSelects();
+  } catch(e){}
+  await loadDashboard();
+})();
+</script>
+</body>
+</html>
