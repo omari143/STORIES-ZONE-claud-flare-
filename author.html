@@ -102,6 +102,8 @@
       padding: 3px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
       box-shadow: 0 8px 24px rgba(156,37,24,0.3);
+      position: relative;
+      overflow: hidden;
     }
 
     .author-avatar-large-inner {
@@ -110,17 +112,17 @@
       border-radius: 50%;
       overflow: hidden;
       background: var(--bg-card);
-      border: 2px solid var(--bg);
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
 
     .author-avatar-large-inner img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center;
+      object-position: center top;
       display: block;
     }
 
@@ -148,6 +150,7 @@
       max-width: 500px;
       margin: 0 auto 16px;
       line-height: 1.45;
+      min-height: 20px;
     }
 
     .author-stats {
@@ -400,8 +403,7 @@
       const initial = (name.trim().charAt(0) || 'M').toUpperCase();
       const heroAvatarEl = document.getElementById('heroAvatar');
       if (authorData.avatar_url) {
-        heroAvatarEl.innerHTML =
-          `<img src="${escapeHtml(authorData.avatar_url)}" alt="${escapeHtml(name)}" onerror="this.parentElement.innerHTML='<div class=\\'author-initial-large\\'>${initial}</div>'" />`;
+        heroAvatarEl.innerHTML = `<img src="${escapeHtml(authorData.avatar_url)}" alt="${escapeHtml(name)}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'author-initial-large\\'>${initial}</div>'" />`;
       } else {
         heroAvatarEl.innerHTML = `<div class="author-initial-large">${initial}</div>`;
       }
