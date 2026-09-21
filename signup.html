@@ -455,19 +455,112 @@ img { max-width: 100%; display: block; }
   .auth-logo-name { font-size: 20px; }
   .auth-title { font-size: 20px; }
 }
+
+/* ============================================
+   AUTHOR SIGNUP CTA — "Jisajili kama Mwandishi"
+   ============================================ */
+.author-cta {
+  margin-top: 24px;
+  padding: 18px 16px;
+  background: linear-gradient(135deg, rgba(156,37,24,0.12), rgba(66,167,129,0.08));
+  border: 1px dashed rgba(156,37,24,0.35);
+  border-radius: var(--radius);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.author-cta::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(156,37,24,0.15), transparent 60%);
+  pointer-events: none;
+}
+
+.author-cta-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.author-cta-header svg {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.author-cta-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.author-cta-desc {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.author-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(156,37,24,0.35);
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
+  border: none;
+  cursor: pointer;
+}
+
+.author-cta-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(156,37,24,0.5);
+}
+
+.author-cta-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.author-cta-btn svg {
+  width: 16px;
+  height: 16px;
+}
   </style>
 </head>
 <body>
 
   <header class="header">
     <div class="header-top">
-      <a href="https://storieszone.site" class="logo">
+      <a href="https://stories-zone.vercel.app" class="logo">
         <div class="logo-icon">
           <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/36x36/9c2518/white?text=SZ'">
         </div>
         <span class="logo-text">STORIES <span>ZONE</span></span>
       </a>
-      <a href="https://storieszone.site" style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:6px;">
+      <a href="https://stories-zone.vercel.app" style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:6px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="15 18 9 12 15 6"/></svg>
         Rudi Nyumbani
       </a>
@@ -484,7 +577,7 @@ img { max-width: 100%; display: block; }
           </div>
           <span class="auth-logo-name">STORIES <span>ZONE</span></span>
         </div>
-        <h1 class="auth-title">Karibu! 🎉</h1>
+        <h1 class="auth-title">Karibu! </h1>
         <p class="auth-subtitle">Jiunge bure na upate hadithi za kusisimua</p>
       </div>
 
@@ -583,15 +676,38 @@ img { max-width: 100%; display: block; }
 
         <p class="terms-note">
           Kwa kuunda akaunti, unakubali
-          <a href="https://storieszone.site/terms.html">Masharti</a> na
-          <a href="https://storieszone.site/privacy.html">Sera ya Faragha</a> zetu.
+          <a href="https://stories-zone.vercel.app/terms.html">Masharti</a> na
+          <a href="https://stories-zone.vercel.app/privacy.html">Sera ya Faragha</a> zetu.
         </p>
 
         <div class="switch-link">
-          Una akaunti tayari? <a href="https://storieszone.site/login.html">Ingia hapa</a>
+          Una akaunti tayari? <a href="https://stories-zone.vercel.app/login.html">Ingia hapa</a>
         </div>
 
       </form>
+
+      <!-- ============================================
+           AUTHOR SIGNUP CTA — "Jisajili kama Mwandishi"
+           ============================================ -->
+      <div class="author-cta">
+        <div class="author-cta-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+          <span class="author-cta-title">Unataka kuandika hadithi?</span>
+        </div>
+        <p class="author-cta-desc">
+          Jiunge kama mwandishi, pakia hadithi zako, na upate wasomaji maelfu kwenye Stories Zone.
+        </p>
+        <a href="author_signup.html" class="author-cta-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Jisajili kama Mwandishi
+        </a>
+      </div>
 
     </div>
   </div>
@@ -599,27 +715,27 @@ img { max-width: 100%; display: block; }
   <div class="toast" id="toast"></div>
 
   <nav class="bottom-nav">
-    <a href="https://storieszone.site" class="nav-item">
+    <a href="https://stories-zone.vercel.app" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
         <polyline points="9 22 9 12 15 12 15 22"/>
       </svg>
       Nyumbani
     </a>
-    <a href="https://storieszone.site/index.html" class="nav-item">
+    <a href="https://stories-zone.vercel.app/index.html" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
       Tafuta
     </a>
-    <a href="https://storieszone.site/library.html" class="nav-item">
+    <a href="https://stories-zone.vercel.app/library.html" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
       </svg>
       Maktaba
     </a>
-    <a href="https://storieszone.site/signup.html" class="nav-item active">
+    <a href="https://stories-zone.vercel app/signup.html" class="nav-item active">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
@@ -794,7 +910,7 @@ img { max-width: 100%; display: block; }
           submitBtn.style.background = 'var(--accent)';
           
           setTimeout(() => {
-            window.location.href = 'https://storieszone.site/login.html';
+            window.location.href = 'https://stories-zone.vercel.app/login.html';
           }, 2000);
         } else {
           showToast(result.error || 'Imeshindwa kuunda akaunti. Jaribu tena.', 'error');
@@ -819,7 +935,7 @@ img { max-width: 100%; display: block; }
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: 'https://storieszone.site/auth-callback.html',
+            redirectTo: 'https://stories-zone.vercel.app/auth-callback.html',
             queryParams: { access_type: 'offline', prompt: 'consent' }
           }
         });
@@ -850,7 +966,7 @@ img { max-width: 100%; display: block; }
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'facebook',
           options: {
-            redirectTo: 'https://storieszone.site/auth-callback.html'
+            redirectTo: 'https://stories-zone.vercel.app/auth-callback.html'
           }
         });
         
