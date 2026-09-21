@@ -997,7 +997,7 @@
     </ol>
 
     <div class="cta-wrap">
-      <a href="register.html" class="cta-btn">
+      <a href="author_signup.html" class="cta-btn">
         <i class="fa-solid fa-pen-fancy"></i>
         Jiunge kama Mwandishi
       </a>
@@ -1316,8 +1316,6 @@
       if (storiesError) console.warn('stories count error:', storiesError);
 
       // ====== 2. Total AUTHORS kutoka table authors ======
-      // Tunajaribu kwanza kuhesabu waandishi walio "approved" (hai/verified),
-      // kisha tunaangalia jumla ya waandishi wote kama fallback.
       let authorsCount = 0;
 
       const {
@@ -1334,7 +1332,6 @@
       if (!approvedAuthorsError && approvedAuthorsCount !== null) {
         authorsCount = approvedAuthorsCount;
       } else {
-        // Fallback: jumla ya waandishi wote
         const {
           count: allAuthorsCount,
           error: allAuthorsError
