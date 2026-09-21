@@ -1245,7 +1245,177 @@
     .mb-4 {
       margin-bottom: var(--space-4);
     }
-  </style>
+  
+/* ============================================
+   AUTHOR PROFILES SECTION
+   ============================================ */
+.authors-section {
+  padding: var(--space-5) 0 var(--space-4);
+  background: linear-gradient(180deg, var(--bg) 0%, rgba(20,20,20,.4) 100%);
+}
+
+.authors-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+}
+
+.authors-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+}
+
+.authors-title i {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+@media (min-width: 768px) {
+  .authors-title { font-size: 20px; }
+}
+
+.authors-scroll {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px var(--space-4) var(--space-5);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--space-4);
+  -webkit-overflow-scrolling: touch;
+}
+
+.authors-scroll::-webkit-scrollbar { display: none; }
+.authors-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+.author-card {
+  flex-shrink: 0;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform var(--dur) var(--ease);
+  animation: cardIn .35s var(--ease) both;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.author-card:hover { transform: translateY(-4px); }
+.author-card:active { transform: translateY(-2px) scale(.97); }
+
+/* AVATAR: MDUARA, PICHA INAJAZA MDUARA MZIMA BILA NAFASI PEMBENI */
+.author-avatar-wrap {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 6px 18px rgba(156,37,24,.25);
+  transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+  flex-shrink: 0;
+}
+
+.author-card:hover .author-avatar-wrap {
+  box-shadow: 0 8px 24px rgba(156,37,24,.45);
+  transform: scale(1.04);
+}
+
+.author-avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 2px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PICHA INAJAZA MDUARA (AUTOMATIC COVER BILA KUKATWA VIBAYA AU KUACHA NAFASI PEMBENI) */
+.author-avatar-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Fallback: herufi ya kwanza ya jina */
+.author-avatar-initial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #c43a2a);
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.5px;
+}
+
+.author-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 96px;
+  letter-spacing: -.1px;
+}
+
+.author-stories-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.author-skeleton {
+  flex-shrink: 0;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.author-skeleton-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+}
+
+.author-skeleton-line {
+  width: 70px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+@media (min-width: 768px) {
+  .author-card { width: 110px; }
+  .author-avatar-wrap { width: 88px; height: 88px; }
+  .author-name { font-size: 13.5px; max-width: 110px; }
+  .author-skeleton { width: 110px; }
+  .author-skeleton-circle { width: 88px; height: 88px; }
+}
+
+</style>
 </head>
 
 <body>
@@ -1315,6 +1485,41 @@
   <div class="hero-dots" id="heroDots"></div>
   <div class="hero-thumbs hide-scrollbar" id="heroThumbs"></div>
 </section>
+
+
+    <!-- Waandishi Wetu Section -->
+    <section class="authors-section" id="authorsSection">
+      <div class="authors-header">
+        <h2 class="authors-title">
+          <i class="fa-solid fa-feather-pointed"></i>
+          Waandishi Wetu
+        </h2>
+        <a href="authors.html" class="view-all">Ona Wote</a>
+      </div>
+
+      <div class="authors-scroll hide-scrollbar" id="authorsContainer">
+        <div class="author-skeleton">
+          <div class="skeleton author-skeleton-circle"></div>
+          <div class="skeleton author-skeleton-line"></div>
+        </div>
+        <div class="author-skeleton">
+          <div class="skeleton author-skeleton-circle"></div>
+          <div class="skeleton author-skeleton-line"></div>
+        </div>
+        <div class="author-skeleton">
+          <div class="skeleton author-skeleton-circle"></div>
+          <div class="skeleton author-skeleton-line"></div>
+        </div>
+        <div class="author-skeleton">
+          <div class="skeleton author-skeleton-circle"></div>
+          <div class="skeleton author-skeleton-line"></div>
+        </div>
+        <div class="author-skeleton">
+          <div class="skeleton author-skeleton-circle"></div>
+          <div class="skeleton author-skeleton-line"></div>
+        </div>
+      </div>
+    </section>
 
 <section class="search-section">
 
@@ -2412,8 +2617,117 @@ function startHeroAutoplay() {
     );
 }
 
+
+// ============================================
+// AUTHOR PROFILES (Homepage Section)
+// ============================================
+
+async function fetchAuthors(limit = 20) {
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/authors?select=id,name,avatar_url,bio&limit=${limit}`;
+    const res = await fetch(url, { headers });
+    if (!res.ok) return [];
+    const authors = await res.json();
+    if (!Array.isArray(authors)) return [];
+
+    const counts = await Promise.all(
+      authors.map(async (a) => {
+        try {
+          const countUrl = `${SUPABASE_URL}/rest/v1/stories?select=id&author=eq.${encodeURIComponent(a.name)}&is_published=eq.true`;
+          const countRes = await fetch(countUrl, {
+            headers: { ...headers, 'Prefer': 'count=exact' }
+          });
+          const range = countRes.headers.get('content-range');
+          let count = 0;
+          if (range) {
+            const match = range.match(/\/(\d+)$/);
+            if (match) count = Number(match[1]) || 0;
+          } else {
+            const rows = await countRes.json();
+            count = Array.isArray(rows) ? rows.length : 0;
+          }
+          return { ...a, stories_count: count };
+        } catch {
+          return { ...a, stories_count: 0 };
+        }
+      })
+    );
+    return counts;
+  } catch (e) {
+    console.error('fetchAuthors error:', e);
+    return [];
+  }
+}
+
+function buildAuthorCard(author) {
+  const name = escapeHtml(author.name || 'Mwandishi');
+  const initial = name.trim().charAt(0).toUpperCase() || 'M';
+  const targetId = author.id || author.name;
+  const avatar = author.avatar_url
+    ? `<img src="${escapeHtml(author.avatar_url)}" alt="${name}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'author-avatar-initial\'>${initial}</div>'" />`
+    : `<div class="author-avatar-initial">${initial}</div>`;
+
+  return `
+    <a href="author.html?id=${encodeURIComponent(targetId)}" class="author-card" aria-label="Ona hadithi za ${name}">
+      <div class="author-avatar-wrap">
+        <div class="author-avatar-inner">${avatar}</div>
+      </div>
+      <div class="author-name">${name}</div>
+      <div class="author-stories-count">${Number(author.stories_count || 0)} hadithi</div>
+    </a>
+  `;
+}
+
+async function loadAuthors() {
+  const container = document.getElementById('authorsContainer');
+  if (!container) return;
+  try {
+    const authors = await fetchAuthors(20);
+    if (!authors || authors.length === 0) {
+      await loadAuthorsFromStories();
+      return;
+    }
+    container.innerHTML = authors.map(buildAuthorCard).join('');
+  } catch (e) {
+    console.error('loadAuthors error:', e);
+    await loadAuthorsFromStories();
+  }
+}
+
+async function loadAuthorsFromStories() {
+  const container = document.getElementById('authorsContainer');
+  if (!container) return;
+  try {
+    const url = `${SUPABASE_URL}/rest/v1/stories?select=author&is_published=eq.true&order=total_reads.desc&limit=200`;
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error('fallback failed');
+    const rows = await res.json();
+    const map = {};
+    (rows || []).forEach(r => {
+      const a = (r.author || '').trim();
+      if (!a) return;
+      map[a] = (map[a] || 0) + 1;
+    });
+    const authors = Object.keys(map)
+      .map(name => ({ name, id: name, stories_count: map[name], avatar_url: null }))
+      .sort((a, b) => b.stories_count - a.stories_count)
+      .slice(0, 20);
+
+    if (authors.length === 0) {
+      container.innerHTML = '<p style="color:var(--text-muted);padding:16px;">Hakuna waandishi bado.</p>';
+      return;
+    }
+    container.innerHTML = authors.map(buildAuthorCard).join('');
+  } catch (e) {
+    console.error('loadAuthorsFromStories error:', e);
+    container.innerHTML = '<p style="color:var(--text-muted);padding:16px;">Imeshindikana kupakia waandishi.</p>';
+  }
+}
+
+
 async function loadAllData() {
   try {
+    loadAuthors();
 
     const [
       genres,
