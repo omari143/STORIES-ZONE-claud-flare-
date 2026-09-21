@@ -1765,7 +1765,344 @@ img { max-width: 100%; display: block; }
   .player-full-cover.playing { animation: none; }
   .player-full-header-left::before { animation: none; }
 }
-  </style>
+  
+/* ===== AUTHOR ROW (kwenye kila card/item) ===== */
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.author-row:hover { opacity: 0.85; }
+
+.author-row:active { transform: scale(0.98); }
+
+.author-avatar-mini {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  padding: 1.5px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.author-avatar-mini-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1.5px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-avatar-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.author-avatar-initial-mini {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #c43a2a);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.author-name-mini {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.author-name-mini strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Kwenye audio-card (Mpya Kabisa) - author row nyembamba */
+.audio-card .author-row {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.audio-card .author-name-mini {
+  font-size: 10.5px;
+}
+
+/* Kwenye audio-list-item - author row iko chini ya title */
+.audio-list-item .author-row {
+  margin-top: 4px;
+}
+
+.audio-list-item .author-name-mini {
+  font-size: 11.5px;
+}
+
+/* Kwenye featured-content - author row ndani ya overlay */
+.featured-content .author-row {
+  margin-top: 8px;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.featured-content .author-name-mini {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+}
+
+.featured-content .author-name-mini strong {
+  color: #fff;
+}
+
+/* Kwenye detail modal - author row kubwa */
+.detail-author-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px auto 16px;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.detail-author-row:hover {
+  background: var(--bg-card);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.detail-author-row:active { transform: scale(0.98); }
+
+.detail-author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  flex-shrink: 0;
+}
+
+.detail-author-avatar-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 2px solid var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-author-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-author-initial {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), #c43a2a);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.detail-author-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.detail-author-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.detail-author-name {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.detail-author-arrow {
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.detail-author-arrow svg {
+  width: 14px;
+  height: 14px;
+}
+
+
+/* ===== Search Bar Styling ===== */
+.search-section {
+  max-width: 900px;
+  margin: 16px auto 12px;
+  padding: 0 16px;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 4px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(66, 167, 129, 0.2);
+  background: var(--bg-secondary);
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.search-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14.5px;
+  padding: 10px 0;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-clear-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  padding: 0;
+  margin-left: 6px;
+}
+
+.search-clear-btn:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.search-clear-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-left: 8px;
+}
+
+.search-status {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.search-status strong {
+  color: var(--accent);
+}
+
+.search-reset-btn {
+  color: var(--primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: underline;
+  padding: 2px 4px;
+}
+
+</style>
 </head>
 <body>
 
@@ -1818,6 +2155,28 @@ img { max-width: 100%; display: block; }
           <span class="lbl">Sauti</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ===== Search Bar ===== -->
+  <div class="search-section" id="storySearchSection">
+    <div class="search-wrapper">
+      <div class="search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </div>
+      <input type="text" id="storySearchInput" class="search-input" placeholder="Tafuta hadithi, mwandishi, au msomaji..." autocomplete="off" />
+      <div id="searchSpinner" class="search-spinner" style="display:none;"></div>
+      <button id="searchClearBtn" class="search-clear-btn" type="button" aria-label="Futa utafutaji" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div id="searchStatus" class="search-status" style="display:none;">
+      <span id="searchStatusText"></span>
+      <button type="button" class="search-reset-btn" id="searchResetBtn">Onyesha zote</button>
     </div>
   </div>
 
@@ -2440,12 +2799,34 @@ img { max-width: 100%; display: block; }
 
     // ===== Data loading =====
     async function loadAudioItems() {
-      const { data, error } = await supabase
+      // Jaribu kwanza na authors join
+      let { data, error } = await supabase
         .from('audio_items')
-        .select(`*, genres:genre_id (id, name, emoji), narrators:narrator_id (id, name)`)
+        .select(`*, 
+          genres:genre_id (id, name, emoji), 
+          narrators:narrator_id (id, name),
+          authors:author_user_id (id, name, avatar_url)`)
         .eq('is_published', true)
         .order('created_at', { ascending: false });
-      if (error) { showToast('Imeshindwa kupakia podcasts', 'error'); return []; }
+
+      // Kama authors join imeshindwa (table haipo), fallback bila authors
+      if (error) {
+        console.warn('authors join failed, falling back:', error.message);
+        const fallback = await supabase
+          .from('audio_items')
+          .select(`*, 
+            genres:genre_id (id, name, emoji), 
+            narrators:narrator_id (id, name)`)
+          .eq('is_published', true)
+          .order('created_at', { ascending: false });
+        data = fallback.data;
+        error = fallback.error;
+      }
+
+      if (error) { 
+        showToast('Imeshindwa kupakia podcasts', 'error'); 
+        return []; 
+      }
       return data || [];
     }
     async function loadGenres() {
@@ -2501,6 +2882,75 @@ img { max-width: 100%; display: block; }
       renderAudioList(filtered);
     }
 
+    // ===== Build author row HTML =====
+    // Inatumika kwenye audio-card, audio-list-item, featured, na detail
+    function buildAuthorRow(audio, options = {}) {
+      const { variant = 'mini' } = options;
+      
+      // Chukua author info
+      const authorData = audio.authors || null;
+      const authorId = authorData?.id || audio.author_user_id || null;
+      const authorName = authorData?.name || audio.author || 'Mwandishi';
+      const authorAvatar = authorData?.avatar_url || null;
+      
+      // Kama hakuna authorId na jina la author halipo, usionyeshe kitu
+      if (!authorId && !authorName) return '';
+      
+      const initial = (authorName.trim().charAt(0) || 'M').toUpperCase();
+      const authorUrl = authorId 
+        ? `author.html?id=${encodeURIComponent(authorId)}` 
+        : `author.html?id=${encodeURIComponent(authorName)}`;
+      
+      const avatarHtml = authorAvatar
+        ? `<img src="${escapeHtml(authorAvatar)}" alt="${escapeHtml(authorName)}" onerror="this.parentElement.innerHTML='<div class=\'author-avatar-initial-mini\'>${initial}</div>'" />`
+        : `<div class="author-avatar-initial-mini">${initial}</div>`;
+      
+      return `
+        <a href="${authorUrl}" class="author-row" onclick="event.stopPropagation()" aria-label="Ona hadithi za ${escapeHtml(authorName)}">
+          <div class="author-avatar-mini">
+            <div class="author-avatar-mini-inner">${avatarHtml}</div>
+          </div>
+          <div class="author-name-mini">na <strong>${escapeHtml(authorName)}</strong></div>
+        </a>
+      `;
+    }
+
+    // ===== Build author row kwa detail modal (kubwa) =====
+    function buildAuthorRowDetail(audio) {
+      const authorData = audio.authors || null;
+      const authorId = authorData?.id || audio.author_user_id || null;
+      const authorName = authorData?.name || audio.author || 'Mwandishi';
+      const authorAvatar = authorData?.avatar_url || null;
+      
+      if (!authorId && !authorName) return '';
+      
+      const initial = (authorName.trim().charAt(0) || 'M').toUpperCase();
+      const authorUrl = authorId 
+        ? `author.html?id=${encodeURIComponent(authorId)}` 
+        : `author.html?id=${encodeURIComponent(authorName)}`;
+      
+      const avatarHtml = authorAvatar
+        ? `<img src="${escapeHtml(authorAvatar)}" alt="${escapeHtml(authorName)}" onerror="this.parentElement.innerHTML='<div class=\'detail-author-initial\'>${initial}</div>'" />`
+        : `<div class="detail-author-initial">${initial}</div>`;
+      
+      return `
+        <a href="${authorUrl}" class="detail-author-row" aria-label="Ona hadithi za ${escapeHtml(authorName)}">
+          <div class="detail-author-avatar">
+            <div class="detail-author-avatar-inner">${avatarHtml}</div>
+          </div>
+          <div class="detail-author-info">
+            <span class="detail-author-lbl">Mwandishi</span>
+            <span class="detail-author-name">${escapeHtml(authorName)}</span>
+          </div>
+          <span class="detail-author-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </span>
+        </a>
+      `;
+    }
+
     function renderNewReleases() {
       const latest = [...audioItems].slice(0, 5);
       if (!latest.length) { newReleasesContainer.innerHTML = '<div class="empty-state">Hakuna podcast mpya</div>'; return; }
@@ -2529,6 +2979,7 @@ img { max-width: 100%; display: block; }
               </div>
               <span class="star-icon">${icon('star')} ${rating}</span>
             </div>
+            ${buildAuthorRow(audio)}
           </div>`;
       }).join('');
       document.querySelectorAll('.audio-card').forEach(card => {
@@ -2548,6 +2999,19 @@ img { max-width: 100%; display: block; }
       document.getElementById('featuredImg').src = cover;
       document.getElementById('featuredTitle').textContent = featured.title;
       document.getElementById('featuredNarrator').textContent = `Msomaji: ${narratorName}`;
+
+      // Ongeza author row kwenye featured card
+      const featuredContent = document.querySelector('.featured-content');
+      if (featuredContent) {
+        // Ondoa author row iliyopo (kama ipo)
+        featuredContent.querySelectorAll('.author-row').forEach(el => el.remove());
+        // Weka mpya kati ya narrator na play button
+        const playBtn = featuredContent.querySelector('.featured-play-btn');
+        if (playBtn) {
+          playBtn.insertAdjacentHTML('beforebegin', buildAuthorRow(featured, { variant: 'featured' }));
+        }
+      }
+
       document.getElementById('featuredDuration').innerHTML = `${icon('headphones')} ${featured.total_episodes || 0} vipande`;
       document.getElementById('featuredCard').onclick = () => showAudioDetail(idx);
       document.getElementById('featuredPlayBtn').onclick = (e) => { e.stopPropagation(); showAudioDetail(idx); };
@@ -2579,6 +3043,7 @@ img { max-width: 100%; display: block; }
               <div class="ali-meta">
                 <span>${icon('heart')} ${likes}</span><span>${icon('eye')} ${plays}</span><span>${icon('comment')} ${comments}</span>
               </div>
+              ${buildAuthorRow(audio)}
             </div>
             <div class="ali-right">
               <span class="ali-duration">${icon('headphones')} ${epCount} vipande</span>
@@ -2607,8 +3072,16 @@ img { max-width: 100%; display: block; }
     }
 
     // ===== Detail modal =====
-    async function showAudioDetail(index) {
-      const audio = audioItems[index];
+    async function showAudioDetail(indexOrAudio) {
+      let audio;
+      if (typeof indexOrAudio === 'object' && indexOrAudio !== null) {
+        audio = indexOrAudio;
+        if (!audioItems.some(a => String(a.id) === String(audio.id))) {
+          audioItems.push(audio);
+        }
+      } else {
+        audio = audioItems[indexOrAudio];
+      }
       if (!audio) return;
       currentAudioId = audio.id;
 
@@ -2648,6 +3121,7 @@ img { max-width: 100%; display: block; }
         <div class="detail-title">${escapeHtml(audio.title)}</div>
         <div class="detail-narrator">${icon('mic')} ${escapeHtml(narratorName)}</div>
         <div class="detail-genre">${icon('book')} ${genreName} · ${icon('headphones')} ${episodes.length} vipande</div>
+        ${buildAuthorRowDetail(audio)}
         <div class="detail-description">${escapeHtml(audio.description || 'Hakuna maelezo ya podcast hii.')}</div>
         <div class="detail-stats">
           <div class="detail-stat"><div class="value">${formatDuration(totalSeconds)}</div><div class="label">Muda</div></div>
@@ -3321,6 +3795,162 @@ img { max-width: 100%; display: block; }
     window.closeShareModal = closeShareModal;
 
     // ===== Init =====
+    
+    // ===== DATABASE SEARCH LOGIC =====
+    let currentSearchResults = null;
+    let searchDebounceTimer = null;
+
+    async function searchDatabaseStories(query) {
+      const term = (query || '').trim();
+      const statusEl = document.getElementById('searchStatus');
+      const statusText = document.getElementById('searchStatusText');
+      const spinner = document.getElementById('searchSpinner');
+      const clearBtn = document.getElementById('searchClearBtn');
+
+      if (!term) {
+        currentSearchResults = null;
+        if (statusEl) statusEl.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'none';
+        if (spinner) spinner.style.display = 'none';
+        renderAudioList(currentCategory === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === currentCategory));
+        return;
+      }
+
+      if (clearBtn) clearBtn.style.display = 'flex';
+      if (spinner) spinner.style.display = 'block';
+
+      try {
+        // Query Supabase directly with ILIKE on title, description, author
+        let { data, error } = await supabase
+          .from('audio_items')
+          .select(`*, 
+            genres:genre_id (id, name, emoji), 
+            narrators:narrator_id (id, name),
+            authors:author_user_id (id, name, avatar_url)`)
+          .eq('is_published', true)
+          .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.warn('Database search with authors join failed, trying fallback:', error.message);
+          const fallback = await supabase
+            .from('audio_items')
+            .select(`*, 
+              genres:genre_id (id, name, emoji), 
+              narrators:narrator_id (id, name)`)
+            .eq('is_published', true)
+            .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
+            .order('created_at', { ascending: false });
+          data = fallback.data;
+          error = fallback.error;
+        }
+
+        let results = data || [];
+
+        // Pia changanya na matokeo yaliyopo kwenye kumbukumbu (kama vile narrator au genre matching)
+        const qLower = term.toLowerCase();
+        const memMatches = audioItems.filter(item => {
+          const narrator = (item.narrators?.name || '').toLowerCase();
+          const genre = (item.genres?.name || '').toLowerCase();
+          const author = (item.authors?.name || item.author || '').toLowerCase();
+          const title = (item.title || '').toLowerCase();
+          return narrator.includes(qLower) || genre.includes(qLower) || author.includes(qLower) || title.includes(qLower);
+        });
+
+        const mergedMap = new Map();
+        results.forEach(item => mergedMap.set(String(item.id), item));
+        memMatches.forEach(item => {
+          if (!mergedMap.has(String(item.id))) mergedMap.set(String(item.id), item);
+        });
+
+        const finalResults = Array.from(mergedMap.values());
+        currentSearchResults = finalResults;
+
+        // Ongeza vitu vipya kwenye audioItems ili likes/stats zifanye kazi bila hitilafu
+        finalResults.forEach(item => {
+          if (!audioItems.some(a => String(a.id) === String(item.id))) {
+            audioItems.push(item);
+          }
+        });
+
+        // Onyesha matokeo
+        if (statusEl && statusText) {
+          statusEl.style.display = 'flex';
+          statusText.innerHTML = `Matokeo ya: "<strong>${escapeHtml(term)}</strong>" (${finalResults.length} zimepatikana)`;
+        }
+
+        renderAudioList(finalResults);
+
+        // Scroll hadi kwenye orodha ya matokeo kama mtumiaji yupo juu
+        const listSection = document.getElementById('audioList');
+        if (listSection && window.scrollY < 200) {
+          document.getElementById('storySearchSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } catch (err) {
+        console.error('Search error:', err);
+        showToast('Hitilafu wakati wa kutafuta', 'error');
+      } finally {
+        if (spinner) spinner.style.display = 'none';
+      }
+    }
+
+    function initSearchListeners() {
+      const searchInput = document.getElementById('storySearchInput');
+      const clearBtn = document.getElementById('searchClearBtn');
+      const resetBtn = document.getElementById('searchResetBtn');
+      const headerSearchBtn = document.getElementById('searchBtn');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const val = e.target.value;
+          if (clearBtn) clearBtn.style.display = val ? 'flex' : 'none';
+          clearTimeout(searchDebounceTimer);
+          searchDebounceTimer = setTimeout(() => {
+            searchDatabaseStories(val);
+          }, 350);
+        });
+
+        searchInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            clearTimeout(searchDebounceTimer);
+            searchDatabaseStories(searchInput.value);
+          }
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (searchInput) {
+            searchInput.value = '';
+            searchInput.focus();
+          }
+          searchDatabaseStories('');
+        });
+      }
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          searchDatabaseStories('');
+        });
+      }
+
+      // Kitufe cha search kwenye Header kinaleta focus kwenye search bar
+      if (headerSearchBtn) {
+        // Ondoa listener ya zamani iliyokuwa ikielekeza index.html
+        headerSearchBtn.onclick = (e) => {
+          e.preventDefault();
+          const searchSection = document.getElementById('storySearchSection');
+          const input = document.getElementById('storySearchInput');
+          if (searchSection) {
+            searchSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => input?.focus(), 300);
+          }
+        };
+      }
+    }
+
     async function init() {
       const ok = await checkAuthAndRedirect();
       if (!ok) return;
@@ -3343,6 +3973,8 @@ img { max-width: 100%; display: block; }
       loadingIndicator.style.display = 'none';
       mainContent.style.display = 'block';
 
+      initSearchListeners();
+
       try {
         const params = new URLSearchParams(window.location.search);
         const storyId = params.get('story');
@@ -3350,10 +3982,20 @@ img { max-width: 100%; display: block; }
           const idx = audioItems.findIndex(a => String(a.id) === String(storyId));
           if (idx >= 0) setTimeout(() => showAudioDetail(idx), 200);
         }
+
+        // Kama URL ina ?q= au ?search= fanya utafutaji moja kwa moja
+        const searchParam = params.get('q') || params.get('search');
+        if (searchParam) {
+          const input = document.getElementById('storySearchInput');
+          if (input) {
+            input.value = searchParam;
+            searchDatabaseStories(searchParam);
+          }
+        }
       } catch (e) { /* noop */ }
     }
 
-    document.getElementById('searchBtn')?.addEventListener('click', () => window.location.href = 'index.html?type=audio');
+    // searchBtn sasa inafungua na ku-focus search bar ya database
     init();
   </script>
 </body>
