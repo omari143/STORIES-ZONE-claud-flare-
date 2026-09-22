@@ -1192,15 +1192,131 @@ async function sbSelect(table, { select='*', filters=[], order, limit }={}) {
 function sbInsert(t,b){ return sbFetch(t,{method:'POST',body:b,write:true}); }
 function sbUpdate(t,id,b){ return sbFetch(t+'?id=eq.'+id,{method:'PATCH',body:b,writeMin:true}); }
 
-// ==================== B2 UPLOAD ====================
+// ==================== B2 UPLOAD (R2 kupitia Function + Multipart) ====================
 const BACKBLAZE_FN_URL = `${SB_URL}/functions/v1/backblaze-storage`;
+
+// Multipart uploader kwa R2 (faili kubwa > 100MB)
+const R2_MULTIPART_CHUNK = 10 * 1024 * 1024; // 10MB kwa kipande
+const R2_MULTIPART_PARALLEL = 4;             // vipande 4 kwa wakati mmoja
+const R2_MULTIPART_RETRIES = 3;              // majaribio kwa kila kipande
+
+async function uploadToR2Multipart(file, folder) {
+  console.log(`📤 Multipart upload: ${file.name} (${(file.size/1024/1024).toFixed(1)} MB)`);
+
+  // 1. Anza multipart
+  const startRes = await fetch(`${BACKBLAZE_FN_URL}?action=start-multipart`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fileName: file.name,
+      contentType: file.type || 'application/octet-stream',
+      folder: folder
+    })
+  });
+  const startData = await startRes.json();
+  if (!startData.success) throw new Error(startData.error || 'start-multipart failed');
+
+  const { key, uploadId, downloadUrl } = startData;
+  const totalParts = Math.ceil(file.size / R2_MULTIPART_CHUNK);
+
+  // 2. Pata presigned URLs kwa vipande vyote
+  const partNumbers = Array.from({ length: totalParts }, (_, i) => i + 1);
+  const urlsRes = await fetch(`${BACKBLAZE_FN_URL}?action=get-part-urls`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key, uploadId, partNumbers })
+  });
+  const urlsData = await urlsRes.json();
+  if (!urlsData.success) {
+    await fetch(`${BACKBLAZE_FN_URL}?action=abort-multipart`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, uploadId })
+    }).catch(()=>{});
+    throw new Error(urlsData.error || 'get-part-urls failed');
+  }
+
+  const urls = urlsData.urls;
+  const parts = [];
+  let uploadedCount = 0;
+
+  // 3. Pakia kila kipande (parallel 4)
+  const uploadOne = async (partNumber) => {
+    const start = (partNumber - 1) * R2_MULTIPART_CHUNK;
+    const end = Math.min(start + R2_MULTIPART_CHUNK, file.size);
+    const blob = file.slice(start, end);
+
+    let lastErr;
+    for (let attempt = 1; attempt <= R2_MULTIPART_RETRIES; attempt++) {
+      try {
+        const res = await fetch(urls[partNumber], {
+          method: 'PUT',
+          body: blob,
+          headers: { 'Content-Type': file.type || 'application/octet-stream' }
+        });
+        if (!res.ok) throw new Error(`Kipande ${partNumber} failed: ${res.status}`);
+        const etag = res.headers.get('ETag');
+        if (!etag) throw new Error(`Kipande ${partNumber}: ETag haipo`);
+        parts.push({ partNumber, etag: etag.replace(/"/g, '') });
+        uploadedCount++;
+        console.log(`✅ Kipande ${uploadedCount}/${totalParts}`);
+        return;
+      } catch (e) {
+        lastErr = e;
+        console.warn(`Retry ${attempt}/${R2_MULTIPART_RETRIES} kwa kipande ${partNumber}: ${e.message}`);
+        await new Promise(r => setTimeout(r, 1000 * attempt));
+      }
+    }
+    throw lastErr;
+  };
+
+  // Parallel chunks
+  try {
+    const queue = [...partNumbers];
+    const workers = Array.from({ length: Math.min(R2_MULTIPART_PARALLEL, totalParts) }, async () => {
+      while (queue.length) {
+        const n = queue.shift();
+        await uploadOne(n);
+      }
+    });
+    await Promise.all(workers);
+  } catch (e) {
+    // Kama kuna tatizo, futa multipart yote
+    await fetch(`${BACKBLAZE_FN_URL}?action=abort-multipart`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key, uploadId })
+    }).catch(()=>{});
+    throw new Error(`Multipart upload imeshindwa: ${e.message}`);
+  }
+
+  // 4. Kamilisha multipart
+  const finishRes = await fetch(`${BACKBLAZE_FN_URL}?action=finish-multipart`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key, uploadId, parts })
+  });
+  const finishData = await finishRes.json();
+  if (!finishData.success) throw new Error(finishData.error || 'finish-multipart failed');
+
+  console.log('✅ Multipart upload imekamilika:', finishData.downloadUrl || downloadUrl);
+  return finishData.downloadUrl || downloadUrl;
+}
 
 async function uploadToStorage(file, bucket, folder='') {
   if (!file) return null;
+  const folderName = folder || bucket || 'general';
+
+  // Faili kubwa → multipart upload moja kwa moja R2
+  if (file.size >= 100 * 1024 * 1024) {
+    return await uploadToR2Multipart(file, folderName);
+  }
+
+  // Faili ndogo → Function (R2)
   const formData = new FormData();
   formData.append('action', 'upload');
   formData.append('file', file);
-  formData.append('folder', folder || bucket || 'general');
+  formData.append('folder', folderName);
   const response = await fetch(`${BACKBLAZE_FN_URL}?action=upload`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${SB_KEY}` },
@@ -2182,15 +2298,8 @@ async function saveVideo(publish) {
     let video_file_url = null, thumbnail_url = null, cover_image_url = null;
     if (selectedVideoFile) {
       showUploadOverlay('Inapakia Video...','Inapakia...',10);
-      const videoId = `vid_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-      const formData = new FormData();
-      formData.append('action', 'process-video');
-      formData.append('file', selectedVideoFile);
-      formData.append('videoId', videoId);
-      const response = await fetch(`${BACKBLAZE_FN_URL}?action=process-video`, { method: 'POST', headers: { 'Authorization': `Bearer ${SB_KEY}` }, body: formData });
-      const result = await response.json();
-      if (!result.success) throw new Error(result.error || 'Video processing failed');
-      video_file_url = result.originalUrl || (result.qualities && result.qualities[0] && result.qualities[0].url);
+      // ✅ Badiliko: Tumia uploadToStorage (itachagua multipart kwa faili kubwa)
+      video_file_url = await uploadToStorage(selectedVideoFile, 'video-files', 'video-originals');
       if (!video_file_url) throw new Error('Imeshindwa kupata URL ya video');
     }
     if (thumbInput && thumbInput.files && thumbInput.files[0]) thumbnail_url = await uploadToStorage(thumbInput.files[0], 'thumbnails', 'video-thumbs');
