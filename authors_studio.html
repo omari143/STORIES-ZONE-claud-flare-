@@ -1192,16 +1192,40 @@ async function sbSelect(table, { select='*', filters=[], order, limit }={}) {
 function sbInsert(t,b){ return sbFetch(t,{method:'POST',body:b,write:true}); }
 function sbUpdate(t,id,b){ return sbFetch(t+'?id=eq.'+id,{method:'PATCH',body:b,writeMin:true}); }
 
-// ==================== B2 UPLOAD (R2 kupitia Function + Multipart) ====================
+// ==================== B2/R2 UPLOAD ====================
+// ✅ IMEREKEBISHWA: Tumia Multipart kwa faili kubwa (>100MB) kupitia Edge Function
 const BACKBLAZE_FN_URL = `${SB_URL}/functions/v1/backblaze-storage`;
-
-// Multipart uploader kwa R2 (faili kubwa > 100MB)
 const R2_MULTIPART_CHUNK = 10 * 1024 * 1024; // 10MB kwa kipande
 const R2_MULTIPART_PARALLEL = 4;             // vipande 4 kwa wakati mmoja
 const R2_MULTIPART_RETRIES = 3;              // majaribio kwa kila kipande
 
+async function uploadToStorage(file, bucket, folder='') {
+  if (!file) return null;
+  const folderName = folder || bucket || 'general';
+
+  // Faili kubwa → Multipart kupitia Edge Function
+  if (file.size >= 100 * 1024 * 1024) {
+    return await uploadToR2Multipart(file, folderName);
+  }
+
+  // Faili ndogo → Single Upload kupitia Edge Function
+  const formData = new FormData();
+  formData.append('action', 'upload');
+  formData.append('file', file);
+  formData.append('folder', folderName);
+  const response = await fetch(`${BACKBLAZE_FN_URL}?action=upload`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${SB_KEY}` },
+    body: formData
+  });
+  const result = await response.json();
+  if (!response.ok || !result.success) throw new Error(result.error || 'Upload failed');
+  return result.url;
+}
+
+// ✅ Multipart kupitia Edge Function (kupitia 'upload-chunk-r2')
 async function uploadToR2Multipart(file, folder) {
-  console.log(`📤 Multipart upload: ${file.name} (${(file.size/1024/1024).toFixed(1)} MB)`);
+  console.log(`📤 Multipart: ${file.name} (${(file.size/1024/1024).toFixed(1)}MB)`);
 
   // 1. Anza multipart
   const startRes = await fetch(`${BACKBLAZE_FN_URL}?action=start-multipart`, {
@@ -1219,7 +1243,7 @@ async function uploadToR2Multipart(file, folder) {
   const { key, uploadId, downloadUrl } = startData;
   const totalParts = Math.ceil(file.size / R2_MULTIPART_CHUNK);
 
-  // 2. Pata presigned URLs kwa vipande vyote
+  // 2. Pata presigned URLs (hazitumiki moja kwa moja, lakini zinahitajika kwa metadata)
   const partNumbers = Array.from({ length: totalParts }, (_, i) => i + 1);
   const urlsRes = await fetch(`${BACKBLAZE_FN_URL}?action=get-part-urls`, {
     method: 'POST',
@@ -1236,11 +1260,10 @@ async function uploadToR2Multipart(file, folder) {
     throw new Error(urlsData.error || 'get-part-urls failed');
   }
 
-  const urls = urlsData.urls;
   const parts = [];
   let uploadedCount = 0;
 
-  // 3. Pakia kila kipande (parallel 4)
+  // 3. Pakia kila kipande KUPITIA Edge Function (upload-chunk-r2)
   const uploadOne = async (partNumber) => {
     const start = (partNumber - 1) * R2_MULTIPART_CHUNK;
     const end = Math.min(start + R2_MULTIPART_CHUNK, file.size);
@@ -1249,15 +1272,22 @@ async function uploadToR2Multipart(file, folder) {
     let lastErr;
     for (let attempt = 1; attempt <= R2_MULTIPART_RETRIES; attempt++) {
       try {
-        const res = await fetch(urls[partNumber], {
-          method: 'PUT',
-          body: blob,
-          headers: { 'Content-Type': file.type || 'application/octet-stream' }
+        const formData = new FormData();
+        formData.append('file', blob);
+        formData.append('key', key);
+        formData.append('uploadId', uploadId);
+        formData.append('partNumber', String(partNumber));
+
+        const res = await fetch(`${BACKBLAZE_FN_URL}?action=upload-chunk-r2`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${SB_KEY}` },
+          body: formData
         });
-        if (!res.ok) throw new Error(`Kipande ${partNumber} failed: ${res.status}`);
-        const etag = res.headers.get('ETag');
-        if (!etag) throw new Error(`Kipande ${partNumber}: ETag haipo`);
-        parts.push({ partNumber, etag: etag.replace(/"/g, '') });
+        const result = await res.json();
+        if (!res.ok || !result.success) throw new Error(result.error || `Kipande ${partNumber} failed`);
+        if (!result.etag) throw new Error(`Kipande ${partNumber}: ETag haipo`);
+
+        parts.push({ partNumber, etag: result.etag });
         uploadedCount++;
         console.log(`✅ Kipande ${uploadedCount}/${totalParts}`);
         return;
@@ -1299,33 +1329,10 @@ async function uploadToR2Multipart(file, folder) {
   const finishData = await finishRes.json();
   if (!finishData.success) throw new Error(finishData.error || 'finish-multipart failed');
 
-  console.log('✅ Multipart upload imekamilika:', finishData.downloadUrl || downloadUrl);
+  console.log('✅ Multipart imekamilika:', finishData.downloadUrl || downloadUrl);
   return finishData.downloadUrl || downloadUrl;
 }
 
-async function uploadToStorage(file, bucket, folder='') {
-  if (!file) return null;
-  const folderName = folder || bucket || 'general';
-
-  // Faili kubwa → multipart upload moja kwa moja R2
-  if (file.size >= 100 * 1024 * 1024) {
-    return await uploadToR2Multipart(file, folderName);
-  }
-
-  // Faili ndogo → Function (R2)
-  const formData = new FormData();
-  formData.append('action', 'upload');
-  formData.append('file', file);
-  formData.append('folder', folderName);
-  const response = await fetch(`${BACKBLAZE_FN_URL}?action=upload`, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${SB_KEY}` },
-    body: formData
-  });
-  const result = await response.json();
-  if (!response.ok || !result.success) throw new Error(result.error || 'Upload failed');
-  return result.url;
-}
 async function deleteFromStorage(fileUrl) {
   if (!fileUrl) return;
   try {
@@ -1396,11 +1403,7 @@ async function loadPage(id) {
 }
 
 // ==================== LOAD AUTHOR STORIES ====================
-// Kwanza tunajaribu kwa author_user_id (kitambulisho cha kipekee cha mwandishi)
-// Kama database ina column hiyo na tumehifadhi, itafanya kazi 100%.
-// Kama hadithi za zamani hazina author_user_id, tunarudi kwa author (jina) kwa fallback.
 async function loadMyStories() {
-  // Njia ya 1: kwa author_user_id
   if (currentAuthorId) {
     try {
       const byId = await sbSelect('stories', {
@@ -1414,8 +1417,6 @@ async function loadMyStories() {
       }
     } catch(e) { console.warn('author_user_id lookup failed:', e.message); }
   }
-
-  // Njia ya 2 (fallback): kwa author (jina) — kwa hadithi za zamani
   if (currentAuthor) {
     try {
       const byName = await sbSelect('stories', {
@@ -1429,12 +1430,10 @@ async function loadMyStories() {
       }
     } catch(e) { console.warn('author name lookup failed:', e.message); }
   }
-
   console.warn('[loadMyStories] No stories for', currentAuthor, '/', currentAuthorId);
   return [];
 }
 
-// ==================== LOAD AUDIO (DIRECT by author_user_id) ====================
 async function loadMyAudio() {
   if (!currentAuthorId) return [];
   try {
@@ -1446,7 +1445,6 @@ async function loadMyAudio() {
   } catch(e) { console.warn('loadMyAudio failed:', e.message); return []; }
 }
 
-// ==================== LOAD VIDEO (DIRECT by author_user_id) ====================
 async function loadMyVideo() {
   if (!currentAuthorId) return [];
   try {
@@ -1458,7 +1456,6 @@ async function loadMyVideo() {
   } catch(e) { console.warn('loadMyVideo failed:', e.message); return []; }
 }
 
-// ==================== LOAD REVENUE PER STORY ====================
 async function loadRevenueForStories(storyIds) {
   const rev = {};
   storyIds.forEach(id => { rev[id] = { total: 0, count: 0 }; });
@@ -2298,7 +2295,6 @@ async function saveVideo(publish) {
     let video_file_url = null, thumbnail_url = null, cover_image_url = null;
     if (selectedVideoFile) {
       showUploadOverlay('Inapakia Video...','Inapakia...',10);
-      // ✅ Badiliko: Tumia uploadToStorage (itachagua multipart kwa faili kubwa)
       video_file_url = await uploadToStorage(selectedVideoFile, 'video-files', 'video-originals');
       if (!video_file_url) throw new Error('Imeshindwa kupata URL ya video');
     }
