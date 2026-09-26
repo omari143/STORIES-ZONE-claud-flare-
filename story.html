@@ -1111,7 +1111,18 @@ img { max-width: 100%; display: block; }
     // Helper: Get URL parameters
     function getUrlParams() {
       const params = new URLSearchParams(window.location.search);
-      return { id: params.get('id'), slug: params.get('slug') };
+      let slug = params.get('slug');
+      const id = params.get('id');
+
+      // Kama hakuna slug/id kwenye query string, itafute kwenye path: /story/jina-la-hadithi
+      if (!slug && !id) {
+        const match = window.location.pathname.match(/^\/story\/([^\/?#]+)/);
+        if (match) {
+          slug = decodeURIComponent(match[1]);
+        }
+      }
+
+      return { id, slug };
     }
 
     // Helper: Format number
@@ -1190,7 +1201,8 @@ img { max-width: 100%; display: block; }
     async function loadStory() {
       const params = getUrlParams();
       if (!params.id && !params.slug) {
-        showToast('DEBUG: hakuna id wala slug kwenye URL', 'error');
+        showToast('Hadithi haikupatikana', 'error');
+        setTimeout(() => window.location.href = '/index.html', 1500);
         return false;
       }
 
@@ -1207,7 +1219,8 @@ img { max-width: 100%; display: block; }
 
       if (error || !data) {
         loadingIndicator.style.display = 'none';
-        showToast(`DEBUG slug="${params.slug}" id="${params.id}" error="${error?.message || 'no data'}"`, 'error');
+        showToast('Hadithi haikupatikana', 'error');
+        setTimeout(() => window.location.href = '/index.html', 1500);
         return false;
       }
 
