@@ -1972,15 +1972,13 @@ window.addEventListener('storage', function(event) {
   }
 });
 
-function goToStory(storyId) {
-  if (!storyId) return;
-
-  window.location.href =
-    `story.html?id=${encodeURIComponent(storyId)}`;
+function goToStory(slug) {
+  if (!slug) return;
+  window.location.href = `/story/${slug}`;
 }
 
-function getStoryUrl(storyId) {
-  return `https://stories-zone.vercel.app/story.html?id=${encodeURIComponent(storyId)}`;
+function getStoryUrl(slug) {
+  return `https://stories-zone.vercel.app/story/${slug}`;
 }
 
 function showShareToast(msg) {
@@ -2005,13 +2003,13 @@ function showShareToast(msg) {
     );
 }
 
-async function shareStory(storyId, title, event) {
+async function shareStory(slug, title, event) {
   if (event) {
     event.stopPropagation();
     event.preventDefault();
   }
 
-  const url = getStoryUrl(storyId);
+  const url = getStoryUrl(slug);
 
   const shareText =
     `Soma hadithi "${title}" kwenye Stories Zone`;
@@ -2046,7 +2044,7 @@ async function shareStory(storyId, title, event) {
 
 function openHeroStory() {
   if (heroStory) {
-    goToStory(heroStory.id);
+    goToStory(heroStory.slug || heroStory.id);
   }
 }
 
@@ -2125,7 +2123,7 @@ function buildStoryCard(story, genreMap) {
   return `
     <div
       class="story-card"
-      onclick="goToStory('${story.id}')"
+      onclick="goToStory('${story.slug}')"
     >
 
       <div class="story-card-cover">
@@ -2145,7 +2143,7 @@ function buildStoryCard(story, genreMap) {
           class="share-fab"
           title="Shiriki hadithi"
           aria-label="Shiriki hadithi"
-          onclick="shareStory('${story.id}', '${titleAttr}', event)"
+          onclick="shareStory('${story.slug}', '${titleAttr}', event)"
         >
           <svg
             viewBox="0 0 24 24"
@@ -2220,7 +2218,7 @@ function buildTrendingCard(story, rank, genreMap) {
   return `
     <div
       class="trending-card"
-      onclick="goToStory('${story.id}')"
+      onclick="goToStory('${story.slug}')"
     >
 
       <div class="trending-rank">
@@ -2271,7 +2269,7 @@ function buildTrendingCard(story, rank, genreMap) {
         class="share-fab"
         title="Shiriki hadithi"
         aria-label="Shiriki hadithi"
-        onclick="shareStory('${story.id}', '${titleAttr}', event)"
+        onclick="shareStory('${story.slug}', '${titleAttr}', event)"
       >
 
         <svg
@@ -2410,7 +2408,7 @@ function loadHero(stories, genreMap) {
 
               <h1
                 class="hero-title"
-                onclick="goToStory('${s.id}')"
+                onclick="goToStory('${s.slug}')"
               >
                 ${escapeHtml(s.title || '')}
               </h1>
@@ -2424,7 +2422,7 @@ function loadHero(stories, genreMap) {
                 <a
                   href="#"
                   class="btn btn-primary"
-                  onclick="goToStory('${s.id}');return false;"
+                  onclick="goToStory('${s.slug}');return false;"
                 >
                   <svg
                     style="width:16px;height:16px;margin-right:4px;"
@@ -2446,7 +2444,7 @@ function loadHero(stories, genreMap) {
 
                 <button
                   class="btn btn-secondary"
-                  onclick="shareStory('${s.id}', ${JSON.stringify(s.title || '')}, event)"
+                  onclick="shareStory('${s.slug}', ${JSON.stringify(s.title || '')}, event)"
                   title="Shiriki"
                 >
                   <svg
