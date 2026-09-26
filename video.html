@@ -1629,6 +1629,18 @@ img { max-width: 100%; display: block; }
     return date.toLocaleDateString('sw');
   }
 
+  // Helper: Soma slug au video id kutoka URL (query au path)
+  function getUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    let slug = params.get('slug');
+    const videoId = params.get('video');
+    if (!slug && !videoId) {
+      const match = window.location.pathname.match(/^\/video\/([^\/?#]+)/);
+      if (match) slug = decodeURIComponent(match[1]);
+    }
+    return { slug, videoId };
+  }
+
   // Authentication - KUHAMISHA KAMA MTUMIAJI AMEINGIA, KAMA HAJAINGIA PELEKEZWA LOGIN
   async function checkAuthAndRedirect() {
     const { data: { user }, error } = await supabase.auth.getUser();
@@ -1664,7 +1676,6 @@ img { max-width: 100%; display: block; }
   }
 
 
-  // CHECK ACCESS FROM PAYMENTS TABLE
   // CHECK ACCESS FROM PURCHASES TABLE (NOT payments)
   async function hasPurchasedVideo(videoId) {
     if (!currentUser) return false;
@@ -2619,12 +2630,15 @@ img { max-width: 100%; display: block; }
 
     initVideoSearchListeners();
 
-    // Deep-link: open video player if ?video=ID is present
+    // Deep-link: open video player if /video/:slug or ?video=ID or ?slug=
     try {
       const params = new URLSearchParams(window.location.search);
-      const videoId = params.get('video');
-      if (videoId) {
-        const idx = videoItems.findIndex(v => String(v.id) === String(videoId));
+      const { slug, videoId } = getUrlParams();
+
+      if (slug || videoId) {
+        const idx = videoItems.findIndex(v =>
+          slug ? String(v.slug) === String(slug) : String(v.id) === String(videoId)
+        );
         if (idx >= 0) setTimeout(() => openPlayer(idx), 200);
       }
 
@@ -2641,18 +2655,20 @@ img { max-width: 100%; display: block; }
   }
 
   // ===== Share helpers =====
-  const SHARE_BASE_URL = 'https://storieszone.site';
-  function buildShareUrl(videoId) {
-    const path = (window.location.pathname && window.location.pathname !== '/')
-      ? window.location.pathname
-      : '/vidoo.html';
-    const url = new URL(path, SHARE_BASE_URL);
-    url.searchParams.set('video', videoId);
+  const SHARE_BASE_URL = 'https://stories-zone.vercel.app';
+  function buildShareUrl(video) {
+    const slug = video?.slug || '';
+    if (slug) {
+      return new URL(`/video/${slug}`, SHARE_BASE_URL).toString();
+    }
+    // fallback kama hakuna slug
+    const url = new URL('/video.html', SHARE_BASE_URL);
+    url.searchParams.set('video', video?.id || '');
     return url.toString();
   }
 
   function openShareModal(video) {
-    const link = buildShareUrl(video.id);
+    const link = buildShareUrl(video);
     const title = video.title || 'Video';
     const text = `Tazama video "${title}" kwenye STORIES ZONE`;
     const modal = document.getElementById('shareModal');
@@ -2705,6 +2721,8 @@ img { max-width: 100%; display: block; }
       document.body.style.overflow = '';
     }
   }
+
+  window.closeShareModal = closeShareModal;
 
   document.getElementById('shareModal')?.addEventListener('click', (e) => {
     if (e.target.id === 'shareModal') closeShareModal();
