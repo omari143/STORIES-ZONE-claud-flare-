@@ -1,15 +1,15 @@
 {
   "rewrites": [
     {
-      "source": "/story.html",
+      "source": "/story/:slug",
       "has": [
-        {
-          "type": "header",
-          "key": "User-Agent",
-          "value": ".*(facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Discordbot|Slackbot).*"
-        }
+        { "type": "header", "key": "User-Agent", "value": ".*(facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Discordbot|Slackbot).*" }
       ],
-      "destination": "/api/story-preview?id=$id"
+      "destination": "/api/story-preview?slug=:slug"
+    },
+    {
+      "source": "/story/:slug",
+      "destination": "/story.html?slug=:slug"
     }
   ]
 }
