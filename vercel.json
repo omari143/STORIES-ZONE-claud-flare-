@@ -1,0 +1,15 @@
+{
+  "rewrites": [
+    {
+      "source": "/story.html",
+      "has": [
+        {
+          "type": "header",
+          "key": "User-Agent",
+          "value": ".*(facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Discordbot|Slackbot).*"
+        }
+      ],
+      "destination": "/api/story-preview?id=$id"
+    }
+  ]
+}
