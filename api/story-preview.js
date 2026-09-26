@@ -1,5 +1,6 @@
 // Faili hii iweke: /api/story-preview.js kwenye mradi wako wa Vercel (Stories Zone)
-// Kazi yake: kutengeneza ukurasa wenye Open Graph meta tags (jina + cover) kwa hadithi maalum,
+// Kazi yake: kutengeneza Open Graph meta tags (jina + cover) kwa hadithi maalum
+// kwa kutumia SLUG (mfano: /story/kufuli-lililovunjwa-chumba-cha-mama)
 // ili WhatsApp/Facebook/Telegram/Twitter zioneshe kadi nzuri wakati link ikishirikiwa.
 
 const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
@@ -14,15 +15,15 @@ function escapeHtml(str) {
 }
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { slug } = req.query;
 
-  if (!id) {
-    res.status(400).send('Missing story id');
+  if (!slug) {
+    res.status(400).send('Missing story slug');
     return;
   }
 
   try {
-    const url = `${SUPABASE_URL}/rest/v1/stories?id=eq.${encodeURIComponent(id)}&select=title,description,cover_image_url&limit=1`;
+    const url = `${SUPABASE_URL}/rest/v1/stories?slug=eq.${encodeURIComponent(slug)}&select=title,description,cover_image_url,slug&is_published=eq.true&limit=1`;
     const r = await fetch(url, {
       headers: {
         apikey: SUPABASE_KEY,
@@ -32,18 +33,23 @@ export default async function handler(req, res) {
     const rows = await r.json();
     const story = Array.isArray(rows) && rows[0];
 
-    const title = story?.title ? `${story.title} — Stories Zone` : 'Stories Zone';
-    const description = story?.description
+    if (!story) {
+      res.status(404).send('Story not found');
+      return;
+    }
+
+    const title = `${story.title} — Stories Zone`;
+    const description = story.description
       ? String(story.description).slice(0, 160)
       : 'Soma hadithi za Kiswahili kwenye Stories Zone';
     const image =
-      story?.cover_image_url ||
+      story.cover_image_url ||
       'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=1200&q=80';
 
-    const pageUrl = `https://stories-zone.vercel.app/story.html?id=${encodeURIComponent(id)}`;
+    const pageUrl = `https://stories-zone.vercel.app/story/${story.slug}`;
 
-    // Ukurasa huu unaonekana kwa BOTS pekee (via rewrite yenye masharti ya User-Agent).
-    // Watumiaji wa kawaida wataendelea kufika story.html moja kwa moja.
+    // Ukurasa huu unaonekana kwa BOTS pekee (kupitia rewrite yenye masharti ya User-Agent
+    // kwenye vercel.json). Watumiaji wa kawaida wataendelea kufika story.html moja kwa moja.
     const html = `<!DOCTYPE html>
 <html lang="sw">
 <head>
