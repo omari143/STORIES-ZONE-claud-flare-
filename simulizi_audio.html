@@ -2599,6 +2599,18 @@ img { max-width: 100%; display: block; }
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // Helper: Soma slug au story id kutoka URL (query au path)
+    function getUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      let slug = params.get('slug');
+      const storyId = params.get('story');
+      if (!slug && !storyId) {
+        const match = window.location.pathname.match(/^\/audio\/([^\/?#]+)/);
+        if (match) slug = decodeURIComponent(match[1]);
+      }
+      return { slug, storyId };
+    }
+
     // ===== Audio element =====
     const audioElement = new Audio();
 
@@ -3584,14 +3596,18 @@ img { max-width: 100%; display: block; }
 
     // ===== Share =====
     const SHARE_BASE_URL = 'https://stories-zone.vercel.app';
-    function buildShareUrl(audioId) {
-      const path = (window.location.pathname && window.location.pathname !== '/') ? window.location.pathname : '/simulizi_audio.html';
-      const url = new URL(path, SHARE_BASE_URL);
-      url.searchParams.set('story', audioId);
+    function buildShareUrl(audio) {
+      const slug = audio?.slug || '';
+      if (slug) {
+        return new URL(`/audio/${slug}`, SHARE_BASE_URL).toString();
+      }
+      // fallback kama hakuna slug
+      const url = new URL('/simulizi_audio.html', SHARE_BASE_URL);
+      url.searchParams.set('story', audio?.id || '');
       return url.toString();
     }
     function openShareModal(audio) {
-      const link = buildShareUrl(audio.id);
+      const link = buildShareUrl(audio);
       const title = audio.title || 'Podcast';
       const text = `Sikiliza podcast "${title}" kwenye STORIES ZONE`;
       const modal = document.getElementById('shareModal');
@@ -4094,9 +4110,11 @@ img { max-width: 100%; display: block; }
 
       try {
         const params = new URLSearchParams(window.location.search);
-        const storyId = params.get('story');
-        if (storyId) {
-          const idx = audioItems.findIndex(a => String(a.id) === String(storyId));
+        const { slug, storyId } = getUrlParams();
+        if (slug || storyId) {
+          const idx = audioItems.findIndex(a =>
+            slug ? String(a.slug) === String(slug) : String(a.id) === String(storyId)
+          );
           if (idx >= 0) setTimeout(() => showAudioDetail(idx), 200);
         }
 
