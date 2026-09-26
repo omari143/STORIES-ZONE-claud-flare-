@@ -1111,7 +1111,7 @@ img { max-width: 100%; display: block; }
     // Helper: Get URL parameters
     function getUrlParams() {
       const params = new URLSearchParams(window.location.search);
-      return { id: params.get('id') };
+      return { id: params.get('id'), slug: params.get('slug') };
     }
 
     // Helper: Format number
@@ -1189,31 +1189,30 @@ img { max-width: 100%; display: block; }
     // Load story from database
     async function loadStory() {
       const params = getUrlParams();
-      if (!params.id) {
+      if (!params.id && !params.slug) {
         showToast('Hadithi haikupatikana', 'error');
         setTimeout(() => window.location.href = 'index.html', 1500);
         return false;
       }
-      
+
       loadingIndicator.style.display = 'block';
-      
-      const { data, error } = await supabase
+
+      let query = supabase
         .from('stories')
-        .select(`
-          *,
-          genres:genre_id (id, name, emoji, color)
-        `)
-        .eq('id', params.id)
-        .eq('is_published', true)
-        .single();
-      
+        .select(`*, genres:genre_id (id, name, emoji, color)`)
+        .eq('is_published', true);
+
+      query = params.slug ? query.eq('slug', params.slug) : query.eq('id', params.id);
+
+      const { data, error } = await query.single();
+
       if (error || !data) {
         loadingIndicator.style.display = 'none';
         showToast('Hadithi haikupatikana', 'error');
         setTimeout(() => window.location.href = 'index.html', 1500);
         return false;
       }
-      
+
       storyData = data;
       loadingIndicator.style.display = 'none';
       return true;
@@ -1856,11 +1855,10 @@ img { max-width: 100%; display: block; }
 
     // Share story
     function shareStory() {
-      const url = window.location.href;
+      const url = `https://stories-zone.vercel.app/story/${storyData?.slug || ''}`;
       const title = storyData?.title || 'STORIES ZONE';
-      
       if (navigator.share) {
-        navigator.share({ title: title, url: url });
+        navigator.share({ title, url });
       } else {
         navigator.clipboard.writeText(url);
         showToast('Kiungo kimekopwa kwenye clipboard!', 'success');
