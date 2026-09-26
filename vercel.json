@@ -10,6 +10,17 @@
     {
       "source": "/story/:slug",
       "destination": "/story.html?slug=:slug"
+    },
+    {
+      "source": "/audio/:slug",
+      "has": [
+        { "type": "header", "key": "User-Agent", "value": ".*(facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Discordbot|Slackbot).*" }
+      ],
+      "destination": "/api/audio-preview?slug=:slug"
+    },
+    {
+      "source": "/audio/:slug",
+      "destination": "/simulizi_audio.html?slug=:slug"
     }
   ]
 }
