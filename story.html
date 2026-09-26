@@ -1190,8 +1190,7 @@ img { max-width: 100%; display: block; }
     async function loadStory() {
       const params = getUrlParams();
       if (!params.id && !params.slug) {
-        showToast('Hadithi haikupatikana', 'error');
-        setTimeout(() => window.location.href = '/index.html', 1500);
+        showToast('DEBUG: hakuna id wala slug kwenye URL', 'error');
         return false;
       }
 
@@ -1208,8 +1207,7 @@ img { max-width: 100%; display: block; }
 
       if (error || !data) {
         loadingIndicator.style.display = 'none';
-        showToast('Hadithi haikupatikana', 'error');
-        setTimeout(() => window.location.href = '/index.html', 1500);
+        showToast(`DEBUG slug="${params.slug}" id="${params.id}" error="${error?.message || 'no data'}"`, 'error');
         return false;
       }
 
