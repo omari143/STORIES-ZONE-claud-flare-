@@ -796,12 +796,12 @@ img { max-width: 100%; display: block; }
   <header class="header">
     <div class="header-top">
       <div style="display:flex;align-items:center;gap:12px;">
-        <a href="index.html" class="back-btn">
+        <a href="/index.html" class="back-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </a>
-        <a href="index.html" class="logo">
+        <a href="/index.html" class="logo">
           <div class="logo-icon">
             <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/32x32/9c2518/white?text=SZ'">
           </div>
@@ -962,13 +962,13 @@ img { max-width: 100%; display: block; }
     </div>
     <p class="footer-copy">© 2026 STORIES ZONE. Haki zote zimehifadhiwa.</p>
     <div class="footer-links">
-      <a href="about.html">Kuhusu</a>
+      <a href="/about.html">Kuhusu</a>
       <span>·</span>
-      <a href="terms.html">Masharti</a>
+      <a href="/terms.html">Masharti</a>
       <span>·</span>
-      <a href="privacy.html">Faragha</a>
+      <a href="/privacy.html">Faragha</a>
       <span>·</span>
-      <a href="help.html">Msaada</a>
+      <a href="/help.html">Msaada</a>
     </div>
     <a href="https://wa.me/255618282371" class="btn-contact">
       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -980,27 +980,27 @@ img { max-width: 100%; display: block; }
 
   <!-- ===== Bottom Navigation ===== -->
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
+    <a href="/index.html" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
         <polyline points="9 22 9 12 15 12 15 22"/>
       </svg>
       Nyumbani
     </a>
-    <a href="index.html" class="nav-item">
+    <a href="/index.html" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
       Tafuta
     </a>
-    <a href="library.html" class="nav-item">
+    <a href="/library.html" class="nav-item">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
         <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
       </svg>
       Maktaba
     </a>
-    <a href="login.html" class="nav-item" id="authNavLink">
+    <a href="/login.html" class="nav-item" id="authNavLink">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
         <circle cx="12" cy="7" r="4"/>
@@ -1074,7 +1074,7 @@ img { max-width: 100%; display: block; }
       if (error || !user) {
         // Hana akaunti, mpeleke kwenye login
         const currentUrl = encodeURIComponent(window.location.href);
-        window.location.href = `login.html?redirect=${currentUrl}`;
+        window.location.href = `/login.html?redirect=${currentUrl}`;
         return false;
       }
       
@@ -1182,7 +1182,7 @@ img { max-width: 100%; display: block; }
           </svg>
           <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>
         `;
-        document.getElementById('authNavLink').href = 'profile.html';
+        document.getElementById('authNavLink').href = '/profile.html';
       }
     }
 
@@ -1191,7 +1191,7 @@ img { max-width: 100%; display: block; }
       const params = getUrlParams();
       if (!params.id && !params.slug) {
         showToast('Hadithi haikupatikana', 'error');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '/index.html', 1500);
         return false;
       }
 
@@ -1209,7 +1209,7 @@ img { max-width: 100%; display: block; }
       if (error || !data) {
         loadingIndicator.style.display = 'none';
         showToast('Hadithi haikupatikana', 'error');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '/index.html', 1500);
         return false;
       }
 
@@ -1339,7 +1339,7 @@ img { max-width: 100%; display: block; }
     async function toggleLike() {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kupenda', 'error');
-        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
         return;
       }
       
@@ -1439,7 +1439,7 @@ img { max-width: 100%; display: block; }
     async function addComment(content) {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kutoa maoni', 'error');
-        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
         return false;
       }
       
@@ -1594,11 +1594,11 @@ img { max-width: 100%; display: block; }
       
       if (accessible) {
         await updateReadingProgress(chapter.chapter_number);
-        window.location.href = `read.html?chapter_id=${chapter.id}&story_id=${storyData.id}`;
+        window.location.href = `/read.html?chapter_id=${chapter.id}&story_id=${storyData.id}`;
       } else {
         const price = getChapterPrice(chapter, storyData.price_per_chapter);
         const priceParam = (price === 'premium') ? 'premium' : price;
-        window.location.href = `payment.html?type=chapter&id=${chapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+        window.location.href = `/payment.html?type=chapter&id=${chapter.id}&story_id=${storyData.id}&price=${priceParam}`;
       }
     }
 
@@ -1738,7 +1738,7 @@ img { max-width: 100%; display: block; }
     function goToBulkPayment(type, chaptersData, totalPrice) {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kununua', 'error');
-        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
         return;
       }
       if (!chaptersData || chaptersData.length === 0) {
@@ -1751,7 +1751,7 @@ img { max-width: 100%; display: block; }
         total: totalPrice,
         items: JSON.stringify(chaptersData)
       });
-      window.location.href = `payment.html?${params.toString()}`;
+      window.location.href = `/payment.html?${params.toString()}`;
     }
 
     document.getElementById('buyChunkChaptersBtn')?.addEventListener('click', () => {
@@ -1788,7 +1788,7 @@ img { max-width: 100%; display: block; }
     async function saveToLibrary() {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kuhifadhi hadithi', 'error');
-        setTimeout(() => window.location.href = `login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
         return;
       }
       
@@ -1844,12 +1844,12 @@ img { max-width: 100%; display: block; }
       
       if (accessibleChapter) {
         await updateReadingProgress(accessibleChapter.chapter_number);
-        window.location.href = `read.html?chapter_id=${accessibleChapter.id}&story_id=${storyData.id}`;
+        window.location.href = `/read.html?chapter_id=${accessibleChapter.id}&story_id=${storyData.id}`;
       } else {
         const firstChapter = chapters[0];
         const price = getChapterPrice(firstChapter, storyData.price_per_chapter);
         const priceParam = (price === 'premium') ? 'premium' : price;
-        window.location.href = `payment.html?type=chapter&id=${firstChapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+        window.location.href = `/payment.html?type=chapter&id=${firstChapter.id}&story_id=${storyData.id}&price=${priceParam}`;
       }
     }
 
