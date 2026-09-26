@@ -21,6 +21,17 @@
     {
       "source": "/audio/:slug",
       "destination": "/simulizi_audio.html?slug=:slug"
+    },
+    {
+      "source": "/video/:slug",
+      "has": [
+        { "type": "header", "key": "User-Agent", "value": ".*(facebookexternalhit|WhatsApp|Twitterbot|TelegramBot|LinkedInBot|Discordbot|Slackbot).*" }
+      ],
+      "destination": "/api/video-preview?slug=:slug"
+    },
+    {
+      "source": "/video/:slug",
+      "destination": "/video.html?slug=:slug"
     }
   ]
 }
