@@ -50,7 +50,6 @@ a { text-decoration: none; color: inherit; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 img { max-width: 100%; display: block; }
 
-/* Disable text selection */
 * {
   -webkit-tap-highlight-color: transparent;
   -webkit-user-select: none;
@@ -96,11 +95,7 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
-.logo-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 
 .logo-text {
   font-size: 20px;
@@ -150,14 +145,8 @@ img { max-width: 100%; display: block; }
   color: var(--primary);
 }
 
-.like-btn:hover {
-  background: var(--bg-card);
-}
-
-.like-btn svg {
-  width: 18px;
-  height: 18px;
-}
+.like-btn:hover { background: var(--bg-card); }
+.like-btn svg { width: 18px; height: 18px; }
 
 /* ===== Comment Section ===== */
 .comment-section {
@@ -189,9 +178,7 @@ img { max-width: 100%; display: block; }
   outline: none;
 }
 
-.comment-form input:focus {
-  border-color: var(--primary);
-}
+.comment-form input:focus { border-color: var(--primary); }
 
 .comment-submit {
   padding: 12px 20px;
@@ -202,15 +189,9 @@ img { max-width: 100%; display: block; }
   font-size: 14px;
 }
 
-.comment-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+.comment-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.comments-list {
-  max-height: 400px;
-  overflow-y: auto;
-}
+.comments-list { max-height: 400px; overflow-y: auto; }
 
 .comment-item {
   padding: 12px 0;
@@ -237,10 +218,7 @@ img { max-width: 100%; display: block; }
   color: white;
 }
 
-.comment-user {
-  font-weight: 600;
-  font-size: 13px;
-}
+.comment-user { font-weight: 600; font-size: 13px; }
 
 .comment-time {
   font-size: 11px;
@@ -262,9 +240,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== Reading Progress ===== */
-.reading-progress-section {
-  padding: 0 16px 20px;
-}
+.reading-progress-section { padding: 0 16px 20px; }
 
 .progress-container {
   background: var(--bg-secondary);
@@ -348,11 +324,7 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-.story-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.story-cover img { width: 100%; height: 100%; object-fit: cover; }
 
 .story-meta { flex: 1; }
 
@@ -462,9 +434,7 @@ img { max-width: 100%; display: block; }
 .info-cell .value.primary { color: var(--primary); }
 
 /* ===== Synopsis ===== */
-.synopsis-block {
-  padding: 0 16px 20px;
-}
+.synopsis-block { padding: 0 16px 20px; }
 
 .synopsis-block h2 {
   font-size: 16px;
@@ -487,9 +457,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== Section ===== */
-.section {
-  padding: 16px 0;
-}
+.section { padding: 16px 0; }
 
 .section-header {
   display: flex;
@@ -499,15 +467,8 @@ img { max-width: 100%; display: block; }
   margin-bottom: 14px;
 }
 
-.section-title {
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.section-count {
-  font-size: 13px;
-  color: var(--text-muted);
-}
+.section-title { font-size: 17px; font-weight: 700; }
+.section-count { font-size: 13px; color: var(--text-muted); }
 
 /* ===== Chapter Items ===== */
 .chapters-list { padding: 0 16px; }
@@ -563,10 +524,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 2px;
 }
 
-.chapter-date {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.chapter-date { font-size: 12px; color: var(--text-muted); }
 
 .chapter-status {
   font-size: 11px;
@@ -615,7 +573,6 @@ img { max-width: 100%; display: block; }
 
 .purchase-bulk .btn:active { transform: translateY(0); }
 
-/* Button 1: Nunua Sura - kijani inayowaka */
 #buyChunkChaptersBtn {
   background: linear-gradient(135deg, #42a781, #4dbd94);
   border-color: #4dbd94;
@@ -627,7 +584,6 @@ img { max-width: 100%; display: block; }
   50%      { box-shadow: 0 0 16px #4dbd94, 0 0 32px rgba(77,189,148,.9), 0 0 48px rgba(77,189,148,.4); }
 }
 
-/* Button 2: Nunua Hadithi Yote - nyekundu/dhahabu inayowaka */
 #buyFullStoryBtn {
   background: linear-gradient(135deg, #9c2518, #fbbf24);
   border-color: #fbbf24;
@@ -642,6 +598,93 @@ img { max-width: 100%; display: block; }
 
 @media (prefers-reduced-motion: reduce) {
   #buyChunkChaptersBtn, #buyFullStoryBtn { animation: none; }
+}
+
+/* ===== You May Also Like - Horizontal Scroll ===== */
+.similar-stories-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 16px 16px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.similar-stories-scroll::-webkit-scrollbar { height: 4px; }
+.similar-stories-scroll::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+.similar-card {
+  flex: 0 0 130px;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.similar-card:hover { transform: translateY(-4px); }
+
+.similar-card-cover {
+  width: 130px;
+  height: 195px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-secondary);
+  margin-bottom: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.similar-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.similar-card-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 8px;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  color: white;
+  text-transform: uppercase;
+}
+
+.similar-card-badge.completed { background: rgba(66,167,129,0.9); }
+.similar-card-badge.ongoing { background: rgba(156,37,24,0.9); }
+
+.similar-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.similar-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.similar-card-rating { color: var(--yellow); font-weight: 600; }
+
+.empty-similar {
+  padding: 20px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  width: 100%;
 }
 
 /* ===== Loading ===== */
@@ -683,19 +726,9 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-}
-
-.toast.success {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.toast.error {
-  border-color: #ef4444;
-  color: #ef4444;
-}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { border-color: var(--accent); color: var(--accent); }
+.toast.error { border-color: #ef4444; color: #ef4444; }
 
 /* ===== Footer ===== */
 .footer {
@@ -712,14 +745,8 @@ img { max-width: 100%; display: block; }
   margin-bottom: 8px;
 }
 
-.footer-brand {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.footer-brand span {
-  color: var(--primary);
-}
+.footer-brand { font-size: 18px; font-weight: 700; }
+.footer-brand span { color: var(--primary); }
 
 .footer-copy {
   font-size: 14px;
@@ -940,6 +967,15 @@ img { max-width: 100%; display: block; }
     </div>
   </section>
 
+  <!-- ===== YOU MAY ALSO LIKE ===== -->
+  <section class="section" id="youMayAlsoLikeSection" style="display: none;">
+    <div class="section-header">
+      <h2 class="section-title">📚 Unaweza Pia Kupenda</h2>
+      <span class="section-count" id="similarCount"></span>
+    </div>
+    <div class="similar-stories-scroll" id="similarStoriesScroll"></div>
+  </section>
+
   <!-- ===== Comments Section ===== -->
   <div class="comment-section" id="commentSection" style="display: none;">
     <h3>💬 Maoni (<span id="commentsCount">0</span>)</h3>
@@ -1016,9 +1052,8 @@ img { max-width: 100%; display: block; }
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
     // ============================================
-    // PROTECTION: Disable Copy, Screenshot, F12
+    // PROTECTION
     // ============================================
-    
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
     
     document.addEventListener('keydown', function(e) {
@@ -1063,27 +1098,22 @@ img { max-width: 100%; display: block; }
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================
-    // AUTH CHECK - MTU AWE AMEINGIA KABLA YA KUSOMA
+    // AUTH
     // ============================================
     let currentUser = null;
-    let isAuthChecked = false;
 
     async function checkAuthAndRedirect() {
       const { data: { user }, error } = await supabase.auth.getUser();
-      
       if (error || !user) {
-        // Hana akaunti, mpeleke kwenye login
         const currentUrl = encodeURIComponent(window.location.href);
         window.location.href = `/login.html?redirect=${currentUrl}`;
         return false;
       }
-      
-      // Akaunti ipo, endelea
       currentUser = user;
       return true;
     }
 
-    // State zaidi
+    // State
     let storyData = null;
     let chapters = [];
     let isSaved = false;
@@ -1092,7 +1122,7 @@ img { max-width: 100%; display: block; }
     let currentComments = [];
     let userReadingProgress = 0;
     let purchasedChapterIds = new Set();
-    let hasFullStoryAccess = false;  // ← ADDED: kama amenunua bulk_full
+    let hasFullStoryAccess = false;
     let hasPremium = false;
 
     // DOM Elements
@@ -1108,24 +1138,23 @@ img { max-width: 100%; display: block; }
     const purchaseBulkDiv = document.getElementById('purchaseBulk');
     const toast = document.getElementById('toast');
 
-    // Helper: Get URL parameters
+    // ============================================
+    // HELPERS
+    // ============================================
     function getUrlParams() {
       const params = new URLSearchParams(window.location.search);
       let slug = params.get('slug');
       const id = params.get('id');
 
-      // Kama hakuna slug/id kwenye query string, itafute kwenye path: /story/jina-la-hadithi
       if (!slug && !id) {
         const match = window.location.pathname.match(/^\/story\/([^\/?#]+)/);
         if (match) {
           slug = decodeURIComponent(match[1]);
         }
       }
-
       return { id, slug };
     }
 
-    // Helper: Format number
     function formatNumber(num) {
       if (!num) return '0';
       if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -1133,7 +1162,6 @@ img { max-width: 100%; display: block; }
       return num.toString();
     }
 
-    // Helper: Show toast
     function showToast(message, type = 'info') {
       toast.textContent = message;
       toast.className = 'toast';
@@ -1143,7 +1171,6 @@ img { max-width: 100%; display: block; }
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Helper: Format date
     function formatDate(dateString) {
       if (!dateString) return 'hivi karibuni';
       const date = new Date(dateString);
@@ -1155,18 +1182,18 @@ img { max-width: 100%; display: block; }
       return date.toLocaleDateString('sw', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
-    // Helper: Escape HTML
     function escapeHtml(str) {
       if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
+      return str.replace(/[&<>"']/g, function(m) {
         if (m === '&') return '&amp;';
         if (m === '<') return '&lt;';
         if (m === '>') return '&gt;';
+        if (m === '"') return '&quot;';
+        if (m === "'") return '&#039;';
         return m;
       });
     }
 
-    // Get chapter price - PRIORITY: chapter.price > story.price_per_chapter > default 500
     function getChapterPrice(chapter, storyPricePerChapter = 500) {
       if (chapter.price && chapter.price > 0) return chapter.price;
       if (chapter.access_type === 'premium') return 'premium';
@@ -1174,10 +1201,11 @@ img { max-width: 100%; display: block; }
       return 500;
     }
 
-    // Load user data after auth
+    // ============================================
+    // USER
+    // ============================================
     async function loadCurrentUser() {
       if (!currentUser) return;
-      
       const { data: userData } = await supabase
         .from('users')
         .select('id, name')
@@ -1185,7 +1213,7 @@ img { max-width: 100%; display: block; }
         .single();
       
       if (userData) {
-        currentUser = userData;
+        currentUser = { ...currentUser, ...userData };
         document.getElementById('authNavLink').innerHTML = `
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -1197,7 +1225,9 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Load story from database
+    // ============================================
+    // STORY
+    // ============================================
     async function loadStory() {
       const params = getUrlParams();
       if (!params.id && !params.slug) {
@@ -1229,10 +1259,8 @@ img { max-width: 100%; display: block; }
       return true;
     }
 
-    // Load chapters with price column
     async function loadChapters() {
       if (!storyData) return;
-      
       const { data, error } = await supabase
         .from('story_chapters')
         .select('*')
@@ -1247,20 +1275,15 @@ img { max-width: 100%; display: block; }
       
       chapters = data || [];
       
-      // Load purchased chapters if user is logged in
       if (currentUser && chapters.length > 0) {
         await loadUserPurchases();
         await checkPremiumStatus();
       }
     }
 
-    // ============================================
-    // LOAD USER PURCHASES - WITH BULK_FULL SUPPORT
-    // ============================================
     async function loadUserPurchases() {
       if (!currentUser) return;
       
-      // 1. Angalia chapter purchases za kawaida
       const { data: chapterPurchases } = await supabase
         .from('purchases')
         .select('item_id')
@@ -1273,8 +1296,6 @@ img { max-width: 100%; display: block; }
         chapterPurchases.forEach(p => purchasedChapterIds.add(p.item_id));
       }
       
-      // 2. ★★★★★ ANGALIA BULK_FULL PURCHASES ★★★★★
-      // Hii itamfanya mtumiaji apate access kwa sura zote ikiwa amenunua hadithi nzima
       const { data: bulkPurchases } = await supabase
         .from('purchases')
         .select('story_id')
@@ -1285,24 +1306,14 @@ img { max-width: 100%; display: block; }
       hasFullStoryAccess = false;
       
       if (bulkPurchases && bulkPurchases.length > 0) {
-        // Angalia kuna bulk_full purchase ya story hii
         const hasBulkForThisStory = bulkPurchases.some(b => b.story_id === storyData.id);
-        
         if (hasBulkForThisStory) {
           hasFullStoryAccess = true;
-          
-          // Ongeza chapter zote za story hii kwenye purchasedChapterIds
-          // Ili isChapterAccessible() iweze kurudi true kwa kila sura
-          chapters.forEach(chapter => {
-            purchasedChapterIds.add(chapter.id);
-          });
-          
-          console.log('✅ User has FULL STORY access - all chapters unlocked');
+          chapters.forEach(chapter => purchasedChapterIds.add(chapter.id));
         }
       }
     }
 
-    // Check if user has active premium subscription
     async function checkPremiumStatus() {
       if (!currentUser) return false;
       const today = new Date().toISOString().split('T')[0];
@@ -1318,35 +1329,30 @@ img { max-width: 100%; display: block; }
       return hasPremium;
     }
 
-    // Load likes count
+    // ============================================
+    // LIKES
+    // ============================================
     async function loadLikesCount() {
       const { count, error } = await supabase
         .from('story_likes')
         .select('id', { count: 'exact', head: true })
         .eq('story_id', storyData?.id);
       
-      if (error) {
-        console.error('Error loading likes:', error);
-        return 0;
-      }
+      if (error) return 0;
       return count || 0;
     }
 
-    // Check if user liked
     async function checkUserLiked() {
       if (!currentUser) return false;
-      
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('story_likes')
         .select('id')
         .eq('story_id', storyData?.id)
         .eq('user_id', currentUser.id)
         .maybeSingle();
-      
       return !!data;
     }
 
-    // Toggle like
     async function toggleLike() {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kupenda', 'error');
@@ -1361,11 +1367,7 @@ img { max-width: 100%; display: block; }
           .eq('story_id', storyData.id)
           .eq('user_id', currentUser.id);
         
-        if (error) {
-          showToast('Imeshindwa kuondoa like', 'error');
-          return;
-        }
-        
+        if (error) { showToast('Imeshindwa kuondoa like', 'error'); return; }
         userLiked = false;
         currentLikeCount--;
         updateLikeUI();
@@ -1374,18 +1376,13 @@ img { max-width: 100%; display: block; }
           .from('story_likes')
           .insert({ story_id: storyData.id, user_id: currentUser.id });
         
-        if (error) {
-          showToast('Imeshindwa kupenda', 'error');
-          return;
-        }
-        
+        if (error) { showToast('Imeshindwa kupenda', 'error'); return; }
         userLiked = true;
         currentLikeCount++;
         updateLikeUI();
       }
     }
 
-    // Update like UI
     function updateLikeUI() {
       const likeBtn = document.getElementById('likeBtn');
       const likeCountSpan = document.getElementById('likeCount');
@@ -1403,26 +1400,21 @@ img { max-width: 100%; display: block; }
       document.getElementById('storyLikesStat').textContent = formatNumber(currentLikeCount);
     }
 
-    // Load comments
+    // ============================================
+    // COMMENTS
+    // ============================================
     async function loadComments() {
       const { data, error } = await supabase
         .from('story_comments')
-        .select(`
-          *,
-          users:user_id (name)
-        `)
+        .select(`*, users:user_id (name)`)
         .eq('story_id', storyData?.id)
         .eq('status', 'approved')
         .order('created_at', { ascending: false });
       
-      if (error) {
-        console.error('Error loading comments:', error);
-        return [];
-      }
+      if (error) return [];
       return data || [];
     }
 
-    // Render comments
     function renderComments(comments) {
       const commentsList = document.getElementById('commentsList');
       const commentsCountSpan = document.getElementById('commentsCount');
@@ -1446,7 +1438,6 @@ img { max-width: 100%; display: block; }
       `).join('');
     }
 
-    // Add comment
     async function addComment(content) {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kutoa maoni', 'error');
@@ -1459,25 +1450,25 @@ img { max-width: 100%; display: block; }
         return false;
       }
       
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('story_comments')
         .insert({
           story_id: storyData.id,
           user_id: currentUser.id,
           content: content.trim(),
           status: 'approved'
-        })
-        .select();
+        });
       
       if (error) {
         showToast('Imeshindwa kutuma maoni', 'error');
         return false;
       }
-      
       return true;
     }
 
-    // Load reading progress
+    // ============================================
+    // READING PROGRESS
+    // ============================================
     async function loadReadingProgress() {
       if (!currentUser) return 0;
       
@@ -1502,11 +1493,9 @@ img { max-width: 100%; display: block; }
       return progress;
     }
 
-    // Update reading progress when opening chapter
     async function updateReadingProgress(chapterNumber) {
       if (!currentUser) return;
-      
-      const { error } = await supabase
+      await supabase
         .from('reading_progress')
         .upsert({
           user_id: currentUser.id,
@@ -1514,18 +1503,11 @@ img { max-width: 100%; display: block; }
           chapter_number: chapterNumber,
           last_read_at: new Date().toISOString()
         });
-      
-      if (error) {
-        console.error('Error updating progress:', error);
-      }
-      
       await loadReadingProgress();
     }
 
-    // Update view count
     async function updateViewCount() {
       if (!storyData) return;
-      
       const sessionKey = `story_view_${storyData.id}`;
       const hasViewed = sessionStorage.getItem(sessionKey);
       
@@ -1540,21 +1522,71 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Check if story is saved
+    // ============================================
+    // SAVED
+    // ============================================
     async function checkSavedStatus() {
       if (!currentUser || !storyData) return false;
-      
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('saved_stories')
         .select('story_id')
         .eq('user_id', currentUser.id)
         .eq('story_id', storyData.id)
         .maybeSingle();
-      
       return !!data;
     }
 
-    // Render story details
+    async function updateSaveButton() {
+      if (!currentUser || !storyData) return;
+      isSaved = await checkSavedStatus();
+      const saveBtn = document.getElementById('addToLibraryBtn');
+      
+      if (isSaved) {
+        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Imehifadhiwa`;
+        saveBtn.style.background = 'rgba(66,167,129,0.2)';
+        saveBtn.style.borderColor = 'var(--accent)';
+        saveBtn.style.color = 'var(--accent)';
+      } else {
+        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Hifadhi`;
+        saveBtn.style.background = '';
+        saveBtn.style.borderColor = '';
+        saveBtn.style.color = '';
+      }
+    }
+
+    async function saveToLibrary() {
+      if (!currentUser) {
+        showToast('Tafadhali ingia kwanza ili kuhifadhi hadithi', 'error');
+        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        return;
+      }
+      
+      if (isSaved) {
+        const { error } = await supabase
+          .from('saved_stories')
+          .delete()
+          .eq('user_id', currentUser.id)
+          .eq('story_id', storyData.id);
+        
+        if (error) { showToast('Imeshindwa kuondoa kwenye maktaba', 'error'); return; }
+        showToast('Hadithi imetolewa kwenye maktaba', 'success');
+        isSaved = false;
+      } else {
+        const { error } = await supabase
+          .from('saved_stories')
+          .insert({ user_id: currentUser.id, story_id: storyData.id });
+        
+        if (error) { showToast('Imeshindwa kuhifadhi hadithi', 'error'); return; }
+        showToast('Hadithi imehifadhiwa kwenye maktaba!', 'success');
+        isSaved = true;
+      }
+      
+      await updateSaveButton();
+    }
+
+    // ============================================
+    // RENDER STORY
+    // ============================================
     function renderStory() {
       if (!storyData) return;
       
@@ -1591,15 +1623,15 @@ img { max-width: 100%; display: block; }
       commentSection.style.display = 'block';
     }
 
-    // Check if chapter is accessible (UPDATED to include hasFullStoryAccess)
+    // ============================================
+    // CHAPTERS
+    // ============================================
     function isChapterAccessible(chapter, index, freeChaptersCount) {
       const isFree = chapter.is_free === true;
       const isPurchased = purchasedChapterIds.has(chapter.id);
-      // ★ ADDED: hasFullStoryAccess inafanya sura zote ziwe accessible ★
       return isFree || isPurchased || hasPremium || hasFullStoryAccess;
     }
 
-    // Open chapter for reading
     async function openChapter(chapter, index, freeChaptersCount) {
       const accessible = isChapterAccessible(chapter, index, freeChaptersCount);
       
@@ -1613,7 +1645,6 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Render chapters with correct pricing from database
     async function renderChapters() {
       if (!chapters.length) {
         document.getElementById('chaptersList').innerHTML = `
@@ -1626,7 +1657,6 @@ img { max-width: 100%; display: block; }
       
       const freeChaptersCount = storyData.free_chapters_count || 3;
       
-      // Reload purchases to ensure we have latest data
       await loadUserPurchases();
       await checkPremiumStatus();
       
@@ -1636,7 +1666,6 @@ img { max-width: 100%; display: block; }
       const chaptersHTML = chapters.map((chapter, index) => {
         const isFree = chapter.is_free === true;
         const isPurchased = purchasedChapterIds.has(chapter.id);
-        // Use the updated accessibility check
         const isAccessible = isFree || isPurchased || hasPremium || hasFullStoryAccess;
         
         const price = getChapterPrice(chapter, storyData.price_per_chapter);
@@ -1653,14 +1682,9 @@ img { max-width: 100%; display: block; }
           } else {
             priceDisplay = '🔒 Inayolipwa';
           }
-        } else {
-          priceDisplay = 'Bure';
-          statusClass = 'free';
         }
         
-        if (firstLockedIndex === -1 && !isAccessible) {
-          firstLockedIndex = index;
-        }
+        if (firstLockedIndex === -1 && !isAccessible) firstLockedIndex = index;
         if (!isAccessible && price !== 'premium' && typeof price === 'number') {
           totalPriceForRemaining += price;
         }
@@ -1684,7 +1708,6 @@ img { max-width: 100%; display: block; }
       document.getElementById('chaptersList').innerHTML = chaptersHTML;
       document.getElementById('chaptersCount').textContent = `Sura ${chapters.length}`;
       
-      // Only show bulk purchase buttons if user doesn't have full access
       if (firstLockedIndex !== -1 && currentUser && !hasPremium && !hasFullStoryAccess) {
         purchaseBulkDiv.style.display = 'flex';
         
@@ -1718,7 +1741,7 @@ img { max-width: 100%; display: block; }
         if (totalPriceForRemaining > 0) {
           buyFullBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Nunua Hadithi Yote (TSh ${totalPriceForRemaining.toLocaleString()})`;
           buyFullBtn.dataset.totalPrice = totalPriceForRemaining;
-          buyFullBtn.dataset.chapters = JSON.stringify(chapters.filter((c, i) => {
+          buyFullBtn.dataset.chapters = JSON.stringify(chapters.filter(c => {
             const isFree = c.is_free === true;
             const isPurchased = purchasedChapterIds.has(c.id);
             return !isFree && !isPurchased && !hasPremium && !hasFullStoryAccess;
@@ -1745,7 +1768,85 @@ img { max-width: 100%; display: block; }
       chaptersDivider.style.display = 'block';
     }
 
-    // Bulk purchase handlers
+    // ============================================
+    // ★★★ YOU MAY ALSO LIKE ★★★
+    // ============================================
+    async function loadSimilarStories() {
+      if (!storyData || !storyData.genre_id) return [];
+      
+      const { data, error } = await supabase
+        .from('stories')
+        .select(`
+          id, title, slug, cover_image_url, total_rating,
+          total_reads, status, chapters_count,
+          genres:genre_id (id, name, emoji)
+        `)
+        .eq('is_published', true)
+        .eq('genre_id', storyData.genre_id)
+        .neq('id', storyData.id)
+        .order('total_reads', { ascending: false })
+        .limit(10);
+      
+      if (error) {
+        console.error('Error loading similar stories:', error);
+        return [];
+      }
+      
+      return data || [];
+    }
+
+    function renderSimilarStories(stories) {
+      const section = document.getElementById('youMayAlsoLikeSection');
+      const container = document.getElementById('similarStoriesScroll');
+      const countSpan = document.getElementById('similarCount');
+      
+      if (!stories || stories.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+      
+      countSpan.textContent = `${stories.length} hadithi`;
+      
+      container.innerHTML = stories.map(story => {
+        const cover = story.cover_image_url || 'https://placehold.co/260x390/1a1a1a/888888?text=No+Cover';
+        const rating = story.total_rating ? parseFloat(story.total_rating).toFixed(1) : '—';
+        const views = formatNumber(story.total_reads || 0);
+        const statusClass = story.status === 'Imekamilika' ? 'completed' : 'ongoing';
+        const statusText = story.status === 'Imekamilika' ? 'Imekamilika' : 'Inaendelea';
+        
+        return `
+          <div class="similar-card" data-slug="${escapeHtml(story.slug || '')}" data-id="${story.id}">
+            <div class="similar-card-cover">
+              <img src="${cover}" alt="${escapeHtml(story.title)}" loading="lazy"
+                   onerror="this.src='https://placehold.co/260x390/1a1a1a/888888?text=No+Cover'">
+              <span class="similar-card-badge ${statusClass}">${statusText}</span>
+            </div>
+            <div class="similar-card-title">${escapeHtml(story.title)}</div>
+            <div class="similar-card-meta">
+              <span class="similar-card-rating">★ ${rating}</span>
+              <span>👁 ${views}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      container.querySelectorAll('.similar-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const slug = card.dataset.slug;
+          const id = card.dataset.id;
+          const url = slug 
+            ? `/story/${encodeURIComponent(slug)}` 
+            : `/story.html?id=${id}`;
+          window.location.href = url;
+        });
+      });
+      
+      section.style.display = 'block';
+    }
+
+    // ============================================
+    // BULK PURCHASE
+    // ============================================
     function goToBulkPayment(type, chaptersData, totalPrice) {
       if (!currentUser) {
         showToast('Tafadhali ingia kwanza ili kununua', 'error');
@@ -1775,66 +1876,9 @@ img { max-width: 100%; display: block; }
       goToBulkPayment('bulk_full', JSON.parse(btn.dataset.chapters || '[]'), btn.dataset.totalPrice);
     });
 
-    // Update save button state
-    async function updateSaveButton() {
-      if (!currentUser || !storyData) return;
-      
-      isSaved = await checkSavedStatus();
-      const saveBtn = document.getElementById('addToLibraryBtn');
-      
-      if (isSaved) {
-        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Imehifadhiwa`;
-        saveBtn.style.background = 'rgba(66,167,129,0.2)';
-        saveBtn.style.borderColor = 'var(--accent)';
-        saveBtn.style.color = 'var(--accent)';
-      } else {
-        saveBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Hifadhi`;
-        saveBtn.style.background = '';
-        saveBtn.style.borderColor = '';
-        saveBtn.style.color = '';
-      }
-    }
-
-    // Save to library
-    async function saveToLibrary() {
-      if (!currentUser) {
-        showToast('Tafadhali ingia kwanza ili kuhifadhi hadithi', 'error');
-        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
-        return;
-      }
-      
-      if (isSaved) {
-        const { error } = await supabase
-          .from('saved_stories')
-          .delete()
-          .eq('user_id', currentUser.id)
-          .eq('story_id', storyData.id);
-        
-        if (error) {
-          showToast('Imeshindwa kuondoa kwenye maktaba', 'error');
-          return;
-        }
-        
-        showToast('Hadithi imetolewa kwenye maktaba', 'success');
-        isSaved = false;
-      } else {
-        const { error } = await supabase
-          .from('saved_stories')
-          .insert({ user_id: currentUser.id, story_id: storyData.id });
-        
-        if (error) {
-          showToast('Imeshindwa kuhifadhi hadithi', 'error');
-          return;
-        }
-        
-        showToast('Hadithi imehifadhiwa kwenye maktaba!', 'success');
-        isSaved = true;
-      }
-      
-      await updateSaveButton();
-    }
-
-    // Read now - open first accessible chapter
+    // ============================================
+    // READ NOW + SHARE
+    // ============================================
     async function readNow() {
       if (!chapters.length) {
         showToast('Hadithi haina sura bado', 'error');
@@ -1842,7 +1886,6 @@ img { max-width: 100%; display: block; }
       }
       
       const freeChaptersCount = storyData.free_chapters_count || 3;
-      
       let accessibleChapter = null;
       
       for (let i = 0; i < chapters.length; i++) {
@@ -1864,7 +1907,6 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Share story
     function shareStory() {
       const url = `https://stories-zone.vercel.app/story/${storyData?.slug || ''}`;
       const title = storyData?.title || 'STORIES ZONE';
@@ -1876,13 +1918,13 @@ img { max-width: 100%; display: block; }
       }
     }
 
-    // Initialize
+    // ============================================
+    // INIT
+    // ============================================
     async function init() {
-      // Kwanza kabisa, angalia kama ameingia
       const isAuthenticated = await checkAuthAndRedirect();
       if (!isAuthenticated) return;
       
-      // Load user data
       await loadCurrentUser();
       
       const storyLoaded = await loadStory();
@@ -1903,6 +1945,11 @@ img { max-width: 100%; display: block; }
       await renderChapters();
       await updateSaveButton();
       
+      // ★ Load You May Also Like ★
+      const similarStories = await loadSimilarStories();
+      renderSimilarStories(similarStories);
+      
+      // Event listeners
       document.getElementById('addToLibraryBtn').addEventListener('click', saveToLibrary);
       document.getElementById('readNowBtn').addEventListener('click', readNow);
       document.getElementById('likeBtn').addEventListener('click', toggleLike);
