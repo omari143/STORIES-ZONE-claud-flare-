@@ -164,87 +164,12 @@
       color: var(--muted); margin-bottom: 12px;
     }
 
-    /* Method Grid */
-    .method-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .method-item {
-      display: flex; flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 10px;
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
-      cursor: pointer;
-      transition: .2s;
-      text-align: center;
-    }
-    .method-item:hover { border-color: var(--border2); }
-    .method-item.selected {
-      border-color: var(--green);
-      background: var(--green-dim);
-    }
-    .method-logo {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--border);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-    }
-    .method-logo img { width: 100%; height: 100%; object-fit: cover; }
-    .method-name { font-size: 13px; font-weight: 600; }
-    .method-check {
-      position: absolute; top: -6px; right: -6px;
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--green); color: white;
-      font-size: 10px;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: .2s;
-    }
-    .method-wrapper { position: relative; }
-    .method-wrapper.selected .method-check { opacity: 1; }
-
     /* Phone Input */
     .phone-group { margin-bottom: 20px; }
     .input-label {
       display: block;
       font-size: 13px; font-weight: 500;
       margin-bottom: 8px; color: var(--muted);
-    }
-
-    /* Network Dropdown (mtandao unachaguliwa na mtumiaji) */
-    .network-select {
-      width: 100%;
-      padding: 14px 40px 14px 14px;
-      margin-bottom: 16px;
-      background-color: var(--surface2);
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%239a9488' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5l5 5 5-5'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      border: 1.5px solid var(--border);
-      border-radius: 14px;
-      color: var(--text);
-      font-size: 15px;
-      font-family: inherit;
-      outline: none;
-      cursor: pointer;
-      -webkit-appearance: none;
-      appearance: none;
-      transition: .2s;
-    }
-    .network-select:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(66,167,129,.1);
-    }
-    .network-select option {
-      background: var(--surface2);
-      color: var(--text);
     }
 
     .phone-row {
@@ -483,7 +408,6 @@
 
     @media (max-width: 400px) {
       body { padding: 10px 10px 60px; }
-      .method-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
       .item-title { font-size: 17px; }
       .price-amount { font-size: 28px; }
     }
@@ -546,64 +470,8 @@
   <!-- Payment Body -->
   <div class="payment-body">
 
-    <!-- Method Selection -->
-    <div class="section-label">Chagua Njia ya Malipo</div>
-    <div class="method-grid">
-      <div class="method-wrapper selected" id="wrap-mpesa">
-        <div class="method-item selected" data-method="mpesa" onclick="selectMethod('mpesa')">
-          <div class="method-logo">
-            <img src="/79e29e9355668572786efac0e0b98cbf.jpg" alt="M-Pesa"
-              onerror="this.src='https://placehold.co/48x48/252420/42a781?text=M'">
-          </div>
-          <div class="method-name">M-Pesa</div>
-        </div>
-        <div class="method-check">✓</div>
-      </div>
-
-      <div class="method-wrapper" id="wrap-airtel">
-        <div class="method-item" data-method="airtel" onclick="selectMethod('airtel')">
-          <div class="method-logo">
-            <img src="/67356e4160cbfbe604d71050bbf3526e.jpg" alt="Airtel Money"
-              onerror="this.src='https://placehold.co/48x48/252420/e74c3c?text=A'">
-          </div>
-          <div class="method-name">Airtel Money</div>
-        </div>
-        <div class="method-check">✓</div>
-      </div>
-
-      <div class="method-wrapper" id="wrap-tigo">
-        <div class="method-item" data-method="tigo" onclick="selectMethod('tigo')">
-          <div class="method-logo">
-            <img src="/09aa68fcab80b6266c8ebb5cf92885d7.jpg" alt="Tigo Pesa"
-              onerror="this.src='https://placehold.co/48x48/252420/f39c12?text=T'">
-          </div>
-          <div class="method-name">Tigo Pesa</div>
-        </div>
-        <div class="method-check">✓</div>
-      </div>
-
-      <div class="method-wrapper" id="wrap-halotel">
-        <div class="method-item" data-method="halotel" onclick="selectMethod('halotel')">
-          <div class="method-logo">
-            <img src="/be65e1470bea8715dadcb78e506d4659.jpg" alt="Halotel Pesa"
-              onerror="this.src='https://placehold.co/48x48/252420/3498db?text=H'">
-          </div>
-          <div class="method-name">Halotel Pesa</div>
-        </div>
-        <div class="method-check">✓</div>
-      </div>
-    </div>
-
-    <!-- Network + Phone Number -->
+    <!-- Phone Number -->
     <div class="phone-group">
-      <label class="input-label" for="networkSelect">Chagua Mtandao</label>
-      <select class="network-select" id="networkSelect" autocomplete="off">
-        <option value="mpesa" selected>M-Pesa</option>
-        <option value="airtel">Airtel Money</option>
-        <option value="tigo">Tigo Pesa</option>
-        <option value="halotel">Halotel Pesa</option>
-      </select>
-
       <label class="input-label" for="phoneNumber">Namba ya Simu yako</label>
       <div class="phone-row" id="phoneRow">
         <div class="country-code">+255</div>
@@ -614,7 +482,7 @@
           autocomplete="tel"
         />
       </div>
-      <div class="hint">Ingiza namba kama: 0712345678 au 712345678</div>
+      <div class="hint">Mtandao utatambuliwa kiotomatiki kutoka kwenye namba</div>
     </div>
 
     <!-- Order Summary -->
@@ -626,7 +494,7 @@
       </div>
       <div class="summary-row">
         <span class="s-label">Njia ya Malipo</span>
-        <span class="s-value" id="summaryMethod">M-Pesa</span>
+        <span class="s-value" id="summaryMethod">Mobile Money</span>
       </div>
       <div class="summary-row">
         <span class="s-label">Jumla ya Kulipa</span>
@@ -684,18 +552,9 @@ const typeConfig = {
 let currentUser = null;
 let currentUserDB = null;
 let itemData = null;
-let selectedMethod = 'mpesa';
 let isProcessing = false;
 let pollingTimer = null;
 let pollingSeconds = 0;
-
-// Method display names
-const methodNames = {
-  mpesa: 'M-Pesa',
-  airtel: 'Airtel Money',
-  tigo: 'Tigo Pesa',
-  halotel: 'Halotel Pesa'
-};
 
 // ========== HELPERS ==========
 function showToast(msg, type = 'info') {
@@ -996,125 +855,6 @@ async function alreadyPurchased() {
   return false;
 }
 
-// ========== INSERT PURCHASE RECORD ==========
-async function insertPurchaseRecord(orderId) {
-  try {
-    // Audio Bundle (vipande kadhaa)
-    if (itemData.type === 'audio_bundle' && itemData.episode_ids) {
-      const bundleInserts = itemData.episode_ids.map(epId => ({
-        user_id: currentUserDB.id,
-        item_type: 'audio_episode',
-        item_id: epId,
-        story_id: null,
-        podcast_id: itemData.podcast_id,
-        amount: Math.floor(itemData.amount / itemData.episode_ids.length),
-        payment_method: selectedMethod.toUpperCase(),
-        transaction_ref: orderId,
-        purchase_type: 'audio_bundle',
-        status: 'Imefanikishwa',
-        purchased_at: new Date().toISOString()
-      }));
-      
-      const { error } = await supabase.from('purchases').insert(bundleInserts);
-      if (error) throw error;
-      return true;
-    }
-    
-    // Audio Podcast nzima
-    if (itemData.type === 'audio_podcast') {
-      const { error } = await supabase.from('purchases').insert({
-        user_id: currentUserDB.id,
-        item_type: 'audio_podcast',
-        item_id: itemData.id,
-        story_id: null,
-        podcast_id: itemData.id,
-        amount: itemData.amount,
-        payment_method: selectedMethod.toUpperCase(),
-        transaction_ref: orderId,
-        purchase_type: 'single',
-        status: 'Imefanikishwa',
-        purchased_at: new Date().toISOString()
-      });
-      if (error) throw error;
-      return true;
-    }
-    
-    // Audio Episode (kipande kimoja)
-    if (itemData.type === 'audio_episode') {
-      const { error } = await supabase.from('purchases').insert({
-        user_id: currentUserDB.id,
-        item_type: 'audio_episode',
-        item_id: itemData.id,
-        story_id: null,
-        podcast_id: itemData.podcast_id,
-        amount: itemData.amount,
-        payment_method: selectedMethod.toUpperCase(),
-        transaction_ref: orderId,
-        purchase_type: 'single',
-        status: 'Imefanikishwa',
-        purchased_at: new Date().toISOString()
-      });
-      if (error) throw error;
-      return true;
-    }
-    
-    // Bulk purchase (story chapters)
-    if (itemData.is_bulk && itemData.bulk_items) {
-      const bulkInserts = itemData.bulk_items.map(ch => ({
-        user_id: currentUserDB.id,
-        item_type: 'chapter',
-        item_id: ch.id,
-        story_id: itemData.story_id,
-        amount: ch.price || (itemData.amount / itemData.bulk_items.length),
-        payment_method: selectedMethod.toUpperCase(),
-        transaction_ref: orderId,
-        purchase_type: itemData.type,
-        status: 'Imefanikishwa',
-        purchased_at: new Date().toISOString()
-      }));
-      
-      const { error } = await supabase.from('purchases').insert(bulkInserts);
-      if (error) throw error;
-      
-      if (itemData.type === 'bulk_full') {
-        await supabase.from('purchases').insert({
-          user_id: currentUserDB.id,
-          item_type: 'story',
-          item_id: itemData.story_id,
-          story_id: itemData.story_id,
-          amount: itemData.amount,
-          payment_method: selectedMethod.toUpperCase(),
-          transaction_ref: orderId,
-          purchase_type: 'bulk_full',
-          status: 'Imefanikishwa',
-          purchased_at: new Date().toISOString()
-        });
-      }
-      return true;
-    }
-    
-    // Single regular item
-    const { error } = await supabase.from('purchases').insert({
-      user_id: currentUserDB.id,
-      item_type: itemData.type,
-      item_id: itemData.id,
-      story_id: itemData.story_id || null,
-      amount: itemData.amount,
-      payment_method: selectedMethod.toUpperCase(),
-      transaction_ref: orderId,
-      purchase_type: 'single',
-      status: 'Imefanikishwa',
-      purchased_at: new Date().toISOString()
-    });
-    if (error) throw error;
-    return true;
-    
-  } catch (err) {
-    console.error('Purchase insert failed:', err);
-    return false;
-  }
-}
-
 // ========== RENDER ITEM DETAILS ==========
 function renderItem() {
   if (!itemData) return;
@@ -1205,33 +945,24 @@ function setStep(n) {
   }
 }
 
-// ========== METHOD SELECT ==========
-window.selectMethod = function(method) {
-  selectedMethod = method;
-  document.querySelectorAll('.method-item').forEach(el => el.classList.remove('selected'));
-  document.querySelectorAll('.method-wrapper').forEach(el => el.classList.remove('selected'));
-  document.querySelector(`.method-item[data-method="${method}"]`).classList.add('selected');
-  document.getElementById(`wrap-${method}`).classList.add('selected');
-  document.getElementById('summaryMethod').textContent = methodNames[method];
-  // Weka dropdown ya mtandao sawa na chaguo lililochaguliwa (kadi na dropdown vinaenda pamoja)
-  const netSelect = document.getElementById('networkSelect');
-  if (netSelect) netSelect.value = method;
-};
-
 // ========== SHOW ALTERNATIVE METHODS ==========
 function showAlternativeMethodsModal(errorType, errorMessage) {
-  const currentMethodName = methodNames[selectedMethod];
-  const otherMethods = Object.entries(methodNames).filter(([code]) => code !== selectedMethod);
+  const otherMethods = [
+    { code: 'mpesa', name: 'M-Pesa' },
+    { code: 'airtel', name: 'Airtel Money' },
+    { code: 'tigo', name: 'Tigo Pesa' },
+    { code: 'halotel', name: 'Halotel Pesa' }
+  ];
   
   let advice = '';
   if (errorType === 'network') {
-    advice = 'Mtandao wa ' + currentMethodName + ' unaweza kuwa na changamoto kwa sasa. Jaribu kutumia moja ya njia hizi mbadala:';
+    advice = 'Mtandao unaweza kuwa na changamoto kwa sasa. Jaribu kutumia moja ya njia hizi mbadala:';
   } else if (errorType === 'insufficient_balance') {
-    advice = 'Hakikisha una salio la kutosha kwenye akaunti yako ya ' + currentMethodName + '. Vinginevyo, jaribu njia nyingine ya malipo:';
+    advice = 'Hakikisha una salio la kutosha kwenye akaunti yako. Vinginevyo, jaribu njia nyingine ya malipo:';
   } else if (errorType === 'invalid_pin') {
-    advice = 'PIN yako ya ' + currentMethodName + ' si sahihi. Hakikisha unaiingiza kwa usahihi, au jaribu njia nyingine:';
+    advice = 'PIN yako si sahihi. Hakikisha unaiingiza kwa usahihi, au jaribu njia nyingine:';
   } else {
-    advice = 'Malipo kwa kutumia ' + currentMethodName + ' hayakufanikiwa. Jaribu kutumia njia hizi mbadala:';
+    advice = 'Malipo hayakufanikiwa. Jaribu kutumia njia hizi mbadala:';
   }
   
   document.getElementById('modal').classList.add('show');
@@ -1245,7 +976,7 @@ function showAlternativeMethodsModal(errorType, errorMessage) {
       </div>
       <div class="modal-msg">${advice}</div>
       <div class="alternative-methods" id="altMethodsList">
-        ${otherMethods.map(([code, name]) => `
+        ${otherMethods.map(({ code, name }) => `
           <div class="alt-method-badge" onclick="switchToMethod('${code}')">
             🔄 Badilisha hadi ${name}
           </div>
@@ -1266,9 +997,9 @@ window.closeModalAndRetry = function() {
 
 window.switchToMethod = function(methodCode) {
   document.getElementById('modal').classList.remove('show');
-  selectMethod(methodCode);
+  // No method selection now; just retry
   resetBtn();
-  showToast(`Umebadilisha hadi ${methodNames[methodCode]}. Lipa tena.`, 'info');
+  showToast('Tafadhali jaribu tena.', 'info');
 };
 
 window.goBackToStory = function() {
@@ -1304,7 +1035,7 @@ function showWaitingModal(phone, orderId) {
     <div class="modal-highlight">
       📞 <strong>${phone}</strong>
     </div>
-    <div class="modal-msg">Ingiza PIN yako ya ${methodNames[selectedMethod]} kukamilisha malipo.</div>
+    <div class="modal-msg">Ingiza PIN yako kukamilisha malipo.</div>
     <div class="modal-counter" id="pollingCounter">Inasubiri uthibitisho... <b>5:00</b> imebaki</div>
   `;
 }
@@ -1384,29 +1115,28 @@ function startPolling(orderId, maxSeconds = 300) {
       if (data?.status === 'completed') {
         clearInterval(pollingTimer);
         
-        const insertSuccess = await insertPurchaseRecord(orderId);
-        
-        if (insertSuccess) {
-          let redirectUrl = 'library.html';
-          if (itemData.type === 'audio_podcast' || itemData.type === 'audio_episode' || itemData.type === 'audio_bundle') {
-            redirectUrl = 'simulizi_audio.html';
-          } else if (itemData.type === 'chapter' || itemData.is_bulk) {
-            redirectUrl = `story.html?id=${itemData.story_id}`;
-          } else if (itemData.type === 'video') {
-            redirectUrl = 'video.html';
-          }
-          
-          showResultModal('✅', 'Malipo Yamefanikiwa!',
-            `Hongera ${currentUserDB.name || ''}! Malipo yako ya TSh ${itemData.amount.toLocaleString()} yamekubaliwa.\n\nSasa unaweza kufurahia bidhaa yako.`,
-            false, orderId, redirectUrl);
-        } else {
-          showResultModal('⚠️', 'Malipo Yamefanikiwa Lakini...',
-            `Malipo yako yamekubaliwa lakini kufungua bidhaa kumeshindikana. Tafadhali wasiliana nasi.`,
-            false, orderId, 'contact.html');
+        // Backend inserts purchases now; we just show success and redirect
+        let redirectUrl = 'library.html';
+        if (itemData.type === 'audio_podcast' || itemData.type === 'audio_episode' || itemData.type === 'audio_bundle') {
+          redirectUrl = 'simulizi_audio.html';
+        } else if (itemData.type === 'chapter' || itemData.is_bulk) {
+          redirectUrl = `story.html?id=${itemData.story_id}`;
+        } else if (itemData.type === 'video') {
+          redirectUrl = 'video.html';
         }
+        
+        showResultModal('✅', 'Malipo Yamefanikiwa!',
+          `Hongera ${currentUserDB.name || ''}! Malipo yako ya TSh ${itemData.amount.toLocaleString()} yamekubaliwa.\n\nSasa unaweza kufurahia bidhaa yako.`,
+          false, orderId, redirectUrl);
+        
       } else if (data?.status === 'failed') {
         clearInterval(pollingTimer);
-        const failReason = data?.failure_reason || 'Malipo hayakukamilika. Hakikisha una salio la kutosha na PIN sahihi.';
+        let failReason = '';
+        if (data?.reason === 'expired') {
+          failReason = 'Muda umeisha, jaribu tena';
+        } else {
+          failReason = 'Malipo hayakukamilika. Hakikisha una salio la kutosha na PIN sahihi.';
+        }
         showAlternativeMethodsModal('general', failReason);
         resetBtn();
       }
@@ -1458,13 +1188,17 @@ window.processPayment = async function() {
         item_id: itemData.is_bulk ? (itemData.story_id || itemData.podcast_id) : itemData.id,
         item_title: orderDesc,
         amount: itemData.amount,
-        payment_method: selectedMethod.toUpperCase(),
-        phone_number: normalizedPhone,
-        network: selectedMethod,
+        phone: normalizedPhone,
+        metadata: {
+          story_id: itemData.story_id || null,
+          podcast_id: itemData.podcast_id || null,
+          bulk_items: itemData.bulk_items || null,
+          episode_ids: itemData.episode_ids || null
+        }
       }
     });
 
-    if (error) throw new Error(error.message || 'Hitilafu ya seva');
+    if (error) throw error;
     if (!data?.success) throw new Error(data?.error || 'Malipo hayakuanzishwa');
 
     showWaitingModal(phone, data.order_id);
@@ -1472,7 +1206,23 @@ window.processPayment = async function() {
 
   } catch (err) {
     console.error('Payment error:', err);
-    const errorMsg = err.message || 'Tafadhali jaribu tena';
+    let errorMsg = 'Tafadhali jaribu tena';
+    
+    if (err.context) {
+      try {
+        const body = await err.context.json();
+        if (body && body.error) {
+          errorMsg = body.error;
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    
+    if (errorMsg === 'Tafadhali jaribu tena' && err.message) {
+      errorMsg = err.message;
+    }
+    
     let errorType = 'general';
     if (errorMsg.toLowerCase().includes('network') || errorMsg.toLowerCase().includes('mtandao')) errorType = 'network';
     if (errorMsg.toLowerCase().includes('balance') || errorMsg.toLowerCase().includes('salio')) errorType = 'insufficient_balance';
@@ -1499,15 +1249,6 @@ window.goBack = function() {
     window.location.href = document.referrer || 'index.html';
   }
 };
-
-// ========== NETWORK DROPDOWN ==========
-// Mtumiaji anachagua mtandao mwenyewe (hakuna kugundua kiotomatiki kutoka kwenye namba).
-document.getElementById('networkSelect').value = selectedMethod;
-document.getElementById('networkSelect').addEventListener('change', function() {
-  selectMethod(this.value);
-  const phoneVal = document.getElementById('phoneNumber').value.trim();
-  setStep(phoneVal && isValidPhone(phoneVal) ? 3 : 2);
-});
 
 // ========== PHONE INPUT HANDLERS ==========
 document.getElementById('phoneNumber').addEventListener('input', function() {
