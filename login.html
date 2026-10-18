@@ -546,11 +546,14 @@ img { max-width: 100%; display: block; }
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    import { setupFcm } from './fcm.js';
 
     const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    setupFcm(supabase);
 
     const loginForm = document.getElementById('login-form');
     const emailInput = document.getElementById('login-email');
@@ -649,17 +652,12 @@ img { max-width: 100%; display: block; }
           loginBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><polyline points="20 6 9 17 4 12"/></svg> Umefanikiwa!';
           loginBtn.style.background = 'var(--accent)';
           
-          // =====================================================
-          // HAPA NDIPO TUNAWASILIANA NA ANDROID APP
-          // =====================================================
-          if (window.AndroidApp) {
-            window.AndroidApp.onUserLogin(result.user.id);
-            console.log("ID ya mtumiaji imetumwa kwenye Android App:", result.user.id);
+          if (window.AndroidApp?.requestFcmToken) {
+            window.AndroidApp.requestFcmToken();
           }
-          // =====================================================
 
           const redirectUrl = getRedirectUrl();
-          setTimeout(() => { window.location.href = redirectUrl; }, 1500);
+          setTimeout(() => { window.location.href = redirectUrl; }, 2500);
         } else {
           showToast(result.error || 'Imeshindwa kuingia. Jaribu tena.', 'error');
           loginBtn.innerHTML = originalText;
