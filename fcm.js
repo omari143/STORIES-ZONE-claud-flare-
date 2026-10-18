@@ -10,7 +10,7 @@ export function setupFcm(supabase) {
         fcm_token: token,
         fcm_token_updated_at: new Date().toISOString()
       })
-      .eq('id', session.user.id);
+      .eq('auth_user_id', session.user.id);
 
     if (error) console.error('FCM save error:', error.message);
     else console.log('FCM token imehifadhiwa');
