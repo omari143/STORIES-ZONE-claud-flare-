@@ -440,6 +440,124 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* Coins Card & Menu Styles */
+    .coins-card {
+      background: linear-gradient(145deg, #181611 0%, #141414 100%);
+      margin: 16px;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coins-card::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .coins-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .coins-card-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .coins-icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+    }
+
+    .coins-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #fbbf24;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .coins-amount {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .coins-unit {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fbbf24;
+    }
+
+    .buy-coins-btn {
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      color: #000000;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.25);
+    }
+
+    .buy-coins-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(251, 191, 36, 0.35);
+      background: linear-gradient(135deg, #fcd34d, #f59e0b);
+      color: #000000;
+    }
+
+    .coins-subtext {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .menu-coin-badge {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -478,6 +596,33 @@
           <span id="userEmailText">-</span>
         </p>
       </div>
+    </div>
+
+    <!-- Kadi ya Salio la Coins (Kipengele 1) -->
+    <div class="coins-card" id="coinsCard">
+      <div class="coins-card-header">
+        <div class="coins-card-info">
+          <div class="coins-icon-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="#fbbf24" fill-opacity="0.2" stroke="#fbbf24" stroke-width="2"/>
+              <circle cx="12" cy="12" r="6" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="2 2"/>
+              <text x="12" y="16" font-size="11" font-weight="800" fill="#fbbf24" text-anchor="middle" font-family="'DM Sans', sans-serif">C</text>
+            </svg>
+          </div>
+          <div>
+            <div class="coins-label" id="coinsBalanceLabel">Salio la Coins</div>
+            <div class="coins-amount"><span id="userCoinsCount">0</span> <span class="coins-unit">Coins</span></div>
+          </div>
+        </div>
+        <a href="payment.html" class="buy-coins-btn" id="buyCoinsBtnHeader">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span id="buyCoinsBtnText">Nunua Coins</span>
+        </a>
+      </div>
+      <div class="coins-subtext" id="coinsSubtext">Tumia coins kufungua sura na hadithi za kulipia.</div>
     </div>
 
     <!-- Takwimu Zangu -->
@@ -527,6 +672,19 @@
 
     <!-- additional menus -->
     <div class="badges-menu">
+      <div class="menu-item" id="nunuaCoinsBtn">
+        <span>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+            <circle cx="12" cy="12" r="10" fill="#fbbf24" fill-opacity="0.15" stroke="#fbbf24" stroke-width="2"/>
+            <text x="12" y="16" font-size="11" font-weight="700" fill="#fbbf24" text-anchor="middle" font-family="'DM Sans', sans-serif">C</text>
+          </svg>
+          <span id="menuBuyCoinsLabel">Nunua au Ongeza Coins</span>
+        </span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <span class="menu-coin-badge" id="menuCoinBadge">0 Coins</span>
+          <span class="chevron">›</span>
+        </span>
+      </div>
       <div class="menu-item" id="maktabaBtn">
         <span>
           <img src="/library_books_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" alt="Maktaba" onerror="this.style.display='none'">
@@ -602,6 +760,7 @@
   // State
   let currentUser = null;
   let userProfile = null;
+  let userCoins = 0;
   let userStats = {
     points: 0,
     streak: 0,
@@ -629,7 +788,11 @@
       logout: 'Ondoka',
       language: 'Lugha',
       myLibrary: 'Maktaba Yangu',
-      about: 'Kuhusu STORIES ZONE'
+      about: 'Kuhusu STORIES ZONE',
+      coinsBalance: 'Salio la Coins',
+      buyCoins: 'Nunua Coins',
+      buyOrAddCoins: 'Nunua au Ongeza Coins',
+      coinsDesc: 'Tumia coins kufungua sura na hadithi za kulipia.'
     },
     en: {
       navHome: 'Home',
@@ -645,7 +808,11 @@
       logout: 'Logout',
       language: 'Language',
       myLibrary: 'My Library',
-      about: 'About STORIES ZONE'
+      about: 'About STORIES ZONE',
+      coinsBalance: 'Coin Balance',
+      buyCoins: 'Buy Coins',
+      buyOrAddCoins: 'Buy or Top Up Coins',
+      coinsDesc: 'Use coins to unlock premium chapters & stories.'
     }
   };
 
@@ -717,6 +884,16 @@
       if (img) kuhusuSpan.appendChild(img);
       kuhusuSpan.appendChild(document.createTextNode(' ' + t.about));
     }
+
+    // Sasisha maelezo ya coins kwa lugha iliyochaguliwa
+    const coinsBalanceLabel = document.getElementById('coinsBalanceLabel');
+    if (coinsBalanceLabel) coinsBalanceLabel.textContent = t.coinsBalance;
+    const buyCoinsBtnText = document.getElementById('buyCoinsBtnText');
+    if (buyCoinsBtnText) buyCoinsBtnText.textContent = t.buyCoins;
+    const coinsSubtext = document.getElementById('coinsSubtext');
+    if (coinsSubtext) coinsSubtext.textContent = t.coinsDesc;
+    const menuBuyCoinsLabel = document.getElementById('menuBuyCoinsLabel');
+    if (menuBuyCoinsLabel) menuBuyCoinsLabel.textContent = t.buyOrAddCoins;
   }
 
   // Load user data from Supabase - NO REDIRECT, just load what's available
@@ -727,6 +904,8 @@
     document.getElementById('userAvatar').textContent = '?';
     document.getElementById('userName').textContent = 'Mgeni';
     document.getElementById('userEmailText').textContent = '-';
+    userCoins = 0;
+    updateCoinsUI();
   }
 
   function paintUser(user) {
@@ -802,7 +981,8 @@
         paintUser(currentUser); // sasisha jina kama profile ina 'name'
       }
 
-      // Load reading stats
+      // Load coin balance & reading stats
+      await loadCoinBalance();
       await loadReadingStats();
 
       return true;
@@ -814,6 +994,67 @@
   }
 
   // Load reading statistics
+
+  // Sasisha muonekano wa salio la coins (Kadi ya salio na menu badge)
+  function updateCoinsUI() {
+    const formatted = Number(userCoins || 0).toLocaleString();
+    const countEl = document.getElementById('userCoinsCount');
+    if (countEl) countEl.textContent = formatted;
+
+    const badgeEl = document.getElementById('menuCoinBadge');
+    if (badgeEl) badgeEl.textContent = formatted + ' Coins';
+  }
+
+  // Soma salio la coins kutoka users.coins_balance kupitia RPC get_my_coin_balance
+  async function loadCoinBalance() {
+    try {
+      const { data, error } = await supabase.rpc('get_my_coin_balance');
+      if (!error && data !== null && data !== undefined) {
+        let bal = 0;
+        if (typeof data === 'number') {
+          bal = data;
+        } else if (typeof data === 'object') {
+          if (data.success && typeof data.balance !== 'undefined') {
+            bal = Number(data.balance);
+          } else if (typeof data.balance !== 'undefined') {
+            bal = Number(data.balance);
+          } else if (typeof data.coins_balance !== 'undefined') {
+            bal = Number(data.coins_balance);
+          }
+        }
+        userCoins = Number.isFinite(bal) ? bal : 0;
+        updateCoinsUI();
+        return;
+      }
+      if (error) {
+        console.warn('RPC get_my_coin_balance error:', error);
+      }
+    } catch (rpcErr) {
+      console.warn('Hitilafu ya kupata salio kupitia get_my_coin_balance:', rpcErr);
+    }
+
+    // Njia mbadala (fallback): soma moja kwa moja kutoka jedwali la users (coins_balance)
+    if (currentUser) {
+      try {
+        const { data: uData, error: uErr } = await supabase
+          .from('users')
+          .select('coins_balance')
+          .eq('auth_user_id', currentUser.id)
+          .maybeSingle();
+
+        if (!uErr && uData && typeof uData.coins_balance !== 'undefined') {
+          userCoins = Number(uData.coins_balance) || 0;
+          updateCoinsUI();
+          return;
+        }
+      } catch (fallbackErr) {
+        console.warn('Fallback users.coins_balance error:', fallbackErr);
+      }
+    }
+
+    updateCoinsUI();
+  }
+
   async function loadReadingStats() {
     if (!currentUser) return;
     
@@ -949,6 +1190,11 @@
       window.location.href = 'library.html';
     });
     
+    // Nunua Coins
+    document.getElementById('nunuaCoinsBtn')?.addEventListener('click', () => {
+      window.location.href = 'payment.html';
+    });
+
     // Kuhusu STORIES ZONE
     document.getElementById('kuhusuBtn')?.addEventListener('click', () => {
       window.location.href = 'about.html';
@@ -973,6 +1219,21 @@
 
     // Sasisha data ukiwa bado kwenye ukurasa (mfano user akiingia/kutoka kwenye tab nyingine).
     // Kwa SIGNED_OUT pekee ndiyo tunaonyesha "Mgeni" moja kwa moja bila kusubiri mtandao.
+
+    // Pakia upya salio la coins kupitia pageshow (kwa mfano mtumiaji akirudi
+    // kutoka ukurasa wa kununua coins kupitia kitufe cha history.back())
+    window.addEventListener('pageshow', async (event) => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session && session.user) {
+          currentUser = session.user;
+          await loadCoinBalance();
+        }
+      } catch (pageErr) {
+        console.warn('Hitilafu ya pageshow:', pageErr);
+      }
+    });
+
     supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === 'SIGNED_OUT') {
         showLoggedOutUI();
