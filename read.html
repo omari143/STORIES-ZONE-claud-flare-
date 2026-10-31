@@ -426,6 +426,11 @@
         if (loaded) {
           renderChapter();
           await saveProgress();
+          // Rekodi sura iliyosomwa (kwa takwimu za "Maendeleo ya Kusoma")
+          if (currentUser) {
+            supabase.rpc('mark_chapter_read', { p_chapter_id: currentChapter.id })
+              .then(({ error }) => { if (error) console.warn('mark_chapter_read:', error.message); });
+          }
         }
       } catch (e) {
         console.error('init:', e);
