@@ -771,7 +771,7 @@
     totalChapters: 0
   };
   let currentLanguage = 'sw';
-  
+
   // Translations
   const translations = {
     sw: {
@@ -785,6 +785,8 @@
       completed: 'Hadithi zimekamilika',
       readingProgress: 'Maendeleo ya Kusoma',
       startReading: 'Anza kusoma hadithi!',
+      chaptersUnit: 'sura',
+      goalMessage: percent => `Umesoma ${percent}% ya sura za hadithi ulizoanza`,
       logout: 'Ondoka',
       language: 'Lugha',
       myLibrary: 'Maktaba Yangu',
@@ -805,6 +807,8 @@
       completed: 'Completed stories',
       readingProgress: 'Reading Progress',
       startReading: 'Start reading stories!',
+      chaptersUnit: 'chapters',
+      goalMessage: percent => `You've read ${percent}% of the chapters in stories you started`,
       logout: 'Logout',
       language: 'Language',
       myLibrary: 'My Library',
@@ -834,13 +838,13 @@
     document.getElementById('navLibrary').textContent = t.navLibrary;
     document.getElementById('navAccount').textContent = t.navAccount;
     document.getElementById('currentLang').textContent = currentLanguage === 'sw' ? 'Kiswahili' : 'English';
-    
+
     // Update dynamic texts
     document.querySelector('.stat-card:nth-child(1) .stat-label').textContent = t.points;
     document.querySelector('.stat-card:nth-child(2) .stat-label').textContent = t.daysStreak;
     document.querySelector('.stat-card:nth-child(2) .record-sub').innerHTML = `${t.record}: ${userStats.bestStreak}`;
     document.querySelector('.stat-card:nth-child(3) .stat-label').textContent = t.completed;
-    
+
     // Update goal title with icon and text
     const goalTitleLeft = document.querySelector('.goal-title .title-left');
     if (goalTitleLeft) {
@@ -849,11 +853,9 @@
       if (img) goalTitleLeft.appendChild(img);
       goalTitleLeft.appendChild(document.createTextNode(' ' + t.readingProgress));
     }
-    
-    document.getElementById('goalMessage').textContent = t.startReading;
-    
+
     document.getElementById('logoutBtn').innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> ${t.logout}`;
-    
+
     // Update menu items with translated text (keeping icons)
     const lughaSpan = document.querySelector('#lughaBtn span:first-child');
     if (lughaSpan) {
@@ -868,7 +870,7 @@
         lughaSpan.appendChild(langSpan);
       }
     }
-    
+
     const maktabaSpan = document.querySelector('#maktabaBtn span:first-child');
     if (maktabaSpan) {
       const img = maktabaSpan.querySelector('img');
@@ -876,7 +878,7 @@
       if (img) maktabaSpan.appendChild(img);
       maktabaSpan.appendChild(document.createTextNode(' ' + t.myLibrary));
     }
-    
+
     const kuhusuSpan = document.querySelector('#kuhusuBtn span:first-child');
     if (kuhusuSpan) {
       const img = kuhusuSpan.querySelector('img');
@@ -894,6 +896,9 @@
     if (coinsSubtext) coinsSubtext.textContent = t.coinsDesc;
     const menuBuyCoinsLabel = document.getElementById('menuBuyCoinsLabel');
     if (menuBuyCoinsLabel) menuBuyCoinsLabel.textContent = t.buyOrAddCoins;
+
+    // Sasisha maendeleo ya kusoma kwa lugha iliyochaguliwa
+    updateUIStats();
   }
 
   // Load user data from Supabase - NO REDIRECT, just load what's available
@@ -993,8 +998,6 @@
     }
   }
 
-  // Load reading statistics
-
   // Sasisha muonekano wa salio la coins (Kadi ya salio na menu badge)
   function updateCoinsUI() {
     const formatted = Number(userCoins || 0).toLocaleString();
@@ -1055,68 +1058,61 @@
     updateCoinsUI();
   }
 
+  // Load reading statistics using the dedicated Supabase RPC
   async function loadReadingStats() {
     if (!currentUser) return;
-    
-    // Get user from public.users
+
+    // Pata takwimu halisi za sura zilizosomwa kutoka RPC.
+    // RPC ikifeli au success ikiwa false, hifadhi takwimu zilizokuwepo.
+    try {
+      const { data: readingStats, error: readingStatsError } =
+        await supabase.rpc('get_my_reading_stats');
+
+      if (readingStatsError) {
+        console.warn(
+          'RPC get_my_reading_stats error:',
+          readingStatsError
+        );
+      } else if (!readingStats || readingStats.success !== true) {
+        console.warn(
+          'RPC get_my_reading_stats haikurudisha success=true:',
+          readingStats
+        );
+      } else {
+        userStats.chaptersRead = readingStats.chapters_read;
+        userStats.totalChapters = readingStats.total_chapters;
+        userStats.completedStories = readingStats.completed_stories;
+      }
+    } catch (readingStatsErr) {
+      console.warn(
+        'Hitilafu ya kupata takwimu kupitia get_my_reading_stats:',
+        readingStatsErr
+      );
+    }
+
+    // Get user from public.users (inahitajika kwa user_stats)
     const { data: userData } = await supabase
       .from('users')
       .select('id')
       .eq('auth_user_id', currentUser.id)
       .maybeSingle();
-    
-    if (!userData) return;
-    
-    // Get reading progress
-    const { data: progress } = await supabase
-      .from('reading_progress')
-      .select('story_id, chapter_number')
-      .eq('user_id', userData.id);
-    
-    // Get completed stories (where user has read all chapters)
-    const { data: stories } = await supabase
-      .from('stories')
-      .select('id, chapters_count');
-    
-    let completedCount = 0;
-    let chaptersRead = progress?.length || 0;
-    let totalChapters = 0;
-    
-    stories?.forEach(story => {
-      totalChapters += story.chapters_count || 0;
-    });
-    
-    // Simple completion logic
-    if (progress && stories) {
-      const storyMaxChapter = {};
-      progress.forEach(p => {
-        if (!storyMaxChapter[p.story_id] || p.chapter_number > storyMaxChapter[p.story_id]) {
-          storyMaxChapter[p.story_id] = p.chapter_number;
-        }
-      });
-      
-      stories.forEach(story => {
-        if (storyMaxChapter[story.id] >= (story.chapters_count || 0)) {
-          completedCount++;
-        }
-      });
+
+    if (!userData) {
+      updateUIStats();
+      return;
     }
-    
-    userStats.completedStories = completedCount;
-    userStats.chaptersRead = chaptersRead;
-    userStats.totalChapters = totalChapters;
-    
+
     // Get or create user stats record
     const { data: stats, error: statsError } = await supabase
       .from('user_stats')
       .select('*')
       .eq('user_id', userData.id)
       .maybeSingle();
-    
+
     if (statsError && statsError.code !== 'PGRST116') {
       console.error('Error loading stats:', statsError);
     }
-    
+
     if (stats) {
       userStats.points = stats.points || 0;
       userStats.streak = stats.streak || 0;
@@ -1132,7 +1128,7 @@
         referrals: 0
       });
     }
-    
+
     updateUIStats();
   }
 
@@ -1142,11 +1138,26 @@
     document.getElementById('streakCount').textContent = userStats.streak;
     document.getElementById('bestStreak').innerHTML = `${translations[currentLanguage].record}: ${userStats.bestStreak}`;
     document.getElementById('completedCount').textContent = userStats.completedStories;
-    
-    // Update goal progress
-    const goalPercent = userStats.totalChapters > 0 ? (userStats.chaptersRead / userStats.totalChapters) * 100 : 0;
-    document.getElementById('goalFill').style.width = `${goalPercent}%`;
-    document.getElementById('goalProgress').textContent = `${userStats.chaptersRead}/${userStats.totalChapters} sura`;
+
+    // Update reading goal progress
+    const percent = userStats.totalChapters > 0
+      ? Math.min(
+          100,
+          Math.round(
+            userStats.chaptersRead / userStats.totalChapters * 100
+          )
+        )
+      : 0;
+
+    document.getElementById('goalFill').style.width = percent + '%';
+
+    document.getElementById('goalProgress').textContent =
+      `${userStats.chaptersRead}/${userStats.totalChapters} ${translations[currentLanguage].chaptersUnit}`;
+
+    document.getElementById('goalMessage').textContent =
+      userStats.totalChapters === 0
+        ? translations[currentLanguage].startReading
+        : translations[currentLanguage].goalMessage(percent);
   }
 
   // Logout
@@ -1170,26 +1181,26 @@
     if (savedLang === 'sw' || savedLang === 'en') {
       currentLanguage = savedLang;
     }
-    
+
     updateLanguage();
-    
+
     // Show loading
     document.getElementById('loadingIndicator').style.display = 'block';
-    
+
     await loadUserData();
-    
+
     document.getElementById('loadingIndicator').style.display = 'none';
     document.getElementById('mainContent').style.display = 'block';
-    
+
     // Event listeners
     document.getElementById('logoutBtn')?.addEventListener('click', logout);
     document.getElementById('lughaBtn')?.addEventListener('click', showLanguageModal);
-    
+
     // Maktaba Yangu
     document.getElementById('maktabaBtn')?.addEventListener('click', () => {
       window.location.href = 'library.html';
     });
-    
+
     // Nunua Coins
     document.getElementById('nunuaCoinsBtn')?.addEventListener('click', () => {
       window.location.href = 'payment.html';
@@ -1199,7 +1210,7 @@
     document.getElementById('kuhusuBtn')?.addEventListener('click', () => {
       window.location.href = 'about.html';
     });
-    
+
     // Language modal handlers
     document.querySelectorAll('.lang-option').forEach(option => {
       option.addEventListener('click', () => {
@@ -1207,10 +1218,9 @@
         localStorage.setItem('storieszone_language', currentLanguage);
         updateLanguage();
         document.getElementById('langModal').classList.remove('show');
-        updateUIStats();
       });
     });
-    
+
     document.getElementById('langModal')?.addEventListener('click', (e) => {
       if (e.target === document.getElementById('langModal')) {
         document.getElementById('langModal').classList.remove('show');
@@ -1220,17 +1230,35 @@
     // Sasisha data ukiwa bado kwenye ukurasa (mfano user akiingia/kutoka kwenye tab nyingine).
     // Kwa SIGNED_OUT pekee ndiyo tunaonyesha "Mgeni" moja kwa moja bila kusubiri mtandao.
 
-    // Pakia upya salio la coins kupitia pageshow (kwa mfano mtumiaji akirudi
-    // kutoka ukurasa wa kununua coins kupitia kitufe cha history.back())
+    // Pakia upya coins na takwimu za kusoma mtumiaji anaporudi kwenye ukurasa.
     window.addEventListener('pageshow', async (event) => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
+
         if (session && session.user) {
           currentUser = session.user;
           await loadCoinBalance();
+          await loadReadingStats();
         }
       } catch (pageErr) {
         console.warn('Hitilafu ya pageshow:', pageErr);
+      }
+    });
+
+    // Sasisha coins na takwimu za kusoma mtumiaji anaporudi kwenye tab.
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'visible') {
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+
+          if (session && session.user) {
+            currentUser = session.user;
+            await loadReadingStats();
+            await loadCoinBalance();
+          }
+        } catch (visibilityErr) {
+          console.warn('Hitilafu ya visibilitychange:', visibilityErr);
+        }
       }
     });
 
@@ -1244,7 +1272,7 @@
       }
     });
   }
-  
+
   init();
 </script>
 
