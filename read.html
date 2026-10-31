@@ -8,400 +8,86 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f0e; color: #e8e8e8; line-height: 1.8; padding-bottom: 80px; }
+    .reading-content { -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
 
-    body {
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f0f0e;
-      color: #e8e8e8;
-      line-height: 1.8;
-      padding-bottom: 80px;
-    }
+    .header { position: sticky; top: 0; z-index: 100; background: rgba(15,15,14,.95); backdrop-filter: blur(10px); border-bottom: 1px solid #2a2a2a; }
+    .header-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+    .logo-icon { width: 32px; height: 32px; border-radius: 8px; overflow: hidden; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-text { font-size: 20px; font-weight: 700; }
+    .back-btn { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #1a1a1a; color: #e8e8e8; cursor: pointer; transition: background .2s; border: none; }
+    .back-btn:hover { background: #2a2a2a; }
 
-    /* Disable text selection and copy */
-    * {
-      -webkit-tap-highlight-color: transparent;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+    .reading-container { max-width: 800px; margin: 0 auto; padding: 24px 20px; }
+    .chapter-header { margin-bottom: 32px; text-align: center; }
+    .story-title { font-size: 14px; color: #42a781; margin-bottom: 8px; }
+    .chapter-title { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+    .chapter-meta { display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 13px; color: #888; }
+    .reading-content { font-size: 18px; line-height: 1.9; color: #e8e8e8; }
+    .reading-content p { margin-bottom: 24px; }
 
-    /* Allow text selection only in reading content */
-    .reading-content {
-      -webkit-user-select: text;
-      -moz-user-select: text;
-      -ms-user-select: text;
-      user-select: text;
-    }
+    .chapter-nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 48px; padding-top: 24px; border-top: 1px solid #2a2a2a; }
+    .nav-btn { display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 40px; color: #e8e8e8; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: all .2s; }
+    .nav-btn:hover:not(.disabled) { background: #2a2a2a; border-color: #42a781; }
+    .nav-btn.disabled { opacity: .3; cursor: not-allowed; }
 
-    /* Header */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(15, 15, 14, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #2a2a2a;
-    }
+    .loading { text-align: center; padding: 60px 20px; color: #888; }
+    .spinner { width: 40px; height: 40px; border: 3px solid #2a2a2a; border-top-color: #9c2518; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-    }
+    .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1a1a1a; border: 1px solid #2a2a2a; padding: 12px 20px; border-radius: 50px; font-size: 13px; font-weight: 500; color: #e8e8e8; z-index: 1000; transition: transform .3s; white-space: nowrap; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { border-color: #e74c3c; color: #e74c3c; }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,15,14,.95); backdrop-filter: blur(10px); border-top: 1px solid #2a2a2a; display: flex; justify-content: space-around; padding: 8px 16px; z-index: 100; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: #666; font-size: 12px; font-weight: 500; transition: color .2s; border-radius: 8px; text-decoration: none; }
+    .nav-item svg { width: 20px; height: 20px; }
+    .nav-item:hover { color: #e8e8e8; }
 
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .logo-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .logo-text {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .back-btn {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 8px;
-      background: #1a1a1a;
-      color: #e8e8e8;
-      cursor: pointer;
-      transition: background 0.2s;
-      border: none;
-    }
-
-    .back-btn:hover {
-      background: #2a2a2a;
-    }
-
-    /* Reading Container */
-    .reading-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 24px 20px;
-    }
-
-    .chapter-header {
-      margin-bottom: 32px;
-      text-align: center;
-    }
-
-    .story-title {
-      font-size: 14px;
-      color: #42a781;
-      margin-bottom: 8px;
-    }
-
-    .chapter-title {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 16px;
-    }
-
-    .chapter-meta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      font-size: 13px;
-      color: #888888;
-    }
-
-    /* Reading Content */
-    .reading-content {
-      font-size: 18px;
-      line-height: 1.9;
-      color: #e8e8e8;
-    }
-
-    .reading-content p {
-      margin-bottom: 24px;
-    }
-
-    .reading-content h1, 
-    .reading-content h2, 
-    .reading-content h3 {
-      margin: 32px 0 16px;
-      font-weight: 700;
-    }
-
-    /* Navigation Buttons */
-    .chapter-nav {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 48px;
-      padding-top: 24px;
-      border-top: 1px solid #2a2a2a;
-    }
-
-    .nav-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 40px;
-      color: #e8e8e8;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .nav-btn:hover:not(.disabled) {
-      background: #2a2a2a;
-      border-color: #42a781;
-    }
-
-    .nav-btn.disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: #888888;
-    }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #2a2a2a;
-      border-top-color: #9c2518;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      padding: 12px 20px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #e8e8e8;
-      z-index: 1000;
-      transition: transform 0.3s;
-      white-space: nowrap;
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .toast.error {
-      border-color: #e74c3c;
-      color: #e74c3c;
-    }
-
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(15, 15, 14, 0.95);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid #2a2a2a;
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 16px;
-      z-index: 100;
-    }
-
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 8px 16px;
-      color: #666666;
-      font-size: 12px;
-      font-weight: 500;
-      transition: color 0.2s;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .nav-item svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .nav-item:hover {
-      color: #e8e8e8;
-    }
-
-    .nav-item.active {
-      color: #9c2518;
-    }
-
-    /* Payment Required Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #141414;
-      border: 1px solid #2a2a2a;
-      border-radius: 24px;
-      max-width: 380px;
-      width: 100%;
-      padding: 32px 24px;
-      text-align: center;
-    }
-
-    .modal-icon {
-      width: 68px;
-      height: 68px;
-      margin: 0 auto 16px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      background: rgba(156, 37, 24, 0.15);
-    }
-
-    .modal-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .modal-msg {
-      font-size: 14px;
-      color: #888888;
-      line-height: 1.65;
-      margin-bottom: 20px;
-    }
-
-    .modal-btn {
-      width: 100%;
-      padding: 14px;
-      background: #42a781;
-      border: none;
-      border-radius: 12px;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-      font-family: inherit;
-      font-size: 15px;
-      transition: 0.2s;
-    }
-
-    .modal-btn:hover {
-      background: #4dbd94;
-    }
-
-    .modal-btn.outline {
-      background: transparent;
-      border: 1px solid #2a2a2a;
-      color: #e8e8e8;
-    }
-
-    .modal-btn.outline:hover {
-      border-color: #42a781;
-      color: #42a781;
-    }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.95); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .modal.show { display: flex; }
+    .modal-box { background: #141414; border: 1px solid #2a2a2a; border-radius: 24px; max-width: 380px; width: 100%; padding: 32px 24px; text-align: center; }
+    .modal-icon { width: 68px; height: 68px; margin: 0 auto 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 34px; background: rgba(156,37,24,.15); }
+    .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .modal-msg { font-size: 14px; color: #888; line-height: 1.65; margin-bottom: 20px; }
+    .modal-btn { width: 100%; padding: 14px; background: #42a781; border: none; border-radius: 12px; color: #fff; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: inherit; font-size: 15px; transition: .2s; }
+    .modal-btn:hover { background: #4dbd94; }
+    .modal-btn.outline { background: transparent; border: 1px solid #2a2a2a; color: #e8e8e8; }
+    .modal-btn.outline:hover { border-color: #42a781; color: #42a781; }
 
     @media (max-width: 600px) {
-      .reading-container {
-        padding: 16px;
-      }
-      .chapter-title {
-        font-size: 22px;
-      }
-      .reading-content {
-        font-size: 16px;
-      }
-      .nav-btn {
-        padding: 10px 16px;
-        font-size: 12px;
-      }
+      .reading-container { padding: 16px; }
+      .chapter-title { font-size: 22px; }
+      .reading-content { font-size: 16px; }
+      .nav-btn { padding: 10px 16px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header class="header">
     <div class="header-top">
       <div style="display:flex;align-items:center;gap:12px;">
-        <button class="back-btn" onclick="goBack()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
+        <button class="back-btn" onclick="goBack()" aria-label="Rudi">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
-        <a href="index.html" class="logo">
-          <div class="logo-icon">
-            <img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/32x32/9c2518/white?text=SZ'">
-          </div>
+        <a href="/index.html" class="logo">
+          <div class="logo-icon"><img src="/file_00000000d1cc6230872747a8605addb8.png" alt="STORIES ZONE Logo" onerror="this.src='https://placehold.co/32x32/9c2518/white?text=SZ'"></div>
           <span class="logo-text">STORIES ZONE</span>
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Reading Content -->
   <div id="loadingIndicator" class="loading">
     <div class="spinner"></div>
     <p>Inapakia sura...</p>
   </div>
 
-  <div id="readingContent" style="display: none;">
+  <div id="readingContent" style="display:none;">
     <div class="reading-container">
       <div class="chapter-header">
         <div class="story-title" id="storyTitle">-</div>
@@ -414,64 +100,45 @@
       <div class="reading-content" id="chapterContent"></div>
       <div class="chapter-nav">
         <button class="nav-btn" id="prevChapterBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           Sura Iliyotangulia
         </button>
         <button class="nav-btn" id="nextChapterBtn">
           Sura Inayofuata
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Payment Required Modal -->
-  <div class="modal" id="paymentModal">
+  <!-- Modal: sura imefungwa / hitilafu -->
+  <div class="modal" id="accessModal">
     <div class="modal-box">
-      <div class="modal-icon">🔒</div>
-      <div class="modal-title">Malipo Yanahitajika</div>
-      <div class="modal-msg" id="modalMessage">
-        Unahitaji kununua sura hii kwanza ili kuisoma.
-      </div>
-      <button class="modal-btn" id="modalPayBtn">Lipa Sasa</button>
-      <button class="modal-btn outline" id="modalBackBtn">Rudi Kwenye Hadithi</button>
+      <div class="modal-icon" id="modalIcon">🔒</div>
+      <div class="modal-title" id="modalTitle">Sura Imefungwa</div>
+      <div class="modal-msg" id="modalMessage"></div>
+      <button class="modal-btn" id="modalPrimaryBtn"></button>
+      <button class="modal-btn outline" id="modalSecondaryBtn"></button>
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
+    <a href="/index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Nyumbani
     </a>
-    <a href="index.html" class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
+    <a href="/index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Tafuta
     </a>
-    <a href="library.html" class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-      </svg>
+    <a href="/library.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
       Maktaba
     </a>
-    <a href="login.html" class="nav-item" id="authNavLink">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
+    <a href="/login.html" class="nav-item" id="authNavLink">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Akaunti
     </a>
   </nav>
@@ -479,53 +146,47 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    // Protection: Disable copy, screenshot, F12
+    // ===== Protection: disable copy, screenshot shortcuts, F12 =====
     document.addEventListener('contextmenu', (e) => e.preventDefault());
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || 
-          (e.ctrlKey && e.key === 'u') || (e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'p')) {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','C','J'].includes(e.key)) ||
+          (e.ctrlKey && ['u','s','p'].includes(e.key))) {
         e.preventDefault();
         return false;
       }
       if (e.ctrlKey && e.key === 'c') {
-        const activeEl = document.activeElement;
-        if (!activeEl || !activeEl.classList || !activeEl.classList.contains('reading-content')) {
+        const el = document.activeElement;
+        if (!el || !el.classList || !el.classList.contains('reading-content')) {
           e.preventDefault();
           return false;
         }
       }
     });
 
-    // Supabase Configuration
+    // ===== Supabase =====
     const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
-
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // State
+    // ===== State =====
     let currentChapter = null;
     let storyData = null;
     let allChapters = [];
     let currentChapterIndex = -1;
     let currentUser = null;
-    let hasAccess = false;
 
-    // DOM Elements
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    const readingContent = document.getElementById('readingContent');
-    const toast = document.getElementById('toast');
-    const paymentModal = document.getElementById('paymentModal');
+    const $ = (id) => document.getElementById(id);
+    const loadingIndicator = $('loadingIndicator');
+    const readingContent = $('readingContent');
+    const toast = $('toast');
+    const accessModal = $('accessModal');
 
-    // Helper: Get URL parameters
+    // ===== Helpers =====
     function getUrlParams() {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        chapter_id: params.get('chapter_id'),
-        story_id: params.get('story_id')
-      };
+      const p = new URLSearchParams(window.location.search);
+      return { chapter_id: p.get('chapter_id'), story_id: p.get('story_id') };
     }
 
-    // Helper: Show toast
     function showToast(message, type = 'info') {
       toast.textContent = message;
       toast.className = 'toast show';
@@ -533,87 +194,111 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // Check authentication
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+
+    // Ukurasa wa hadithi: /story/<slug> (njia ile ile inayotumiwa na share)
+    function storyUrl() {
+      if (storyData && storyData.slug) return `/story/${encodeURIComponent(storyData.slug)}`;
+      const id = (storyData && storyData.id) || getUrlParams().story_id;
+      return id ? `/story.html?id=${encodeURIComponent(id)}` : '/index.html';
+    }
+
+    function showModal({ icon, title, message, primaryText, onPrimary, secondaryText, onSecondary }) {
+      $('modalIcon').textContent = icon;
+      $('modalTitle').textContent = title;
+      $('modalMessage').textContent = message;
+      $('modalPrimaryBtn').textContent = primaryText;
+      $('modalSecondaryBtn').textContent = secondaryText;
+      $('modalPrimaryBtn').onclick = onPrimary;
+      $('modalSecondaryBtn').onclick = onSecondary;
+      accessModal.classList.add('show');
+    }
+
+    // ===== Auth =====
     async function checkAuth() {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('id, name')
-          .eq('auth_user_id', user.id)
-          .single();
-        if (userData) {
-          currentUser = userData;
-          document.getElementById('authNavLink').innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>${currentUser.name?.split(' ')[0] || 'Akaunti'}</span>
-          `;
-          document.getElementById('authNavLink').href = 'profile.html';
-        }
+      if (!user) return false;
+      const { data: userData } = await supabase
+        .from('users').select('id, name').eq('auth_user_id', user.id).maybeSingle();
+      if (userData) {
+        currentUser = userData;
+        $('authNavLink').innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>${esc((currentUser.name || '').split(' ')[0] || 'Akaunti')}</span>`;
+        $('authNavLink').href = '/profile.html';
       }
       return !!currentUser;
     }
 
-    // CHECK ACCESS FROM PAYMENTS TABLE (NOT purchases)
-    async function checkAccessFromPayments(chapterId) {
-      if (!currentUser) return false;
-      
-      // Check if there's a COMPLETED payment for this chapter
-      const { data, error } = await supabase
-        .from('payments')
-        .select('id, status, amount')
-        .eq('user_id', currentUser.id)
-        .eq('item_type', 'chapter')
-        .eq('item_id', chapterId)
-        .eq('status', 'COMPLETED')
-        .maybeSingle();
-      
-      if (error) {
-        console.error('Error checking payment:', error);
-        return false;
-      }
-      
-      return !!data;
+    // ===== Access checks =====
+    // Coins: hadithi imefunguliwa kwa coins (RPC inasoma coin_spending)
+    async function hasCoinUnlock() {
+      const { data, error } = await supabase.rpc('get_story_unlock_info', { p_story_id: storyData.id });
+      if (error || !data || data.success === false) throw (error || new Error('unlock_info_failed'));
+      return data.unlocked === true;
     }
 
-    // Check if user has active premium subscription
+    // Premium subscription
     async function hasActiveSubscription() {
       if (!currentUser) return false;
-      
       const today = new Date().toISOString().split('T')[0];
       const { data, error } = await supabase
-        .from('subscriptions')
-        .select('id')
-        .eq('user_id', currentUser.id)
-        .eq('status', 'Hai')
-        .gte('end_date', today)
-        .maybeSingle();
-      
-      if (error) {
-        console.error('Error checking subscription:', error);
-        return false;
-      }
-      
-      return !!data;
+        .from('subscriptions').select('id')
+        .eq('user_id', currentUser.id).eq('status', 'Hai').gte('end_date', today).limit(1);
+      return !error && !!(data && data.length);
     }
 
-    // Load chapter content
+    // Ununuzi wa zamani (sura moja, hadithi nzima) — wasiopoteze walichokwisha lipia
+    async function hasLegacyAccess(chapterId) {
+      if (!currentUser) return false;
+      const uid = currentUser.id;
+      const results = await Promise.all([
+        supabase.from('payments').select('id').eq('user_id', uid).eq('item_type', 'chapter').eq('item_id', chapterId).eq('status', 'COMPLETED').limit(1),
+        supabase.from('purchases').select('id').eq('user_id', uid).eq('item_type', 'chapter').eq('item_id', chapterId).eq('status', 'Imefanikishwa').limit(1),
+        supabase.from('purchases').select('id').eq('user_id', uid).eq('item_type', 'bulk_full').eq('story_id', storyData.id).eq('status', 'Imefanikishwa').limit(1)
+      ]);
+      return results.some((r) => !r.error && r.data && r.data.length > 0);
+    }
+
+    // Inarudisha: 'ok' | 'locked' | 'login' | 'error'
+    async function resolveAccess() {
+      const freeCount = storyData.free_chapters_count ?? 0;
+      const isFree = currentChapter.is_free === true ||
+                     storyData.is_free === true ||
+                     currentChapter.chapter_number <= freeCount;
+      if (isFree) return 'ok';
+
+      if (!currentUser) return 'login';
+
+      const [premium, legacy] = await Promise.all([
+        hasActiveSubscription(),
+        hasLegacyAccess(currentChapter.id)
+      ]);
+      if (premium || legacy) return 'ok';
+
+      try {
+        return (await hasCoinUnlock()) ? 'ok' : 'locked';
+      } catch (e) {
+        console.error('hasCoinUnlock:', e);
+        return 'error';
+      }
+    }
+
+    // ===== Load chapter =====
+    // Hatua 1: pakia maelezo ya sura bila maudhui. Hatua 2: maudhui yanapakiwa baada ya ufikiaji kuthibitishwa.
     async function loadChapter() {
       const params = getUrlParams();
       if (!params.chapter_id) {
         showToast('Sura haikupatikana', 'error');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => (window.location.href = '/index.html'), 1500);
         return false;
       }
 
-      loadingIndicator.style.display = 'block';
-
       const { data: chapter, error } = await supabase
         .from('story_chapters')
-        .select('*, stories:story_id(id, title, price_per_chapter, free_chapters_count)')
+        .select('id, story_id, chapter_number, title, is_free, word_count, stories:story_id(id, title, slug, is_free, free_chapters_count)')
         .eq('id', params.chapter_id)
         .eq('is_published', true)
         .single();
@@ -621,36 +306,62 @@
       if (error || !chapter) {
         loadingIndicator.style.display = 'none';
         showToast('Sura haikupatikana', 'error');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => (window.location.href = '/index.html'), 1500);
         return false;
       }
 
       currentChapter = chapter;
       storyData = chapter.stories;
 
-      // Check if chapter is free (based on free_chapters_count)
-      const freeChaptersCount = storyData?.free_chapters_count || 3;
-      const isFree = currentChapter.is_free || currentChapter.chapter_number <= freeChaptersCount;
-      
-      if (isFree) {
-        hasAccess = true;
-      } else {
-        // Check payment from payments table
-        const [hasPurchased, hasPremium] = await Promise.all([
-          checkAccessFromPayments(currentChapter.id),
-          hasActiveSubscription()
-        ]);
-        hasAccess = hasPurchased || hasPremium;
-      }
+      const access = await resolveAccess();
+      loadingIndicator.style.display = 'none';
 
-      // If no access, show modal and stop
-      if (!hasAccess) {
-        loadingIndicator.style.display = 'none';
-        showPaymentModal();
+      if (access === 'login') {
+        window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`;
+        return false;
+      }
+      if (access === 'locked') {
+        showModal({
+          icon: '🔒',
+          title: 'Sura Imefungwa',
+          message: 'Fungua hadithi nzima kwa coins ili kusoma sura zote.',
+          primaryText: 'Fungua Hadithi',
+          onPrimary: () => (window.location.href = storyUrl()),
+          secondaryText: 'Nyumbani',
+          onSecondary: () => (window.location.href = '/index.html')
+        });
+        return false;
+      }
+      if (access === 'error') {
+        showModal({
+          icon: '⚠️',
+          title: 'Imeshindwa Kuthibitisha',
+          message: 'Imeshindwa kuthibitisha ufikiaji wako. Angalia mtandao kisha ujaribu tena.',
+          primaryText: 'Jaribu Tena',
+          onPrimary: () => window.location.reload(),
+          secondaryText: 'Rudi Kwenye Hadithi',
+          onSecondary: () => (window.location.href = storyUrl())
+        });
         return false;
       }
 
-      // Load all chapters for navigation
+      // Ufikiaji upo: pakia maudhui
+      const { data: body, error: bodyErr } = await supabase
+        .from('story_chapters').select('content').eq('id', currentChapter.id).single();
+      if (bodyErr || !body) {
+        showModal({
+          icon: '⚠️',
+          title: 'Imeshindwa Kupakia Sura',
+          message: 'Maudhui ya sura hayakupatikana. Jaribu tena.',
+          primaryText: 'Jaribu Tena',
+          onPrimary: () => window.location.reload(),
+          secondaryText: 'Rudi Kwenye Hadithi',
+          onSecondary: () => (window.location.href = storyUrl())
+        });
+        return false;
+      }
+      currentChapter.content = body.content;
+
       const { data: chapters } = await supabase
         .from('story_chapters')
         .select('id, chapter_number, title')
@@ -659,123 +370,68 @@
         .order('chapter_number', { ascending: true });
 
       allChapters = chapters || [];
-      currentChapterIndex = allChapters.findIndex(c => c.id === currentChapter.id);
-
+      currentChapterIndex = allChapters.findIndex((c) => c.id === currentChapter.id);
       return true;
     }
 
-    // Show payment required modal
-    function showPaymentModal() {
-      const price = currentChapter?.price || storyData?.price_per_chapter || 500;
-      document.getElementById('modalMessage').innerHTML = `
-        Sura hii inagharimu <strong>TSh ${price.toLocaleString()}</strong>.<br>
-        Tafadhali lipa kwanza ili kuisoma.
-      `;
-      
-      paymentModal.classList.add('show');
-      
-      document.getElementById('modalPayBtn').onclick = () => {
-        paymentModal.classList.remove('show');
-        window.location.href = `payment.html?type=chapter&id=${currentChapter.id}&story_id=${currentChapter.story_id}&price=${price}`;
-      };
-      
-      document.getElementById('modalBackBtn').onclick = () => {
-        paymentModal.classList.remove('show');
-        window.location.href = `story.html?id=${currentChapter.story_id}`;
-      };
-    }
-
-    // Render chapter content
+    // ===== Render =====
     function renderChapter() {
-      if (!currentChapter) return;
+      $('storyTitle').textContent = (storyData && storyData.title) || 'Hadithi';
+      $('chapterTitle').textContent = currentChapter.title || `Sura ya ${currentChapter.chapter_number}`;
+      $('chapterNumber').textContent = `Sura ${currentChapter.chapter_number}`;
+      $('wordCount').textContent = `${currentChapter.word_count || 0} maneno`;
 
-      document.getElementById('storyTitle').textContent = storyData?.title || 'Hadithi';
-      document.getElementById('chapterTitle').textContent = currentChapter.title || `Sura ya ${currentChapter.chapter_number}`;
-      document.getElementById('chapterNumber').textContent = `Sura ${currentChapter.chapter_number}`;
-      document.getElementById('wordCount').textContent = `${currentChapter.word_count || 0} maneno`;
-      
-      // Format content with paragraphs
-      let content = currentChapter.content || 'Hakuna maudhui ya sura hii.';
-      // Split by double newlines for paragraphs
-      const paragraphs = content.split(/\n\n+/);
-      const formattedContent = paragraphs.map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
-      document.getElementById('chapterContent').innerHTML = formattedContent;
+      // Ondoa alama za zamani za [price:NNN] zilizokuwa zinaongezwa kwenye maudhui
+      const raw = String(currentChapter.content || 'Hakuna maudhui ya sura hii.').replace(/\s*\[price:\d+\]/g, '');
+      $('chapterContent').innerHTML = raw
+        .split(/\n\n+/)
+        .map((p) => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`)
+        .join('');
 
-      // Update navigation buttons
-      const prevBtn = document.getElementById('prevChapterBtn');
-      const nextBtn = document.getElementById('nextChapterBtn');
+      $('prevChapterBtn').classList.toggle('disabled', currentChapterIndex <= 0);
+      $('nextChapterBtn').classList.toggle('disabled', currentChapterIndex >= allChapters.length - 1);
 
-      if (currentChapterIndex <= 0) {
-        prevBtn.classList.add('disabled');
-      } else {
-        prevBtn.classList.remove('disabled');
-      }
-
-      if (currentChapterIndex >= allChapters.length - 1) {
-        nextBtn.classList.add('disabled');
-      } else {
-        nextBtn.classList.remove('disabled');
-      }
-
-      loadingIndicator.style.display = 'none';
       readingContent.style.display = 'block';
     }
 
-    // Navigate to previous chapter
-    async function prevChapter() {
-      if (currentChapterIndex > 0) {
-        const prevChapterId = allChapters[currentChapterIndex - 1].id;
-        window.location.href = `read.html?chapter_id=${prevChapterId}&story_id=${storyData?.id}`;
-      }
+    function goToChapter(index) {
+      if (index < 0 || index >= allChapters.length) return;
+      window.location.href = `/read.html?chapter_id=${allChapters[index].id}&story_id=${storyData.id}`;
     }
 
-    // Navigate to next chapter
-    async function nextChapter() {
-      if (currentChapterIndex < allChapters.length - 1) {
-        const nextChapterId = allChapters[currentChapterIndex + 1].id;
-        window.location.href = `read.html?chapter_id=${nextChapterId}&story_id=${storyData?.id}`;
-      }
-    }
-
-    // Save reading progress
     async function saveProgress() {
       if (!currentUser || !currentChapter) return;
-
-      const { error } = await supabase
-        .from('reading_progress')
-        .upsert({
-          user_id: currentUser.id,
-          story_id: currentChapter.story_id,
-          chapter_id: currentChapter.id,
-          chapter_number: currentChapter.chapter_number,
-          last_read_at: new Date().toISOString()
-        }, {
-          onConflict: 'user_id,story_id'
-        });
-
+      const { error } = await supabase.from('reading_progress').upsert({
+        user_id: currentUser.id,
+        story_id: currentChapter.story_id,
+        chapter_id: currentChapter.id,
+        chapter_number: currentChapter.chapter_number,
+        last_read_at: new Date().toISOString()
+      }, { onConflict: 'user_id,story_id' });
       if (error) console.error('Error saving progress:', error);
     }
 
-    // Go back function
-    window.goBack = function() {
-      if (storyData) {
-        window.location.href = `story.html?id=${storyData.id}`;
-      } else {
-        window.location.href = 'index.html';
-      }
+    window.goBack = function () {
+      window.location.href = storyData ? storyUrl() : '/index.html';
     };
 
-    // Initialize
+    // ===== Init =====
     async function init() {
-      await checkAuth();
-      const loaded = await loadChapter();
-      if (loaded && hasAccess) {
-        renderChapter();
-        await saveProgress();
-      }
+      $('prevChapterBtn').addEventListener('click', () => goToChapter(currentChapterIndex - 1));
+      $('nextChapterBtn').addEventListener('click', () => goToChapter(currentChapterIndex + 1));
 
-      document.getElementById('prevChapterBtn').addEventListener('click', prevChapter);
-      document.getElementById('nextChapterBtn').addEventListener('click', nextChapter);
+      try {
+        await checkAuth();
+        const loaded = await loadChapter();
+        if (loaded) {
+          renderChapter();
+          await saveProgress();
+        }
+      } catch (e) {
+        console.error('init:', e);
+        loadingIndicator.style.display = 'none';
+        showToast('Hitilafu imetokea. Jaribu tena.', 'error');
+      }
     }
 
     init();
