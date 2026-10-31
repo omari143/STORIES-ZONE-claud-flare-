@@ -1627,52 +1627,31 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== Podcast / Episodes ===== */
-.podcast-actions {
-  display: grid;
-  gap: 10px;
+.unlock-card {
   margin: 16px 0 18px;
-}
-.podcast-actions .pa-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
+  padding: 16px;
   background: var(--bg-secondary);
-  color: var(--text-primary);
-  font-weight: 600;
-  font-size: 14px;
   border: 1px solid var(--border);
-  width: 100%;
-  text-align: left;
+  border-radius: var(--radius-sm);
+  text-align: center;
 }
-.podcast-actions .pa-btn .pa-price {
-  color: var(--accent);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-.podcast-actions .pa-btn.primary {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: #fff;
-}
-.podcast-actions .pa-btn.primary .pa-price { color: #fff; }
-.podcast-actions .pa-btn.primary:hover { background: var(--primary-hover); }
-.podcast-actions .pa-btn.bundle {
-  background: var(--bg-card);
-  border-color: var(--accent);
-  color: var(--text-primary);
-}
-.podcast-actions .pa-btn.bundle:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-.podcast-actions .pa-btn.owned {
-  background: var(--bg-card);
-  border-color: var(--accent);
-  color: var(--accent);
-}
+.unlock-card .uc-title { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.unlock-card .uc-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5; }
+.unlock-card .uc-price { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 26px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+.unlock-card .uc-coin { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ffe08a, #e0a526); color: #7a4b00; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; }
+.unlock-card .uc-balance { font-size: 12px; color: var(--text-muted); margin: 6px 0 14px; }
+.unlock-card .uc-btn { width: 100%; padding: 12px 14px; border-radius: var(--radius-sm); background: var(--primary); border: 1px solid var(--primary); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; }
+.unlock-card .uc-btn:hover { background: var(--primary-hover); }
+.unlock-card .uc-btn:disabled { opacity: .6; cursor: not-allowed; }
+.unlock-card.unlocked { border-color: var(--accent); color: var(--accent); font-weight: 700; font-size: 14px; padding: 12px; }
+.coin-confirm-modal { position: fixed; inset: 0; z-index: 1100; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.6); padding: 20px; }
+.coin-confirm-modal.show { display: flex; }
+.coin-confirm-box { width: 100%; max-width: 360px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 20px; text-align: center; }
+.coin-confirm-box .cc-text { color: var(--text-primary); font-size: 15px; line-height: 1.6; margin-bottom: 16px; }
+.coin-confirm-box .cc-actions { display: flex; gap: 10px; }
+.coin-confirm-box .cc-actions button { flex: 1; padding: 11px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; border: 1px solid var(--border); }
+.coin-confirm-box .cc-ok { background: var(--primary); border-color: var(--primary) !important; color: #fff; }
+.coin-confirm-box .cc-cancel { background: var(--bg-secondary); color: var(--text-primary); }
 
 .episodes-section { margin-top: 18px; }
 .episodes-section .es-header {
@@ -1693,7 +1672,7 @@ img { max-width: 100%; display: block; }
 .episodes-list { display: flex; flex-direction: column; gap: 8px; }
 .episode-row {
   display: grid;
-  grid-template-columns: 24px 28px 52px 1fr auto;
+  grid-template-columns: 28px 52px 1fr auto;
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
@@ -1702,12 +1681,6 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-sm);
 }
 .episode-row.playing { border-color: var(--accent); }
-.episode-row .ep-check {
-  width: 16px; height: 16px;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
-.episode-row .ep-check[disabled] { opacity: .4; cursor: not-allowed; }
 .episode-row .ep-num {
   font-size: 12px;
   font-weight: 700;
@@ -1778,6 +1751,7 @@ img { max-width: 100%; display: block; }
 .episode-row .ep-btn.play:hover { background: var(--primary-hover); }
 .episode-row .ep-btn.buy { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; width: auto; padding: 0 10px; }
 .episode-row .ep-btn.buy:hover { background: var(--accent-hover); }
+.episode-row .ep-btn.lock { background: var(--bg-secondary); color: var(--text-primary); font-size: 13px; }
 .episode-row .ep-btn.cmt { background: var(--bg-secondary); color: var(--text-primary); font-size: 11px; width: auto; padding: 0 10px; gap: 4px; }
 .episode-row .ep-btn.cmt.active { background: var(--accent); color: #fff; }
 .episode-row .ep-btn svg { width: 14px; height: 14px; }
@@ -1825,19 +1799,6 @@ img { max-width: 100%; display: block; }
 .episode-comments .ec-item .ec-time { color: var(--text-muted); font-size: 10px; }
 .episode-comments .ec-item .ec-text { color: var(--text-secondary); margin-top: 4px; }
 .episode-comments .ec-empty { color: var(--text-muted); font-size: 12px; text-align: center; padding: 8px; }
-
-.bundle-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-secondary);
-  font-size: 13px;
-  color: var(--text-primary);
-}
-.bundle-summary strong { color: var(--accent); font-variant-numeric: tabular-nums; }
 
 .podcast-episode-badge {
   position: absolute;
@@ -2590,6 +2551,15 @@ img { max-width: 100%; display: block; }
 
   <!-- ===== Toast ===== -->
   <div class="toast" id="toast"></div>
+  <div class="coin-confirm-modal" id="coinConfirmModal" role="dialog" aria-modal="true">
+    <div class="coin-confirm-box">
+      <div class="cc-text" id="coinConfirmText"></div>
+      <div class="cc-actions">
+        <button type="button" class="cc-cancel" id="coinConfirmCancel">Ghairi</button>
+        <button type="button" class="cc-ok" id="coinConfirmOk">Fungua</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
@@ -2639,6 +2609,13 @@ img { max-width: 100%; display: block; }
     let currentComments = [];
     let ownedEpisodeIds = new Set();
     let podcastFullOwned = false;
+    let premiumActive = false;
+    let hasCoinUnlock = false;
+    const DEFAULT_COIN_PRICE = 15;
+    const BUY_COINS_PAGE = 'payment.html'; // badilisha kuwa jina halisi la ukurasa wako wa kununua coins
+    let audioCoinPrice = DEFAULT_COIN_PRICE;
+    let coinBalance = 0;
+    let isUnlocking = false;
 
     const likesCache = new Map();
     const commentsCountCache = new Map();
@@ -3091,7 +3068,7 @@ img { max-width: 100%; display: block; }
               <img class="cover-bg-blur" src="${cover}" alt="" aria-hidden="true">
               <img class="cover-main-img" src="${cover}" alt="${escapeHtml(audio.title)}" onerror="this.src='https://placehold.co/300x300/1a1a1a/888888?text=No+Cover'">
               <div class="audio-card-overlay"><div class="play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-              <span class="audio-type-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
+              <span class="audio-type-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Coins'}</span>
               <span class="podcast-episode-badge">${icon('headphones')} ${epCount} vipande</span>
             </div>
             <h3>${escapeHtml(audio.title)}</h3>
@@ -3171,7 +3148,7 @@ img { max-width: 100%; display: block; }
             </div>
             <div class="ali-right">
               <span class="ali-duration">${icon('headphones')} ${epCount} vipande</span>
-              <span class="ali-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Premium'}</span>
+              <span class="ali-badge ${audio.is_free ? 'free' : 'premium'}">${audio.is_free ? 'Bure' : 'Coins'}</span>
               <button class="ali-share-btn" data-share-id="${audio.id}" title="Shiriki" aria-label="Shiriki podcast">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
               </button>
@@ -3209,14 +3186,19 @@ img { max-width: 100%; display: block; }
       if (!audio) return;
       currentAudioId = audio.id;
 
-      const [episodes, likeCount, userLiked, comments, fullOwned, premiumActive] = await Promise.all([
+      const [episodes, likeCount, userLiked, comments, fullOwned, premActive, unlockInfo] = await Promise.all([
         loadEpisodesFor(audio.id),
         loadLikes(audio.id),
         checkUserLiked(audio.id),
         loadComments(audio.id),
         hasPurchasedPodcastFull(audio.id),
         hasActiveSubscription(),
+        loadUnlockInfo(audio.id),
+        loadCoinBalance(),
       ]);
+      premiumActive = !!premActive;
+      audioCoinPrice = unlockInfo.price;
+      hasCoinUnlock = unlockInfo.unlocked;
 
       const episodeIds = episodes.map(e => e.id);
       const owned = (fullOwned || premiumActive)
@@ -3236,7 +3218,6 @@ img { max-width: 100%; display: block; }
       const genreName = audio.genres?.name || 'Aina';
       const totalSeconds = episodes.reduce((s,e)=>s+getEpisodeDuration(e),0);
       const plays = formatNumber(audio.total_plays);
-      const podcastFullPrice = Number(audio.podcast_full_price || 0);
 
       const detailHTML = `
         <div class="detail-cover">
@@ -3255,23 +3236,7 @@ img { max-width: 100%; display: block; }
           <div class="detail-stat"><div class="value">${plays}</div><div class="label">Marudio</div></div>
         </div>
 
-        <div class="podcast-actions">
-          ${podcastFullOwned
-            ? `<button class="pa-btn owned" disabled>
-                 <span>${icon('check')} Una ufikiaji wa podcast nzima</span>
-                 <span class="pa-price">${premiumActive ? 'Premium' : 'Imenunuliwa'}</span>
-               </button>`
-            : (podcastFullPrice > 0
-                ? `<button class="pa-btn primary" id="buyFullBtn">
-                     <span>${icon('gift')} Nunua Podcast Nzima</span>
-                     <span class="pa-price">${formatPrice(podcastFullPrice)}</span>
-                   </button>`
-                : '')}
-          <button class="pa-btn bundle" id="buyBundleBtn" disabled>
-            <span>${icon('cart')} Nunua Vipande Vilivyochaguliwa (<span id="bundleCount">0</span>)</span>
-            <span class="pa-price" id="bundlePrice">0 TZS</span>
-          </button>
-        </div>
+        <div id="unlockCardWrap">${renderUnlockCard()}</div>
 
         <div class="episodes-section">
           <div class="es-header">
@@ -3319,20 +3284,16 @@ img { max-width: 100%; display: block; }
       }
       const fallback = currentPodcast?.cover_image_url || 'https://placehold.co/100x100/1a1a1a/888888?text=No+Cover';
       return episodes.map(ep => {
-        const owned = ownedEpisodeIds.has(ep.id) || podcastFullOwned;
-        const canPlay = ep.is_free || owned;
-        const badge = owned
-          ? '<span class="ep-badge owned">Umemiliki</span>'
-          : (ep.is_free ? '<span class="ep-badge free">Bure</span>'
-                       : '<span class="ep-badge premium">Premium</span>');
-        const checkDisabled = (ep.is_free || owned) ? 'disabled' : '';
-        const price = Number(ep.price || 0);
+        const canPlay = canPlayEpisode(ep);
+        const badge = ep.is_free
+          ? '<span class="ep-badge free">Bure</span>'
+          : (canPlay ? '<span class="ep-badge owned">Wazi</span>'
+                     : '<span class="ep-badge premium">🔒</span>');
         const playing = currentEpisode && currentEpisode.id === ep.id ? 'playing' : '';
         const thumb = ep.image_url || ep.cover_image_url || fallback;
         return `
           <div class="episode-wrap">
             <div class="episode-row ${playing}" data-ep-id="${ep.id}">
-              <input type="checkbox" class="ep-check" data-ep-id="${ep.id}" data-price="${price}" ${checkDisabled}>
               <div class="ep-num">#${ep.episode_number}</div>
               <div class="ep-thumb">
                 <img src="${thumb}" alt="${escapeHtml(ep.title)}" onerror="this.src='${fallback}'">
@@ -3343,7 +3304,6 @@ img { max-width: 100%; display: block; }
                 <div class="ep-meta">
                   <span>${formatDuration(getEpisodeDuration(ep))}</span>
                   ${badge}
-                  ${!owned && !ep.is_free ? `<span>· ${formatPrice(price)}</span>` : ''}
                 </div>
               </div>
               <div class="ep-actions">
@@ -3351,7 +3311,7 @@ img { max-width: 100%; display: block; }
                   ? `<button class="ep-btn play" data-play-ep="${ep.id}" title="Sikiliza">
                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                      </button>`
-                  : `<button class="ep-btn buy" data-buy-ep="${ep.id}" data-price="${price}">Nunua</button>`}
+                  : `<button class="ep-btn lock" data-unlock-ep="${ep.id}" title="Fungua podcast kwa coins">🔒</button>`}
                 <button class="ep-btn cmt" data-toggle-cmt="${ep.id}" title="Maoni">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                 </button>
@@ -3383,23 +3343,155 @@ img { max-width: 100%; display: block; }
         ${listHtml}`;
     }
 
-    function recomputeBundleSummary() {
-      const checks = document.querySelectorAll('#episodesList .ep-check:checked');
-      let total = 0;
-      checks.forEach(c => total += Number(c.dataset.price || 0));
-      const btn = document.getElementById('buyBundleBtn');
-      const cnt = document.getElementById('bundleCount');
-      const prc = document.getElementById('bundlePrice');
-      if (cnt) cnt.textContent = String(checks.length);
-      if (prc) prc.textContent = formatPrice(total);
-      if (btn) btn.disabled = checks.length < 2;
+    // ===== Coins: podcast unlock =====
+    function canPlayEpisode(ep) {
+      return !!(ep.is_free || ownedEpisodeIds.has(ep.id) || podcastFullOwned || hasCoinUnlock);
     }
+
+    async function loadUnlockInfo(audioId) {
+      try {
+        const { data, error } = await supabase.rpc('get_audio_unlock_info', { p_audio_id: audioId });
+        if (error || !data || data.success === false) return { price: DEFAULT_COIN_PRICE, unlocked: false };
+        const price = data.price == null ? DEFAULT_COIN_PRICE : Number(data.price);
+        return { price: isNaN(price) ? DEFAULT_COIN_PRICE : price, unlocked: !!data.unlocked };
+      } catch {
+        return { price: DEFAULT_COIN_PRICE, unlocked: false };
+      }
+    }
+
+    async function loadCoinBalance() {
+      try {
+        const { data, error } = await supabase.rpc('get_my_coin_balance');
+        if (!error && data && data.success) coinBalance = Number(data.balance || 0);
+      } catch { /* noop */ }
+      const el = document.getElementById('ucBalance');
+      if (el) el.textContent = coinBalance.toLocaleString();
+      return coinBalance;
+    }
+
+    function hasLockedEpisodes() {
+      return currentEpisodes.some(ep => !ep.is_free);
+    }
+
+    function renderUnlockCard() {
+      if (!hasLockedEpisodes()) return '';
+      if (hasCoinUnlock || podcastFullOwned || premiumActive) {
+        return hasCoinUnlock ? '<div class="unlock-card unlocked">✓ Umeifungua podcast hii</div>' : '';
+      }
+      const price = audioCoinPrice.toLocaleString();
+      return `
+        <div class="unlock-card">
+          <div class="uc-title">Fungua Podcast Nzima</div>
+          <div class="uc-desc">Lipa mara moja, sikiliza vipande vyote bila kulipa tena.</div>
+          <div class="uc-price"><span class="uc-coin">C</span> ${price} Coins</div>
+          <div class="uc-balance">Salio lako: <span id="ucBalance">${coinBalance.toLocaleString()}</span> Coins</div>
+          <button type="button" class="uc-btn" id="unlockPodcastBtn">Fungua kwa ${price} Coins</button>
+        </div>`;
+    }
+
+    function refreshUnlockUI() {
+      const wrap = document.getElementById('unlockCardWrap');
+      if (wrap) wrap.innerHTML = renderUnlockCard();
+      const list = document.getElementById('episodesList');
+      if (list) list.innerHTML = renderEpisodesList(currentEpisodes);
+      document.getElementById('unlockPodcastBtn')?.addEventListener('click', () => {
+        if (currentPodcast) unlockPodcast(currentPodcast);
+      });
+    }
+
+    function goToBuyCoins(need) {
+      const redirect = encodeURIComponent(window.location.href);
+      window.location.href = `${BUY_COINS_PAGE}?need=${encodeURIComponent(need)}&redirect=${redirect}`;
+    }
+
+    function confirmCoinUnlock(text) {
+      return new Promise(resolve => {
+        const modal = document.getElementById('coinConfirmModal');
+        const ok = document.getElementById('coinConfirmOk');
+        const cancel = document.getElementById('coinConfirmCancel');
+        document.getElementById('coinConfirmText').textContent = text;
+        modal.classList.add('show');
+        const done = (val) => {
+          modal.classList.remove('show');
+          ok.removeEventListener('click', onOk);
+          cancel.removeEventListener('click', onCancel);
+          modal.removeEventListener('click', onBackdrop);
+          resolve(val);
+        };
+        const onOk = () => done(true);
+        const onCancel = () => done(false);
+        const onBackdrop = (e) => { if (e.target === modal) done(false); };
+        ok.addEventListener('click', onOk);
+        cancel.addEventListener('click', onCancel);
+        modal.addEventListener('click', onBackdrop);
+      });
+    }
+
+    async function unlockPodcast(audio, episodeToPlayAfter) {
+      if (isUnlocking || !audio) return;
+      if (!currentUser) { showToast('Tafadhali ingia kwanza', 'error'); return; }
+      isUnlocking = true;
+      const btn = document.getElementById('unlockPodcastBtn');
+      const btnLabel = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Inafungua...'; }
+      try {
+        await loadCoinBalance();
+        const price = audioCoinPrice;
+        if (coinBalance < price) {
+          showToast(`Coins hazitoshi. Unahitaji ${price.toLocaleString()}, una ${coinBalance.toLocaleString()}`, 'error');
+          setTimeout(() => goToBuyCoins(price), 1500);
+          return;
+        }
+        const after = coinBalance - price;
+        const ok = await confirmCoinUnlock(
+          `Fungua '${audio.title}' kwa ${price.toLocaleString()} Coins? Salio: ${coinBalance.toLocaleString()} → litabaki ${after.toLocaleString()}.`
+        );
+        if (!ok) return;
+
+        const { data, error } = await supabase.rpc('unlock_audio_with_coins', { p_audio_id: audio.id });
+        if (error) throw error;
+        if (data && data.success) {
+          hasCoinUnlock = true;
+          if (data.new_balance != null) coinBalance = Number(data.new_balance);
+          showToast('Podcast imefunguliwa!', 'success');
+          refreshUnlockUI();
+          if (episodeToPlayAfter) {
+            const idx = currentEpisodes.findIndex(x => x.id === episodeToPlayAfter.id);
+            if (idx >= 0) { closeAudioDetail(); playEpisodeAt(idx); }
+          }
+        } else if (data && data.error === 'Coins hazitoshi') {
+          const need = Number(data.required ?? price);
+          showToast(`Coins hazitoshi. Unahitaji ${need.toLocaleString()}, una ${Number(data.balance ?? coinBalance).toLocaleString()}`, 'error');
+          setTimeout(() => goToBuyCoins(need), 1500);
+        } else {
+          showToast((data && data.error) || 'Imeshindwa kufungua. Jaribu tena.', 'error');
+        }
+      } catch (e) {
+        showToast('Imeshindwa kufungua. Jaribu tena.', 'error');
+      } finally {
+        isUnlocking = false;
+        const b2 = document.getElementById('unlockPodcastBtn');
+        if (b2) { b2.disabled = false; b2.textContent = btnLabel || `Fungua kwa ${audioCoinPrice.toLocaleString()} Coins`; }
+      }
+    }
+
+    async function refreshCoinState() {
+      await loadCoinBalance();
+      const modal = document.getElementById('audioDetailModal');
+      if (currentPodcast && modal && modal.classList.contains('show')) {
+        const info = await loadUnlockInfo(currentPodcast.id);
+        audioCoinPrice = info.price;
+        hasCoinUnlock = info.unlocked;
+        refreshUnlockUI();
+      }
+    }
+    window.addEventListener('pageshow', () => { refreshCoinState(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') refreshCoinState();
+    });
 
     function bindDetailEvents(audio) {
       const listEl = document.getElementById('episodesList');
-      listEl?.addEventListener('change', (e) => {
-        if (e.target.classList.contains('ep-check')) recomputeBundleSummary();
-      });
       listEl?.addEventListener('click', async (e) => {
         const playBtn = e.target.closest('[data-play-ep]');
         if (playBtn) {
@@ -3408,11 +3500,10 @@ img { max-width: 100%; display: block; }
           if (idx >= 0) { closeAudioDetail(); playEpisodeAt(idx); }
           return;
         }
-        const buyBtn = e.target.closest('[data-buy-ep]');
-        if (buyBtn) {
-          const epId = buyBtn.dataset.buyEp;
-          const price = buyBtn.dataset.price;
-          window.location.href = `payment.html?type=audio_episode&id=${epId}&podcast_id=${audio.id}&price=${price}`;
+        const lockBtn = e.target.closest('[data-unlock-ep]');
+        if (lockBtn) {
+          const ep = currentEpisodes.find(x => x.id === lockBtn.dataset.unlockEp);
+          unlockPodcast(audio, ep);
           return;
         }
         const cmtBtn = e.target.closest('[data-toggle-cmt]');
@@ -3460,18 +3551,7 @@ img { max-width: 100%; display: block; }
         }
       });
 
-      document.getElementById('buyFullBtn')?.addEventListener('click', () => {
-        const price = Number(audio.podcast_full_price || 0);
-        window.location.href = `payment.html?type=audio_podcast&id=${audio.id}&price=${price}`;
-      });
-
-      document.getElementById('buyBundleBtn')?.addEventListener('click', () => {
-        const checks = document.querySelectorAll('#episodesList .ep-check:checked');
-        if (checks.length < 2) { showToast('Chagua angalau vipande 2 kwa bundle', 'error'); return; }
-        const ids = [...checks].map(c => c.dataset.epId).join(',');
-        let total = 0; checks.forEach(c => total += Number(c.dataset.price || 0));
-        window.location.href = `payment.html?type=audio_bundle&podcast_id=${audio.id}&episode_ids=${ids}&price=${total}`;
-      });
+      document.getElementById('unlockPodcastBtn')?.addEventListener('click', () => unlockPodcast(audio));
 
       document.getElementById('likeBtn')?.addEventListener('click', async () => {
         const newLiked = await toggleLike(audio.id);
@@ -3651,25 +3731,23 @@ img { max-width: 100%; display: block; }
       const ep = currentEpisodes[index];
       if (!currentPodcast) return;
 
-      if (!ep.is_free) {
-        const owned = ownedEpisodeIds.has(ep.id) || podcastFullOwned;
-        if (!owned) {
-          const [fullOwned, premiumActive] = await Promise.all([
-            hasPurchasedPodcastFull(currentPodcast.id),
-            hasActiveSubscription(),
-          ]);
-          if (fullOwned || premiumActive) {
-            podcastFullOwned = true;
-          } else {
-            const owns = await getOwnedEpisodeIds([ep.id]);
-            if (!owns.has(ep.id)) {
-              showToast('Unahitaji kununua kipande hiki', 'error');
-              setTimeout(() => {
-                window.location.href = `payment.html?type=audio_episode&id=${ep.id}&podcast_id=${currentPodcast.id}&price=${ep.price || 0}`;
-              }, 1200);
-              return;
-            }
+      if (!canPlayEpisode(ep)) {
+        const [fullOwned, premActive, info] = await Promise.all([
+          hasPurchasedPodcastFull(currentPodcast.id),
+          hasActiveSubscription(),
+          loadUnlockInfo(currentPodcast.id),
+        ]);
+        audioCoinPrice = info.price;
+        if (info.unlocked) hasCoinUnlock = true;
+        if (fullOwned || premActive) { podcastFullOwned = true; premiumActive = !!premActive; }
+        if (!canPlayEpisode(ep)) {
+          const owns = await getOwnedEpisodeIds([ep.id]);
+          if (owns.has(ep.id)) {
             ownedEpisodeIds.add(ep.id);
+          } else {
+            showToast('Kipande hiki kimefungwa. Fungua podcast kwa coins.', 'error');
+            showAudioDetail(currentPodcast);
+            return;
           }
         }
       }
