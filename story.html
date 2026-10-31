@@ -586,63 +586,50 @@ img { max-width: 100%; display: block; }
   color: var(--primary);
 }
 
-/* ===== Purchase buttons for multiple chapters (Glowing) ===== */
-.purchase-bulk {
+/* ===== Fungua Hadithi kwa Coins ===== */
+.unlock-card {
   margin: 8px 16px 16px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.purchase-bulk .btn {
-  flex: 1;
-  font-weight: 700;
-  color: #fff;
-  border: 2px solid transparent;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: transform .2s ease, filter .2s ease;
+  padding: 18px 16px;
+  text-align: center;
 }
-
-.purchase-bulk .btn:hover {
-  transform: translateY(-2px);
-  filter: brightness(1.15);
+.unlock-card h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+.unlock-card .unlock-desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 14px; }
+.unlock-card .unlock-price {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  font-size: 28px; font-weight: 800; color: var(--yellow); margin-bottom: 4px;
 }
-
-.purchase-bulk .btn:active { transform: translateY(0); }
-
-/* Button 1: Nunua Sura - kijani inayowaka */
-#buyChunkChaptersBtn {
-  background: linear-gradient(135deg, #42a781, #4dbd94);
-  border-color: #4dbd94;
-  animation: glowGreen 1.6s ease-in-out infinite;
+.unlock-card .unlock-price svg { width: 28px; height: 28px; }
+.unlock-card .unlock-balance { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+.unlock-card .btn-unlock { width: 100%; justify-content: center; padding: 14px; font-size: 15px; font-weight: 700; }
+.unlock-card .btn-unlock:disabled { opacity: .6; cursor: not-allowed; }
+.unlock-done {
+  margin: 8px 16px 16px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: rgba(66, 167, 129, 0.12);
+  border: 1px solid rgba(66, 167, 129, 0.35);
+  color: var(--accent);
+  font-size: 13px; font-weight: 600; text-align: center;
 }
+.chapter-status.unlocked { background: rgba(66, 167, 129, 0.15); color: var(--accent); }
 
-@keyframes glowGreen {
-  0%, 100% { box-shadow: 0 0 6px #42a781, 0 0 12px rgba(66,167,129,.6); }
-  50%      { box-shadow: 0 0 16px #4dbd94, 0 0 32px rgba(77,189,148,.9), 0 0 48px rgba(77,189,148,.4); }
+/* ===== Modal ya uthibitisho ===== */
+.confirm-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.7);
+  display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px;
 }
-
-/* Button 2: Nunua Hadithi Yote - nyekundu/dhahabu inayowaka */
-#buyFullStoryBtn {
-  background: linear-gradient(135deg, #9c2518, #fbbf24);
-  border-color: #fbbf24;
-  animation: glowGold 1.6s ease-in-out infinite;
-  animation-delay: .8s;
+.confirm-overlay.show { display: flex; }
+.confirm-box {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; width: 100%; max-width: 360px; text-align: center;
 }
-
-@keyframes glowGold {
-  0%, 100% { box-shadow: 0 0 6px #9c2518, 0 0 12px rgba(251,191,36,.5); }
-  50%      { box-shadow: 0 0 16px #fbbf24, 0 0 32px rgba(251,191,36,.9), 0 0 48px rgba(156,37,24,.5); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #buyChunkChaptersBtn, #buyFullStoryBtn { animation: none; }
-}
+.confirm-box p { color: var(--text-primary); font-size: 14px; line-height: 1.5; margin-bottom: 8px; }
+.confirm-box .confirm-sub { color: var(--text-secondary); font-size: 13px; margin-bottom: 16px; }
+.confirm-actions { display: flex; gap: 10px; }
+.confirm-actions .btn { flex: 1; justify-content: center; }
 
 /* ===== Loading ===== */
 .loading {
@@ -788,86 +775,6 @@ img { max-width: 100%; display: block; }
 .nav-item svg { width: 20px; height: 20px; }
 .nav-item:hover { color: var(--text-primary); }
 .nav-item.active { color: var(--primary); }
-
-/* ===== YOU MAY ALSO LIKE ===== */
-.similar-stories-scroll {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  padding: 4px 16px 16px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-
-.similar-stories-scroll::-webkit-scrollbar { height: 4px; }
-.similar-stories-scroll::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 2px;
-}
-
-.similar-card {
-  flex: 0 0 130px;
-  scroll-snap-align: start;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.similar-card:hover { transform: translateY(-4px); }
-
-.similar-card-cover {
-  width: 130px;
-  height: 195px;
-  border-radius: var(--radius);
-  overflow: hidden;
-  position: relative;
-  background: var(--bg-secondary);
-  margin-bottom: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.similar-card-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.similar-card-badge {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  padding: 2px 8px;
-  font-size: 9px;
-  font-weight: 700;
-  border-radius: var(--radius-full);
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(4px);
-  color: white;
-  text-transform: uppercase;
-}
-
-.similar-card-badge.completed { background: rgba(66,167,129,0.9); }
-.similar-card-badge.ongoing { background: rgba(156,37,24,0.9); }
-
-.similar-card-title {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.similar-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.similar-card-rating { color: var(--yellow); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -968,16 +875,26 @@ img { max-width: 100%; display: block; }
     </button>
   </div>
 
-  <!-- Bulk purchase options -->
-  <div class="purchase-bulk" id="purchaseBulk" style="display: none;">
-    <button class="btn btn-secondary" id="buyChunkChaptersBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
-      Nunua Sura
-    </button>
-    <button class="btn btn-secondary" id="buyFullStoryBtn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      Nunua Hadithi Yote
-    </button>
+  <!-- Fungua Hadithi kwa Coins -->
+  <div class="unlock-card" id="unlockCard" style="display: none;">
+    <h3>Fungua Hadithi Yote</h3>
+    <div class="unlock-desc">Lipa mara moja, soma sura zote bila kulipa tena.</div>
+    <div class="unlock-price"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.75a1.75 1.75 0 0 1 0 3.5h-2.5a1.75 1.75 0 0 0 0 3.5H14.5"/></svg><span id="unlockPriceText">15 Coins</span></div>
+    <div class="unlock-balance" id="unlockBalanceText">Salio lako: 0 Coins</div>
+    <button class="btn btn-primary btn-unlock" id="unlockStoryBtn">Fungua kwa 15 Coins</button>
+  </div>
+  <div class="unlock-done" id="unlockDone" style="display: none;">✓ Umeifungua hadithi hii</div>
+
+  <!-- Modal ya uthibitisho -->
+  <div class="confirm-overlay" id="unlockConfirm">
+    <div class="confirm-box">
+      <p id="unlockConfirmText"></p>
+      <div class="confirm-sub" id="unlockConfirmSub"></div>
+      <div class="confirm-actions">
+        <button class="btn btn-secondary" id="unlockCancelBtn">Ghairi</button>
+        <button class="btn btn-primary" id="unlockConfirmBtn">Fungua</button>
+      </div>
+    </div>
   </div>
 
   <!-- ===== Info Grid ===== -->
@@ -1018,15 +935,6 @@ img { max-width: 100%; display: block; }
     <div class="chapters-list" id="chaptersList">
       <div class="loading"><div class="spinner"></div>Inapakia sura...</div>
     </div>
-  </section>
-
-  <!-- ===== YOU MAY ALSO LIKE ===== -->
-  <section class="section" id="youMayAlsoLikeSection" style="display: none;">
-    <div class="section-header">
-      <h2 class="section-title">📚 Unaweza Pia Kupenda</h2>
-      <span class="section-count" id="similarCount"></span>
-    </div>
-    <div class="similar-stories-scroll" id="similarStoriesScroll"></div>
   </section>
 
   <!-- ===== Comments Section ===== -->
@@ -1152,7 +1060,7 @@ img { max-width: 100%; display: block; }
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // ============================================
-    // AUTH CHECK
+    // AUTH CHECK - MTU AWE AMEINGIA KABLA YA KUSOMA
     // ============================================
     let currentUser = null;
     let isAuthChecked = false;
@@ -1161,16 +1069,18 @@ img { max-width: 100%; display: block; }
       const { data: { user }, error } = await supabase.auth.getUser();
       
       if (error || !user) {
+        // Hana akaunti, mpeleke kwenye login
         const currentUrl = encodeURIComponent(window.location.href);
         window.location.href = `/login.html?redirect=${currentUrl}`;
         return false;
       }
       
+      // Akaunti ipo, endelea
       currentUser = user;
       return true;
     }
 
-    // State
+    // State zaidi
     let storyData = null;
     let chapters = [];
     let isSaved = false;
@@ -1179,8 +1089,15 @@ img { max-width: 100%; display: block; }
     let currentComments = [];
     let userReadingProgress = 0;
     let purchasedChapterIds = new Set();
-    let hasFullStoryAccess = false;
+    let hasFullStoryAccess = false;  // ← ADDED: kama amenunua bulk_full
     let hasPremium = false;
+
+    // Coins: hali inasomwa kutoka server tu (hakuna localStorage)
+    const DEFAULT_COIN_PRICE = 15;
+    let storyCoinPrice = DEFAULT_COIN_PRICE;
+    let hasCoinUnlock = false;
+    let coinBalance = 0;
+    let isUnlocking = false;
 
     // DOM Elements
     const loadingIndicator = document.getElementById('loadingIndicator');
@@ -1192,7 +1109,8 @@ img { max-width: 100%; display: block; }
     const chaptersDivider = document.getElementById('chaptersDivider');
     const commentSection = document.getElementById('commentSection');
     const progressSection = document.getElementById('progressSection');
-    const purchaseBulkDiv = document.getElementById('purchaseBulk');
+    const unlockCard = document.getElementById('unlockCard');
+    const unlockDone = document.getElementById('unlockDone');
     const toast = document.getElementById('toast');
 
     // Helper: Get URL parameters
@@ -1201,6 +1119,7 @@ img { max-width: 100%; display: block; }
       let slug = params.get('slug');
       const id = params.get('id');
 
+      // Kama hakuna slug/id kwenye query string, itafute kwenye path: /story/jina-la-hadithi
       if (!slug && !id) {
         const match = window.location.pathname.match(/^\/story\/([^\/?#]+)/);
         if (match) {
@@ -1252,7 +1171,7 @@ img { max-width: 100%; display: block; }
       });
     }
 
-    // Get chapter price
+    // Get chapter price - PRIORITY: chapter.price > story.price_per_chapter > default 500
     function getChapterPrice(chapter, storyPricePerChapter = 500) {
       if (chapter.price && chapter.price > 0) return chapter.price;
       if (chapter.access_type === 'premium') return 'premium';
@@ -1315,7 +1234,7 @@ img { max-width: 100%; display: block; }
       return true;
     }
 
-    // Load chapters
+    // Load chapters with price column
     async function loadChapters() {
       if (!storyData) return;
       
@@ -1333,16 +1252,20 @@ img { max-width: 100%; display: block; }
       
       chapters = data || [];
       
+      // Load purchased chapters if user is logged in
       if (currentUser && chapters.length > 0) {
         await loadUserPurchases();
         await checkPremiumStatus();
       }
     }
 
-    // Load user purchases
+    // ============================================
+    // LOAD USER PURCHASES - WITH BULK_FULL SUPPORT
+    // ============================================
     async function loadUserPurchases() {
       if (!currentUser) return;
       
+      // 1. Angalia chapter purchases za kawaida
       const { data: chapterPurchases } = await supabase
         .from('purchases')
         .select('item_id')
@@ -1355,6 +1278,8 @@ img { max-width: 100%; display: block; }
         chapterPurchases.forEach(p => purchasedChapterIds.add(p.item_id));
       }
       
+      // 2. ★★★★★ ANGALIA BULK_FULL PURCHASES ★★★★★
+      // Hii itamfanya mtumiaji apate access kwa sura zote ikiwa amenunua hadithi nzima
       const { data: bulkPurchases } = await supabase
         .from('purchases')
         .select('story_id')
@@ -1365,18 +1290,24 @@ img { max-width: 100%; display: block; }
       hasFullStoryAccess = false;
       
       if (bulkPurchases && bulkPurchases.length > 0) {
+        // Angalia kuna bulk_full purchase ya story hii
         const hasBulkForThisStory = bulkPurchases.some(b => b.story_id === storyData.id);
         
         if (hasBulkForThisStory) {
           hasFullStoryAccess = true;
+          
+          // Ongeza chapter zote za story hii kwenye purchasedChapterIds
+          // Ili isChapterAccessible() iweze kurudi true kwa kila sura
           chapters.forEach(chapter => {
             purchasedChapterIds.add(chapter.id);
           });
+          
+          console.log('✅ User has FULL STORY access - all chapters unlocked');
         }
       }
     }
 
-    // Check premium
+    // Check if user has active premium subscription
     async function checkPremiumStatus() {
       if (!currentUser) return false;
       const today = new Date().toISOString().split('T')[0];
@@ -1576,7 +1507,7 @@ img { max-width: 100%; display: block; }
       return progress;
     }
 
-    // Update reading progress
+    // Update reading progress when opening chapter
     async function updateReadingProgress(chapterNumber) {
       if (!currentUser) return;
       
@@ -1665,14 +1596,15 @@ img { max-width: 100%; display: block; }
       commentSection.style.display = 'block';
     }
 
-    // Check if chapter is accessible
+    // Check if chapter is accessible (UPDATED to include hasFullStoryAccess)
     function isChapterAccessible(chapter, index, freeChaptersCount) {
       const isFree = chapter.is_free === true;
       const isPurchased = purchasedChapterIds.has(chapter.id);
-      return isFree || isPurchased || hasPremium || hasFullStoryAccess;
+      // ★ ADDED: hasFullStoryAccess inafanya sura zote ziwe accessible ★
+      return isFree || isPurchased || hasPremium || hasFullStoryAccess || hasCoinUnlock;
     }
 
-    // Open chapter
+    // Open chapter for reading
     async function openChapter(chapter, index, freeChaptersCount) {
       const accessible = isChapterAccessible(chapter, index, freeChaptersCount);
       
@@ -1680,13 +1612,11 @@ img { max-width: 100%; display: block; }
         await updateReadingProgress(chapter.chapter_number);
         window.location.href = `/read.html?chapter_id=${chapter.id}&story_id=${storyData.id}`;
       } else {
-        const price = getChapterPrice(chapter, storyData.price_per_chapter);
-        const priceParam = (price === 'premium') ? 'premium' : price;
-        window.location.href = `/payment.html?type=chapter&id=${chapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+        await unlockStory(chapter);
       }
     }
 
-    // Render chapters
+    // Render chapters with correct pricing from database
     async function renderChapters() {
       if (!chapters.length) {
         document.getElementById('chaptersList').innerHTML = `
@@ -1694,52 +1624,38 @@ img { max-width: 100%; display: block; }
             Hakuna sura zilizopatikana
           </div>
         `;
+        renderUnlockCard();
         return;
       }
       
       const freeChaptersCount = storyData.free_chapters_count || 3;
       
+      // Reload purchases to ensure we have latest data
       await loadUserPurchases();
       await checkPremiumStatus();
       
-      let firstLockedIndex = -1;
-      let totalPriceForRemaining = 0;
-      
       const chaptersHTML = chapters.map((chapter, index) => {
         const isFree = chapter.is_free === true;
-        const isPurchased = purchasedChapterIds.has(chapter.id);
-        const isAccessible = isFree || isPurchased || hasPremium || hasFullStoryAccess;
+        const isAccessible = isChapterAccessible(chapter, index, freeChaptersCount);
         
-        const price = getChapterPrice(chapter, storyData.price_per_chapter);
-        
-        let priceDisplay = 'Bure';
-        let statusClass = 'free';
+        let priceDisplay;
+        let statusClass;
         
         if (!isAccessible) {
           statusClass = 'locked';
-          if (price === 'premium') {
-            priceDisplay = '🔒 Premium';
-          } else if (typeof price === 'number' && price > 0) {
-            priceDisplay = `🔒 TSh ${price.toLocaleString()}`;
-          } else {
-            priceDisplay = '🔒 Inayolipwa';
-          }
-        } else {
-          priceDisplay = 'Bure';
+          priceDisplay = '🔒 Imefungwa';
+        } else if (isFree) {
           statusClass = 'free';
-        }
-        
-        if (firstLockedIndex === -1 && !isAccessible) {
-          firstLockedIndex = index;
-        }
-        if (!isAccessible && price !== 'premium' && typeof price === 'number') {
-          totalPriceForRemaining += price;
+          priceDisplay = 'Bure';
+        } else {
+          statusClass = 'unlocked';
+          priceDisplay = 'Wazi';
         }
         
         return `
           <div class="chapter-item" data-chapter-id="${chapter.id}" data-chapter-number="${chapter.chapter_number}" data-index="${index}" data-is-accessible="${isAccessible}">
             <div class="chapter-left">
-              <div class="chapter-number ${statusClass}">${chapter.chapter_number}</div>
+              <div class="chapter-number ${isAccessible ? 'free' : 'locked'}">${chapter.chapter_number}</div>
               <div class="chapter-info">
                 <div class="chapter-title">${escapeHtml(chapter.title || `Sura ya ${chapter.chapter_number}`)}</div>
                 <div class="chapter-date">${formatDate(chapter.created_at)}</div>
@@ -1755,51 +1671,7 @@ img { max-width: 100%; display: block; }
       document.getElementById('chaptersList').innerHTML = chaptersHTML;
       document.getElementById('chaptersCount').textContent = `Sura ${chapters.length}`;
       
-      if (firstLockedIndex !== -1 && currentUser && !hasPremium && !hasFullStoryAccess) {
-        purchaseBulkDiv.style.display = 'flex';
-        
-        let priceForChunk = 0;
-        let countChunk = 0;
-        for (let i = firstLockedIndex; i < chapters.length && countChunk < 4; i++) {
-          const ch = chapters[i];
-          const isFree = ch.is_free === true;
-          const isPurchased = purchasedChapterIds.has(ch.id);
-          if (!isFree && !isPurchased && !hasPremium && !hasFullStoryAccess) {
-            const p = getChapterPrice(ch, storyData.price_per_chapter);
-            if (p !== 'premium' && typeof p === 'number') {
-              priceForChunk += p;
-              countChunk++;
-            }
-          }
-        }
-        
-        const buyChunkBtn = document.getElementById('buyChunkChaptersBtn');
-        const buyFullBtn = document.getElementById('buyFullStoryBtn');
-        
-        if (countChunk > 0) {
-          buyChunkBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Nunua Sura ${countChunk} (TSh ${priceForChunk.toLocaleString()})`;
-          buyChunkBtn.dataset.chapters = JSON.stringify(chapters.slice(firstLockedIndex, firstLockedIndex + countChunk).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
-          buyChunkBtn.dataset.totalPrice = priceForChunk;
-          buyChunkBtn.style.display = 'flex';
-        } else {
-          buyChunkBtn.style.display = 'none';
-        }
-        
-        if (totalPriceForRemaining > 0) {
-          buyFullBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Nunua Hadithi Yote (TSh ${totalPriceForRemaining.toLocaleString()})`;
-          buyFullBtn.dataset.totalPrice = totalPriceForRemaining;
-          buyFullBtn.dataset.chapters = JSON.stringify(chapters.filter((c, i) => {
-            const isFree = c.is_free === true;
-            const isPurchased = purchasedChapterIds.has(c.id);
-            return !isFree && !isPurchased && !hasPremium && !hasFullStoryAccess;
-          }).map(c => ({ id: c.id, price: getChapterPrice(c, storyData.price_per_chapter) })));
-          buyFullBtn.style.display = 'flex';
-        } else {
-          buyFullBtn.style.display = 'none';
-        }
-      } else {
-        purchaseBulkDiv.style.display = 'none';
-      }
+      renderUnlockCard();
       
       document.querySelectorAll('.chapter-item').forEach((item, idx) => {
         const chapter = chapters[idx];
@@ -1816,108 +1688,151 @@ img { max-width: 100%; display: block; }
     }
 
     // ============================================
-    // ★ YOU MAY ALSO LIKE ★
+    // COINS: KUFUNGUA HADITHI
     // ============================================
-    async function loadSimilarStories() {
-      if (!storyData || !storyData.genre_id) return [];
-      
-      const { data, error } = await supabase
-        .from('stories')
-        .select(`id, title, slug, cover_image_url, total_rating, total_reads, status, chapters_count`)
-        .eq('is_published', true)
-        .eq('genre_id', storyData.genre_id)
-        .neq('id', storyData.id)
-        .order('total_reads', { ascending: false })
-        .limit(10);
-      
-      if (error) {
-        console.error('Error loading similar stories:', error);
-        return [];
-      }
-      
-      return data || [];
+    function hasLockedChapters() {
+      return chapters.some(c => c.is_free !== true && !purchasedChapterIds.has(c.id));
     }
 
-    function renderSimilarStories(stories) {
-      const section = document.getElementById('youMayAlsoLikeSection');
-      const container = document.getElementById('similarStoriesScroll');
-      const countSpan = document.getElementById('similarCount');
-      
-      if (!stories || stories.length === 0) {
-        section.style.display = 'none';
-        return;
+    function renderUnlockCard() {
+      const anyAccess = hasCoinUnlock || hasPremium || hasFullStoryAccess;
+      const btn = document.getElementById('unlockStoryBtn');
+      document.getElementById('unlockPriceText').textContent = `${storyCoinPrice.toLocaleString()} Coins`;
+      document.getElementById('unlockBalanceText').textContent = `Salio lako: ${coinBalance.toLocaleString()} Coins`;
+      if (!isUnlocking) {
+        btn.textContent = `Fungua kwa ${storyCoinPrice.toLocaleString()} Coins`;
+        btn.disabled = false;
       }
-      
-      countSpan.textContent = `${stories.length} hadithi`;
-      
-      container.innerHTML = stories.map(story => {
-        const cover = story.cover_image_url || 'https://placehold.co/260x390/1a1a1a/888888?text=No+Cover';
-        const rating = story.total_rating ? parseFloat(story.total_rating).toFixed(1) : '—';
-        const views = formatNumber(story.total_reads || 0);
-        const statusClass = story.status === 'Imekamilika' ? 'completed' : 'ongoing';
-        const statusText = story.status === 'Imekamilika' ? 'Imekamilika' : 'Inaendelea';
-        
-        return `
-          <div class="similar-card" data-slug="${escapeHtml(story.slug || '')}" data-id="${story.id}">
-            <div class="similar-card-cover">
-              <img src="${cover}" alt="${escapeHtml(story.title)}" loading="lazy"
-                   onerror="this.src='https://placehold.co/260x390/1a1a1a/888888?text=No+Cover'">
-              <span class="similar-card-badge ${statusClass}">${statusText}</span>
-            </div>
-            <div class="similar-card-title">${escapeHtml(story.title)}</div>
-            <div class="similar-card-meta">
-              <span class="similar-card-rating">★ ${rating}</span>
-              <span>👁 ${views}</span>
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      container.querySelectorAll('.similar-card').forEach(card => {
-        card.addEventListener('click', () => {
-          const slug = card.dataset.slug;
-          const id = card.dataset.id;
-          const url = slug 
-            ? `/story/${encodeURIComponent(slug)}` 
-            : `/story.html?id=${id}`;
-          window.location.href = url;
-        });
+      if (!anyAccess && chapters.length && hasLockedChapters()) {
+        unlockCard.style.display = 'block';
+        unlockDone.style.display = 'none';
+      } else {
+        unlockCard.style.display = 'none';
+        unlockDone.style.display = hasCoinUnlock ? 'block' : 'none';
+      }
+    }
+
+    async function loadStoryUnlockInfo() {
+      try {
+        const { data, error } = await supabase.rpc('get_story_unlock_info', { p_story_id: storyData.id });
+        if (error || !data || data.success === false) throw error || new Error('failed');
+        storyCoinPrice = (data.price === null || data.price === undefined) ? DEFAULT_COIN_PRICE : Number(data.price);
+        hasCoinUnlock = data.unlocked === true;
+      } catch (e) {
+        console.error('get_story_unlock_info:', e);
+        storyCoinPrice = DEFAULT_COIN_PRICE;
+        hasCoinUnlock = false;
+      }
+    }
+
+    async function loadCoinBalance() {
+      try {
+        const { data, error } = await supabase.rpc('get_my_coin_balance');
+        if (error || !data || data.success === false) throw error || new Error('failed');
+        coinBalance = Number(data.balance) || 0;
+      } catch (e) {
+        console.error('get_my_coin_balance:', e);
+      }
+      return coinBalance;
+    }
+
+    function goToBuyCoins() {
+      const redirect = encodeURIComponent(window.location.href);
+      window.location.href = `/payment.html?need=${storyCoinPrice}&redirect=${redirect}`;
+    }
+
+    function confirmUnlock() {
+      return new Promise((resolve) => {
+        const overlay = document.getElementById('unlockConfirm');
+        const okBtn = document.getElementById('unlockConfirmBtn');
+        const cancelBtn = document.getElementById('unlockCancelBtn');
+        const remaining = coinBalance - storyCoinPrice;
+        document.getElementById('unlockConfirmText').textContent =
+          `Fungua '${storyData.title || ''}' kwa ${storyCoinPrice.toLocaleString()} Coins?`;
+        document.getElementById('unlockConfirmSub').textContent =
+          `Salio lako: ${coinBalance.toLocaleString()} → litabaki ${remaining.toLocaleString()}.`;
+        overlay.classList.add('show');
+        const close = (val) => {
+          overlay.classList.remove('show');
+          okBtn.removeEventListener('click', onOk);
+          cancelBtn.removeEventListener('click', onCancel);
+          overlay.removeEventListener('click', onBg);
+          resolve(val);
+        };
+        const onOk = () => close(true);
+        const onCancel = () => close(false);
+        const onBg = (e) => { if (e.target === overlay) close(false); };
+        okBtn.addEventListener('click', onOk);
+        cancelBtn.addEventListener('click', onCancel);
+        overlay.addEventListener('click', onBg);
       });
-      
-      section.style.display = 'block';
     }
 
-    // Bulk purchase handlers
-    function goToBulkPayment(type, chaptersData, totalPrice) {
+    async function unlockStory(targetChapter = null) {
       if (!currentUser) {
-        showToast('Tafadhali ingia kwanza ili kununua', 'error');
-        setTimeout(() => window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`, 1500);
+        window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.href)}`;
         return;
       }
-      if (!chaptersData || chaptersData.length === 0) {
-        showToast('Hakuna sura za kununua', 'error');
-        return;
+      if (isUnlocking) return;
+      isUnlocking = true;
+      const btn = document.getElementById('unlockStoryBtn');
+      btn.disabled = true;
+      btn.textContent = 'Inafungua...';
+
+      let goToChapter = false;
+      try {
+        await loadCoinBalance();
+        renderUnlockCard();
+
+        if (coinBalance < storyCoinPrice) {
+          showToast('Coins hazitoshi. Unahitaji ' + storyCoinPrice.toLocaleString() + ', una ' + coinBalance.toLocaleString(), 'error');
+          setTimeout(goToBuyCoins, 1500);
+          return;
+        }
+
+        const ok = await confirmUnlock();
+        if (!ok) return;
+
+        const { data, error } = await supabase.rpc('unlock_story_with_coins', { p_story_id: storyData.id });
+        if (error) throw error;
+
+        if (data && data.success) {
+          hasCoinUnlock = true;
+          if (data.new_balance !== undefined && data.new_balance !== null) coinBalance = Number(data.new_balance);
+          showToast('Hadithi imefunguliwa!', 'success');
+          goToChapter = !!targetChapter;
+        } else if (data && data.error === 'Coins hazitoshi') {
+          if (data.balance !== undefined) coinBalance = Number(data.balance) || 0;
+          showToast('Coins hazitoshi. Unahitaji ' + storyCoinPrice.toLocaleString() + ', una ' + coinBalance.toLocaleString(), 'error');
+          setTimeout(goToBuyCoins, 1500);
+        } else {
+          showToast((data && data.error) || 'Imeshindwa kufungua. Jaribu tena.', 'error');
+        }
+      } catch (e) {
+        console.error('unlock_story_with_coins:', e);
+        showToast('Imeshindwa kufungua. Jaribu tena.', 'error');
+      } finally {
+        isUnlocking = false;
+        btn.disabled = false;
+        btn.textContent = `Fungua kwa ${storyCoinPrice.toLocaleString()} Coins`;
       }
-      const params = new URLSearchParams({
-        type: type,
-        story_id: storyData.id,
-        total: totalPrice,
-        items: JSON.stringify(chaptersData)
-      });
-      window.location.href = `/payment.html?${params.toString()}`;
+
+      if (hasCoinUnlock) {
+        if (goToChapter) {
+          await updateReadingProgress(targetChapter.chapter_number);
+          window.location.href = `/read.html?chapter_id=${targetChapter.id}&story_id=${storyData.id}`;
+          return;
+        }
+        await renderChapters();
+      }
     }
 
-    document.getElementById('buyChunkChaptersBtn')?.addEventListener('click', () => {
-      const btn = document.getElementById('buyChunkChaptersBtn');
-      goToBulkPayment('bulk_chunk', JSON.parse(btn.dataset.chapters || '[]'), btn.dataset.totalPrice);
-    });
+    async function refreshCoinState() {
+      if (!storyData || !currentUser) return;
+      await Promise.all([loadCoinBalance(), loadStoryUnlockInfo()]);
+      await renderChapters();
+    }
 
-    document.getElementById('buyFullStoryBtn')?.addEventListener('click', () => {
-      const btn = document.getElementById('buyFullStoryBtn');
-      goToBulkPayment('bulk_full', JSON.parse(btn.dataset.chapters || '[]'), btn.dataset.totalPrice);
-    });
-
-    // Update save button state
     async function updateSaveButton() {
       if (!currentUser || !storyData) return;
       
@@ -1976,7 +1891,7 @@ img { max-width: 100%; display: block; }
       await updateSaveButton();
     }
 
-    // Read now
+    // Read now - open first accessible chapter
     async function readNow() {
       if (!chapters.length) {
         showToast('Hadithi haina sura bado', 'error');
@@ -1999,10 +1914,7 @@ img { max-width: 100%; display: block; }
         await updateReadingProgress(accessibleChapter.chapter_number);
         window.location.href = `/read.html?chapter_id=${accessibleChapter.id}&story_id=${storyData.id}`;
       } else {
-        const firstChapter = chapters[0];
-        const price = getChapterPrice(firstChapter, storyData.price_per_chapter);
-        const priceParam = (price === 'premium') ? 'premium' : price;
-        window.location.href = `/payment.html?type=chapter&id=${firstChapter.id}&story_id=${storyData.id}&price=${priceParam}`;
+        await unlockStory(chapters[0]);
       }
     }
 
@@ -2020,15 +1932,18 @@ img { max-width: 100%; display: block; }
 
     // Initialize
     async function init() {
+      // Kwanza kabisa, angalia kama ameingia
       const isAuthenticated = await checkAuthAndRedirect();
       if (!isAuthenticated) return;
       
+      // Load user data
       await loadCurrentUser();
       
       const storyLoaded = await loadStory();
       if (!storyLoaded) return;
       
       await loadChapters();
+      await Promise.all([loadStoryUnlockInfo(), loadCoinBalance()]);
       renderStory();
       
       currentLikeCount = await loadLikesCount();
@@ -2043,12 +1958,15 @@ img { max-width: 100%; display: block; }
       await renderChapters();
       await updateSaveButton();
       
-      // ★ YOU MAY ALSO LIKE ★
-      const similarStories = await loadSimilarStories();
-      renderSimilarStories(similarStories);
-      
       document.getElementById('addToLibraryBtn').addEventListener('click', saveToLibrary);
       document.getElementById('readNowBtn').addEventListener('click', readNow);
+      document.getElementById('unlockStoryBtn').addEventListener('click', () => unlockStory());
+
+      // Akirudi kutoka kununua coins, soma hali mpya kutoka server
+      window.addEventListener('pageshow', (e) => { if (e.persisted) refreshCoinState(); });
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') refreshCoinState();
+      });
       document.getElementById('likeBtn').addEventListener('click', toggleLike);
       document.getElementById('downloadBtn').addEventListener('click', () => {
         showToast('Kipengele cha kupakua kitapatikana hivi karibuni!', 'info');
