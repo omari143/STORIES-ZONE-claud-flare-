@@ -1260,9 +1260,49 @@ img { max-width: 100%; display: block; }
   padding: 2px 4px;
 }
 
+
+/* ===== COIN UNLOCK ===== */
+.coin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:5000;padding:16px}
+.coin-overlay.show{display:flex}
+.coin-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);width:100%;max-width:380px;padding:20px;color:var(--text-primary);box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.coin-card .cc-cover{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--radius-sm);background:var(--bg-secondary);margin-bottom:14px}
+.coin-card .cc-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.coin-card .cc-sub{font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5}
+.coin-card .cc-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid var(--border)}
+.coin-card .cc-row b{color:var(--yellow)}
+.coin-card .cc-actions{display:flex;gap:10px;margin-top:16px}
+.coin-card button{flex:1;border:none;border-radius:var(--radius-full);padding:11px 14px;font-weight:700;font-size:14px;cursor:pointer}
+.coin-card .cc-primary{background:var(--primary);color:#fff}
+.coin-card .cc-primary:hover{background:var(--primary-hover)}
+.coin-card .cc-primary:disabled{opacity:.6;cursor:not-allowed}
+.coin-card .cc-ghost{background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border-light)}
 </style>
 </head>
 <body>
+<div class="coin-overlay" id="coinUnlockOverlay" aria-hidden="true">
+  <div class="coin-card" role="dialog" aria-modal="true" aria-labelledby="ccTitle">
+    <img class="cc-cover" id="ccCover" alt="">
+    <div class="cc-title" id="ccTitle">Fungua video hii</div>
+    <div class="cc-sub">Video hii inafunguliwa kwa coins mara moja tu. Ukishaifungua, utaitazama wakati wowote bila kulipa tena.</div>
+    <div class="cc-row"><span>Bei</span><b id="ccPrice">0 coins</b></div>
+    <div class="cc-row"><span>Salio lako</span><b id="ccBalance">…</b></div>
+    <div class="cc-actions">
+      <button class="cc-ghost" id="ccCancel" type="button">Ghairi</button>
+      <button class="cc-primary" id="ccUnlock" type="button">Fungua</button>
+    </div>
+  </div>
+</div>
+<div class="coin-overlay" id="coinConfirmOverlay" aria-hidden="true">
+  <div class="coin-card" role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+    <div class="cc-title" id="cfTitle">Thibitisha kufungua</div>
+    <div class="cc-sub" id="cfText"></div>
+    <div class="cc-actions">
+      <button class="cc-ghost" id="cfCancel" type="button">Hapana</button>
+      <button class="cc-primary" id="cfConfirm" type="button">Ndiyo, fungua</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ===== HEADER ===== -->
 <header class="header">
@@ -2039,7 +2079,7 @@ img { max-width: 100%; display: block; }
           <div class="vc-thumb">
             <img src="${coverImage}" alt="${escapeHtml(video.title)}" onerror="this.src='https://placehold.co/400x225/1a1a1a/888888?text=No+Cover'">
             <div class="vc-overlay"><div class="vc-play-circle"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>
-            <span class="vc-type ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Premium'}</span>
+            <span class="vc-type ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Coins'}</span>
             <span class="vc-dur">${duration}</span>
           </div>
           <h3>${escapeHtml(video.title)}</h3>
@@ -2082,7 +2122,7 @@ img { max-width: 100%; display: block; }
     
     document.getElementById('featuredThumb').src = coverImage;
     document.getElementById('featuredDuration').textContent = duration;
-    document.getElementById('featuredLabel').textContent = `${genreName} · ${isFree ? 'Bure' : 'Premium'}`;
+    document.getElementById('featuredLabel').textContent = `${genreName} · ${isFree ? 'Bure' : 'Coins'}`;
     document.getElementById('featuredTitle').textContent = featured.title;
     document.getElementById('featuredMeta').textContent = `Msimulizi: ${narratorName} · ${views} maono · ❤️ ${likes}`;
 
@@ -2138,7 +2178,7 @@ img { max-width: 100%; display: block; }
             ${buildAuthorRow(video)}
           </div>
           <div class="vli-right">
-            <span class="vli-badge ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Premium'}</span>
+            <span class="vli-badge ${isFree ? 'free' : 'premium'}">${isFree ? 'Bure' : 'Coins'}</span>
             <span class="vli-views">${views}</span>
             <button class="vli-share-btn" data-share-id="${video.id}" title="Shiriki" aria-label="Shiriki video">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -2776,6 +2816,113 @@ img { max-width: 100%; display: block; }
 
 
 
+
+// ============================================================
+// COINS: kufungua video (hali yote inatoka kwenye seva, hakuna hifadhi ya kivinjari)
+// ============================================================
+const DEFAULT_COIN_PRICE = 15;
+let coinUnlockBusy = false;
+let coinPendingVideo = null;
+let coinPendingPrice = DEFAULT_COIN_PRICE;
+
+function videoCoinPrice(video, fromServer) {
+  const p = Number(fromServer ?? video?.coin_price);
+  return Number.isFinite(p) && p > 0 ? Math.round(p) : DEFAULT_COIN_PRICE;
+}
+
+async function getServerCoinBalance() {
+  const { data, error } = await supabase.rpc('get_my_coin_balance');
+  if (error || !data) return null;
+  const b = typeof data === 'object' ? data.balance : data;
+  const n = Number(b);
+  return Number.isFinite(n) ? n : null;
+}
+
+async function ensureVideoAccess(video) {
+  if (video.is_free === true) return true;
+  const { data, error } = await supabase.rpc('get_video_coin_access', { p_video_id: video.id });
+  if (!error && data && data.success !== false) {
+    if (data.has_access || data.is_free) return true;
+    showCoinUnlockCard(video, videoCoinPrice(video, data.coin_price));
+    return false;
+  }
+  // Fallback: ufikiaji wa zamani (purchases / subscription)
+  console.warn('get_video_coin_access haikupatikana:', error);
+  const [hasPurchased, hasPremium] = await Promise.all([hasPurchasedVideo(video.id), hasActiveSubscription()]);
+  if (hasPurchased || hasPremium) return true;
+  showCoinUnlockCard(video, videoCoinPrice(video));
+  return false;
+}
+
+function coinOverlay(id, show) {
+  const el = document.getElementById(id);
+  el.classList.toggle('show', show);
+  el.setAttribute('aria-hidden', show ? 'false' : 'true');
+}
+
+async function showCoinUnlockCard(video, price) {
+  coinPendingVideo = video;
+  coinPendingPrice = price;
+  document.getElementById('ccCover').src = video.thumbnail_url || video.cover_image_url || 'https://placehold.co/800x450/1a1a1a/888888?text=No+Cover';
+  document.getElementById('ccTitle').textContent = video.title || 'Fungua video hii';
+  document.getElementById('ccPrice').textContent = price + ' coins';
+  document.getElementById('ccBalance').textContent = '…';
+  const btn = document.getElementById('ccUnlock');
+  btn.disabled = false;
+  btn.textContent = 'Fungua kwa ' + price + ' coins';
+  coinOverlay('coinUnlockOverlay', true);
+  const bal = await getServerCoinBalance();
+  document.getElementById('ccBalance').textContent = bal === null ? '—' : bal + ' coins';
+}
+
+function redirectToBuyCoins(need) {
+  const url = 'buy-coins.html?need=' + encodeURIComponent(need) + '&redirect=' + encodeURIComponent(window.location.href);
+  window.location.href = url;
+}
+
+document.getElementById('ccCancel').addEventListener('click', () => { if (!coinUnlockBusy) coinOverlay('coinUnlockOverlay', false); });
+document.getElementById('cfCancel').addEventListener('click', () => { if (!coinUnlockBusy) coinOverlay('coinConfirmOverlay', false); });
+document.getElementById('ccUnlock').addEventListener('click', () => {
+  if (coinUnlockBusy || !coinPendingVideo) return;
+  document.getElementById('cfText').textContent = 'Utatumia ' + coinPendingPrice + ' coins kufungua "' + (coinPendingVideo.title || 'video hii') + '". Hutalipishwa tena baada ya kuifungua.';
+  coinOverlay('coinConfirmOverlay', true);
+});
+document.getElementById('cfConfirm').addEventListener('click', async () => {
+  if (coinUnlockBusy || !coinPendingVideo) return;
+  coinUnlockBusy = true;
+  const confirmBtn = document.getElementById('cfConfirm');
+  const unlockBtn = document.getElementById('ccUnlock');
+  confirmBtn.disabled = true; unlockBtn.disabled = true;
+  confirmBtn.textContent = 'Inafungua…';
+  const video = coinPendingVideo;
+  try {
+    const { data, error } = await supabase.rpc('unlock_video_with_coins', { p_video_id: video.id });
+    if (error) throw error;
+    if (data && (data.success || data.already_unlocked)) {
+      coinOverlay('coinConfirmOverlay', false);
+      coinOverlay('coinUnlockOverlay', false);
+      showToast(data.already_unlocked ? 'Tayari umeifungua video hii' : 'Video imefunguliwa!', 'success');
+      coinPendingVideo = null;
+      coinUnlockBusy = false;
+      await window.openPlayer(video);
+      return;
+    }
+    if (data && data.error === 'insufficient_coins') {
+      showToast('Salio la coins halitoshi', 'error');
+      redirectToBuyCoins(data.required || coinPendingPrice);
+      return;
+    }
+    showToast((data && data.message) || 'Imeshindikana kufungua video', 'error');
+  } catch (e) {
+    console.error('unlock_video_with_coins:', e);
+    showToast('Hitilafu imetokea. Jaribu tena.', 'error');
+  }
+  coinUnlockBusy = false;
+  confirmBtn.disabled = false; unlockBtn.disabled = false;
+  confirmBtn.textContent = 'Ndiyo, fungua';
+  coinOverlay('coinConfirmOverlay', false);
+});
+
 // ============================================================
 // OVERRIDE openPlayer FUNCTION - Kwanza Direct, Kisha HLS
 // ============================================================
@@ -2797,19 +2944,10 @@ window.openPlayer = async function(indexOrVideo) {
   }
   if (!video) return;
 
-  // Check access
+  // Check access (coins / purchases / subscription)
   if (!video.is_free) {
-    const [hasPurchased, hasPremium] = await Promise.all([
-      hasPurchasedVideo(video.id),
-      hasActiveSubscription()
-    ]);
-    if (!hasPurchased && !hasPremium) {
-      showToast('Unahitaji kununua video hii kutazama', 'error');
-      setTimeout(() => {
-        window.location.href = 'payment.html?type=video&id=' + video.id + '&price=' + (video.price || 1000);
-      }, 1500);
-      return;
-    }
+    const ok = await ensureVideoAccess(video);
+    if (!ok) return;
   }
 
   // Update UI
@@ -2849,7 +2987,7 @@ window.openPlayer = async function(indexOrVideo) {
     </div>
     <div class="mi-genre-row" id="miTags">
       <span class="mi-tag genre">${escapeHtml(genreName)}</span>
-      <span class="mi-tag ${video.is_free ? 'free' : 'status'}">${video.is_free ? 'Bure' : 'Premium'}</span>
+      <span class="mi-tag ${video.is_free ? 'free' : 'status'}">${video.is_free ? 'Bure' : 'Coins'}</span>
       <span class="mi-tag status">${video.status || 'Imekamilika'}</span>
     </div>
     <div class="data-usage-display" id="dataUsageDisplay">
