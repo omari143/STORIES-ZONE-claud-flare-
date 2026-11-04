@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sw">
 <head>
@@ -2629,22 +2628,39 @@ async function fetchAuthors(limit = 20) {
     const authors = await res.json();
     if (!Array.isArray(authors)) return [];
 
+    const countBy = async (filter) => {
+      const countUrl = `${SUPABASE_URL}/rest/v1/stories?select=id&${filter}&is_published=eq.true`;
+      const countRes = await fetch(countUrl, {
+        headers: { ...headers, 'Prefer': 'count=exact' }
+      });
+      const range = countRes.headers.get('content-range');
+      if (range) {
+        const match = range.match(/\/(\d+)$/);
+        if (match) return Number(match[1]) || 0;
+      }
+      const rows = await countRes.json();
+      return Array.isArray(rows) ? rows.length : 0;
+    };
+
     const counts = await Promise.all(
       authors.map(async (a) => {
         try {
-          const countUrl = `${SUPABASE_URL}/rest/v1/stories?select=id&author=eq.${encodeURIComponent(a.name)}&is_published=eq.true`;
-          const countRes = await fetch(countUrl, {
-            headers: { ...headers, 'Prefer': 'count=exact' }
-          });
-          const range = countRes.headers.get('content-range');
           let count = 0;
-          if (range) {
-            const match = range.match(/\/(\d+)$/);
-            if (match) count = Number(match[1]) || 0;
-          } else {
-            const rows = await countRes.json();
-            count = Array.isArray(rows) ? rows.length : 0;
+
+          // 1. Kwanza kwa author_user_id
+          if (a.id) {
+            try {
+              count = await countBy(`author_user_id=eq.${encodeURIComponent(a.id)}`);
+            } catch {
+              count = 0;
+            }
           }
+
+          // 2. Kama ni 0, jaribu kwa jina la mwandishi (ilike + trim)
+          if (count === 0 && a.name) {
+            count = await countBy(`author=ilike.${encodeURIComponent(a.name.trim())}`);
+          }
+
           return { ...a, stories_count: count };
         } catch {
           return { ...a, stories_count: 0 };
