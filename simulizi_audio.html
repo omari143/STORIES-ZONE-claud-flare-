@@ -2821,18 +2821,14 @@ img { max-width: 100%; display: block; }
       if (!ids.length) return;
       const { data } = await supabase
         .from('audio_episodes')
-        .select('id,audio_id,duration_seconds,audio_file_url')
+        .select('id,audio_id,duration_seconds')
         .in('audio_id', ids);
       const totals = new Map();
-      await Promise.all((data || []).map(async ep => {
-        let duration = Number(ep.duration_seconds || 0);
-        if (ep.audio_file_url) {
-          const real = await getAudioDuration(ep.audio_file_url);
-          if (real > 0) duration = real;
-        }
+      (data || []).forEach(ep => {
+        const duration = Number(ep.duration_seconds || 0);
         episodeRealDurations.set(ep.id, duration);
         totals.set(ep.audio_id, (totals.get(ep.audio_id) || 0) + duration);
-      }));
+      });
       ids.forEach(id => totalDurationCache.set(id, totals.get(id) || 0));
     }
     async function checkUserLiked(audioId) {
@@ -2897,36 +2893,51 @@ img { max-width: 100%; display: block; }
     }
 
     // ===== Data loading =====
+    async function attachAuthors(items) {
+      if (!Array.isArray(items) || !items.length) return items || [];
+      const ids = Array.from(new Set(items.map(i => i.author_user_id).filter(Boolean)));
+      if (!ids.length) return items;
+
+      try {
+        const { data, error } = await supabase
+          .from('authors')
+          .select('id,name,avatar_url')
+          .in('id', ids);
+
+        if (!error && Array.isArray(data)) {
+          const mapa = {};
+          data.forEach(a => { if (a && a.id) mapa[a.id] = a; });
+          items.forEach(i => {
+            i.authors = mapa[i.author_user_id] || null;
+          });
+        } else {
+          items.forEach(i => { if (i.authors === undefined) i.authors = null; });
+        }
+      } catch (err) {
+        console.warn('attachAuthors error:', err);
+        items.forEach(i => { if (i.authors === undefined) i.authors = null; });
+      }
+
+      return items;
+    }
+
     async function loadAudioItems() {
-      // Jaribu kwanza na authors join
-      let { data, error } = await supabase
+      const { data, error } = await supabase
         .from('audio_items')
         .select(`*, 
           genres:genre_id (id, name, emoji), 
-          narrators:narrator_id (id, name),
-          authors:author_user_id (id, name, avatar_url)`)
+          narrators:narrator_id (id, name)`)
         .eq('is_published', true)
         .order('created_at', { ascending: false });
-
-      // Kama authors join imeshindwa (table haipo), fallback bila authors
-      if (error) {
-        console.warn('authors join failed, falling back:', error.message);
-        const fallback = await supabase
-          .from('audio_items')
-          .select(`*, 
-            genres:genre_id (id, name, emoji), 
-            narrators:narrator_id (id, name)`)
-          .eq('is_published', true)
-          .order('created_at', { ascending: false });
-        data = fallback.data;
-        error = fallback.error;
-      }
 
       if (error) { 
         showToast('Imeshindwa kupakia podcasts', 'error'); 
         return []; 
       }
-      return data || [];
+
+      const items = data || [];
+      await attachAuthors(items);
+      return items;
     }
     async function loadGenres() {
       const { data } = await supabase.from('genres').select('*').order('name');
@@ -2940,15 +2951,10 @@ img { max-width: 100%; display: block; }
         .order('episode_number', { ascending: true });
       if (error) { console.error(error); return []; }
       const eps = data || [];
-      await Promise.all(eps.map(async ep => {
-        let duration = Number(ep.duration_seconds || 0);
-        if (ep.audio_file_url) {
-          const real = await getAudioDuration(ep.audio_file_url);
-          if (real > 0) duration = real;
-        }
+      eps.forEach(ep => {
+        const duration = Number(ep.duration_seconds || 0);
         episodeRealDurations.set(ep.id, duration);
-        ep.duration_seconds = duration;
-      }));
+      });
       episodesCache.set(audioId, eps);
       return eps;
     }
@@ -3285,7 +3291,7 @@ img { max-width: 100%; display: block; }
       const fallback = currentPodcast?.cover_image_url || 'https://placehold.co/100x100/1a1a1a/888888?text=No+Cover';
       return episodes.map(ep => {
         const canPlay = canPlayEpisode(ep);
-        const badge = ep.is_free
+        const badge = isEpisodeFree(ep)
           ? '<span class="ep-badge free">Bure</span>'
           : (canPlay ? '<span class="ep-badge owned">Wazi</span>'
                      : '<span class="ep-badge premium">🔒</span>');
@@ -3344,8 +3350,16 @@ img { max-width: 100%; display: block; }
     }
 
     // ===== Coins: podcast unlock =====
+    function isEpisodeFree(ep) {
+      const p = currentPodcast;
+      if (!p) return !!ep.is_free;
+      if (p.is_free) return true;
+      const n = Number(p.free_tracks_count || 0);
+      return Number(ep.episode_number) <= n;
+    }
+
     function canPlayEpisode(ep) {
-      return !!(ep.is_free || ownedEpisodeIds.has(ep.id) || podcastFullOwned || hasCoinUnlock);
+      return !!(isEpisodeFree(ep) || ownedEpisodeIds.has(ep.id) || podcastFullOwned || hasCoinUnlock);
     }
 
     async function loadUnlockInfo(audioId) {
@@ -3370,7 +3384,7 @@ img { max-width: 100%; display: block; }
     }
 
     function hasLockedEpisodes() {
-      return currentEpisodes.some(ep => !ep.is_free);
+      return currentEpisodes.some(ep => !isEpisodeFree(ep));
     }
 
     function renderUnlockCard() {
@@ -3449,7 +3463,13 @@ img { max-width: 100%; display: block; }
         if (!ok) return;
 
         const { data, error } = await supabase.rpc('unlock_audio_with_coins', { p_audio_id: audio.id });
-        if (error) throw error;
+        if (error) {
+          console.error('unlock_audio_with_coins error:', error);
+          const reason = error.message || error.details || error.hint || 'Kosa la RPC kutoka database';
+          showToast(`Imeshindwa kufungua: ${reason}`, 'error');
+          return;
+        }
+
         if (data && data.success) {
           hasCoinUnlock = true;
           if (data.new_balance != null) coinBalance = Number(data.new_balance);
@@ -3464,10 +3484,14 @@ img { max-width: 100%; display: block; }
           showToast(`Coins hazitoshi. Unahitaji ${need.toLocaleString()}, una ${Number(data.balance ?? coinBalance).toLocaleString()}`, 'error');
           setTimeout(() => goToBuyCoins(need), 1500);
         } else {
-          showToast((data && data.error) || 'Imeshindwa kufungua. Jaribu tena.', 'error');
+          const reason = (data && (data.error || data.message || data.details)) || 'Hitilafu ya mfumo wa coins.';
+          console.error('unlock_audio_with_coins failure data:', data);
+          showToast(`Imeshindwa kufungua: ${reason}`, 'error');
         }
       } catch (e) {
-        showToast('Imeshindwa kufungua. Jaribu tena.', 'error');
+        console.error('unlockPodcast catch error:', e);
+        const reason = e?.message || e?.error_description || (typeof e === 'string' ? e : 'Hitilafu ya mtandao au seva.');
+        showToast(`Imeshindwa kufungua: ${reason}`, 'error');
       } finally {
         isUnlocking = false;
         const b2 = document.getElementById('unlockPodcastBtn');
@@ -4031,34 +4055,46 @@ img { max-width: 100%; display: block; }
       if (spinner) spinner.style.display = 'block';
 
       try {
-        // Query Supabase directly with ILIKE on title, description, author
-        let { data, error } = await supabase
+        // 1. Query audio_items kwa title na description pekee
+        const { data: titleMatches, error: titleErr } = await supabase
           .from('audio_items')
           .select(`*, 
             genres:genre_id (id, name, emoji), 
-            narrators:narrator_id (id, name),
-            authors:author_user_id (id, name, avatar_url)`)
+            narrators:narrator_id (id, name)`)
           .eq('is_published', true)
-          .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
+          .or(`title.ilike.%${term}%,description.ilike.%${term}%`)
           .order('created_at', { ascending: false });
 
-        if (error) {
-          console.warn('Database search with authors join failed, trying fallback:', error.message);
-          const fallback = await supabase
-            .from('audio_items')
-            .select(`*, 
-              genres:genre_id (id, name, emoji), 
-              narrators:narrator_id (id, name)`)
-            .eq('is_published', true)
-            .or(`title.ilike.%${term}%,description.ilike.%${term}%,author.ilike.%${term}%`)
-            .order('created_at', { ascending: false });
-          data = fallback.data;
-          error = fallback.error;
+        if (titleErr) {
+          console.warn('Title/description search error:', titleErr.message);
         }
 
-        let results = data || [];
+        // 2. Query authors kwa name kisha tafuta audio_items zao
+        let authorMatches = [];
+        const { data: authorData, error: authorErr } = await supabase
+          .from('authors')
+          .select('id')
+          .ilike('name', `%${term}%`);
 
-        // Pia changanya na matokeo yaliyopo kwenye kumbukumbu (kama vile narrator au genre matching)
+        if (!authorErr && Array.isArray(authorData) && authorData.length > 0) {
+          const authorIds = authorData.map(a => a.id).filter(Boolean);
+          if (authorIds.length > 0) {
+            const { data: byAuthorData, error: byAuthorErr } = await supabase
+              .from('audio_items')
+              .select(`*, 
+                genres:genre_id (id, name, emoji), 
+                narrators:narrator_id (id, name)`)
+              .eq('is_published', true)
+              .in('author_user_id', authorIds)
+              .order('created_at', { ascending: false });
+
+            if (!byAuthorErr && Array.isArray(byAuthorData)) {
+              authorMatches = byAuthorData;
+            }
+          }
+        }
+
+        // 3. Changanya na matokeo yaliyopo kwenye kumbukumbu
         const qLower = term.toLowerCase();
         const memMatches = audioItems.filter(item => {
           const narrator = (item.narrators?.name || '').toLowerCase();
@@ -4068,13 +4104,18 @@ img { max-width: 100%; display: block; }
           return narrator.includes(qLower) || genre.includes(qLower) || author.includes(qLower) || title.includes(qLower);
         });
 
+        // 4. Unganisha matokeo bila marudio
         const mergedMap = new Map();
-        results.forEach(item => mergedMap.set(String(item.id), item));
+        (titleMatches || []).forEach(item => mergedMap.set(String(item.id), item));
+        authorMatches.forEach(item => {
+          if (!mergedMap.has(String(item.id))) mergedMap.set(String(item.id), item);
+        });
         memMatches.forEach(item => {
           if (!mergedMap.has(String(item.id))) mergedMap.set(String(item.id), item);
         });
 
         const finalResults = Array.from(mergedMap.values());
+        await attachAuthors(finalResults);
         currentSearchResults = finalResults;
 
         // Ongeza vitu vipya kwenye audioItems ili likes/stats zifanye kazi bila hitilafu
@@ -4165,17 +4206,23 @@ img { max-width: 100%; display: block; }
     async function init() {
       const ok = await checkAuthAndRedirect();
       if (!ok) return;
-      await loadCurrentUser();
 
       loadingIndicator.style.display = 'block';
-      const [audios, genreList] = await Promise.all([loadAudioItems(), loadGenres()]);
-      audioItems = audios; genres = genreList;
+
+      // Pakia data sambamba ili kuokoa muda (parallel fetch)
+      const [, [audios, genreList]] = await Promise.all([
+        loadCurrentUser(),
+        Promise.all([loadAudioItems(), loadGenres()])
+      ]);
+      audioItems = audios;
+      genres = genreList;
 
       if (!audioItems.length) {
         loadingIndicator.innerHTML = '<div class="empty-state">Hakuna podcast bado. Hakikisha umeongeza kwenye admin panel.</div>';
         return;
       }
-      await loadAllStats();
+
+      // ⚡ ONDOA KUSUBIRI: Onyesha hadithi papo hapo (ndani ya sekunde 1-2)
       updateHeroStats();
       renderCategoryTabs();
       renderFeatured();
@@ -4185,6 +4232,14 @@ img { max-width: 100%; display: block; }
       mainContent.style.display = 'block';
 
       initSearchListeners();
+
+      // Pakia stats (likes, comments, durations) chinichini bila kuzuia mtumiaji
+      loadAllStats().then(() => {
+        updateHeroStats();
+        renderFeatured();
+        renderNewReleases();
+        renderAudioList(currentSearchResults || (currentCategory === 'all' ? audioItems : audioItems.filter(a => a.genres?.name === currentCategory)));
+      }).catch(err => console.warn('Background stats error:', err));
 
       try {
         const params = new URLSearchParams(window.location.search);
@@ -4196,7 +4251,6 @@ img { max-width: 100%; display: block; }
           if (idx >= 0) setTimeout(() => showAudioDetail(idx), 200);
         }
 
-        // Kama URL ina ?q= au ?search= fanya utafutaji moja kwa moja
         const searchParam = params.get('q') || params.get('search');
         if (searchParam) {
           const input = document.getElementById('storySearchInput');
@@ -4205,7 +4259,9 @@ img { max-width: 100%; display: block; }
             searchDatabaseStories(searchParam);
           }
         }
-      } catch (e) { /* noop */ }
+      } catch (e) {
+        console.error('URL params error:', e);
+      }
     }
 
     // searchBtn sasa inafungua na ku-focus search bar ya database
