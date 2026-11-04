@@ -1,1205 +1,531 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="theme-color" content="#0b0b0f">
-    <title>Nunua Coins — STORIES ZONE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0b0c10;
-            --surface: #13151c;
-            --surface-hover: #181b24;
-            --surface-active: #1f232f;
-            --border: #232733;
-            --border-light: rgba(255, 255, 255, 0.08);
-            
-            --primary: #e63946;
-            --primary-glow: rgba(230, 57, 70, 0.25);
-            
-            --gold: #f5b93c;
-            --gold-glow: rgba(245, 185, 60, 0.18);
-            
-            --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.15);
-            
-            --text-main: #f3f4f6;
-            --text-sub: #9ca3af;
-            --text-muted: #6b7280;
-            
-            --radius-xl: 20px;
-            --radius-lg: 14px;
-            --radius-md: 10px;
-            --radius-full: 9999px;
-            
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f0f0e" />
+  <title>Mwandishi — Stories Zone</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            padding-bottom: 60px;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
+  <style>
+    :root {
+      --bg: #0f0f0e;
+      --bg-card: #141414;
+      --bg-secondary: #1a1a1a;
+      --text-primary: #e8e8e8;
+      --text-secondary: #a8a8a8;
+      --text-muted: #6e6e6e;
+      --primary: #9c2518;
+      --primary-hover: #b02d1f;
+      --accent: #42a781;
+      --border: #2a2a2a;
+      --yellow: #fbbf24;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-full: 9999px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
 
-        /* Top Header */
-        .top-nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(16px);
-            background: rgba(11, 12, 16, 0.85);
-            border-bottom: 1px solid var(--border-light);
-            padding: 14px 20px;
-        }
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .nav-content {
-            max-width: 640px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: calc(88px + var(--safe-bottom));
+    }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    a { text-decoration: none; color: inherit; }
 
-        .icon-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
+    header.top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(15, 15, 14, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-        .icon-btn:hover {
-            color: var(--text-main);
-            border-color: var(--text-muted);
-        }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
 
-        .brand-title {
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-        .brand-title span {
-            color: var(--primary);
-        }
+    .top-nav h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
 
-        .balance-chip {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--gold-glow);
-            border: 1px solid rgba(245, 185, 60, 0.35);
-            padding: 6px 12px;
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--gold);
-        }
+    /* Author Profile Card */
+    .profile-hero {
+      padding: 28px 16px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(156,37,24,0.15) 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--border);
+    }
 
-        /* Layout Container */
-        .main-container {
-            max-width: 640px;
-            margin: 0 auto;
-            padding: 24px 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
+    .author-avatar-large {
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 8px 24px rgba(156,37,24,0.3);
+    }
 
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(145deg, #181726 0%, #12131a 100%);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-xl);
-            padding: 24px 20px;
-            position: relative;
-            overflow: hidden;
-        }
+    .author-avatar-large-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 2px solid var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-        .hero-banner::after {
-            content: '';
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 140px;
-            height: 140px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            pointer-events: none;
-        }
+    .author-avatar-large-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
 
-        .hero-banner h1 {
-            font-size: 22px;
-            font-weight: 800;
-            line-height: 1.25;
-            margin-bottom: 6px;
-        }
+    .author-initial-large {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--primary), #c43a2a);
+      color: #fff;
+      font-size: 40px;
+      font-weight: 700;
+    }
 
-        .hero-banner p {
-            color: var(--text-sub);
-            font-size: 14px;
-        }
+    .author-name-large {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
 
-        /* Section Titles */
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-        }
+    .author-bio {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto 16px;
+      line-height: 1.45;
+    }
 
-        .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+    .author-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+    }
 
-        .section-title .step-badge {
-            background: var(--surface-active);
-            color: var(--text-sub);
-            font-size: 11px;
-            padding: 2px 7px;
-            border-radius: var(--radius-full);
-        }
+    .stat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
 
-        /* Coin Packages Grid */
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
+    .stat-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
 
-        .package-card {
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 10px 10px;
-            position: relative;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 6px;
-        }
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
 
-        .package-card:hover {
-            border-color: rgba(255, 255, 255, 0.18);
-            transform: translateY(-2px);
-        }
+    /* Stories Section */
+    .stories-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 16px;
+    }
 
-        .package-card.selected {
-            border-color: var(--primary);
-            background: linear-gradient(180deg, rgba(230, 57, 70, 0.08) 0%, var(--surface) 100%);
-            box-shadow: 0 0 0 1px var(--primary);
-        }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .badge-tag {
-            position: absolute;
-            top: -8px;
-            right: 8px;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 1px 6px;
-            border-radius: var(--radius-full);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
 
-        .badge-popular {
-            background: var(--primary);
-            color: #fff;
-        }
+    @media (min-width: 640px) {
+      .stories-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
 
-        .badge-best {
-            background: var(--gold);
-            color: #000;
-        }
+    @media (min-width: 860px) {
+      .stories-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    }
 
-        .coin-amount-wrap {
-            display: flex;
-            align-items: baseline;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
+    .story-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
 
-        .coin-amount {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
+    .story-card:hover {
+      transform: translateY(-4px);
+      border-color: #444;
+    }
 
-        .coin-label {
-            font-size: 10px;
-            font-weight: 600;
-            color: var(--gold);
-        }
+    .story-cover-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background: var(--bg-secondary);
+      overflow: hidden;
+    }
 
-        .bonus-pill {
-            font-size: 9px;
-            font-weight: 600;
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
+    .story-cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-        .price-text {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-sub);
-        }
+    .story-info {
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
-        .package-card.selected .price-text {
-            color: #fff;
-        }
+    .story-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
-        /* Payment Methods */
-        .methods-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
+    .story-meta {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
 
-        .method-item {
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .method-item:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .method-item.selected {
-            border-color: var(--primary);
-            background: var(--surface-active);
-        }
-
-        .method-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            font-size: 12px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .method-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .method-name {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .method-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        /* Provider Brand Colors */
-        .bg-mpesa { background: #e01b22; }
-        .bg-tigopesa { background: #002e6d; }
-        .bg-airtel { background: #ed1c24; }
-        .bg-halo { background: #ff5500; }
-
-        /* Form Inputs */
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .input-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-sub);
-        }
-
-        .input-box {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-box input {
-            width: 100%;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 14px 14px 14px 44px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-main);
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .input-box input:focus {
-            border-color: var(--primary);
-            background: var(--surface-hover);
-        }
-
-        .input-box .prefix-icon {
-            position: absolute;
-            left: 14px;
-            color: var(--text-muted);
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Order Summary Card */
-        .summary-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 18px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            color: var(--text-sub);
-        }
-
-        .summary-row.total {
-            padding-top: 10px;
-            border-top: 1px solid var(--border-light);
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        .total-amount {
-            color: var(--primary);
-            font-size: 18px;
-        }
-
-        /* Checkout Action Button */
-        .btn-submit {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-md);
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: var(--transition);
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-
-        .btn-submit:hover {
-            opacity: 0.95;
-            transform: translateY(-1px);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Security Assurance */
-        .security-note {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--text-muted);
-            text-align: center;
-        }
-
-                /* =========================================================
-           MODERN NOTIFICATIONS & MODAL SYSTEM (STORIES ZONE)
-           ========================================================= */
-
-        /* Modern Glassmorphic Toast */
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10000;
-            width: calc(100% - 32px);
-            max-width: 440px;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .modern-toast {
-            pointer-events: auto;
-            background: rgba(19, 21, 28, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 14px 16px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            transform: translateY(-20px) scale(0.96);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .modern-toast.show { transform: translateY(0) scale(1); opacity: 1; }
-        .toast-icon-wrap {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; margin-top: 1px;
-        }
-        .toast-content { flex: 1; min-width: 0; }
-        .toast-title { font-size: 13.5px; font-weight: 700; color: #fff; margin-bottom: 2px; letter-spacing: -0.2px; }
-        .toast-desc { font-size: 12.5px; color: var(--text-sub); line-height: 1.45; word-break: break-word; }
-        .toast-close-btn {
-            background: none; border: none; color: var(--text-muted); cursor: pointer;
-            padding: 4px; border-radius: 6px; display: flex; align-items: center;
-            justify-content: center; transition: var(--transition); margin-left: 4px;
-        }
-        .toast-close-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); }
-        .toast-info { border-left: 3px solid #3b82f6; }
-        .toast-info .toast-icon-wrap { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
-        .toast-success { border-left: 3px solid var(--accent); }
-        .toast-success .toast-icon-wrap { background: var(--accent-glow); color: var(--accent); }
-        .toast-warning { border-left: 3px solid var(--gold); }
-        .toast-warning .toast-icon-wrap { background: var(--gold-glow); color: var(--gold); }
-        .toast-error { border-left: 3px solid var(--primary); }
-        .toast-error .toast-icon-wrap { background: var(--primary-glow); color: var(--primary); }
-        .toast-progress {
-            position: absolute; bottom: 0; left: 0; height: 2px;
-            background: rgba(255, 255, 255, 0.2); width: 100%; transform-origin: left;
-            animation: toast-timer 4.5s linear forwards;
-        }
-        @keyframes toast-timer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
-
-        /* Payment Request Modal */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(7, 8, 11, 0.85);
-            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-            z-index: 9999; display: flex; align-items: center; justify-content: center;
-            padding: 16px; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-card {
-            background: linear-gradient(180deg, #161822 0%, #10121a 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px;
-            width: 100%; max-width: 440px; padding: 28px 22px 24px;
-            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05);
-            text-align: center; position: relative;
-            transform: scale(0.92) translateY(24px);
-            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden;
-            max-height: calc(100vh - 32px); overflow-y: auto;
-        }
-        .modal-overlay.active .modal-card { transform: scale(1) translateY(0); }
-        .modal-glow {
-            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-            width: 260px; height: 200px;
-            background: radial-gradient(circle, var(--modal-glow-color, rgba(245, 185, 60, 0.2)) 0%, transparent 70%);
-            pointer-events: none; filter: blur(30px); transition: background 0.4s ease;
-        }
-        .modal-close-icon {
-            position: absolute; top: 16px; right: 16px; width: 34px; height: 34px;
-            border-radius: var(--radius-full); background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08); color: var(--text-muted);
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: var(--transition); z-index: 5;
-        }
-        .modal-close-icon:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
-        .modal-icon-container {
-            position: relative; width: 80px; height: 80px; margin: 0 auto 18px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .icon-circle {
-            width: 72px; height: 72px; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center; position: relative; z-index: 2;
-            transition: all 0.3s ease;
-        }
-        .radar-wave {
-            position: absolute; inset: -4px; border-radius: 50%;
-            border: 1.5px solid var(--pulse-color, var(--gold)); opacity: 0;
-            animation: radar-pulse 2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
-        }
-        .radar-wave:nth-child(2) { animation-delay: 0.65s; }
-        .radar-wave:nth-child(3) { animation-delay: 1.3s; }
-        @keyframes radar-pulse {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            100% { transform: scale(1.65); opacity: 0; }
-        }
-        .modal-status-badge {
-            display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px;
-            border-radius: var(--radius-full); font-size: 11.5px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
-            background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.08);
-            color: var(--text-sub);
-        }
-        .pulse-dot {
-            width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
-            box-shadow: 0 0 10px var(--gold); animation: blink-dot 1.2s ease-in-out infinite;
-        }
-        @keyframes blink-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
-        .modal-title { font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.4px; line-height: 1.3; margin-bottom: 8px; }
-        .modal-desc { font-size: 13.5px; color: var(--text-sub); line-height: 1.5; margin-bottom: 20px; padding: 0 4px; }
-        .modal-desc strong { color: #fff; font-weight: 700; }
-        .modal-desc .highlight-phone {
-            color: var(--gold); background: rgba(245, 185, 60, 0.1); padding: 2px 7px;
-            border-radius: 6px; font-weight: 700; display: inline-block;
-        }
-        .modal-info-box {
-            background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
-            padding: 14px 16px; margin-bottom: 18px; display: flex; align-items: center;
-            justify-content: space-between; text-align: left;
-        }
-        .info-col-label { font-size: 11px; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.4px; margin-bottom: 2px; }
-        .info-col-val { font-size: 14.5px; font-weight: 700; color: #fff; }
-        .info-col-val.coins-val { color: var(--gold); display: flex; align-items: center; gap: 4px; }
-        .modal-steps-card {
-            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: var(--radius-lg); padding: 14px; margin-bottom: 20px; text-align: left;
-        }
-        .step-item { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; color: var(--text-sub); line-height: 1.45; margin-bottom: 10px; }
-        .step-item:last-child { margin-bottom: 0; }
-        .step-num {
-            width: 20px; height: 20px; border-radius: 50%; background: rgba(255, 255, 255, 0.08);
-            color: var(--gold); font-size: 11px; font-weight: 800; display: flex;
-            align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
-        }
-        .step-item strong { color: var(--text-main); }
-        .modal-timer-bar { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 18px; }
-        .timer-spinner { width: 14px; height: 14px; border: 2px solid rgba(255, 255, 255, 0.15); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .modal-actions { display: flex; flex-direction: column; gap: 10px; }
-        .btn-modal-primary {
-            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary) 0%, #c92a37 100%);
-            border: none; border-radius: var(--radius-lg); color: #fff; font-size: 14.5px;
-            font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            gap: 8px; box-shadow: 0 8px 24px var(--primary-glow); transition: var(--transition);
-        }
-        .btn-modal-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(230, 57, 70, 0.4); }
-        .btn-modal-primary.btn-success-theme { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 24px var(--accent-glow); }
-        .btn-modal-secondary {
-            width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border); border-radius: var(--radius-lg);
-            color: var(--text-sub); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: var(--transition);
-        }
-        .btn-modal-secondary:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
-        .coins-celebrate-box {
-            background: rgba(245, 185, 60, 0.08); border: 1px dashed rgba(245, 185, 60, 0.35);
-            border-radius: var(--radius-lg); padding: 16px; margin-bottom: 20px;
-        }
-        .celebrate-amount { font-size: 26px; font-weight: 800; color: var(--gold); display: flex; align-items: center; justify-content: center; gap: 6px; letter-spacing: -0.5px; }
-        .celebrate-sub { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
-
-        @media (max-width: 480px) {
-            .packages-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-            .hero-banner h1 { font-size: 19px; }
-            .toast-container { top: 12px; }
-            .modal-card { padding: 25px 18px 20px; border-radius: 20px; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
-        }
-
-            .hero-banner h1 {
-                font-size: 19px;
-            }
-        }
-    </style>
+    .empty-state {
+      text-align: center;
+      padding: 48px 16px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+    }
+  </style>
 </head>
 <body>
+  <header class="top-nav">
+    <button class="back-btn" onclick="history.back() || (window.location.href='index.html')" aria-label="Rudi">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <h1>Profaili ya Mwandishi</h1>
+  </header>
 
-    <!-- Header Navigation -->
-    <header class="top-nav">
-        <div class="nav-content">
-            <div class="nav-left">
-                <button class="icon-btn" onclick="window.history.back()" title="Rudi nyuma">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-                    </svg>
-                </button>
-                <div class="brand-title">STORIES <span>ZONE</span></div>
-            </div>
-            
-            <div class="balance-chip">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                    <circle cx="12" cy="12" r="10"/>
-                </svg>
-                <span id="currentBalance">— Coins</span>
-            </div>
+  <main>
+    <section class="profile-hero" id="authorHero">
+      <div class="author-avatar-large">
+        <div class="author-avatar-large-inner" id="heroAvatar">
+          <div class="author-initial-large">...</div>
         </div>
-    </header>
-
-    <main class="main-container">
-
-        <!-- Welcoming Hero -->
-        <section class="hero-banner">
-            <h1>Ongeza Coins Zako</h1>
-            <p>Pata coins kusoma masimulizi na riwaya zote bila kikomo.</p>
-        </section>
-
-        <!-- Step 1: Packages -->
-        <section>
-            <div class="section-header">
-                <div class="section-title">
-                    <span class="step-badge">1</span> Chagua Kifurushi
-                </div>
-            </div>
-
-            <div class="packages-grid" id="packagesGrid">
-                <!-- Packages zitapakia hapa -->
-            </div>
-        </section>
-
-        <!-- Step 2: Payment Provider -->
-        <section>
-            <div class="section-header">
-                <div class="section-title">
-                    <span class="step-badge">2</span> Njia ya Malipo
-                </div>
-            </div>
-
-            <div class="methods-list" id="methodsList">
-                <div class="method-item selected" data-method="mpesa">
-                    <div class="method-icon bg-mpesa">M</div>
-                    <div class="method-info">
-                        <span class="method-name">M-Pesa</span>
-                        <span class="method-desc">Vodacom</span>
-                    </div>
-                </div>
-
-                <div class="method-item" data-method="tigopesa">
-                    <div class="method-icon bg-tigopesa">T</div>
-                    <div class="method-info">
-                        <span class="method-name">Tigo Pesa</span>
-                        <span class="method-desc">Mixx by Yas</span>
-                    </div>
-                </div>
-
-                <div class="method-item" data-method="airtel">
-                    <div class="method-icon bg-airtel">A</div>
-                    <div class="method-info">
-                        <span class="method-name">Airtel Money</span>
-                        <span class="method-desc">Airtel</span>
-                    </div>
-                </div>
-
-                <div class="method-item" data-method="halopesa">
-                    <div class="method-icon bg-halo">H</div>
-                    <div class="method-info">
-                        <span class="method-name">HaloPesa</span>
-                        <span class="method-desc">Halotel</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Step 3: Phone Number -->
-        <section>
-            <div class="input-group">
-                <label class="input-label" for="phoneInput">Namba ya Simu itakayofanya malipo</label>
-                <div class="input-box">
-                    <span class="prefix-icon">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                        </svg>
-                    </span>
-                    <input type="tel" id="phoneInput" placeholder="07XXXXXXXX au 255..." autocomplete="tel">
-                </div>
-            </div>
-        </section>
-
-        <!-- Order Summary & Checkout -->
-        <section class="summary-card">
-            <div class="summary-row">
-                <span>Vifurushi vilivyochaguliwa</span>
-                <span id="summaryCoins">—</span>
-            </div>
-            <div class="summary-row">
-                <span>Mtandao</span>
-                <span id="summaryMethod">M-Pesa</span>
-            </div>
-            <div class="summary-row total">
-                <span>Jumla ya Malipo</span>
-                <span class="total-amount" id="summaryTotal">TZS —</span>
-            </div>
-
-            <button class="btn-submit" id="payBtn">
-                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                </svg>
-                Kamilisha Malipo
-            </button>
-
-            <div class="security-note">
-                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                </svg>
-                Malipo yako ni salama na yanalindwa moja kwa moja kupitia mtandao wako.
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Modern Notification Toasts -->
-    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="false"></div>
-
-    <!-- Payment Request / Status Modal -->
-    <div id="paymentModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-        <div class="modal-card">
-            <div class="modal-glow"></div>
-            <button type="button" class="modal-close-icon" id="modalCloseBtn" aria-label="Funga taarifa">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 6 6 18M6 6l12 12"/></svg>
-            </button>
-            <div id="modalContent"></div>
+      </div>
+      <h2 class="author-name-large" id="heroName">Inapakia...</h2>
+      <p class="author-bio" id="heroBio"></p>
+      <div class="author-stats">
+        <div class="stat-item">
+          <div class="stat-val" id="statStories">0</div>
+          <div class="stat-label">Hadithi</div>
         </div>
+        <div class="stat-item">
+          <div class="stat-val" id="statReads">0</div>
+          <div class="stat-label">Wasomaji</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="stories-container">
+      <h3 class="section-title">
+        <i class="fa-solid fa-book-open" style="color:var(--primary)"></i>
+        Hadithi za Mwandishi
+      </h3>
+      <div class="stories-grid" id="storiesGrid">
+        <div class="empty-state">Inapakia hadithi...</div>
+      </div>
     </div>
+  </main>
 
-    <script type="module">
-        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+  <script>
+    const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+    const headers = {
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      'Content-Type': 'application/json'
+    };
 
-        const SUPABASE_URL = 'https://fuyzusikxmkjmnhpdbof.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1eXp1c2lreG1ram1uaHBkYm9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1NjM3MTcsImV4cCI6MjA5NTEzOTcxN30.QaPxUs4e_O64nBxYhByGVkYa4tPIB9OCAh89xuQGG7c';
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
 
-        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    function formatNumber(num) {
+      const n = Number(num) || 0;
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+      return String(n);
+    }
 
-        let packages = [];
-        let isFirstPurchase = false;
-        let currentOrder = {
-            packageId: null,
-            coins: 0,
-            bonus: 0,
-            price: 0,
-            method: 'mpesa'
-        };
-        let pollInterval = null;
+    const params = new URLSearchParams(window.location.search);
+    const authorParam = params.get('id') || params.get('author') || '';
 
-        const toastIcons = {
-            info: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 16v-4m0-4h.01"/></svg>',
-            success: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="10"/></svg>',
-            warning: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.3 3.9 1.8 18.5A2 2 0 0 0 3.5 21h17a2 2 0 0 0 1.7-2.5L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path stroke-linecap="round" d="M12 9v4m0 4h.01"/></svg>',
-            error: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="m15 9-6 6m0-6 6 6"/></svg>'
-        };
+    // ===================== LOAD AUTHOR PROFILE =====================
+    // Inajaribu njia 3 kwa mpangilio:
+    //   1. authors table kwa ID (UUID)
+    //   2. authors table kwa jina (ilike)
+    //   3. Fallback: tumia jina la URL moja kwa moja
+    async function loadAuthorProfile() {
+      if (!authorParam) {
+        document.getElementById('heroName').textContent = 'Mwandishi Hakupatikana';
+        document.getElementById('storiesGrid').innerHTML =
+          '<div class="empty-state">Mwandishi hajatambuliwa. Tafadhali rudi mwanzo.</div>';
+        return;
+      }
 
-        function showToast(message, type = 'info', title = '') {
-            const container = document.getElementById('toastContainer');
-            if (!container) return;
-            const titles = { info: 'Taarifa', success: 'Imefanikiwa', warning: 'Tahadhari', error: 'Imeshindikana' };
-            const toast = document.createElement('div');
-            toast.className = 'modern-toast toast-' + (toastIcons[type] ? type : 'info');
-            toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
-            const safeTitle = title || titles[type] || titles.info;
-            const icon = toastIcons[type] || toastIcons.info;
-            toast.innerHTML = '<div class="toast-icon-wrap">' + icon + '</div>' +
-                '<div class="toast-content"><div class="toast-title"></div><div class="toast-desc"></div></div>' +
-                '<button type="button" class="toast-close-btn" aria-label="Funga" title="Funga"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="m18 6-12 12M6 6l12 12"/></svg></button>' +
-                '<div class="toast-progress"></div>';
-            toast.querySelector('.toast-title').textContent = safeTitle;
-            toast.querySelector('.toast-desc').textContent = String(message ?? '');
-            container.appendChild(toast);
-            requestAnimationFrame(() => toast.classList.add('show'));
-            let timer = setTimeout(removeToast, 5000);
-            function removeToast() {
-                clearTimeout(timer);
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 320);
+      let authorData = { name: authorParam, avatar_url: null, bio: '' };
+      let resolvedAuthorName = authorParam;
+      let resolvedAuthorId = null;
+
+      // ---- NJIA 1: authors table kwa ID (UUID) ----
+      try {
+        const url = `${SUPABASE_URL}/rest/v1/authors?id=eq.${encodeURIComponent(authorParam)}&select=id,name,avatar_url,bio&limit=1`;
+        const res = await fetch(url, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            authorData = data[0];
+            resolvedAuthorName = data[0].name || authorParam;
+            resolvedAuthorId = data[0].id || null;
+          }
+        }
+      } catch (err) {
+        console.warn('authors id lookup failed:', err);
+      }
+
+      // ---- NJIA 2: authors table kwa jina (ilike — case-insensitive) ----
+      if (resolvedAuthorName === authorParam) {
+        try {
+          const byNameUrl = `${SUPABASE_URL}/rest/v1/authors?name=ilike.${encodeURIComponent(authorParam.trim())}&select=id,name,avatar_url,bio&limit=1`;
+          const byNameRes = await fetch(byNameUrl, { headers });
+          if (byNameRes.ok) {
+            const d2 = await byNameRes.json();
+            if (Array.isArray(d2) && d2.length > 0) {
+              authorData = d2[0];
+              resolvedAuthorName = d2[0].name || authorParam;
+              resolvedAuthorId = d2[0].id || null;
             }
-            toast.querySelector('.toast-close-btn').addEventListener('click', removeToast);
-            toast.addEventListener('mouseenter', () => clearTimeout(timer));
-            toast.addEventListener('mouseleave', () => { timer = setTimeout(removeToast, 1500); });
-            return toast;
+          }
+        } catch (err) {
+          console.warn('authors name lookup failed:', err);
+        }
+      }
+
+      // Kama authorParam ni UUID halali na njia 1 imeshindwa, tumia authorParam yenyewe
+      const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!resolvedAuthorId && UUID_RE.test(authorParam)) {
+        resolvedAuthorId = authorParam;
+      }
+
+      const name = authorData.name || resolvedAuthorName;
+      document.title = `${name} — Stories Zone`;
+      document.getElementById('heroName').textContent = name;
+
+      if (authorData.bio) {
+        document.getElementById('heroBio').textContent = authorData.bio;
+      }
+
+      // ---- Avatar ----
+      const initial = (name.trim().charAt(0) || 'M').toUpperCase();
+      const heroAvatarEl = document.getElementById('heroAvatar');
+      if (authorData.avatar_url) {
+        heroAvatarEl.innerHTML =
+          `<img src="${escapeHtml(authorData.avatar_url)}" alt="${escapeHtml(name)}" onerror="this.parentElement.innerHTML='<div class=\\'author-initial-large\\'>${initial}</div>'" />`;
+      } else {
+        heroAvatarEl.innerHTML = `<div class="author-initial-large">${initial}</div>`;
+      }
+
+      // ---- Pakia hadithi kwa jina halisi + ID ----
+      loadAuthorStories(resolvedAuthorName, authorParam, resolvedAuthorId);
+    }
+
+    // ===================== LOAD AUTHOR STORIES =====================
+    // Inajaribu njia 4 kwa mpangilio:
+    //   0. author_user_id=<ID>        (kipaumbele cha kwanza)
+    //   1. author=eq.<jina halisi>
+    //   2. author=ilike.<jina halisi>  (case-insensitive, trim)
+    //   3. author=ilike.<originalParam>  (kama jina halisi ni tofauti)
+    async function loadAuthorStories(authorName, originalParam, authorId) {
+      const grid = document.getElementById('storiesGrid');
+      try {
+        let stories = [];
+
+        // ---- NJIA 0: author_user_id (kipaumbele cha kwanza) ----
+        if (authorId) {
+          const url0 = `${SUPABASE_URL}/rest/v1/stories?author_user_id=eq.${encodeURIComponent(authorId)}&is_published=eq.true&order=created_at.desc`;
+          const res0 = await fetch(url0, { headers });
+          if (res0.ok) {
+            const d0 = await res0.json();
+            stories = Array.isArray(d0) ? d0 : [];
+          }
         }
 
-        function openPaymentModal() {
-            const modal = document.getElementById('paymentModal');
-            if (!modal) return;
-            modal.classList.add('active');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
+        // ---- NJIA 1: eq (exact match) ----
+        if (!Array.isArray(stories) || stories.length === 0) {
+          const url1 = `${SUPABASE_URL}/rest/v1/stories?author=eq.${encodeURIComponent(authorName)}&is_published=eq.true&order=created_at.desc`;
+          const res1 = await fetch(url1, { headers });
+          if (res1.ok) {
+            const d1 = await res1.json();
+            stories = Array.isArray(d1) ? d1 : [];
+          }
         }
 
-        function closePaymentModal() {
-            const modal = document.getElementById('paymentModal');
-            if (!modal) return;
-            modal.classList.remove('active');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+        // ---- NJIA 2: ilike (case-insensitive) ----
+        if (!Array.isArray(stories) || stories.length === 0) {
+          const url2 = `${SUPABASE_URL}/rest/v1/stories?author=ilike.${encodeURIComponent(authorName.trim())}&is_published=eq.true&order=created_at.desc`;
+          const res2 = await fetch(url2, { headers });
+          if (res2.ok) {
+            const d2 = await res2.json();
+            stories = Array.isArray(d2) ? d2 : [];
+          }
         }
 
-        function escapeHtml(value) {
-            const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-            return String(value ?? '').replace(/[&<>"']/g, (char) => entities[char]);
+        // ---- NJIA 3: ilike kwa originalParam (kama tofauti) ----
+        if (
+          (!Array.isArray(stories) || stories.length === 0) &&
+          originalParam !== authorName
+        ) {
+          const url3 = `${SUPABASE_URL}/rest/v1/stories?author=ilike.${encodeURIComponent(originalParam.trim())}&is_published=eq.true&order=created_at.desc`;
+          const res3 = await fetch(url3, { headers });
+          if (res3.ok) {
+            const d3 = await res3.json();
+            stories = Array.isArray(d3) ? d3 : [];
+          }
         }
 
-        function setModalState(state, details = {}) {
-            const content = document.getElementById('modalContent');
-            const modal = document.getElementById('paymentModal');
-            if (!content || !modal) return;
-            const safePhone = escapeHtml(details.phone || '');
-            const safeMethod = escapeHtml(details.method || 'malipo ya simu');
-            const coins = Number(details.coins || 0).toLocaleString();
-            const price = Number(details.price || 0).toLocaleString();
-            const methodIcons = {
-                mpesa: '<span style="color:#e53935;font-weight:900">M</span>',
-                tigopesa: '<span style="color:#17a86b;font-weight:900">T</span>',
-                airtel: '<span style="color:#ed1c24;font-weight:900">A</span>',
-                halopesa: '<span style="color:#ff8a00;font-weight:900">H</span>'
-            };
-            let markup = '';
-            if (state === 'waiting') {
-                modal.style.setProperty('--modal-glow-color', 'rgba(245, 185, 60, 0.2)');
-                markup = '<div class="modal-icon-container"><div class="radar-wave"></div><div class="radar-wave"></div><div class="radar-wave"></div><div class="icon-circle" style="background:rgba(245,185,60,.12);border:1px solid rgba(245,185,60,.25);color:var(--gold)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg></div></div>' +
-                    '<div class="modal-status-badge"><span class="pulse-dot"></span>Inasubiri uthibitisho</div>' +
-                    '<h2 id="modalTitle" class="modal-title">Ombi la malipo limetumwa</h2>' +
-                    '<p class="modal-desc">Tumetuma ombi la malipo kupitia <strong>' + safeMethod + '</strong> kwenda kwenye namba <span class="highlight-phone">' + safePhone + '</span>. Tafadhali thibitisha kwenye simu yako.</p>' +
-                    '<div class="modal-info-box"><div><div class="info-col-label">Kifurushi</div><div class="info-col-val coins-val">' + coins + ' Coins</div></div><div style="text-align:right"><div class="info-col-label">Jumla</div><div class="info-col-val">TZS ' + price + '</div></div></div>' +
-                    '<div class="modal-steps-card"><div class="step-item"><span class="step-num">1</span><span>Angalia ujumbe wa malipo kwenye simu yako.</span></div><div class="step-item"><span class="step-num">2</span><span>Ingiza <strong>PIN yako ya siri</strong> kuthibitisha malipo.</span></div><div class="step-item"><span class="step-num">3</span><span>Usifunge ukurasa, tutakujulisha malipo yakikamilika.</span></div></div>' +
-                    '<div class="modal-timer-bar"><span class="timer-spinner"></span><span>Inakagua hali ya malipo...</span></div>' +
-                    '<div class="modal-actions"><button type="button" id="modalOkayBtn" class="btn-modal-secondary">Sawa, nitaangalia simu yangu</button></div>';
-            } else if (state === 'success') {
-                modal.style.setProperty('--modal-glow-color', 'rgba(16, 185, 129, 0.22)');
-                markup = '<div class="modal-icon-container"><div class="icon-circle" style="background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.3);color:#10b981;box-shadow:0 0 35px rgba(16,185,129,.18)"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="m5 12 4 4L19 6"/></svg></div></div>' +
-                    '<div class="modal-status-badge" style="color:#10b981;border-color:rgba(16,185,129,.22);background:rgba(16,185,129,.08)">Malipo yamethibitishwa</div>' +
-                    '<h2 id="modalTitle" class="modal-title">Asante kwa malipo yako!</h2>' +
-                    '<p class="modal-desc">Malipo yako yamekamilika kikamilifu. Coins zimeongezwa kwenye akaunti yako.</p>' +
-                    '<div class="coins-celebrate-box"><div class="celebrate-amount"><span>✦</span>+' + coins + ' Coins</div><div class="celebrate-sub">Zimeongezwa kwenye salio lako</div></div>' +
-                    '<div class="modal-actions"><button type="button" id="modalDoneBtn" class="btn-modal-primary btn-success-theme">Endelea kusoma</button></div>';
-            } else if (state === 'failed') {
-                modal.style.setProperty('--modal-glow-color', 'rgba(230, 57, 70, 0.2)');
-                markup = '<div class="modal-icon-container"><div class="icon-circle" style="background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.25);color:var(--primary)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="m15 9-6 6m0-6 6 6"/></svg></div></div>' +
-                    '<div class="modal-status-badge" style="color:var(--primary);border-color:rgba(230,57,70,.2);background:rgba(230,57,70,.08)">Malipo hayajakamilika</div>' +
-                    '<h2 id="modalTitle" class="modal-title">Malipo yameshindikana</h2>' +
-                    '<p class="modal-desc">' + escapeHtml(details.message || 'Muamala haujakamilika. Hakuna kiasi kitakachokatwa kama malipo hayajathibitishwa.') + '</p>' +
-                    '<div class="modal-actions"><button type="button" id="modalRetryBtn" class="btn-modal-primary">Jaribu tena</button><button type="button" id="modalDismissBtn" class="btn-modal-secondary">Funga</button></div>';
-            } else if (state === 'timeout') {
-                modal.style.setProperty('--modal-glow-color', 'rgba(245, 185, 60, 0.2)');
-                markup = '<div class="modal-icon-container"><div class="icon-circle" style="background:rgba(245,185,60,.12);border:1px solid rgba(245,185,60,.25);color:var(--gold)"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" d="M12 6v6l4 2"/></svg></div></div>' +
-                    '<div class="modal-status-badge"><span class="pulse-dot"></span>Hali haijulikani</div>' +
-                    '<h2 id="modalTitle" class="modal-title">Bado tunasubiri uthibitisho</h2>' +
-                    '<p class="modal-desc">Muda wa kusubiri umeisha, lakini kama umethibitisha malipo kwenye simu, coins zako zinaweza kuonekana baada ya muda mfupi. Angalia salio lako tena.</p>' +
-                    '<div class="modal-actions"><button type="button" id="modalCheckBtn" class="btn-modal-primary">Angalia salio</button><button type="button" id="modalDismissBtn" class="btn-modal-secondary">Funga</button></div>';
-            }
-            content.innerHTML = markup;
-            openPaymentModal();
-            const okay = document.getElementById('modalOkayBtn');
-            if (okay) okay.addEventListener('click', closePaymentModal);
-            const done = document.getElementById('modalDoneBtn');
-            if (done) done.addEventListener('click', closePaymentModal);
-            const dismiss = document.getElementById('modalDismissBtn');
-            if (dismiss) dismiss.addEventListener('click', closePaymentModal);
-            const check = document.getElementById('modalCheckBtn');
-            if (check) check.addEventListener('click', () => { closePaymentModal(); loadBalance(); });
-            const retry = document.getElementById('modalRetryBtn');
-            if (retry) retry.addEventListener('click', () => { closePaymentModal(); document.getElementById('payBtn')?.click(); });
+        // Hakikisha stories ni array kila wakati
+        if (!Array.isArray(stories)) stories = [];
+
+        // ---- Empty state ----
+        if (stories.length === 0) {
+          grid.innerHTML =
+            '<div class="empty-state">Mwandishi huyu hana hadithi zilizochapishwa kwa sasa.</div>';
+          document.getElementById('statStories').textContent = '0';
+          document.getElementById('statReads').textContent = '0';
+          return;
         }
 
-        document.getElementById('modalCloseBtn')?.addEventListener('click', closePaymentModal);
-        document.getElementById('paymentModal')?.addEventListener('click', (event) => {
-            if (event.target.id === 'paymentModal') closePaymentModal();
-        });
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') closePaymentModal();
-        });
+        // ---- Stats ----
+        document.getElementById('statStories').textContent = stories.length;
+        const totalReads = stories.reduce(
+          (acc, s) => acc + (Number(s.total_reads) || 0),
+          0
+        );
+        document.getElementById('statReads').textContent = formatNumber(totalReads);
 
-        function normalizePhone(raw) {
-            let p = String(raw).replace(/\D/g, '');
-            if (p.startsWith('0')) p = '255' + p.slice(1);
-            else if (p.startsWith('255')) { /* ok */ }
-            else if (p.startsWith('+255')) p = p.slice(1);
-            else return null;
-            if (p.length !== 12) return null;
-            if (!/^255(6|7|8)\d{8}$/.test(p)) return null;
-            return p;
-        }
+        // ---- Render grid ----
+        grid.innerHTML = stories
+          .map((s) => {
+            const cover =
+              s.cover_image_url ||
+              'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&q=80';
+            const title = escapeHtml(s.title || 'Hadithi');
+            const reads = formatNumber(s.total_reads || 0);
+            return `
+              <a href="story.html?id=${encodeURIComponent(s.id)}" class="story-card">
+                <div class="story-cover-wrap">
+                  <img src="${escapeHtml(cover)}" alt="${title}" loading="lazy" />
+                </div>
+                <div class="story-info">
+                  <h4 class="story-title">${title}</h4>
+                  <div class="story-meta">
+                    <span><i class="fa-regular fa-eye"></i> ${reads}</span>
+                    <span><i class="fa-solid fa-chevron-right"></i></span>
+                  </div>
+                </div>
+              </a>
+            `;
+          })
+          .join('');
+      } catch (err) {
+        console.error('Error loading author stories:', err);
+        grid.innerHTML =
+          '<div class="empty-state">Imeshindikana kupakia hadithi za mwandishi huyu.</div>';
+      }
+    }
 
-        async function loadBalance() {
-            try {
-                const { data, error } = await supabase.rpc('get_my_coin_balance');
-                if (error) throw error;
-                const bal = data?.success ? Number(data.balance) : 0;
-                document.getElementById('currentBalance').textContent = bal.toLocaleString() + ' Coins';
-            } catch (err) {
-                console.warn(err);
-                document.getElementById('currentBalance').textContent = '0 Coins';
-            }
-        }
-
-        async function loadPackages() {
-            const grid = document.getElementById('packagesGrid');
-            try {
-                const { data, error } = await supabase
-                    .from('coin_packages')
-                    .select('*')
-                    .eq('is_active', true)
-                    .order('sort_order', { ascending: true });
-
-                if (error) throw error;
-                packages = data || [];
-
-                if (!packages.length) {
-                    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px;">Hakuna vifurushi kwa sasa</div>';
-                    return;
-                }
-
-                // Check first purchase
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                    const { data: profile } = await supabase
-                        .from('users')
-                        .select('has_received_first_bonus')
-                        .eq('auth_user_id', user.id)
-                        .maybeSingle();
-                    isFirstPurchase = profile ? !profile.has_received_first_bonus : false;
-                }
-
-                grid.innerHTML = packages.map((pkg, i) => {
-                    const bonus = isFirstPurchase ? Math.round(pkg.coins * 0.25) : 0;
-                    const isPopular = i === 1;
-                    const isBest = i === 2;
-                    const selectedClass = i === 1 ? ' selected' : '';
-
-                    let badges = '';
-                    if (isPopular) badges += '<span class="badge-tag badge-popular">Popular</span>';
-                    if (isBest) badges += '<span class="badge-tag badge-best">Best Value</span>';
-
-                    let bonusHtml = '';
-                    if (bonus > 0) {
-                        bonusHtml = '<div class="bonus-pill">+' + bonus + ' Bonus</div>';
-                    }
-
-                    return (
-                        '<div class="package-card' + selectedClass + '" data-id="' + pkg.id + '" data-coins="' + pkg.coins + '" data-price="' + pkg.price_tzs + '" data-bonus="' + bonus + '">' +
-                            badges +
-                            '<div>' +
-                                '<div class="coin-amount-wrap">' +
-                                    '<span class="coin-amount">' + Number(pkg.coins).toLocaleString() + '</span>' +
-                                    '<span class="coin-label">Coins</span>' +
-                                '</div>' +
-                                bonusHtml +
-                            '</div>' +
-                            '<div class="price-text">TZS ' + Number(pkg.price_tzs).toLocaleString() + '</div>' +
-                        '</div>'
-                    );
-                }).join('');
-
-                // Attach click listeners to packages
-                document.querySelectorAll('.package-card').forEach(card => {
-                    card.addEventListener('click', function () {
-                        document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
-                        this.classList.add('selected');
-
-                        currentOrder.packageId = this.dataset.id;
-                        currentOrder.coins = Number(this.dataset.coins);
-                        currentOrder.price = Number(this.dataset.price);
-                        currentOrder.bonus = Number(this.dataset.bonus);
-                        updateSummary();
-                    });
-                });
-
-                // Set default selected
-                const defaultPkg = packages[Math.min(1, packages.length - 1)];
-                const defaultBonus = isFirstPurchase ? Math.round(defaultPkg.coins * 0.25) : 0;
-                currentOrder = {
-                    packageId: defaultPkg.id,
-                    coins: defaultPkg.coins,
-                    bonus: defaultBonus,
-                    price: defaultPkg.price_tzs,
-                    method: 'mpesa'
-                };
-                updateSummary();
-
-            } catch (err) {
-                console.error(err);
-                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:20px;">Imeshindwa kupakia vifurushi</div>';
-            }
-        }
-
-        // Method selection
-        document.querySelectorAll('.method-item').forEach(item => {
-            item.addEventListener('click', function () {
-                document.querySelectorAll('.method-item').forEach(m => m.classList.remove('selected'));
-                this.classList.add('selected');
-                currentOrder.method = this.dataset.method;
-                updateSummary();
-            });
-        });
-
-        function updateSummary() {
-            const totalCoins = currentOrder.coins + currentOrder.bonus;
-            let bonusText = '';
-            if (currentOrder.bonus > 0) {
-                bonusText = ' (' + currentOrder.coins + ' + ' + currentOrder.bonus + ' Bonus)';
-            }
-
-            document.getElementById('summaryCoins').textContent = totalCoins.toLocaleString() + ' Coins' + bonusText;
-
-            const methodNames = {
-                mpesa: 'M-Pesa',
-                tigopesa: 'Tigo Pesa',
-                airtel: 'Airtel Money',
-                halopesa: 'HaloPesa'
-            };
-            document.getElementById('summaryMethod').textContent = methodNames[currentOrder.method] || currentOrder.method;
-            document.getElementById('summaryTotal').textContent = 'TZS ' + Number(currentOrder.price).toLocaleString();
-        }
-
-        // Payment button
-        document.getElementById('payBtn').addEventListener('click', async function () {
-            const phoneRaw = document.getElementById('phoneInput').value.trim();
-            if (!phoneRaw || phoneRaw.length < 9) {
-                showToast('Tafadhali weka namba sahihi ya simu!', 'warning');
-                document.getElementById('phoneInput').focus();
-                return;
-            }
-
-            const phone = normalizePhone(phoneRaw);
-            if (!phone) {
-                showToast('Namba si sahihi. Tumia 07XXXXXXXX au 255...', 'warning');
-                return;
-            }
-
-            if (!currentOrder.packageId) {
-                showToast('Chagua kifurushi kwanza', 'warning');
-                return;
-            }
-
-            const btn = this;
-            btn.disabled = true;
-            btn.innerHTML = 'Inatuma ombi...';
-
-            try {
-                const { data: purchase, error: pErr } = await supabase.rpc('start_coin_purchase', {
-                    p_package_id: currentOrder.packageId,
-                    p_payment_method: currentOrder.method
-                });
-
-                if (pErr) throw pErr;
-                if (!purchase?.success) throw new Error(purchase?.error || 'Imeshindwa kuunda ununuzi');
-
-                const { data: snippe, error: sErr } = await supabase.functions.invoke('snippe-create-payment', {
-                    body: {
-                        purchase_id: purchase.purchase_id,
-                        phone_number: phone
-                    }
-                });
-
-                if (sErr || !snippe?.success) {
-                    throw new Error(sErr?.message || snippe?.error || 'Snippe imeshindwa');
-                }
-
-                setModalState('waiting', { phone: phone, method: document.querySelector('.method-item.selected .method-name')?.textContent || currentOrder.method, coins: currentOrder.coins + currentOrder.bonus, price: currentOrder.price });
-                startPolling(purchase.purchase_id);
-
-            } catch (err) {
-                console.error(err);
-                showToast(err.message || 'Imeshindwa kutuma ombi', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Kamilisha Malipo';
-            }
-        });
-
-        function startPolling(purchaseId) {
-            let attempts = 0;
-            const maxAttempts = 40;
-
-            if (pollInterval) clearInterval(pollInterval);
-
-            pollInterval = setInterval(async () => {
-                attempts++;
-                try {
-                    const { data } = await supabase
-                        .from('coin_purchases')
-                        .select('status, coins_total')
-                        .eq('id', purchaseId)
-                        .single();
-
-                    if (data?.status === 'paid') {
-                        clearInterval(pollInterval);
-                        setModalState('success', { coins: data.coins_total });
-                        loadBalance();
-                        setTimeout(() => loadPackages(), 1500);
-                    } else if (data?.status === 'failed' || data?.status === 'refunded') {
-                        clearInterval(pollInterval);
-                        setModalState('failed', { message: 'Muamala haujakamilika. Hakuna kiasi kitakachokatwa kama malipo hayajathibitishwa.' });
-                    } else if (attempts >= maxAttempts) {
-                        clearInterval(pollInterval);
-                        setModalState('timeout');
-                    }
-                } catch (e) {
-                    console.warn('poll error', e);
-                }
-            }, 3000);
-        }
-
-        async function init() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
-            }
-            await Promise.all([loadBalance(), loadPackages()]);
-        }
-
-        init();
-    </script>
+    // ===================== INIT =====================
+    loadAuthorProfile();
+  </script>
 </body>
 </html>
