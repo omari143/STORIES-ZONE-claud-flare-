@@ -375,7 +375,7 @@ select.form-inp{cursor:pointer}
               <span class="form-hint">Jina lako la mwandishi (halibadiliki)</span>
             </div>
             <div class="form-group"><label class="form-label">Aina / Genre *</label><select class="form-inp" id="newGenre"><option value="">-- Chagua Aina --</option></select></div>
-            <div class="form-group"><label class="form-label">Hali ya Hadithi</label><select class="form-inp" id="newStatus"><option value="Rasimu">Rasimu</option><option value="Inaendelea">Inaendelea</option><option value="Imekamilika">Imekamilika</option></select></div>
+            <div class="form-group"><label class="form-label">Hali ya Hadithi</label><select class="form-inp" id="newStatus"><option value="Inaendelea" selected>Inaendelea</option><option value="Imekamilika">Imekamilika</option></select></div>
             <div class="form-group full"><label class="form-label">Maelezo *</label><textarea class="form-inp" id="newDesc" placeholder="Eleza hadithi hii kwa ufupi..." style="min-height:110px"></textarea></div>
             <div class="form-group"><label class="form-label">Lebo / Tags</label><input class="form-inp" type="text" id="newTags" placeholder="upendo, drama, Kenya"><span class="form-hint">Tengana lebo kwa koma (,)</span></div>
             <div class="form-group"><label class="form-label">Lugha</label><select class="form-inp" id="newLang"><option value="sw">Kiswahili</option><option value="en">Kiingereza</option><option value="sw-en">Kiswahili + Kiingereza</option></select></div>
@@ -2185,20 +2185,35 @@ async function saveStory(publish) {
       cover_image_url = await uploadToStorage(coverFiles['coverArea'],'story-covers','covers');
       showUploadOverlay('Ikihifadhi...','Inahifadhi...',70);
     }
+
+    // ===== MAREKEBISHO: status, author, author_user_id, is_published =====
+    let finalStatus;
+    if (publish === true) {
+      finalStatus = document.getElementById('newStatus').value;
+      // Kamwe usiruhusu "Rasimu" kwenye publish
+      if (!finalStatus || finalStatus === 'Rasimu') finalStatus = 'Inaendelea';
+    } else {
+      finalStatus = 'Rasimu';
+    }
+    const authorName = (currentAuthor || '').trim();
+    const isPublished = (publish === true);
+
     const storyData = {
       title,
-      author: currentAuthor,
+      author: authorName,
       author_user_id: currentAuthorId,
       genre_id, description, tags,
       language: document.getElementById('newLang').value,
-      status: publish ? document.getElementById('newStatus').value : 'Rasimu',
+      status: finalStatus,
       is_free: document.getElementById('storyIsFree').classList.contains('on'),
       free_chapters_count: parseInt(document.getElementById('newFreeCh').value)||3,
       price_per_chapter: parseInt(document.getElementById('newPrice').value)||500,
       allow_comments: document.getElementById('allowComments').classList.contains('on'),
-      is_published: publish, chapters_count: chapters.length,
-      published_at: publish ? new Date().toISOString() : null, cover_image_url
+      is_published: isPublished, chapters_count: chapters.length,
+      published_at: isPublished ? new Date().toISOString() : null, cover_image_url
     };
+    // ===== MWISHO WA MAREKEBISHO =====
+
     const inserted = await sbInsert('stories', storyData);
     const story = Array.isArray(inserted) ? inserted[0] : inserted;
     if (!story||!story.id) throw new Error('Hadithi haikuingizwa');
@@ -2206,13 +2221,13 @@ async function saveStory(publish) {
       const chapRows = chapters.map(c => ({
         story_id: story.id, title: c.title, chapter_number: c.chapter_number,
         content: c.content || null, word_count: c.word_count || 0,
-        is_free: c.access_type === 'free', access_type: c.access_type, is_published: publish
+        is_free: c.access_type === 'free', access_type: c.access_type, is_published: isPublished
       }));
       const res = await fetch(SB_URL + '/rest/v1/story_chapters', { method: 'POST', headers: H_WRITE_MIN, body: JSON.stringify(chapRows) });
       if (!res.ok) throw new Error('Sura hazikuhifadhiwa');
     }
     hideUploadOverlay();
-    showToast(publish ? `Hadithi "${title}" imechapishwa!` : `Rasimu imehifadhiwa!`, 'success');
+    showToast(isPublished ? `Hadithi "${title}" imechapishwa!` : `Rasimu imehifadhiwa!`, 'success');
     coverFiles['coverArea'] = null;
     allStories = [];
     setTimeout(() => goPage('stories'), 1200);
